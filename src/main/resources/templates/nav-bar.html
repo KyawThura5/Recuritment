@@ -10,19 +10,19 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 </head>
 <body>
 	<nav class="bg-white d-flex justify-content-between align-items-center" th:fragment="navbar(menu)">
-		<div class="fs-4 fw-bold text-primary p-2 ms-4">
-			Recruitment
+		<div class="fs-3 fw-bold text-primary p-2 ms-2">
+			DAT
 		</div>
 		
 		<ul class="nav-item-wrapper fw-bold">
 			<li class="nav-item" th:classappend="${menu == 'home' ? 'active' : ''}">
-				<a th:href="@{/}" class="nav-link">
+				<a th:href="@{/manager/home}" class="nav-link">
 					<i class="fa-solid fa-house me-2"></i>
 					Home
 				</a>
 			</li>
 			<li class="nav-item" th:classappend="${menu == 'users' ? 'active' : ''}">
-				<a th:href="@{/admin/user/all}" class="nav-link">
+				<a th:href="@{/admin/user/search}" class="nav-link">
 					<i class="fa-solid fa-user me-2"></i>
 					Users
 					<span sec:authorize="hasAuthority('ADMIN')" class="badge bg-danger ms-1" th:if="${userRequestCount > 0}" th:text="${userRequestCount}"></span>
