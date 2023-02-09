@@ -1,36 +1,60 @@
 package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 
-import javax.persistence.OneToOne;
 @Entity
+@Table(name = "user")
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+    
+    @Column(unique = true)
 	private String code;
 	private String name;
+	
+	@Enumerated(EnumType.STRING)
 	private Role role;
+	
+	@Column(unique = true)
 	private String email;
+	
+	@Column(unique = true)
 	private String phone;
 	private String password;
-	private boolean isDeleted;
 	
-	 @OneToOne(cascade=CascadeType.PERSIST)
-	 @JoinColumn(name="address_id")
-	 private Address address; 
+	@Column(name = "is_deleted")
+	private boolean isDeleted;
 
 	public enum Role {
-		ADMIN, GENERAL_MANAGER, DEPARTMENT_HEAD, PROJECT_MANAGER, HIRING_MANAGER
+		ADMIN("Admin"),
+		GENERAL_MANAGER("General Manager"),
+		DEPARTMENT_HEAD("Department Head"),
+		PROJECT_MANAGER("Project Manager"),
+		HIRING_MANAGER("Hiring Manager");
+		
+		private String displayName;
+		
+		Role(String displayName) {
+			this.displayName = displayName;
+		}
+		
+		public String getDisplayName() {
+			return displayName;
+		}
 	}
 
 	public Long getId() {
@@ -97,17 +121,9 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, code, email, id, isDeleted, name, password, phone, role);
+		return Objects.hash(code, email, id, isDeleted, name, password, phone, role);
 	}
 
 	@Override
@@ -119,10 +135,9 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(address, other.address) && Objects.equals(code, other.code)
-				&& Objects.equals(email, other.email) && Objects.equals(id, other.id) && isDeleted == other.isDeleted
-				&& Objects.equals(name, other.name) && Objects.equals(password, other.password)
-				&& Objects.equals(phone, other.phone) && role == other.role;
+		return Objects.equals(code, other.code) && Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& isDeleted == other.isDeleted && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone) && role == other.role;
 	}
 
 }

@@ -6,14 +6,12 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import team.ojt7.recruitment.model.entity.Address;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.UserRepo;
 import team.ojt7.recruitment.model.service.impl.UserServiceImpl;
@@ -31,8 +29,6 @@ public class UserServiceTest {
 	public void testSearch() {
 		List<User> resultList = new ArrayList<>();
 		User user = new User();
-		Address address = new Address();
-		user.setAddress(address);
 		resultList.add(user);
 		
 		when(userRepo.search("Mg", null)).thenReturn(resultList);
@@ -45,8 +41,6 @@ public class UserServiceTest {
 	@Test
 	public void testFindById() {
 		User user = new User();
-		Address address = new Address();
-		user.setAddress(address);
 		
 //		when(userRepo.findById(1L)).thenReturn(Optional.ofNullable(user));
 //		userService.findById(1)

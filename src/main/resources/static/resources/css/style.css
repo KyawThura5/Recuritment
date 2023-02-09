@@ -5,7 +5,7 @@
 }
 
 body {
-	background-color: rgb(216, 216, 216);
+	background-color: rgb(255, 255, 255);
 }
 
 nav {
@@ -13,6 +13,7 @@ nav {
   	position: sticky;
 	top : 0;
 	z-index: 5;
+	background-color: #050e93;
 }
 
 .nav-item-wrapper {
@@ -29,28 +30,28 @@ nav {
 }
 
 .nav-item:hover {
-	background-color: blue;
+	background-color: rgb(245, 209, 2);
 }
 
 .nav-item.active {
-	background-color: #000dc4;
+	background-color: rgb(245, 209, 2);
 	color: white;
 }
 
 .nav-item > .nav-link {
 	text-decoration: none;
-	color: #000dc4;
+	color: white;
 	padding: 0 1em;
 	display: flex;
 	align-items: center;
 }
 
 .nav-item:hover > .nav-link {
-	color: white;
+	color: black;
 }
 
 .nav-item.active > .nav-link {
-	color: white;
+	color: black;
 }
 
 a {
