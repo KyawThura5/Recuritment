@@ -3,8 +3,13 @@ package team.ojt7.recruitment.model.entity;
 import java.io.Serializable;
 import java.util.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+@Entity
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Id
+    private Long id;
 	private String state;
     private String township;
     private String city;
