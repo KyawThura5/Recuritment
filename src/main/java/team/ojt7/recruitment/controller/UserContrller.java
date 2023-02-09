@@ -12,5 +12,10 @@ public class UserContrller {
 	public String loginview() {
 		return "users";
 	}
+	
+	@GetMapping("/admin/adduser")
+	public String adduserview() {
+		return "adduser";
+	}
 
 }
