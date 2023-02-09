@@ -43,7 +43,7 @@
 			</div>
 			<div class="col-auto">
 				<button type="button" class="btn btn-secondary "
-					th:onclick="location.href = '/user';">
+					th:onclick="location.href = '/admin/user/add';">
 					<span class="material-symbols-outlined"> person_add </span>
 				</button>
 
@@ -72,7 +72,7 @@
 					<td>09455904151</td>
 					<td>Project Manager</td>
 					<td>Male</td>
-					<td><a th:href="@{/setupUpdateUser(id=${id})}"
+					<td><a th:href="@{/admin/user/edit}"
 						class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
 						th:href="@{/deleteUser(id=${id})}" class="btn btn-info mb-3"><span
@@ -84,44 +84,6 @@
 
 
 				</tr>
-
-
-
-				<tr>
-					<td>002</td>
-					<td>Smith</td>
-					<td>smith@example.com</td>
-					<td>09425436233</td>
-					<td>General Manager</td>
-					<td>Female</td>
-					<td><a th:href="@{/setupUpdateUser(id=${id})}"
-						class="btn btn-warning "><span
-							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/deleteUser(id=${id})}" class="btn btn-info mb-3"><span
-							class="material-symbols-outlined"> delete </span></a> <a
-						th:href="@{/detail(id=${id})}" class="btn btn-success mb-3"> <span
-							class="material-symbols-outlined"> info </span>
-					</a></td>
-				</tr>
-
-
-				<tr>
-					<td>003</td>
-					<td>Marry</td>
-					<td>marry@example.com</td>
-					<td>09955049889</td>
-					<td>Human Resource</td>
-					<td>Others</td>
-					<td><a th:href="@{/setupUpdateUser(id=${id})}"
-						class="btn btn-warning "><span
-							class="material-symbols-outlined"> edit </span></a> <a
-						th:href="@{/deleteUser(id=${id})}" class="btn btn-info mb-3"><span
-							class="material-symbols-outlined"> delete </span></a> <a
-						th:href="@{/detail(id=${id})}" class="btn btn-success mb-3"> <span
-							class="material-symbols-outlined"> info </span>
-					</a></td>
-				</tr>
-
 			</tbody>
 		</table>
 	</div>
