@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class UserContrller {
+public class UserController {
 
 	@GetMapping("/admin/user")
 	public String loginview() {
