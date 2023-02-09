@@ -1,11 +1,21 @@
 package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+
+import javax.persistence.OneToOne;
+@Entity
 public class User implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-
+    @Id
 	private Long id;
 	private String code;
 	private String name;
@@ -14,7 +24,10 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 	private boolean isDeleted;
-	private Address address;
+	
+	 @OneToOne(cascade=CascadeType.PERSIST)
+	 @JoinColumn(name="address_id")
+	 private Address address; 
 
 	public enum Role {
 		ADMIN, GENERAL_MANAGER, DEPARTMENT_HEAD, PROJECT_MANAGER, HIRING_MANAGER

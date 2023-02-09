@@ -22,35 +22,44 @@
         <div class="col-md-2"></div>
             <label for="username" class="col-md-2 col-form-label">Name</label>
             <div class="col-md-4">
-    <input type="text" class="form-inpupt-control mt-3" placeholder="User Name">
+    <input type="text" class="form-input-control form-control-lg" placeholder="User Name">
     </div>
     </div>
     <div class="row mb-4">
         <div class="col-md-2"></div>
             <label for="userEmail" class="col-md-2 col-form-label">Email</label>
             <div class="col-md-4">
-    <input type="email" class="form-input-control mt-3" placeholder="mgmg@gmail.com">
+    <input type="text" class="form-input-control form-control-lg" placeholder="mgmg@gmail.com">
     </div>
     </div>
     <div class="row mb-4">
         <div class="col-md-2"></div>
             <label for="userPhone" class="col-md-2 col-form-label">Phone</label>
             <div class="col-md-4">
-            <input type="number" class="form-input-control" placeholder="+95">
+            <input type="text" class="form-input-control form-control-lg" placeholder="+95">
             </div>
             </div>
+             <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="userGender" class="col-md-2 col-form-label">Gender</label>
+                <div class="col-md-4">
+                    <input th:type="radio"  class="form-check-input"  th:value="Male" id="studentGender" th:field="*{gender}" checked="checked"/>Male
+                    <input th:type="radio" class="form-check-input" th:value="Female" id="studentGender" th:field="*{gender}" />Female
+                    <input th:type="radio"  class="form-check-input"  th:value="Male" id="studentGender" th:field="*{gender}" checked="checked"/>Others
+                </div>
+                </div>
             <div class="row mb-4">
         <div class="col-md-2"></div>
             <label for="password" class="col-md-2 col-form-label">Password</label>
             <div class="col-md-4">
-            <input type="password" class="form-input-control">
+            <input type="password" class="form-input-control form-control-lg">
             </div>
             </div>
             <div class="row mb-4">
         <div class="col-md-2"></div>
             <label for="confirmedPassword" class="col-md-2 col-form-label">Confirmed Password</label>
             <div class="col-md-4">
-            <input type="number" class="form-input-control">
+            <input type="password" class="form-input-control form-control-lg">
             </div>
             </div>
             <div class="row mb-4">
@@ -63,7 +72,7 @@
             <option value="GM">GeneralManager</option>
             <option value="DH">DepartmentHead</option>
             <option value="PM">ProjectManager</option>
-            <option value="HR">HumanResource</option>
+            <option value="HR">HiringManager</option>
             </select>
             </div>
             </div>
