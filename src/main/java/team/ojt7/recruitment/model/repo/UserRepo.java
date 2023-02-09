@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
 
-public interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepo {
 	
     public User create(User user);
     

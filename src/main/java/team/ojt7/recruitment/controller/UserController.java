@@ -1,58 +1,38 @@
 package team.ojt7.recruitment.controller;
-
-import java.util.*;
-
-/**
- * 
- */
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+@Controller
 public class UserController {
-
-    /**
-     * Default constructor
-     */
-    public UserController() {
-    }
-
-    /**
-     * 
-     */
+	
     public void searchUsers() {
         // TODO implement here
     }
 
-    /**
-     * 
-     */
-    public void addNewUser() {
-        // TODO implement here
+    @RequestMapping(value="/admin/user/add",method=RequestMethod.GET)
+    public String addNewUser() {
+    	return "adduser";
     }
 
-    /**
-     * 
-     */
-    public void editUser() {
-        // TODO implement here
+    @RequestMapping(value="/admin/user/edit",method=RequestMethod.GET)
+    public String editUser() {
+		return "edituser";
+    	
     }
 
-    /**
-     * 
-     */
     public void saveUser() {
-        // TODO implement here
     }
 
-    /**
-     * 
-     */
     public void showUserDetail() {
-        // TODO implement here
     }
-
-    /**
-     * 
-     */
-    public void deleteUser() {
-        // TODO implement here
+    @RequestMapping(value="/admin/user/delete",method=RequestMethod.GET)
+    public String deleteUser() {
+		return "users";
+    }
+    @RequestMapping(value="/admin/user/all",method=RequestMethod.GET)
+    public String AllUser() {
+		return "users";
+    	
     }
 
 }
