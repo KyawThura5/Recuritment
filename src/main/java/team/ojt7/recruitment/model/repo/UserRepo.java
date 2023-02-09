@@ -1,34 +1,23 @@
 package team.ojt7.recruitment.model.repo;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
-/**
- * 
- */
-public interface UserRepo {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    /**
-     * @param user 
-     * @return
-     */
-    public User save(User user);
+import team.ojt7.recruitment.model.entity.User;
+import team.ojt7.recruitment.model.entity.User.Role;
 
-    /**
-     * @return
-     */
+public interface UserRepo extends JpaRepository<User, Long> {
+	
+    public User create(User user);
+    
+    public User update(User user);
+    
     public Optional<User> findById();
 
-    /**
-     * @param keyword 
-     * @param role 
-     * @return
-     */
     public List<User> search(String keyword, Role role);
 
-    /**
-     * @param id 
-     * @return
-     */
-    public boolean deleteById(Long id);
+    public void deleteById(Long id);
 
 }
