@@ -12,85 +12,90 @@
 <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
 </head>
 <body>
-    <div th:replace="nav-bar :: navbar('users')"></div>
+	<div th:replace="nav-bar :: navbar('users')"></div>
 
-    <div class="container-fluid mt-2 py-3">
-        <div class="row">
-            <div class="offset-sm-1 col-sm-10 col-md-8 offset-md-2">
-                <h2 class="fs-4 fw-bold">Add New User</h2>
-            </div>
-        </div>
+	<div class="container-fluid mt-2 py-3">
+		<div class="row">
+			<div class="offset-sm-1 col-sm-10 col-md-8 offset-md-2">
+				<h2 class="fs-4 fw-bold">Add New User</h2>
+			</div>
+		</div>
 
-        <form action="#" th:action="@{/admin/user/save}" th:object="${user}" class="mt-2" method="post">
-            <div class="row">
-             <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                       
-                        <input type="hidden" class="form-control" th:field="*{id}">
-                    </div>
-                </div>
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="" class="form-label">Code</label>
-                        <input type="text" class="form-control" th:field="*{code}">
-                    </div>
-                </div>
-                <div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-                    <div class="form-group">
-                        <label for="" class="form-label">Name</label>
-                        <input type="text" class="form-control" th:field="*{name}">
-                    </div>
-                </div>
-            </div>
+		<form action="#" th:action="@{/admin/user/save}" th:object="${user}"
+			class="mt-2" method="post">
+			<input type="hidden" class="form-control" th:field="*{id}">
+			<div class="row">
 
-            <div class="row mt-3">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="" class="form-label">Email</label>
-                        <input type="text" class="form-control" th:field="*{email}">
-                    </div>
-                </div>
-                <div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-                    <div class="form-group">
-                        <label for="" class="form-label">Phone</label>
-                        <input type="text" class="form-control" th:field="*{phone}">
-                    </div>
-                </div>
-            </div>
+				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+					<div class="form-group">
+						<label for="" class="form-label">Code</label> <input type="text"
+							class="form-control" th:field="*{code}">
+					</div>
+				</div>
+				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
+					<div class="form-group">
+						<label for="" class="form-label">Name</label> <input type="text"
+							class="form-control" th:field="*{name}">
+					</div>
+				</div>
+			</div>
 
-            <div class="row mt-3">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="" class="form-label">Role</label>
-                        <select name="" id="" class="form-select" th:field="*{role}"></select>
-                    </div>
-                </div>
-                <div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-                    <div class="form-group">
-                        <label for="" class="form-label">Gender</label>
-                        <select name="" id="" class="form-select" th:field="*{gender}"></select>
-                    </div>
-                </div>
-            </div>
+			<div class="row mt-3">
+				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+					<div class="form-group">
+						<label for="" class="form-label">Email</label> <input type="text"
+							class="form-control" th:field="*{email}">
+					</div>
+				</div>
+				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
+					<div class="form-group">
+						<label for="" class="form-label">Phone</label> <input type="text"
+							class="form-control" th:field="*{phone}">
+					</div>
+				</div>
+			</div>
 
-            <div class="row mt-3">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="" class="form-label">Password</label>
-                        <input type="text" class="form-control" th:field="*{password}">
-                    </div>
-                </div>
-               
-            </div>
+			<div class="row mt-3">
+				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+					<div class="form-group">
+						<label for="" class="form-label">Role</label> <select name=""
+							id="" class="form-select" th:field="*{role}"></select>
+					</div>
+				</div>
+				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
+					<div class="form-group">
+						<label for="" class="form-label">Gender</label> <select name=""
+							id="" class="form-select" th:field="*{gender}"></select>
+					</div>
+				</div>
+			</div>
 
-            <div class="row mt-4">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 d-flex flex-row-reverse">
-                    <button type="submit" class="btn btn-success ms-1">Save</button>
-                    <a th:href="@{/admin/user/search}" class="btn btn-secondary">Cancel</a>
-                </div>
-            </div>
-        </form>
-    </div>
+			<div class="row mt-3">
+				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+					<div class="form-group">
+						<label for="" class="form-label">Password</label> 
+						<input type="text"
+							class="form-control" th:field="*{password}">
+					</div>
+				</div>
+				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
+					<div class="form-group">
+						<label for="" class="form-label">Confirm Password</label>
+						<input type="text"
+							class="form-control"> 
+					</div>
+				</div>
+			</div>
+
+			<div class="row mt-4">
+				<div
+					class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 d-flex flex-row-reverse">
+					<button type="submit" class="btn btn-success ms-1">Save</button>
+					<a th:href="@{/admin/user/search}" class="btn btn-secondary">Cancel</a>
+				</div>
+			</div>
+		</form>
+	</div>
 
 </body>
 </html>
