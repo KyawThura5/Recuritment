@@ -1,18 +1,16 @@
 package team.ojt7.recruitment.model.dto;
 
-<<<<<<< HEAD
-public class DepartmentDto {
-
-	private Long id;
-=======
 import javax.validation.constraints.NotEmpty;
 
-public class DepartmentDto {
+import team.ojt7.recruitment.model.entity.Department;
+
+public class TeamDto {
 	@NotEmpty
 	private Long id;
 	@NotEmpty
->>>>>>> deparments
 	private String name;
+	@NotEmpty
+	private Department departments;
 	public Long getId() {
 		return id;
 	}
@@ -25,9 +23,13 @@ public class DepartmentDto {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Department getDepartments() {
+		return departments;
+	}
+	public void setDepartments(Department departments) {
+		this.departments = departments;
+	}
 	
-<<<<<<< HEAD
-=======
+	
 
->>>>>>> deparments
 }
