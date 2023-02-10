@@ -3,18 +3,30 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.*;
+
 import team.ojt7.recruitment.model.entity.Gender;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
 
 public class UserDto {
+	@NotEmpty
 	private Long id;
+	@NotEmpty
 	private String code;
+	@NotEmpty
 	private String name;
+	@Email
+	@NotBlank(message = "Email is required!")
 	private String email;
+	@NotNull
 	private Role role;
+	@NotNull
 	private Gender gender;
+	@NotEmpty
+	//@Range(min=9,max=15)
 	private String phone;
+	@NotEmpty
 	private String password;
 	private boolean isDeleted;
 	
