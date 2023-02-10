@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.entity.User;
@@ -27,15 +28,15 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/admin/user/edit", method = RequestMethod.GET)
-	public String editUser(ModelMap model) {
-		model.addAttribute("user",new UserDto());
-		return "edituser";
+	public ModelAndView editUser(@RequestParam("id")Long id) {
+		return new ModelAndView("edituser","user",userService.findById(id)) ;
 
 	}
 
 	@RequestMapping(value="/admin/user/save",method=RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") UserDto dto,ModelMap model) {
 		User user=new User();
+		user.setId(dto.getId());		
 		user.setCode(dto.getCode());
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
@@ -46,6 +47,7 @@ public class UserController {
 		userService.save(user);
 		return "redirect:/admin/user/search";
 	}
+	
 
 	@RequestMapping(value = "admin/user/detail", method = RequestMethod.GET)
 	public String showUserDetail() {
@@ -54,8 +56,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/admin/user/delete", method = RequestMethod.GET)
-	public String deleteUser() {
-		return "users";
+	public String deleteUser(@RequestParam("id")Long id) {
+		userService.deleteById(id);
+		return "redirect:/admin/user/search";
 	}
 
 	@RequestMapping(value = "/admin/user/search", method = RequestMethod.GET)

@@ -84,9 +84,9 @@
 					<td th:text="${u.phone}"></td>
 					<td th:text="${u.role.displayName}"></td>
 					<td th:text="${u.gender.displayName}"></td>
-					<td><a th:href="@{/admin/user/edit}" class="btn btn-warning "><span
+					<td><a th:href="@{/admin/user/edit(id=${u.id})}" class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/admin/user/search}" class="btn btn-info"><span
+						th:href="@{/admin/user/delete(id=${u.id})}" class="btn btn-info"><span
 							class="material-symbols-outlined"> delete </span></a> <a
 						th:href="@{/admin/user/detail}" class="btn btn-success"> <span
 							class="material-symbols-outlined"> info </span>
