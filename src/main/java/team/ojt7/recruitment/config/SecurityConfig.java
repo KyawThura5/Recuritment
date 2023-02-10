@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 @SuppressWarnings("deprecation")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -48,9 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests()
-            .antMatchers("/admin/**").hasAuthority("ADMIN")
-            .antMatchers("/login", "/signup", "/resources/**").permitAll();
+//        http.authorizeRequests()
+//            .antMatchers("/admin/**").hasAuthority("ADMIN")
+//            .antMatchers("/login", "/signup", "/resources/**").permitAll();
 
         http.formLogin()
             .loginPage("/login")
