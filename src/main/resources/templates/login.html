@@ -22,7 +22,7 @@
           </div>
           <p style="color:red;" th:text="${error}"></p>
         </div>
-        <form class="login-form" th:action="@{/login}" name="confirm" method="GET">              
+        <form class="login-form" th:action="@{/login}" method="POST">              
            <input required="required" name="employeeCode" type="text" class="form-control" id="email" placeholder="Employee Code"/>
           
           <input required="required" name="password" type="password" class="form-control" id="email" placeholder="Password"/>
