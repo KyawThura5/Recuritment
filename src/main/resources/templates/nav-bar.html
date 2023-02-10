@@ -58,10 +58,10 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					Reports
 				</a>
 			</li>
-			<li class="nav-item">
-				<span class="nav-link">
+			<li class="nav-item"  th:classappend="${menu == 'profile' ? 'active' : ''}">
+				<a class="nav-link" th:href="@{/admin/user/profile}">
 					<i class="fa-solid fa-circle-user"></i>
-				</apan>
+				</a>
 			</li>
 		</ul>
 	</nav>
