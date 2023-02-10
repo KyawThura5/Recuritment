@@ -3,6 +3,7 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Objects;
 
+import team.ojt7.recruitment.model.entity.Gender;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
 
@@ -12,6 +13,7 @@ public class UserDto {
 	private String name;
 	private String email;
 	private Role role;
+	private Gender gender;
 	private String phone;
 	private String password;
 	private boolean isDeleted;
@@ -25,6 +27,8 @@ public class UserDto {
 		userDto.setId(user.getId());
 		userDto.setCode(user.getCode());
 		userDto.setName(user.getName());
+		userDto.setRole(user.getRole());
+		userDto.setGender(user.getGender());
 		userDto.setEmail(user.getEmail());
 		userDto.setPhone(user.getPhone());
 		userDto.setDeleted(user.isDeleted());
@@ -76,6 +80,14 @@ public class UserDto {
 		this.role = role;
 	}
 
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
 	public String getPhone() {
 		return phone;
 	}
@@ -102,7 +114,7 @@ public class UserDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, email, id, isDeleted, name, password, phone, role);
+		return Objects.hash(code, email, gender, id, isDeleted, name, password, phone, role);
 	}
 
 	@Override
@@ -114,8 +126,8 @@ public class UserDto {
 		if (getClass() != obj.getClass())
 			return false;
 		UserDto other = (UserDto) obj;
-		return Objects.equals(code, other.code) && Objects.equals(email, other.email) && Objects.equals(id, other.id)
-				&& isDeleted == other.isDeleted && Objects.equals(name, other.name)
+		return Objects.equals(code, other.code) && Objects.equals(email, other.email) && gender == other.gender
+				&& Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name)
 				&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone) && role == other.role;
 	}
 
