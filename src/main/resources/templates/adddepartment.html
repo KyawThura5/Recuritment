@@ -11,7 +11,7 @@
 <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
  <style>
-            body{background-color: #e3e8e7;
+            body{background-color: #e3e8e7;}
     
         </style> 
 </head>
@@ -22,29 +22,34 @@
                 <h2 class="fs-4 fw-bold">Add New Department</h2>
             </div>
         </div>
-		<form class="mt-4">
-			<div class="row mb-4">
-				<div class="col-md-2"></div>
-				<label for="departmentId" class="col-md-2 col-form-label">ID</label>
-				<div class="col-md-4">
-					<input th:type="text" class="form-control"
-						placeholder="DepartmentID" id="departmentId">
-				</div>
-			</div>
+		<form action="#" class="mt-2" th:object="${department}" method="post">
+            <div class="row">
+                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+                    <div class="form-group">
+                        <label for="departmentId" class="form-label" style="padding-left:5px">ID</label>
+                        <input type="text" class="form-control" id="departmentId" th:field="*{id}">
+                        <label th:if="${#fields.hasErrors('id')}" th:errors="*{id}" style="color:red;">Error
+                    </label>
+                    </div>
+                </div>
+                </div>
 			
-				<div class="row mb-4">
-					<div class="col-md-2"></div>
-					<label for="departmentName" class="col-md-2 col-form-label">Name</label>
-					<div class="col-md-4">
-						<input th:type="text" class="form-control"
-							placeholder="DepartmentName">
-					</div>
-				</div>
-				<div class="row mb-4">
-                <div class="col-md-4"></div>
+				
+            <div class="row">
+                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+                    <div class="form-group">
+                        <label for="departmentName" class="form-label" style="padding-left:5px">Name</label>
+                        <input type="text" class="form-control" id="deparmentName" th:field="*{name}">
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Error
+                    </label>
+                    </div>
+                </div>
+                </div>
+				<div class="row mb-4 mt-3">
+                <div class="col-md-3"></div>
                  <div class="col-md-4">
                     <button type="submit" class="btn btn-success">Save</button>
-                    <a th:href="@{/admin/user/search}" class="btn btn-secondary">Cancel</a>
+                    <a th:href="@{/admin/department/search}" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>
 			</form>
