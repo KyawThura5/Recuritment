@@ -36,7 +36,7 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 	
-	@Column(name = "is_deleted")
+	@Column(name = "is_deleted", columnDefinition = "boolean default false")
 	private boolean isDeleted;
 
 	public enum Role {

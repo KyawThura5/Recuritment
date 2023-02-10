@@ -1,7 +1,9 @@
 package team.ojt7.recruitment.model.dto;
 
+import java.util.List;
 import java.util.Objects;
 
+import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
 
 public class UserDto {
@@ -13,6 +15,26 @@ public class UserDto {
 	private String phone;
 	private String password;
 	private boolean isDeleted;
+	
+	public static UserDto of(User user) {
+		if (user == null) {
+			return null;
+		}
+		
+		UserDto userDto = new UserDto();
+		userDto.setId(user.getId());
+		userDto.setCode(user.getCode());
+		userDto.setName(user.getName());
+		userDto.setEmail(user.getEmail());
+		userDto.setPhone(user.getPhone());
+		userDto.setDeleted(user.isDeleted());
+		userDto.setPassword(user.getPassword());
+		return userDto;
+	}
+	
+	public static List<UserDto> ofList(List<User> users) {
+		return users.stream().map(u -> UserDto.of(u)).toList();
+	}
 
 	public Long getId() {
 		return id;
