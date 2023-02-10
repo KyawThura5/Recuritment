@@ -34,6 +34,10 @@ public class User implements Serializable {
 	
 	@Column(unique = true)
 	private String phone;
+	
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
+	
 	private String password;
 	
 	@Column(name = "is_deleted", columnDefinition = "boolean default false")
@@ -121,9 +125,17 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, email, id, isDeleted, name, password, phone, role);
+		return Objects.hash(code, email, gender, id, isDeleted, name, password, phone, role);
 	}
 
 	@Override
@@ -135,8 +147,8 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(code, other.code) && Objects.equals(email, other.email) && Objects.equals(id, other.id)
-				&& isDeleted == other.isDeleted && Objects.equals(name, other.name)
+		return Objects.equals(code, other.code) && Objects.equals(email, other.email) && gender == other.gender
+				&& Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name)
 				&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone) && role == other.role;
 	}
 

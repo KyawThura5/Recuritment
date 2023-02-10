@@ -29,7 +29,7 @@ public class UserServiceTest {
 		
 //		when(userRepo.search("Mg", null)).thenReturn(resultList);
 		
-		userService.search("Mg");
+		userService.search("Mg", null);
 		
 //		verify(userRepo, times(1)).search("Mg", null);
 	}
