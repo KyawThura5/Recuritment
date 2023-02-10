@@ -59,13 +59,21 @@
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
 						<label for="" class="form-label">Role</label> <select name=""
-							id="" class="form-select" th:field="*{role}"></select>
+							id="" class="form-select" th:field="*{role}">
+							<option th:each="userRole:${T(team.ojt7.recruitment.model.entity.User.Role).values()}"
+							th:value="${userRole}" th:text="${userRole.displayName}"/>
+							
+							
+							</select>
 					</div>
 				</div>
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Gender</label> <select name=""
-							id="" class="form-select" th:field="*{gender}"></select>
+							id="" class="form-select" th:field="*{gender}">
+							<option th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
+							th:value="${g}" th:text="${g}"/>
+							</select>
 					</div>
 				</div>
 			</div>
