@@ -37,5 +37,15 @@ public class UserController {
 		return "users";
 
 	}
+	@RequestMapping(value = "/admin/user/profile", method = RequestMethod.GET)
+	public String showUserprofile() {
+		return "userprofile";
+
+	}
+	@RequestMapping(value = "/admin/user/editprofile", method = RequestMethod.GET)
+	public String Editprofile() {
+		return "editprofile";
+
+	}
 
 }
