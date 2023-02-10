@@ -34,8 +34,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					Departments
 				</a>
 			</li>
-			<li class="nav-item" th:classappend="${menu == 'students' ? 'active' : ''}">
-				<a th:href="@{/user/student/search}" class="nav-link">
+			<li class="nav-item" th:classappend="${menu == 'resources' ? 'active' : ''}">
+				<a th:href="@{/manager/recruitment/search/external}" class="nav-link">
 					<i class="fa-solid fa-hand-holding-hand me-2"></i>
 					Resources
 				</a>
