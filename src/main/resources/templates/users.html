@@ -77,13 +77,13 @@
 			</thead>
 			<tbody>
 
-				<tr>
-					<td>001</td>
-					<td>John</td>
-					<td>john@example.com</td>
-					<td>09455904151</td>
-					<td>Project Manager</td>
-					<td>Male</td>
+				<tr th:each="u: ${list}">
+					<td th:text="${u.code}"></td>
+					<td th:text="${u.name}"></td>
+					<td th:text="${u.email}"></td>
+					<td th:text="${u.phone}"></td>
+					<td th:text="${u.role.displayName}"></td>
+					<td th:text="${u.gender.displayName}"></td>
 					<td><a th:href="@{/admin/user/edit}" class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
 						th:href="@{/admin/user/search}" class="btn btn-info"><span
