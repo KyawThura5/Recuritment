@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     		.passwordEncoder(passwordEncoder())
     		.withUser(
 				User.builder()
-				.username("admin@gmail.com")
+				.username("admin")
 				.password("admin")
 				.roles("ADMIN")
 				.authorities("ADMIN")
@@ -51,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
             .antMatchers("/admin/**").hasAuthority("ADMIN")
-            .antMatchers("/login", "/signup", "/resources/**").permitAll();
+            
+            .antMatchers("/login", "/signup", "/resources/**").permitAll()
+            .antMatchers("/**").authenticated();
 
         http.formLogin()
             .loginPage("/login")
