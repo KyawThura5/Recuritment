@@ -13,7 +13,6 @@ public class UserDto {
 	private String phone;
 	private String password;
 	private boolean isDeleted;
-	private AddressDto address;
 
 	public Long getId() {
 		return id;
@@ -79,17 +78,9 @@ public class UserDto {
 		this.isDeleted = isDeleted;
 	}
 
-	public AddressDto getAddress() {
-		return address;
-	}
-
-	public void setAddress(AddressDto address) {
-		this.address = address;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, code, email, id, isDeleted, name, password, phone, role);
+		return Objects.hash(code, email, id, isDeleted, name, password, phone, role);
 	}
 
 	@Override
@@ -101,10 +92,11 @@ public class UserDto {
 		if (getClass() != obj.getClass())
 			return false;
 		UserDto other = (UserDto) obj;
-		return Objects.equals(address, other.address) && Objects.equals(code, other.code)
-				&& Objects.equals(email, other.email) && Objects.equals(id, other.id) && isDeleted == other.isDeleted
-				&& Objects.equals(name, other.name) && Objects.equals(password, other.password)
-				&& Objects.equals(phone, other.phone) && role == other.role;
+		return Objects.equals(code, other.code) && Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& isDeleted == other.isDeleted && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone) && role == other.role;
 	}
+
+	
 
 }
