@@ -34,8 +34,8 @@ xmlns:th="http://www.thymeleaf.org">
 				</div>
 			</div>
 			
-			<div sec:authorize="hasAuthority('ADMIN')" class="col-auto">
-				<a th:href="@{/admin/user/edit}" class="btn btn-success">
+			<div class="col-auto">
+				<a th:href="@{/manager/recruitment/add/external}" class="btn btn-success">
 					<i class="fa-solid fa-plus"></i>
 					Add New
 				</a>
