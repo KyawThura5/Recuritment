@@ -21,6 +21,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     		SELECT u FROM User u WHERE
     		(name LIKE :keyword OR code LIKE :keyword OR email LIKE :keyword OR phone LIKE :keyword)
     		AND (:role is null OR role = :role)
+    		AND is_deleted = false
     		""")
     public List<User> search(
     		@Param("keyword")
