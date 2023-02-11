@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.entity.Department;
@@ -18,27 +19,31 @@ public class DepartmentServiceImpl implements DepartmentService {
 	private DepartmentRepo departmentRepo;
 	
 	@Override
+	@Transactional
 	public List<DepartmentDto> search(String keyword) {
+		keyword = keyword == null ? "%%" : "%" + keyword + "%";
+		List<Department> departments=departmentRepo.search(keyword);
+		return DepartmentDto.ofList(departments);
 		
-		return null;
 	}
 
 	@Override
+	@Transactional
 	public Optional<DepartmentDto> findById(Long id) {
-		
-		return Optional.empty();
+		Department department=departmentRepo.findById(id).orElse(null);
+		return Optional.ofNullable(DepartmentDto.of(department));
 	}
 
 	@Override
 	public DepartmentDto save(Department department) {
-		
-		return null;
+		Department savedDepartment=departmentRepo.save(department);
+		return DepartmentDto.of(savedDepartment);
 	}
 
 	@Override
 	public boolean deleteById(Long id) {
-		
-		return false;
+		departmentRepo.deleteById(id);
+		return true;
 	}
 
 }
