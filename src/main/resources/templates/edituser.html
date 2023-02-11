@@ -69,7 +69,7 @@
 						<label for="" class="form-label">Gender</label> <select name=""
 							id="" class="form-select" th:field="*{gender}">
 							<option th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
-							th:value="${g}" th:text="${g}"/>
+							th:value="${g}" th:text="${g.displayName}"/>
 							</select>
 					</div>
 				</div>
