@@ -17,11 +17,11 @@
 	<div th:replace="nav-bar :: navbar('departments')"></div>
 	<div class="container bg-white mt-2 pt-3">
 		<form class="row g-3 mt-3" action="#"
-			th:action="@{/admin/user/search}" method="post">
+			th:action="@{/admin/department/search}" method="get">
 
 			<div class="col-auto">
 
-				<input name="keyword" type="text" class="form-control">
+				<input name="keyword" type="text" class="form-control" th:value="${param.keyword}">
 			</div>
 
 			<div class="col-auto">
@@ -53,12 +53,12 @@
 			</thead>
 			<tbody>
 
-				<tr>
-					<td>Software Departments</td>
-					<td><a th:href="@{/admin/department/edit}"
+				<tr th:each="dept : ${list}">
+					<td th:text="${dept.name}"></td>
+					<td><a th:href="@{/admin/department/edit(id=${dept.id})}"
 						class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/admin/department/delete}" class="btn btn-info"><span
+						th:href="@{/admin/department/delete(id=${dept.id})}" class="btn btn-info"><span
 							class="material-symbols-outlined"> delete </span></a></td>
 				</tr>
 			</tbody>
