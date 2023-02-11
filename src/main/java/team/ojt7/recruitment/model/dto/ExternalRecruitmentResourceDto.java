@@ -1,50 +1,18 @@
-package team.ojt7.recruitment.model.entity;
-
+package team.ojt7.recruitment.model.dto;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import team.ojt7.recruitment.model.entity.ExternalRecruitmentResource.Type;
 
-@Entity
-@Table(name = "external_recruitment_resource")
-public class ExternalRecruitmentResource extends RecruitmentResource {
-
-	private static final long serialVersionUID = 1L;
+public class ExternalRecruitmentResourceDto extends RecruitmentResourceDto {
 
 	private String pic;
-	
-	@Column(name = "contact_person")
 	private String contactPerson;
 	private String phone;
 	private String email;
 	private String address;
-
-	@Enumerated(EnumType.STRING)
 	private Type type;
-
 	private String websiteLink;
-
-	public enum Type {
-		
-		AGENCY("Agency"),
-		UNIVERSITY("University"), 
-		TRAINING_CENTER("Training Center");
-
-		private String displayName;
-
-		Type(String displayName) {
-			this.displayName = displayName;
-		}
-
-		public String getDisplayName() {
-			return displayName;
-		}
-	}
-	
 
 	public String getPic() {
 		return pic;
@@ -118,12 +86,11 @@ public class ExternalRecruitmentResource extends RecruitmentResource {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ExternalRecruitmentResource other = (ExternalRecruitmentResource) obj;
+		ExternalRecruitmentResourceDto other = (ExternalRecruitmentResourceDto) obj;
 		return Objects.equals(address, other.address) && Objects.equals(contactPerson, other.contactPerson)
 				&& Objects.equals(email, other.email) && Objects.equals(phone, other.phone)
 				&& Objects.equals(pic, other.pic) && type == other.type
 				&& Objects.equals(websiteLink, other.websiteLink);
 	}
 
-	
 }

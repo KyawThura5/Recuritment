@@ -20,20 +20,21 @@ xmlns:th="http://www.thymeleaf.org">
                 <h2 class="fs-4 fw-bold">Add New External Recruitment</h2>
             </div>
         </div>
-        <form action="#" class="mt-3">
+        <form th:action="@{/hr/recruitment/external/save}" method="post" th:object="${recruitmentResource}" class="mt-3">
+        	<input type="hidden" th:field="*{id}">
             <div class="row">
 
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
 						<label for="" class="form-label">Code</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" th:field="*{code}">
 					</div>
 				</div>
 
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Name</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" th:field="*{name}">
 					</div>
 				</div>
 			</div>
@@ -43,14 +44,14 @@ xmlns:th="http://www.thymeleaf.org">
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
 						<label for="" class="form-label">PIC</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" th:field="*{pic}">
 					</div>
 				</div>
 
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Contact Person</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" th:field="*{contactPerson}">
 					</div>
 				</div>
 			</div>
@@ -60,14 +61,14 @@ xmlns:th="http://www.thymeleaf.org">
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
 						<label for="" class="form-label">Phone</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" th:field="*{phone}">
 					</div>
 				</div>
 
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Email</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" th:field="*{email}">
 					</div>
 				</div>
 			</div>
@@ -77,14 +78,16 @@ xmlns:th="http://www.thymeleaf.org">
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
 						<label for="" class="form-label">Type</label>
-                        <select name="" id="" class="form-select"></select>
+                        <select name="" id="" class="form-select" th:field="*{type}">
+							<option th:each="g:${T(team.ojt7.recruitment.model.entity.ExternalRecruitmentResource.Type).values()}" th:value="${g}" th:text="${g.displayName}"></option>
+						</select>
 					</div>
 				</div>
 
                 <div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Website Address</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" th:field="*{websiteLink}">
 					</div>
 				</div>
 			</div>
@@ -94,7 +97,7 @@ xmlns:th="http://www.thymeleaf.org">
                 <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-8">
 					<div class="form-group">
 						<label for="" class="form-label">Address</label>
-                        <textarea name="" id="" class="form-control"></textarea>
+                        <textarea name="" id="" class="form-control" th:field="*{address}"></textarea>
 					</div>
 				</div>
 			</div>
@@ -103,7 +106,7 @@ xmlns:th="http://www.thymeleaf.org">
 				<div
 					class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 d-flex flex-row-reverse">
 					<button type="submit" class="btn btn-success ms-1">Save</button>
-					<a th:href="@{/manager/recruitment/search/external}" class="btn btn-secondary">Cancel</a>
+					<a th:href="@{/manager/recruitment/external/search}" class="btn btn-secondary">Cancel</a>
 				</div>
 			</div>
         </form>

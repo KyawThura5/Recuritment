@@ -21,11 +21,11 @@ xmlns:th="http://www.thymeleaf.org">
             </div>
         </div>
 
-        <form id="searchForm" th:action="@{/manager/recruitment/search/external}" class="row mt-4">
+        <form id="searchForm" th:action="@{/manager/recruitment/external/search}" class="row mt-4">
 			<div class="col-auto">
 				<div class="input-group">
-					<input class="form-control" type="text" name="keyword" placeholder="Search" />
-					<a th:href="@{/manager/recruitment/search/external}" class="input-group-text">
+					<input class="form-control" type="text" name="keyword" th:value="${param.keyword}" placeholder="Search" />
+					<a th:href="@{/manager/recruitment/external/search}" class="input-group-text">
 						<i class="fa-solid fa-delete-left"></i>
 					</a>
 					<button class="btn btn-primary" type="submit">
@@ -35,7 +35,7 @@ xmlns:th="http://www.thymeleaf.org">
 			</div>
 			
 			<div class="col-auto">
-				<a th:href="@{/manager/recruitment/add/external}" class="btn btn-success">
+				<a th:href="@{/hr/recruitment/external/edit}" class="btn btn-success">
 					<i class="fa-solid fa-plus"></i>
 					Add New
 				</a>
@@ -52,31 +52,35 @@ xmlns:th="http://www.thymeleaf.org">
                     <th>Contact Person</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Type</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>DATAG001</td>
-                    <td>Job.com</td>
-                    <td>U Mg Mg</td>
-                    <td>Ma Thidar</td>
-                    <td>jobcom@gmail.com</td>
-                    <td>098383736363</td>
+                <tr th:each="rr : ${recruitmentResourceList}">
+                    <td th:text="${rrStat.index + 1}"></td>
+                    <td th:text="${rr.code}"></td>
+                    <td th:text="${rr.name}"></td>
+                    <td th:text="${rr.pic}"></td>
+                    <td th:text="${rr.contactPerson}"></td>
+                    <td th:text="${rr.email}"></td>
+                    <td th:text="${rr.phone}"></td>
+                    <td th:text="${rr.type.displayName}"></td>
                     <td>
-                        <a href="" class="btn btn-primary">
+                        <a th:href="@{//{link}(link=${rr.websiteLink})}" target="_blank" class="btn btn-primary" th:classappend="${rr.websiteLink == null || rr.websiteLink.isBlank()} ? disabled : ''">
                             <i class="fa-solid fa-anchor"></i>
                         </a>
-                        <a href="" class="btn btn-success">
+                        <a th:href="@{/hr/recruitment/external/edit(id=${rr.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="" class="btn btn-secondary">
+                        <a th:href="@{/manager/recruitment/external/detail(id=${rr.id})}" class="btn btn-secondary">
                             <i class="fa-solid fa-circle-info"></i>
                         </a>
-                        <a href="" class="btn btn-danger">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </a>
+                        <form th:action="@{/hr/recruitment/external/delete(id=${rr.id})}" method="post" class="d-inline-block">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             </tbody>
