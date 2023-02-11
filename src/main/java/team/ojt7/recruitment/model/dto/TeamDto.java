@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.dto;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +21,10 @@ public class TeamDto {
 	private DepartmentDto department;
 	
 	public static TeamDto of(Team team) {
+		if (team == null) {
+			return null;
+		}
+		
 		DepartmentDto departmentDto = new DepartmentDto();
 		departmentDto.setId(team.getDepartment().getId());
 		departmentDto.setName(team.getDepartment().getName());
@@ -32,10 +37,17 @@ public class TeamDto {
 	}
 	
 	public static List<TeamDto> ofList(List<Team> teams) {
+		if (teams == null) {
+			return Collections.emptyList();
+		}
 		return teams.stream().map(t -> of(t)).toList();
 	}
 	
 	public static Team parse(TeamDto teamDto) {
+		if (teamDto == null) {
+			return null;
+		}
+		
 		Department department = new Department();
 		department.setId(teamDto.getDepartment().getId());
 		department.setName(teamDto.getDepartment().getName());
@@ -48,6 +60,9 @@ public class TeamDto {
 	}
 	
 	public static List<Team> parseList(List<TeamDto> teamDtos) {
+		if (teamDtos == null) {
+			return Collections.emptyList();
+		}
 		return teamDtos.stream().map(t -> parse(t)).toList();
 	}
 

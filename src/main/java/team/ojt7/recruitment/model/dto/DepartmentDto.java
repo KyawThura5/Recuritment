@@ -3,15 +3,12 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.constraints.NotEmpty;
-
 import team.ojt7.recruitment.model.entity.Department;
 
 public class DepartmentDto {
 
 	private Long id;
 
-	@NotEmpty
 	private String name;
 	
 	private List<TeamDto> teams;
@@ -21,7 +18,7 @@ public class DepartmentDto {
 		departmentDto.setId(department.getId());
 		departmentDto.setName(department.getName());
 		departmentDto.setTeams(TeamDto.ofList(department.getTeams()));
-		return null;
+		return departmentDto;
 	}
 	
 	public static List<DepartmentDto> ofList(List<Department> departments) {

@@ -23,16 +23,7 @@
             </div>
         </div>
 		<form action="#" th:action="@{/admin/department/save}" class="mt-2" th:object="${department}" method="post">
-            <div class="row">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="departmentId" class="form-label" style="padding-left:5px">ID</label>
-                        <input type="text" class="form-control" id="departmentId" th:field="*{id}">
-                        <label th:if="${#fields.hasErrors('id')}" th:errors="*{id}" style="color:red;">Error
-                    </label>
-                    </div>
-                </div>
-                </div>
+            <input type="hidden" class="form-control" id="departmentId" th:field="*{id}">
 			
 				
             <div class="row">

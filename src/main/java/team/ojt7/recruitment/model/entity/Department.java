@@ -21,17 +21,17 @@ public class Department implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	private String name;
 	
 	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
 	private List<Team> teams = new ArrayList<>();
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -65,9 +65,9 @@ public class Department implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Department other = (Department) obj;
-		return id == other.id && Objects.equals(name, other.name) && Objects.equals(teams, other.teams);
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && Objects.equals(teams, other.teams);
 	}
-	
+
 	
 
 }

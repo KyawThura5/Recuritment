@@ -39,22 +39,23 @@ public class DepartmentController {
 	}
 
 	@GetMapping("/admin/department/edit")
-	public ModelAndView editDepartment(@RequestParam(required = false) Long id) {
-		return new ModelAndView("edit-department", "department", departmentService.findById(id));
+	public String editDepartment(
+			@RequestParam(required = false)
+			Long id,
+			ModelMap model
+			) {
+		DepartmentDto departmentDto = departmentService.findById(id).orElse(new DepartmentDto());
+		model.put("department", departmentDto);
+		return "edit-department";
 	}
 
 	@PostMapping("/admin/department/save")
-	public String saveDepartment(@ModelAttribute("department") @Validated DepartmentDto dto,BindingResult bs,ModelMap model) {
+	public String saveDepartment(@ModelAttribute("department") DepartmentDto dto,BindingResult bs,ModelMap model) {
 		if(bs.hasErrors()) {
 			return "edit-department";
 		}
 		
-		
-		Department dept=new Department();
-		dept.setId(dto.getId());
-		dept.setName(dto.getName());
-		
-		departmentService.save(dept);
+		departmentService.save(DepartmentDto.parse(dto));
 		return "redirect:/admin/department/search";
 	}
 
