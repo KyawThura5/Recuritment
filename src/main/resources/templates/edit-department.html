@@ -22,7 +22,7 @@
                 <h2 class="fs-4 fw-bold">Add New Department</h2>
             </div>
         </div>
-		<form action="#" class="mt-2" th:object="${department}" method="post">
+		<form action="#" th:action="@{/admin/department/save}" class="mt-2" th:object="${department}" method="post">
             <div class="row">
                 <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
                     <div class="form-group">
