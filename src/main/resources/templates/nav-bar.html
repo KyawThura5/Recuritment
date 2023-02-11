@@ -28,8 +28,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					<span sec:authorize="hasAuthority('ADMIN')" class="badge bg-danger ms-1" th:if="${userRequestCount > 0}" th:text="${userRequestCount}"></span>
 				</a>
 			</li>
-			<li class="nav-item" th:classappend="${menu == 'courses' ? 'active' : ''}">
-				<a th:href="@{/user/course/search}" class="nav-link">
+			<li class="nav-item" th:classappend="${menu == 'departments' ? 'active' : ''}">
+				<a th:href="@{/user/department/search}" class="nav-link">
 					<i class="fa-solid fa-building me-2"></i>
 					Departments
 				</a>

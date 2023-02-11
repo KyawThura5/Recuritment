@@ -5,6 +5,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "direct_recruitment_resource")
-public class Direct_Recruitment_Resource extends Recruitment_Resource {
+public class DirectRecruitmentResource extends RecruitmentResource {
 
+	private static final long serialVersionUID = 1L;
+
+	
 }
