@@ -3,7 +3,7 @@
 xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>External Recruitments</title>
+<title th:text="${title}"></title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -16,16 +16,14 @@ xmlns:th="http://www.thymeleaf.org">
     <div th:replace="nav-bar :: navbar('resources')"></div>
     <main class="container-fluid mt-2 py-3">
         <div class="row">
-            <div class="col">
-                <h2 class="fs-5 fw-bold">External Recruitment Resources</h2>
-            </div>
+            <h2 class="col-auto fs-5 fw-bold" th:text="${title}"></h2>
         </div>
 
-        <form id="searchForm" th:action="@{/manager/recruitment/external/search}" class="row mt-4">
+        <form id="searchForm" th:action="@{/manager/recruitment/direct/search}" class="row mt-4">
 			<div class="col-auto">
 				<div class="input-group">
 					<input class="form-control" type="text" name="keyword" th:value="${param.keyword}" placeholder="Search" />
-					<a th:href="@{/manager/recruitment/external/search}" class="input-group-text">
+					<a th:href="@{/manager/recruitment/direct/search}" class="input-group-text">
 						<i class="fa-solid fa-delete-left"></i>
 					</a>
 					<button class="btn btn-primary" type="submit">
@@ -35,7 +33,7 @@ xmlns:th="http://www.thymeleaf.org">
 			</div>
 			
 			<div class="col-auto">
-				<a th:href="@{/hr/recruitment/external/edit}" class="btn btn-success">
+				<a th:href="@{/hr/recruitment/direct/edit}" class="btn btn-success">
 					<i class="fa-solid fa-plus"></i>
 					Add New
 				</a>
@@ -48,11 +46,6 @@ xmlns:th="http://www.thymeleaf.org">
                     <th>#</th>
                     <th>Code</th>
                     <th>Name</th>
-                    <th>PIC</th>
-                    <th>Contact Person</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Type</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -61,22 +54,14 @@ xmlns:th="http://www.thymeleaf.org">
                     <td th:text="${rrStat.index + 1}"></td>
                     <td th:text="${rr.code}"></td>
                     <td th:text="${rr.name}"></td>
-                    <td th:text="${rr.pic}"></td>
-                    <td th:text="${rr.contactPerson}"></td>
-                    <td th:text="${rr.email}"></td>
-                    <td th:text="${rr.phone}"></td>
-                    <td th:text="${rr.type.displayName}"></td>
                     <td>
-                        <a th:href="@{//{link}(link=${rr.websiteLink})}" target="_blank" class="btn btn-primary" th:classappend="${rr.websiteLink == null || rr.websiteLink.isBlank()} ? disabled : ''">
-                            <i class="fa-solid fa-anchor"></i>
-                        </a>
-                        <a th:href="@{/hr/recruitment/external/edit(id=${rr.id})}" class="btn btn-success">
+                        <a th:href="@{/hr/recruitment/direct/edit(id=${rr.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a th:href="@{/manager/recruitment/external/detail(id=${rr.id})}" class="btn btn-secondary">
+                        <a th:href="@{/manager/recruitment/direct/detail(id=${rr.id})}" class="btn btn-secondary">
                             <i class="fa-solid fa-circle-info"></i>
                         </a>
-                        <form th:action="@{/hr/recruitment/external/delete(id=${rr.id})}" method="post" class="d-inline-block">
+                        <form th:action="@{/hr/recruitment/direct/delete(id=${rr.id})}" method="post" class="d-inline-block">
                             <button type="submit" class="btn btn-danger">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>

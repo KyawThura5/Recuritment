@@ -15,6 +15,8 @@ public interface RecruitmentResourceService {
 
 	List<RecruitmentResourceDto> search(String keyword);
 	
+	List<RecruitmentResourceDto> search(String keyword, String entityType);
+	
 	Optional<RecruitmentResourceDto> findById(Long id);
 	
 	boolean deleteById(Long id);

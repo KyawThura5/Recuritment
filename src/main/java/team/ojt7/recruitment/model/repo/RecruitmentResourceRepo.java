@@ -14,4 +14,12 @@ public interface RecruitmentResourceRepo extends JpaRepository<RecruitmentResour
 
 	@Query("SELECT r FROM RecruitmentResource r WHERE code LIKE :keyword OR name LIKE :keyword")
 	List<RecruitmentResource> search(@Param("keyword") String keyword);
+	
+	@Query("SELECT r FROM RecruitmentResource r WHERE (code LIKE :keyword OR name LIKE :keyword) AND (:entityType is null OR entity_type = :entityType)")
+	List<RecruitmentResource> search(
+			@Param("keyword") String keyword,
+			@Param("entityType") String entityType
+			);
+	
+	
 }

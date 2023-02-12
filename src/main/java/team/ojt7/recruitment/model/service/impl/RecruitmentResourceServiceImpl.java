@@ -19,8 +19,13 @@ public class RecruitmentResourceServiceImpl implements RecruitmentResourceServic
 	
 	@Override
 	public List<RecruitmentResourceDto> search(String keyword) {
+		return search(keyword, null);
+	}
+	
+	@Override
+	public List<RecruitmentResourceDto> search(String keyword, String entityType) {
 		keyword = keyword == null ? "%%" : "%" + keyword + "%";
-		return RecruitmentResourceDto.ofList(recruitmentResourceRepo.search(keyword));
+		return RecruitmentResourceDto.ofList(recruitmentResourceRepo.search(keyword, entityType));
 	}
 
 	@Override
