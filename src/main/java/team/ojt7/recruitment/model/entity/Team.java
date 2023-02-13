@@ -1,12 +1,15 @@
 package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -14,6 +17,7 @@ import javax.persistence.Table;
 @Table(name = "team")
 public class Team implements Serializable {
 
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,7 +27,8 @@ public class Team implements Serializable {
 	private String name;
 
 	@ManyToOne
-	Department department;
+	 @JoinColumn(name="team_id")
+	private Department department;
 
 	public long getId() {
 		return id;
@@ -40,7 +45,9 @@ public class Team implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 
+	
 	public Department getDepartment() {
 		return department;
 	}
