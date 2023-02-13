@@ -11,7 +11,7 @@ import team.ojt7.recruitment.model.entity.Department;
 public class DepartmentDto {
 
 	private Long id;
-	@NotEmpty
+	@NotBlank(message="{NotBlank.department.name}")
 	private String name;
 	
 	private boolean isDeleted;
