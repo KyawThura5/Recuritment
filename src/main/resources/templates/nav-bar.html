@@ -10,8 +10,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 </head>
 <body>
 	<nav class="d-flex justify-content-between align-items-center" th:fragment="navbar(menu)">
-		<div class="fs-4 fw-bold text-white p-2 ms-2">
-			DAT
+		<div class="p-2 ms-2">
+			<img class="logo" th:src="@{/resources/images/dat-logo.png}" alt="">
 		</div>
 		
 		<ul class="nav-item-wrapper fw-bold">
@@ -34,12 +34,37 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					Departments
 				</a>
 			</li>
+			
+			<li class="nav-item" th:classappend="${menu == 'teams' ? 'active' : ''}">
+				<a th:href="@{/admin/team/search}" class="nav-link">
+					<i class="fa-solid fa-building me-2"></i>
+					Teams
+				</a>
+			</li>
+
 			<li class="nav-item" th:classappend="${menu == 'resources' ? 'active' : ''}">
-				<a th:href="@{/manager/recruitment/external/search}" class="nav-link">
+				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					<i class="fa-solid fa-hand-holding-hand me-2"></i>
 					Resources
 				</a>
+			
+				<ul class="dropdown-menu dropdown-menu-dark">
+					<li>
+						<a class="dropdown-item" th:href="@{/manager/recruitment/direct/search}">
+							<i class="fa-solid fa-people-arrows me-2"></i>
+							Direct
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" th:href="@{/manager/recruitment/external/search}">
+							<i class="fa-solid fa-handshake-simple me-2"></i>
+							External
+						</a>
+					</li>
+				</ul>
+				
 			</li>
+
 			<li class="nav-item" th:classappend="${menu == 'students' ? 'active' : ''}">
 				<a th:href="@{/user/student/search}" class="nav-link">
 					<i class="fa-solid fa-address-card me-2"></i>

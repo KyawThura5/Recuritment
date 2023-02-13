@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "recruitment_resource")
+@DiscriminatorValue(value = "RecruitmentResource")
+@DiscriminatorColumn(name = "entity_type", discriminatorType = DiscriminatorType.STRING)
 public class RecruitmentResource implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

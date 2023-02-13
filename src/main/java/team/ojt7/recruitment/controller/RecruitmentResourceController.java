@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
-import team.ojt7.recruitment.model.entity.ExternalRecruitmentResource;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
 
 @Controller
@@ -26,9 +26,21 @@ public class RecruitmentResourceController {
 			@RequestParam(required = false)
 			String keyword,
 			ModelMap model) {
-		List<RecruitmentResourceDto> recruitmentRecourses = recruitmentResourceService.search(keyword);
+		List<RecruitmentResourceDto> recruitmentRecourses = recruitmentResourceService.search(keyword, "ExternalRecruitmentResource");
 		model.put("recruitmentResourceList", recruitmentRecourses);
-		return "external-recruitments";
+		model.put("title", "External Recruitment Resources");
+		return "external-recruitment-resources";
+	}
+	
+	@GetMapping("/manager/recruitment/direct/search")
+	public String searchDirectRecruitmentResources(
+			@RequestParam(required = false)
+			String keyword,
+			ModelMap model) {
+		List<RecruitmentResourceDto> recruitmentRecourses = recruitmentResourceService.search(keyword, "DirectRecruitmentResource");
+		model.put("recruitmentResourceList", recruitmentRecourses);
+		model.put("title", "Direct Recruitment Resources");
+		return "direct-recruitment-resources";
 	}
 	
 	@GetMapping("/hr/recruitment/external/edit")
@@ -39,16 +51,40 @@ public class RecruitmentResourceController {
 			) {
 		ExternalRecruitmentResourceDto err = (ExternalRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(new ExternalRecruitmentResourceDto());
 		model.put("recruitmentResource", err);
+		String title = err.getId() == null ? "Add New External Recruitment Resource" : "Edit External Recruitment Resource";
+		model.put("title", title);
 		return "edit-external-recruitment-resource";
+	}
+	
+	@GetMapping("/hr/recruitment/direct/edit")
+	public String editDirectRecruitmentResource(
+			@RequestParam(required = false)
+			Long id,
+			ModelMap model
+			) {
+		DirectRecruitmentResourceDto drr = (DirectRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(new DirectRecruitmentResourceDto());
+		model.put("recruitmentResource", drr);
+		String title = drr.getId() == null ? "Add New Direct Recruitment Resource" : "Edit Direct Recruitment Resource";
+		model.put("title", title);
+		return "edit-direct-recruitment-resource";
 	}
 	
 	@PostMapping("/hr/recruitment/external/save")
 	public String saveExternalRecruitmentResource(
 			@ModelAttribute("recruitmentResource")
-			ExternalRecruitmentResource err
+			ExternalRecruitmentResourceDto err
 			) {
-		recruitmentResourceService.save(err);
+		recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
 		return "redirect:/manager/recruitment/external/search";
+	}
+	
+	@PostMapping("/hr/recruitment/direct/save")
+	public String saveExternalRecruitmentResource(
+			@ModelAttribute("recruitmentResource")
+			DirectRecruitmentResourceDto drr
+			) {
+		recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
+		return "redirect:/manager/recruitment/direct/search";
 	}
 	
 	@GetMapping("/manager/recruitment/external/detail")
@@ -59,12 +95,31 @@ public class RecruitmentResourceController {
 			) {
 		ExternalRecruitmentResourceDto errDto = (ExternalRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(null);
 		model.put("recruitmentResource", errDto);
+		model.put("title", "External Recruitment Resource Detail");
 		return "external-recruitment-resource-detail";
+	}
+	
+	@GetMapping("/manager/recruitment/direct/detail")
+	public String showDirectRecruitmentResourceDetail(
+			@RequestParam
+			Long id,
+			ModelMap model
+			) {
+		DirectRecruitmentResourceDto errDto = (DirectRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(null);
+		model.put("recruitmentResource", errDto);
+		model.put("title", "Direct Recruitment Resource Detail");
+		return "direct-recruitment-resource-detail";
 	}
 	
 	@PostMapping("/hr/recruitment/external/delete")
 	public String deleteExternalRecruitmentResource(@RequestParam Long id) {
 		recruitmentResourceService.deleteById(id);
 		return "redirect:/manager/recruitment/external/search";
+	}
+	
+	@PostMapping("/hr/recruitment/direct/delete")
+	public String deleteDirectRecruitmentResource(@RequestParam Long id) {
+		recruitmentResourceService.deleteById(id);
+		return "redirect:/manager/recruitment/direct/search";
 	}
 }

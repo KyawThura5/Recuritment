@@ -4,6 +4,7 @@ package team.ojt7.recruitment.model.entity;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "external_recruitment_resource")
+@DiscriminatorValue(value = "ExternalRecruitmentResource")
 public class ExternalRecruitmentResource extends RecruitmentResource {
 
 	private static final long serialVersionUID = 1L;
