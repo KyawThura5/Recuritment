@@ -10,7 +10,7 @@ import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
 
 public class UserDto {
-	@NotEmpty
+	
 	private Long id;
 	@NotEmpty
 	private String code;

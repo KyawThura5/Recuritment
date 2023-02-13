@@ -28,13 +28,17 @@
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
 						<label for="" class="form-label">Code</label> <input type="text"
-							class="form-control" th:field=*{code}>
+							class="form-control" th:field=*{code}> <label
+							th:if="${#fields.hasErrors('code')}" th:errors="*{code}"
+							style="color: red;">Error </label>
 					</div>
 				</div>
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Name</label> <input type="text"
-							class="form-control" th:field="*{name}">
+							class="form-control" th:field="*{name}"> <label
+							th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+							style="color: red;">Error </label>
 					</div>
 				</div>
 			</div>
@@ -44,12 +48,15 @@
 					<div class="form-group">
 						<label for="" class="form-label">Email</label> <input type="text"
 							class="form-control" th:field="*{email}">
+
 					</div>
 				</div>
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Phone</label> <input type="text"
-							class="form-control" th:field="*{phone}">
+							class="form-control" th:field="*{phone}"> <label
+							th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"
+							style="color: red;">Error </label>
 					</div>
 				</div>
 			</div>
@@ -59,18 +66,22 @@
 					<div class="form-group">
 						<label for="" class="form-label">Role</label> <select name=""
 							id="" class="form-select" th:field="*{role}">
-							<option th:each="userRole:${T(team.ojt7.recruitment.model.entity.User.Role).values()}"
-							th:value="${userRole}" th:text="${userRole.displayName}"/>
-							</select>
+							<option
+								th:each="userRole:${T(team.ojt7.recruitment.model.entity.User.Role).values()}"
+								th:value="${userRole}" th:text="${userRole.displayName}" />
+						</select> <label th:if="${#fields.hasErrors('role')}" th:errors="*{role}"
+							style="color: red;">Error </label>
 					</div>
 				</div>
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Gender</label> <select name=""
 							id="" class="form-select" th:field="*{gender}">
-							<option th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
-							th:value="${g}" th:text="${g.displayName}"/>
-							</select>
+							<option
+								th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
+								th:value="${g}" th:text="${g.displayName}" />
+						</select> <label th:if="${#fields.hasErrors('gender')}"
+							th:errors="*{gender}" style="color: red;">Error </label>
 					</div>
 				</div>
 			</div>
