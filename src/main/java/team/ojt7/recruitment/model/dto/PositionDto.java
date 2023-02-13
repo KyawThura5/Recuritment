@@ -33,5 +33,14 @@ public class PositionDto {
 		return dto;
 	}
 	
-
+	public static Position parse(PositionDto positionDto) {
+		if(positionDto==null) {
+			return null;
+		}
+		Position position = new Position();
+		position.setId(positionDto.getId());
+		position.setName(positionDto.getName());
+		
+		return position;
+	}
 }

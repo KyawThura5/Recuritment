@@ -1,6 +1,5 @@
 package team.ojt7.recruitment.model.dto;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +16,8 @@ public class TeamDto {
 	@NotEmpty
 	private String name;
 	
+	private boolean isDeleted;
+	
 	@NotEmpty
 	private DepartmentDto department;
 	
@@ -28,10 +29,12 @@ public class TeamDto {
 		DepartmentDto departmentDto = new DepartmentDto();
 		departmentDto.setId(team.getDepartment().getId());
 		departmentDto.setName(team.getDepartment().getName());
+		departmentDto.setDeleted(team.getDepartment().isDeleted());
 		
 		TeamDto teamDto = new TeamDto();
 		teamDto.setId(team.getId());
 		teamDto.setName(team.getName());
+		teamDto.setDeleted(team.isDeleted());
 		teamDto.setDepartment(departmentDto);
 		return teamDto;
 	}
@@ -51,10 +54,12 @@ public class TeamDto {
 		Department department = new Department();
 		department.setId(teamDto.getDepartment().getId());
 		department.setName(teamDto.getDepartment().getName());
+		department.setDeleted(teamDto.getDepartment().isDeleted());
 		
 		Team team = new Team();
 		team.setId(teamDto.getId());
 		team.setName(teamDto.getName());
+		team.setDeleted(teamDto.isDeleted());
 		team.setDepartment(department);
 		return team;
 	}
@@ -81,6 +86,16 @@ public class TeamDto {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 	public DepartmentDto getDepartment() {
 		return department;
@@ -92,7 +107,7 @@ public class TeamDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(id, isDeleted, name);
 	}
 
 	@Override
@@ -104,9 +119,8 @@ public class TeamDto {
 		if (getClass() != obj.getClass())
 			return false;
 		TeamDto other = (TeamDto) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+		return Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name);
 	}
-	
 	
 
 }

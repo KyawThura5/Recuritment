@@ -6,7 +6,7 @@ import java.util.Optional;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.entity.Position;
 
-public interface PostionService {
+public interface PositionService {
 List<PositionDto> search(String keyword);
 Optional<PositionDto>findById(Long id);
 PositionDto save(Position position);

@@ -21,14 +21,16 @@
 
 			<div class="col-auto">
 
-				<input name="keyword" type="text" class="form-control" th:value="${param.keyword}">
+				<input name="keyword" type="text" class="form-control"
+					th:value="${param.keyword}">
 			</div>
 
 			<div class="col-auto">
-				<button type="reset" class="btn btn-primary ">
-					<span class="material-symbols-outlined"> restart_alt </span>
-				</button>
+				<a th:href="@{/manager/position/search}" class="btn btn-secondary">
 
+					<span class="material-symbols-outlined"> restart_alt </span>
+
+				</a>
 			</div>
 			<div class="col-auto">
 
@@ -37,8 +39,8 @@
 				</button>
 			</div>
 			<div class="col-auto">
-				<a th:href="@{/admin/position/add}" class="btn btn-secondary">
-					<span class="material-symbols-outlined">add_circle</span>
+				<a th:href="@{/admin/position/add}" class="btn btn-secondary"> <span
+					class="material-symbols-outlined">add_circle</span>
 				</a>
 			</div>
 		</form>
@@ -58,8 +60,9 @@
 					<td><a th:href="@{/admin/position/edit(id=${position.id})}"
 						class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/admin/position/delete(id=${position.id})}" class="btn btn-info"><span
-							class="material-symbols-outlined"> delete </span></a></td>
+						th:href="@{/admin/position/delete(id=${position.id})}"
+						class="btn btn-info"><span class="material-symbols-outlined">
+								delete </span></a></td>
 				</tr>
 			</tbody>
 		</table>

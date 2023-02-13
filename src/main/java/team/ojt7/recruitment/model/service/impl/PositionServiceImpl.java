@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.entity.Position;
 import team.ojt7.recruitment.model.repo.PositionRepo;
-import team.ojt7.recruitment.model.service.PostionService;
+import team.ojt7.recruitment.model.service.PositionService;
 
 @Service
-public class PositionServiceImpl implements PostionService{
+public class PositionServiceImpl implements PositionService{
 @Autowired
 PositionRepo repo;
 

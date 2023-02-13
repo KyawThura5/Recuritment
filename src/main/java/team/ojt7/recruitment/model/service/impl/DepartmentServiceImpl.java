@@ -46,4 +46,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return true;
 	}
 
+	@Override
+	public List<DepartmentDto> findAll() {
+		List<Department> departments = departmentRepo.findAll();
+		return DepartmentDto.ofList(departments);
+	}
+
 }
