@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +36,13 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/admin/user/save",method=RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") UserDto dto,ModelMap model) {
+	public String saveUser(@ModelAttribute("user")@Validated UserDto dto,BindingResult bs,ModelMap model) {
+		
+		if(bs.hasErrors()) {
+			return "adduser";
+		}
+		
+		
 		User user=new User();
 		user.setId(dto.getId());		
 		user.setCode(dto.getCode());
@@ -43,9 +51,37 @@ public class UserController {
 		user.setRole(dto.getRole());
 		user.setGender(dto.getGender());
 		user.setPhone(dto.getPhone());
+		
+		
+		
 		user.setPassword(dto.getPassword());
-		userService.save(user);
-		return "redirect:/admin/user/search";
+		
+		if(dto.getPassword().length() < 8 || dto.getPassword().length() > 30) {
+			
+			model.addAttribute("pwdlength", "Password length must not be less than 8 or greater than 30");
+			return "adduser";
+			
+		}
+		else {
+			
+				
+				if(dto.getPassword().equals(dto.getConfirmPassword())) {
+					userService.save(user);
+					return "redirect:/admin/user/search";
+				}
+				
+				else {
+					model.addAttribute("error", "Password & Confirm Password does not match!!");
+					return "adduser";
+					
+				}
+				
+			
+		}
+		
+		
+	
+		
 	}
 	
 
