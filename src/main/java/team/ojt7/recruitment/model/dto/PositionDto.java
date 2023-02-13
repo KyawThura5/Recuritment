@@ -7,6 +7,7 @@ import team.ojt7.recruitment.model.entity.Position;
 public class PositionDto {
 	private Long id;
 	private String name;
+	private boolean isDeleted;
 	public Long getId() {
 		return id;
 	}
@@ -18,6 +19,13 @@ public class PositionDto {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	public static List<PositionDto> ofList(List<Position> position) {
 		
