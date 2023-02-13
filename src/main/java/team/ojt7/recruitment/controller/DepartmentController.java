@@ -50,7 +50,7 @@ public class DepartmentController {
 	}
 
 	@PostMapping("/admin/department/save")
-	public String saveDepartment(@ModelAttribute("department") DepartmentDto dto,BindingResult bs,ModelMap model) {
+	public String saveDepartment(@ModelAttribute("department") @Validated DepartmentDto dto,BindingResult bs,ModelMap model) {
 		if(bs.hasErrors()) {
 			return "edit-department";
 		}
