@@ -20,40 +20,58 @@ import javax.persistence.Table;
 @Table(name = "recruitment_resource")
 @DiscriminatorValue(value = "RecruitmentResource")
 @DiscriminatorColumn(name = "entity_type", discriminatorType = DiscriminatorType.STRING)
-public class RecruitmentResource implements Serializable{
-	
+public class RecruitmentResource implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
-	
+
 	@Column(unique = true)
 	protected String code;
 	protected String name;
 	
+	@Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
+	protected boolean isDeleted;
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getCode() {
 		return code;
 	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, id, name);
+		return Objects.hash(code, id, isDeleted, name);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -63,8 +81,8 @@ public class RecruitmentResource implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		RecruitmentResource other = (RecruitmentResource) obj;
-		return Objects.equals(code, other.code) && Objects.equals(id, other.id) && Objects.equals(name, other.name);
+		return Objects.equals(code, other.code) && Objects.equals(id, other.id) && isDeleted == other.isDeleted
+				&& Objects.equals(name, other.name);
 	}
-	
-	
+
 }

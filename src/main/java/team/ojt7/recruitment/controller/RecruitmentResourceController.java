@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,18 +73,34 @@ public class RecruitmentResourceController {
 	
 	@PostMapping("/hr/recruitment/external/save")
 	public String saveExternalRecruitmentResource(
+			@Validated
 			@ModelAttribute("recruitmentResource")
-			ExternalRecruitmentResourceDto err
+			ExternalRecruitmentResourceDto err,
+			BindingResult bindingResult,
+			ModelMap model
 			) {
+		if (bindingResult.hasErrors()) {
+			String title = err.getId() == null ? "Add New External Recruitment Resource" : "Edit External Recruitment Resource";
+			model.put("title", title);
+			return "edit-external-recruitment-resource";
+		}
 		recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
 		return "redirect:/manager/recruitment/external/search";
 	}
 	
 	@PostMapping("/hr/recruitment/direct/save")
-	public String saveExternalRecruitmentResource(
+	public String saveDirectRecruitmentResource(
+			@Validated
 			@ModelAttribute("recruitmentResource")
-			DirectRecruitmentResourceDto drr
+			DirectRecruitmentResourceDto drr,
+			BindingResult bindingResult,
+			ModelMap model
 			) {
+		if (bindingResult.hasErrors()) {
+			String title = drr.getId() == null ? "Add New Direct Recruitment Resource" : "Edit Direct Recruitment Resource";
+			model.put("title", title);
+			return "edit-direct-recruitment-resource";
+		}
 		recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
 		return "redirect:/manager/recruitment/direct/search";
 	}
