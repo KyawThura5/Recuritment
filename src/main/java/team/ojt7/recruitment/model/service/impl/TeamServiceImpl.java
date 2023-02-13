@@ -29,6 +29,9 @@ public List<TeamDto> search(String keyword) {
 @Override
 @Transactional
 public Optional<TeamDto> findById(Long id) {
+	if (id == null) {
+		return Optional.ofNullable(null);
+	}
 	Team team=teamRepo.findById(id).orElse(null);
 	return Optional.ofNullable(TeamDto.of(team));
 }

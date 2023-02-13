@@ -17,17 +17,16 @@
 	<div th:replace="nav-bar :: navbar('teams')"></div>
 	<div class="container bg-white mt-2 pt-3">
 		<form class="row g-3 mt-3" action="#"
-			th:action="@{/admin/team/search}" method="post">
+			th:action="@{/admin/team/search}">
 
 			<div class="col-auto">
-
-				<input name="keyword" type="text" class="form-control">
+				<input name="keyword" th:value="${param.keyword}" type="text" class="form-control">
 			</div>
 
 			<div class="col-auto">
-				<button type="reset" class="btn btn-primary ">
+				<a th:href="@{/admin/team/search}" type="reset" class="btn btn-primary ">
 					<span class="material-symbols-outlined"> restart_alt </span>
-				</button>
+				</a>
 
 			</div>
 			<div class="col-auto">
@@ -37,7 +36,7 @@
 				</button>
 			</div>
 			<div class="col-auto">
-				<a th:href="@{/admin/team/add}" class="btn btn-secondary">
+				<a th:href="@{/admin/team/edit}" class="btn btn-secondary">
 					<span class="material-symbols-outlined">add_circle</span>
 				</a>
 			</div>
@@ -54,12 +53,20 @@
 			</thead>
 			<tbody>
 
-				<tr th:each="team : ${list}">
+				<tr th:each="team : ${teamList}">
 					<td th:text="${team.name}"></td>
-					<td><a th:href="@{/admin/team/edit}" class="btn btn-warning "><span
-							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/admin/team/delete}" class="btn btn-info"><span
-							class="material-symbols-outlined"> delete </span></a></td>
+					<td th:text="${team.department.name}"></td>
+					<td>
+						<a th:href="@{/admin/team/edit(id=${team.id})}" class="btn btn-warning ">
+							<span
+							class="material-symbols-outlined"> edit </span>
+						</a>
+						<form class="d-inline-block" th:action="@{/admin/team/delete(id=${team.id})}" method="post">
+							<button class="btn btn-danger">
+								<i class="fa-regular fa-trash-can"></i>
+							</button>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 		</table>

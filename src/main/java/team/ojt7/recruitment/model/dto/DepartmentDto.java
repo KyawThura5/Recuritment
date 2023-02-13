@@ -11,12 +11,15 @@ public class DepartmentDto {
 
 	private String name;
 	
+	private boolean isDeleted;
+	
 	private List<TeamDto> teams;
 	
 	public static DepartmentDto of(Department department) {
 		DepartmentDto departmentDto = new DepartmentDto();
 		departmentDto.setId(department.getId());
 		departmentDto.setName(department.getName());
+		departmentDto.setDeleted(department.isDeleted());
 		departmentDto.setTeams(TeamDto.ofList(department.getTeams()));
 		return departmentDto;
 	}
@@ -29,6 +32,7 @@ public class DepartmentDto {
 		Department department = new Department();
 		department.setId(departmentDto.getId());
 		department.setName(departmentDto.getName());
+		department.setDeleted(departmentDto.isDeleted());
 		department.setTeams(TeamDto.parseList(departmentDto.getTeams()));
 		return department;
 	}
@@ -49,6 +53,14 @@ public class DepartmentDto {
 		this.name = name;
 	}
 
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	public List<TeamDto> getTeams() {
 		return teams;
 	}
@@ -59,7 +71,7 @@ public class DepartmentDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, teams);
+		return Objects.hash(id, isDeleted, name, teams);
 	}
 
 	@Override
@@ -71,8 +83,8 @@ public class DepartmentDto {
 		if (getClass() != obj.getClass())
 			return false;
 		DepartmentDto other = (DepartmentDto) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && Objects.equals(teams, other.teams);
+		return Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name)
+				&& Objects.equals(teams, other.teams);
 	}
-	
 	
 }

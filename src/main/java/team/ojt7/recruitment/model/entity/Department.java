@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,9 @@ public class Department implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	
+	@Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
+	private boolean isDeleted;
 	
 	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
 	private List<Team> teams = new ArrayList<>();
@@ -43,6 +47,14 @@ public class Department implements Serializable {
 		this.name = name;
 	}
 
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	public List<Team> getTeams() {
 		return teams;
 	}
@@ -53,7 +65,7 @@ public class Department implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, teams);
+		return Objects.hash(id, isDeleted, name, teams);
 	}
 
 	@Override
@@ -65,9 +77,8 @@ public class Department implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Department other = (Department) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && Objects.equals(teams, other.teams);
+		return Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name)
+				&& Objects.equals(teams, other.teams);
 	}
-
-	
 
 }

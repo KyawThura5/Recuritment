@@ -1,10 +1,9 @@
 package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,19 +21,22 @@ public class Team implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	private String name;
+	
+	@Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
+	private boolean isDeleted;
 
 	@ManyToOne
-	 @JoinColumn(name="team_id")
+	@JoinColumn(name="department_id")
 	private Department department;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -46,8 +48,6 @@ public class Team implements Serializable {
 		this.name = name;
 	}
 	
-
-	
 	public Department getDepartment() {
 		return department;
 	}
@@ -56,9 +56,17 @@ public class Team implements Serializable {
 		this.department = department;
 	}
 
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(id, isDeleted, name);
 	}
 
 	@Override
@@ -70,9 +78,9 @@ public class Team implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Team other = (Team) obj;
-		return id == other.id && Objects.equals(name, other.name);
+		return Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name);
 	}
-	
+
 	
 
 }

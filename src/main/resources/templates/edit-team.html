@@ -26,13 +26,14 @@ body {
 		<form th:action="@{/admin/team/save}" class="mt-2" th:object="${team}"
 			method="post">
 
-
+			<input type="hidden" th:field="*{id}">
+			<input type="hidden" th:field="*{deleted}">
 
 			<div class="row">
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
-						<label for="teamName" class="form-label" th:field="*{name}">Name</label>
-						<input type="text" class="form-control" id="teamName"> <label
+						<label for="teamName" class="form-label">Name</label>
+						<input type="text" class="form-control" id="teamName" th:field="*{name}"> <label
 							th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
 							style="color: red;">Error </label>
 					</div>
@@ -45,7 +46,7 @@ body {
 							Name </label> <select class="form-control" id="dropDownList"
 							th:field="*{department}">
 							
-							<option th:each="option : ${list}" th:value="${option.id}"
+							<option th:each="option : ${departmentList}" th:value="${option.id}"
 								th:text="${option.name}"></option>
 						</select> <label th:if="${#fields.hasErrors('department')}"
 							th:errors="*{department}" style="color: red;">Error </label>
@@ -56,7 +57,7 @@ body {
 				<div class="col-md-3"></div>
 				<div class="col-md-4">
 					<button type="submit" class="btn btn-success">Save</button>
-					<a th:href="@{/admin/team}" class="btn btn-secondary">Cancel</a>
+					<a th:href="@{/admin/team/search}" class="btn btn-secondary">Cancel</a>
 				</div>
 			</div>
 		</form>

@@ -12,6 +12,8 @@ public interface DepartmentService {
 	
 	Optional<DepartmentDto> findById(Long id);
 	
+	List<DepartmentDto> findAll();
+	
 	DepartmentDto save(Department department);
 	
 	boolean deleteById(Long id);
