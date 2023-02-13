@@ -45,8 +45,9 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-
+					<th>#</th>
 					<th>Name</th>
+					<th>Teams</th>
 					<th>Action</th>
 
 				</tr>
@@ -54,7 +55,9 @@
 			<tbody>
 
 				<tr th:each="dept : ${list}">
+					<td th:text="${deptStat.index + 1}"></td>
 					<td th:text="${dept.name}"></td>
+					<td th:text="${dept.teams.size}"></td>
 					<td><a th:href="@{/admin/department/edit(id=${dept.id})}"
 						class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
