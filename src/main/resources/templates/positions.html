@@ -17,7 +17,7 @@
 	<div th:replace="nav-bar :: navbar('positions')"></div>
 	<div class="container bg-white mt-2 pt-3">
 		<form class="row g-3 mt-3" action="#"
-			th:action="@{/admin/position/search}" method="get">
+			th:action="@{/manager/position/search}" method="get">
 
 			<div class="col-auto">
 
@@ -58,7 +58,7 @@
 					<td><a th:href="@{/admin/position/edit(id=${position.id})}"
 						class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/admin/position/delete(id=${dept.id})}" class="btn btn-info"><span
+						th:href="@{/admin/position/delete(id=${position.id})}" class="btn btn-info"><span
 							class="material-symbols-outlined"> delete </span></a></td>
 				</tr>
 			</tbody>
