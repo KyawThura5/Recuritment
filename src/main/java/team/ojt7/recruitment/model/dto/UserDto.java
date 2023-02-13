@@ -22,13 +22,15 @@ public class UserDto {
 	private String name;
 	@Email
 	@NotBlank(message = "Email is required!")
+	@Pattern(regexp = "^(.+)@(.+)$", message = "Enter valid email")
 	private String email;
 	@NotNull
 	private Role role;
 	@NotNull
 	private Gender gender;
 	@NotEmpty
-	@Range(min=6,max=16,message = "Invalid Phone Number")
+	@Range(min=6,max=16,message = "Enter valid Phone Number")
+	@Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$" , message = "Enter valid Phone Number")
 	private String phone;
 	@NotEmpty
 	private String password;
