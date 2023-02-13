@@ -10,59 +10,56 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
- <style>
-            body{background-color: #e3e8e7;}
-    
-        </style> 
+<style>
+body {
+	background-color: #e3e8e7;
+}
+</style>
 </head>
 <body>
-<div class="container mt-2 py-3">
-	<div class="row">
-            <div class="offset-sm-1 col-sm-10 col-md-8 offset-md-2">
-                <h2 class="fs-4 fw-bold">Add New Department</h2>
-            </div>
-        </div>
-		<form action="#" class="mt-2" th:object="${team}" method="post">
-            <div class="row">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="teamId" class="form-label">ID</label>
-                        <input type="text" class="form-control" id="teamId" th:field="*{id}">
-                        <label th:if="${#fields.hasErrors('id')}" th:errors="*{id}" style="color:red;">Error
-                    </label>
-                    </div>
-                </div>
-                </div>
-			
-				
-            <div class="row">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="teamName" class="form-label" th:field="*{name}">Name</label>
-                        <input type="text" class="form-control" id="teamName">
-                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Error
-                    </label>
-                    </div>
-                </div>
-                </div>
-                <div class="row">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="departmentName" class="form-label" th:field="*{department}">Department Name</label>
-                        <input type="text" class="form-control" id="departmentName">
-                        <label th:if="${#fields.hasErrors('department')}" th:errors="*{department}" style="color:red;">Error
-                    </label>
-                    </div>
-                </div>
-                </div>
-				<div class="row mb-4 mt-3">
-                <div class="col-md-3"></div>
-                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-success">Save</button>
-                    <a th:href="@{/admin/team}" class="btn btn-secondary">Cancel</a>
-                </div>
-            </div>
-			</form>
+	<div class="container mt-2 py-3">
+		<div class="row">
+			<div class="offset-sm-1 col-sm-10 col-md-8 offset-md-2">
+				<h2 class="fs-4 fw-bold">Add New Department</h2>
+			</div>
+		</div>
+		<form th:action="@{/admin/team/save}" class="mt-2" th:object="${team}"
+			method="post">
+
+
+
+			<div class="row">
+				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+					<div class="form-group">
+						<label for="teamName" class="form-label" th:field="*{name}">Name</label>
+						<input type="text" class="form-control" id="teamName"> <label
+							th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+							style="color: red;">Error </label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+					<div class="form-group">
+						<label for="departmentName" class="form-label">Department
+							Name </label> <select class="form-control" id="dropDownList"
+							th:field="*{department}">
+							
+							<option th:each="option : ${list}" th:value="${option.id}"
+								th:text="${option.name}"></option>
+						</select> <label th:if="${#fields.hasErrors('department')}"
+							th:errors="*{department}" style="color: red;">Error </label>
+					</div>
+				</div>
+			</div>
+			<div class="row mb-4 mt-3">
+				<div class="col-md-3"></div>
+				<div class="col-md-4">
+					<button type="submit" class="btn btn-success">Save</button>
+					<a th:href="@{/admin/team}" class="btn btn-secondary">Cancel</a>
+				</div>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

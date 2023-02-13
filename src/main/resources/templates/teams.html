@@ -14,10 +14,10 @@
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
 <body>
-	<div th:replace="nav-bar :: navbar('departments')"></div>
+	<div th:replace="nav-bar :: navbar('teams')"></div>
 	<div class="container bg-white mt-2 pt-3">
 		<form class="row g-3 mt-3" action="#"
-			th:action="@{/admin/user/search}" method="post">
+			th:action="@{/admin/team/search}" method="post">
 
 			<div class="col-auto">
 
@@ -37,7 +37,7 @@
 				</button>
 			</div>
 			<div class="col-auto">
-				<a th:href="@{/admin/department/add}" class="btn btn-secondary">
+				<a th:href="@{/admin/team/add}" class="btn btn-secondary">
 					<span class="material-symbols-outlined">add_circle</span>
 				</a>
 			</div>
@@ -54,9 +54,8 @@
 			</thead>
 			<tbody>
 
-				<tr>
-					<td>Team A</td>
-					<td>Software Department</td>
+				<tr th:each="team : ${list}">
+					<td th:text="${team.name}"></td>
 					<td><a th:href="@{/admin/team/edit}" class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
 						th:href="@{/admin/team/delete}" class="btn btn-info"><span

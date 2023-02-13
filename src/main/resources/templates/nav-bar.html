@@ -66,6 +66,13 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			</li>
 
 			<li class="nav-item" th:classappend="${menu == 'students' ? 'active' : ''}">
+				<a th:href="@{/manager/position/search}" class="nav-link">
+					<i class="fa-solid fa-medal me-2"></i>
+					Position
+				</a>
+			</li>
+
+			<li class="nav-item" th:classappend="${menu == 'students' ? 'active' : ''}">
 				<a th:href="@{/user/student/search}" class="nav-link">
 					<i class="fa-solid fa-address-card me-2"></i>
 					CV
