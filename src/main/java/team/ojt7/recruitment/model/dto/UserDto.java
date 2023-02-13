@@ -5,6 +5,10 @@ import java.util.Objects;
 
 import javax.validation.constraints.*;
 
+import org.hibernate.validator.constraints.Range;
+
+import org.hibernate.validator.constraints.Range;
+
 import team.ojt7.recruitment.model.entity.Gender;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
@@ -24,10 +28,20 @@ public class UserDto {
 	@NotNull
 	private Gender gender;
 	@NotEmpty
-	//@Range(min=9,max=15)
+	@Range(min=6,max=16,message = "Invalid Phone Number")
 	private String phone;
 	@NotEmpty
 	private String password;
+	@NotEmpty
+	private String confirmPassword;
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
 	private boolean isDeleted;
 	
 	public static UserDto of(User user) {
