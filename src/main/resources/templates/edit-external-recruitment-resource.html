@@ -29,6 +29,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<div class="form-group">
 						<label for="" class="form-label">Code</label>
                         <input type="text" class="form-control" th:field="*{code}">
+						<label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="text-danger"></label>
 					</div>
 				</div>
 
@@ -36,6 +37,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<div class="form-group">
 						<label for="" class="form-label">Name</label>
                         <input type="text" class="form-control" th:field="*{name}">
+						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></label>
 					</div>
 				</div>
 			</div>
@@ -46,6 +48,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<div class="form-group">
 						<label for="" class="form-label">PIC</label>
                         <input type="text" class="form-control" th:field="*{pic}">
+						<label th:if="${#fields.hasErrors('pic')}" th:errors="*{pic}" class="text-danger"></label>
 					</div>
 				</div>
 
@@ -53,6 +56,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<div class="form-group">
 						<label for="" class="form-label">Contact Person</label>
                         <input type="text" class="form-control" th:field="*{contactPerson}">
+						<label th:if="${#fields.hasErrors('contactPerson')}" th:errors="*{contactPerson}" class="text-danger"></label>
 					</div>
 				</div>
 			</div>
@@ -63,6 +67,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<div class="form-group">
 						<label for="" class="form-label">Phone</label>
                         <input type="text" class="form-control" th:field="*{phone}">
+						<label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger"></label>
 					</div>
 				</div>
 
@@ -70,6 +75,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<div class="form-group">
 						<label for="" class="form-label">Email</label>
                         <input type="text" class="form-control" th:field="*{email}">
+						<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></label>
 					</div>
 				</div>
 			</div>
@@ -82,6 +88,7 @@ xmlns:th="http://www.thymeleaf.org">
                         <select name="" id="" class="form-select" th:field="*{type}">
 							<option th:each="g:${T(team.ojt7.recruitment.model.entity.ExternalRecruitmentResource.Type).values()}" th:value="${g}" th:text="${g.displayName}"></option>
 						</select>
+						<label th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="text-danger"></label>
 					</div>
 				</div>
 

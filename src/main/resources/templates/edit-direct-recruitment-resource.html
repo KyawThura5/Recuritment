@@ -29,6 +29,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<div class="form-group">
 						<label for="" class="form-label">Code</label>
                         <input type="text" class="form-control" th:field="*{code}">
+						<label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="text-danger"></label>
 					</div>
 				</div>
 
@@ -36,6 +37,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<div class="form-group">
 						<label for="" class="form-label">Name</label>
                         <input type="text" class="form-control" th:field="*{name}">
+						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></label>
 					</div>
 				</div>
 			</div>

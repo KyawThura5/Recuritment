@@ -3,6 +3,8 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
+
 import team.ojt7.recruitment.model.entity.DirectRecruitmentResource;
 import team.ojt7.recruitment.model.entity.ExternalRecruitmentResource;
 import team.ojt7.recruitment.model.entity.RecruitmentResource;
@@ -10,8 +12,13 @@ import team.ojt7.recruitment.model.entity.RecruitmentResource;
 public class RecruitmentResourceDto {
 
 	protected Long id;
+	
+	@NotBlank(message = "{notBlank.recruitmentResource.code}")
 	protected String code;
+	
+	@NotBlank(message = "{notBlank.recruitmentResource.name}")
 	protected String name;
+	
 	protected boolean isDeleted;
 	
 	public static RecruitmentResourceDto of(RecruitmentResource rr) {
