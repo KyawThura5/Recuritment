@@ -12,6 +12,7 @@ public class RecruitmentResourceDto {
 	protected Long id;
 	protected String code;
 	protected String name;
+	protected boolean isDeleted;
 	
 	public static RecruitmentResourceDto of(RecruitmentResource rr) {
 		
@@ -25,6 +26,7 @@ public class RecruitmentResourceDto {
 			dto.setEmail(err.getEmail());
 			dto.setPhone(err.getPhone());
 			dto.setType(err.getType());
+			dto.setDeleted(err.isDeleted());
 			dto.setWebsiteLink(err.getWebsiteLink());
 			dto.setAddress(err.getAddress());
 			return dto;
@@ -33,12 +35,14 @@ public class RecruitmentResourceDto {
 			dto.setId(drr.getId());
 			dto.setCode(drr.getCode());
 			dto.setName(drr.getName());
+			dto.setDeleted(drr.isDeleted());
 			return dto;
 		} else {
 			RecruitmentResourceDto dto = new RecruitmentResourceDto();
 			dto.setId(rr.getId());
 			dto.setCode(rr.getCode());
 			dto.setName(rr.getName());
+			dto.setDeleted(rr.isDeleted());
 			return dto;
 		}
 	}
@@ -58,6 +62,7 @@ public class RecruitmentResourceDto {
 			err.setEmail(errDto.getEmail());
 			err.setPhone(errDto.getPhone());
 			err.setType(errDto.getType());
+			err.setDeleted(errDto.isDeleted);
 			err.setWebsiteLink(errDto.getWebsiteLink());
 			err.setAddress(errDto.getAddress());
 			return err;
@@ -66,12 +71,14 @@ public class RecruitmentResourceDto {
 			drr.setId(drrDto.getId());
 			drr.setCode(drrDto.getCode());
 			drr.setName(drrDto.getName());
+			drr.setDeleted(drrDto.isDeleted);
 			return drr;
 		} else {
 			RecruitmentResource rr = new RecruitmentResource();
 			rr.setId(dto.getId());
 			rr.setCode(dto.getCode());
 			rr.setName(dto.getName());
+			rr.setDeleted(dto.isDeleted);
 			return rr;
 		}
 	}
@@ -104,9 +111,17 @@ public class RecruitmentResourceDto {
 		this.name = name;
 	}
 
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, id, name);
+		return Objects.hash(code, id, isDeleted, name);
 	}
 
 	@Override
@@ -118,7 +133,8 @@ public class RecruitmentResourceDto {
 		if (getClass() != obj.getClass())
 			return false;
 		RecruitmentResourceDto other = (RecruitmentResourceDto) obj;
-		return Objects.equals(code, other.code) && Objects.equals(id, other.id) && Objects.equals(name, other.name);
+		return Objects.equals(code, other.code) && Objects.equals(id, other.id) && isDeleted == other.isDeleted
+				&& Objects.equals(name, other.name);
 	}
 
 }

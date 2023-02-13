@@ -22,6 +22,7 @@ xmlns:th="http://www.thymeleaf.org">
         </div>
         <form th:action="@{/hr/recruitment/direct/save}" method="post" th:object="${recruitmentResource}" class="mt-3">
         	<input type="hidden" th:field="*{id}">
+			<input type="hidden" th:field="*{deleted}">
             <div class="row">
 
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
