@@ -13,9 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "department")
+@Table(
+	name = "department",
+	uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"name", "is_deleted"})
+	}
+)
 public class Department implements Serializable {
 
 	private static final long serialVersionUID = 1L;

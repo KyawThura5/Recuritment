@@ -14,10 +14,16 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "recruitment_resource")
+@Table(
+	name = "recruitment_resource",
+	uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"code", "is_deleted"})
+	}
+)
 @DiscriminatorValue(value = "RecruitmentResource")
 @DiscriminatorColumn(name = "entity_type", discriminatorType = DiscriminatorType.STRING)
 public class RecruitmentResource implements Serializable {
@@ -28,7 +34,6 @@ public class RecruitmentResource implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-	@Column(unique = true)
 	protected String code;
 	protected String name;
 	
