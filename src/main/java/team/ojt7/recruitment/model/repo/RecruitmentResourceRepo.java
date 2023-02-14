@@ -13,6 +13,8 @@ import team.ojt7.recruitment.model.entity.RecruitmentResource;
 @Repository
 public interface RecruitmentResourceRepo extends JpaRepository<RecruitmentResource, Long> {
 
+	RecruitmentResource findByCodeAndIsDeleted(String code, boolean isDeleted);
+	
 	@Query("SELECT r FROM RecruitmentResource r WHERE (code LIKE :keyword OR name LIKE :keyword) AND (is_deleted = false)")
 	List<RecruitmentResource> search(@Param("keyword") String keyword);
 	

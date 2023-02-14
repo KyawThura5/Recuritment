@@ -10,6 +10,7 @@ import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.entity.RecruitmentResource;
 import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldException;
 
 @Service
 public class RecruitmentResourceServiceImpl implements RecruitmentResourceService {
@@ -44,6 +45,10 @@ public class RecruitmentResourceServiceImpl implements RecruitmentResourceServic
 
 	@Override
 	public RecruitmentResourceDto save(RecruitmentResource rr) {
+		RecruitmentResource duplicatedEntry = recruitmentResourceRepo.findByCodeAndIsDeleted(rr.getCode(), false);
+		if (duplicatedEntry != null) {
+			throw new InvalidFieldException("code", "duplicated" ,"A recruitment resource with this code already exists");
+		}
 		return RecruitmentResourceDto.of(recruitmentResourceRepo.save(rr));
 	}
 
