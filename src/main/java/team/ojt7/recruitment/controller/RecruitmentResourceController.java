@@ -16,7 +16,8 @@ import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
-import team.ojt7.recruitment.model.service.exception.InvalidFieldException;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Controller
 public class RecruitmentResourceController {
@@ -84,8 +85,10 @@ public class RecruitmentResourceController {
 		if (!bindingResult.hasErrors()) {
 			try {
 				recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
-			} catch (InvalidFieldException e) {
-				bindingResult.rejectValue(e.getField(), e.getCode(), e.getMessage());
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
 			}
 		}
 		
@@ -110,8 +113,10 @@ public class RecruitmentResourceController {
 		if (!bindingResult.hasErrors()) {
 			try {
 				recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
-			} catch (InvalidFieldException e) {
-				bindingResult.rejectValue(e.getField(), e.getCode(), e.getMessage());
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
 			}
 		}
 		

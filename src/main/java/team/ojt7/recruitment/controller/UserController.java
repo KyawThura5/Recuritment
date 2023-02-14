@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.service.UserService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Controller
 public class UserController {
@@ -25,7 +28,7 @@ public class UserController {
 
 	@RequestMapping(value = "/admin/user/add", method = RequestMethod.GET)
 	public String addNewUser(ModelMap model) {
-		model.addAttribute("user",new UserDto());		
+		model.addAttribute("user", userService.generateNewUser());		
 		return "adduser";
 	}
 
@@ -38,38 +41,38 @@ public class UserController {
 	@RequestMapping(value="/admin/user/save",method=RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user")@Validated UserDto dto,BindingResult bs,ModelMap model) {
 		
+		if(!dto.getPassword().equals(dto.getConfirmPassword())) {
+			bs.rejectValue("confirmPassword", "notSame", "Passwords are not the same");
+		}
+		
+		if (!bs.hasErrors()) {
+			try {
+				User user = UserDto.parse(dto);
+				userService.save(user);
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+		}
+		
 		if(bs.hasErrors()) {
 			return "adduser";
 		}
 		
-		
-		User user=new User();
-		user.setId(dto.getId());		
-		user.setCode(dto.getCode());
-		user.setName(dto.getName());
-		user.setEmail(dto.getEmail());
-		user.setRole(dto.getRole());
-		user.setGender(dto.getGender());
-		user.setPhone(dto.getPhone());
-		
-		
-		
-		user.setPassword(dto.getPassword());
-		
-			
-				
-				if(!dto.getPassword().equals(dto.getConfirmPassword())) {
-					model.addAttribute("error", "Password & Confirm Password does not match!!");
-					return "adduser";
-				}
-				
-				userService.save(user);
-				return "redirect:/admin/user/search";
+		return "redirect:/admin/user/search";
 	}
 	
 
 	@RequestMapping(value = "admin/user/detail", method = RequestMethod.GET)
-	public String showUserDetail() {
+	public String showUserDetail(@RequestParam("id") Long id,ModelMap model) {
+		Optional<UserDto> user=userService.findById(id);
+		if (user.isPresent()) {
+			
+			model.addAttribute("list",user.get());
+			
+		}
+		
 		return "userdetail";
 
 	}
