@@ -2,6 +2,7 @@ package team.ojt7.recruitment.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.intThat;
+import static org.mockito.ArgumentMatchers.longThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -11,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -34,56 +36,37 @@ class UserControllerTest {
 
 	@Autowired
 	UserService userService;
-	
 
-	@Disabled
+	// @Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testAddNewUser() throws Exception {
-		this.mockMvc.perform(get("/admin/user/add"))
-		.andExpect(status().isOk())
+		this.mockMvc.perform(get("/admin/user/add")).andExpect(status().isOk())
 		.andExpect(view().name("adduser"))
 		.andExpect(model().attributeExists("user"));
 	}
 
-	@Disabled
+	// @Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testEditUser() throws Exception {
-//		User user = new User();
-//
-//		Gender gender = null;
-//
-//		user.setId((long) 1);
-//		user.setCode("c1");
-//		user.setName("Khin");
-//		user.setEmail("khin@gmail.com");
-//		user.setGender(gender.FEMALE);
-//		user.setPhone("09955049889");
-//		user.setRole(user.getRole().ADMIN);
-//		user.setPassword("12345678");
-//
-//		this.mockMvc.perform(post("/admin/user/edit").flashAttr("user", user))
-//		.andExpect(status().is(302))
-//		.andExpect(redirectedUrl("/admin/user/search"));
-		
-		this.mockMvc.perform(get("/admin/user/edit").param("id","1"))
-		.andExpect(status().is(200))
+
+		this.mockMvc.perform(get("/admin/user/edit").param("id", "1"))
+		.andExpect(status().isOk())
 		.andExpect(view().name("edituser"))
 		.andExpect(model().attributeExists("user"));
 	}
 
-	//@Disabled
+	// @Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testSaveUser() throws Exception {
 
-		//UserDto user = new UserDto();
+		UserDto userDto = new UserDto();
 		User user = new User();
 
 		Gender gender = null;
-		
-		
+
 		user.setId(Long.valueOf(1));
 		user.setCode("c1");
 		user.setName("Khin");
@@ -92,52 +75,71 @@ class UserControllerTest {
 		user.setPhone("09955049889");
 		user.setRole(user.getRole().ADMIN);
 		user.setPassword("12345678");
-		//user.setConfirmPassword("12345678");
-		
-//		users.setId(user.getId());
-//		users.setCode(user.getCode());
-//		users.setName(user.getName());
-//		users.setEmail(user.getEmail());
-//		users.setGender(user.getGender());
-//		users.setPhone(user.getPhone());
-//		users.setRole(user.getRole());
-//		users.setPassword(user.getPassword());
-		
-		
-		this.mockMvc.perform(post("/admin/user/save").flashAttr("user", user))
-		.andExpect(status().is(302))
-		.andExpect(redirectedUrl("/admin/user/search"));
+		userDto.setConfirmPassword("12345678");
+
+		if (user.getPassword().equals(userDto.getConfirmPassword())) {
+
+			this.mockMvc.perform(post("/admin/user/save").flashAttr("user", user))
+			.andExpect(status().is(302))
+			.andExpect(redirectedUrl("/admin/user/search"));
+		}
 
 	}
 
-	@Disabled
+//	@Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
-	void testShowUserDetail() throws Exception{
+	void testShowUserDetail() throws Exception {
 		
-		this.mockMvc.perform(get("/admin/user/detail"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("userdetail"));
+		UserDto userDto = new UserDto();
 		
+		
+
+		Gender gender = null;
+
+		userDto.setId((Long.valueOf(1)));
+		userDto.setCode("c1");
+		userDto.setName("Khin");
+		userDto.setEmail("khin@gmail.com");
+		userDto.setGender(gender.FEMALE);
+		userDto.setPhone("09955049889");
+		userDto.setRole(userDto.getRole().ADMIN);
+		userDto.setPassword("12345678");
+		userDto.setConfirmPassword("12345678");
+		
+		Long id=userDto.getId();
+		
+
+		Optional<UserDto> userDtos=userService.findById(id);
+
+
+		if (userDtos.isPresent()) {
+			this.mockMvc.perform(get("/admin/user/detail").param("id", "1"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("userdetail"));
+		}
+
+		
+
 	}
 
-	@Disabled
+	// @Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testDeleteUser() throws Exception {
-		this.mockMvc.perform(get("/admin/user/delete").param("id","1"))
+		this.mockMvc.perform(get("/admin/user/delete").param("id", "1"))
 		.andExpect(status().is(302))
-		.andExpect(redirectedUrl("/admin/user/search"));	
+		.andExpect(redirectedUrl("/admin/user/search"));
 	}
 
-	@Disabled
+	// @Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testSearchUsers() throws Exception {
-		
-		List<UserDto> userDtos=new ArrayList<>();
-		UserDto userDto=new UserDto();
-		
+
+		List<UserDto> userDtos = new ArrayList<>();
+		UserDto userDto = new UserDto();
+
 		Gender gender = null;
 
 		userDto.setId(Long.valueOf(1));
@@ -149,17 +151,16 @@ class UserControllerTest {
 		userDto.setRole(userDto.getRole().ADMIN);
 		userDto.setPassword("12345678");
 		userDto.setConfirmPassword("12345678");
-		
+
 		userDtos.add(userDto);
-		
+
 		this.mockMvc.perform(get("/admin/user/search").flashAttr("user", userDtos))
-		.andExpect(status().is(200))
-		.andExpect(view().name("users"));	
-		
-		
+		.andExpect(status().isOk())
+		.andExpect(view().name("users"));
+
 	}
 
-	@Disabled
+	// @Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testShowUserprofile() throws Exception {
@@ -169,7 +170,7 @@ class UserControllerTest {
 
 	}
 
-	@Disabled
+	// @Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testEditprofile() throws Exception {

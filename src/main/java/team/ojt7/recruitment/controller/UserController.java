@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,7 +70,14 @@ public class UserController {
 	
 
 	@RequestMapping(value = "admin/user/detail", method = RequestMethod.GET)
-	public String showUserDetail() {
+	public String showUserDetail(@RequestParam("id") Long id,ModelMap model) {
+		Optional<UserDto> user=userService.findById(id);
+		if (user.isPresent()) {
+			
+			model.addAttribute("list",user.get());
+			
+		}
+		
 		return "userdetail";
 
 	}
