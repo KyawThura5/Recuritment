@@ -8,6 +8,7 @@ import org.springframework.format.Formatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -58,7 +59,7 @@ public class TeamController {
 	}
 
 	@PostMapping("/admin/team/save")
-	public String saveTeam(@ModelAttribute("team") TeamDto dto, BindingResult bs, ModelMap model) {
+	public String saveTeam(@ModelAttribute("team")@Validated TeamDto dto, BindingResult bs, ModelMap model) {
 		if (bs.hasErrors()) {
 			return "edit-team";
 		}

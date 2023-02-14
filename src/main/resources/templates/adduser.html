@@ -94,7 +94,7 @@
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
 						<label for="" class="form-label">Password</label> <input
-							type="password" class="form-control" th:field="*{password}">
+							type="password" class="form-control"  name="password" th:value="${user.password}">
 						<label th:if="${#fields.hasErrors('password')}"
 							th:errors="*{password}" style="color: red;">Error </label>
 					</div>
@@ -102,7 +102,7 @@
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
 						<label for="" class="form-label">Confirm Password</label> <input
-							type="password" class="form-control">
+							type="password" class="form-control" name="confirmPassword" th:value="${user.confirmPassword}">
 							<label th:if="${#fields.hasErrors('confirmPassword')}"
 							th:errors="*{confirmPassword}" style="color: red;">Error </label>
 					</div>
@@ -111,9 +111,6 @@
 			<div class="row">
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<span th:text="${error}" style="color: red; text-align: center"></span>
-				</div>
-				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-					<span th:text="${pwdlength}" style="color: red; text-align: center"></span>
 				</div>
 			</div>
 

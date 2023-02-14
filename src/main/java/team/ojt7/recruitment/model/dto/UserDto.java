@@ -16,26 +16,38 @@ import team.ojt7.recruitment.model.entity.User.Role;
 public class UserDto {
 	
 	private Long id;
-	@NotEmpty
+	
+	@NotBlank(message="NotBlank.user.code")
 	private String code;
-	@NotEmpty
+	
+	@NotBlank(message="NotBlank.user.name")
 	private String name;
-	@Email
-	@NotBlank(message = "Email is required!")
-	@Pattern(regexp = "^(.+)@(.+)$", message = "Enter valid email")
+	
+	@NotBlank(message="NotBlank.user.email")
+	@Pattern(regexp = "^(.+)@(.+)$", message = "{invalid.email}")
 	private String email;
-	@NotNull
+	
+	@NotNull(message="NotNull.user.role")
 	private Role role;
-	@NotNull
+	
+	@NotNull(message="NotNull.user.gender")
 	private Gender gender;
-	@NotEmpty
-	@Range(min=6,max=16,message = "Enter valid Phone Number")
-	@Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$" , message = "Enter valid Phone Number")
+	
+	@NotBlank(message = "{notBlank.user.phone}")
+	@Size(min = 6, max = 16, message = "{invalidSize.user.phone}")
+	@Pattern(regexp = "\\d+", message = "{invalid.phone}")
 	private String phone;
-	@NotEmpty
+	
+	@NotBlank(message="NotBlank.user.password")
+	@Size(min = 8, max = 30, message = "{invalidSize.user.password}")
+	@Pattern(regexp="\\S+",message="{invalid.password}")
 	private String password;
-	@NotEmpty
+	
+	@NotBlank(message="NotBlank.user.confirmPassword")
+	@Size(min = 8, max = 30, message  = "{invalidSize.user.confirmPassword}")
+	@Pattern(regexp="\\S+",message="{invalid.confirmPassword}")
 	private String confirmPassword;
+	
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
@@ -61,6 +73,7 @@ public class UserDto {
 		userDto.setPhone(user.getPhone());
 		userDto.setDeleted(user.isDeleted());
 		userDto.setPassword(user.getPassword());
+		userDto.setConfirmPassword(user.getPassword());
 		return userDto;
 	}
 	

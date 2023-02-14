@@ -56,32 +56,15 @@ public class UserController {
 		
 		user.setPassword(dto.getPassword());
 		
-		if(dto.getPassword().length() < 8 || dto.getPassword().length() > 30) {
-			
-			model.addAttribute("pwdlength", "Password length must not be less than 8 or greater than 30");
-			return "adduser";
-			
-		}
-		else {
 			
 				
-				if(dto.getPassword().equals(dto.getConfirmPassword())) {
-					userService.save(user);
-					return "redirect:/admin/user/search";
-				}
-				
-				else {
+				if(!dto.getPassword().equals(dto.getConfirmPassword())) {
 					model.addAttribute("error", "Password & Confirm Password does not match!!");
 					return "adduser";
-					
 				}
 				
-			
-		}
-		
-		
-	
-		
+				userService.save(user);
+				return "redirect:/admin/user/search";
 	}
 	
 

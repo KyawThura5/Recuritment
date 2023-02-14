@@ -4,7 +4,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.entity.Team;
@@ -13,12 +15,11 @@ public class TeamDto {
 	
 	private Long id;
 	
-	@NotEmpty
+	@NotBlank(message="{NotBlank.team.name}")
 	private String name;
 	
 	private boolean isDeleted;
-	
-	@NotEmpty
+	@NotNull(message="{NotNull.team.department}")
 	private DepartmentDto department;
 	
 	public static TeamDto of(Team team) {
