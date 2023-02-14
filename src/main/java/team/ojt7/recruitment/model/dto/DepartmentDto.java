@@ -3,12 +3,15 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 import team.ojt7.recruitment.model.entity.Department;
 
 public class DepartmentDto {
 
 	private Long id;
-
+	@NotBlank(message="{NotBlank.department.name}")
 	private String name;
 	
 	private boolean isDeleted;

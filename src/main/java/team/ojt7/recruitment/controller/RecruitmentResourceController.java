@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldException;
 
 @Controller
 public class RecruitmentResourceController {
@@ -71,19 +74,53 @@ public class RecruitmentResourceController {
 	
 	@PostMapping("/hr/recruitment/external/save")
 	public String saveExternalRecruitmentResource(
+			@Validated
 			@ModelAttribute("recruitmentResource")
-			ExternalRecruitmentResourceDto err
+			ExternalRecruitmentResourceDto err,
+			BindingResult bindingResult,
+			ModelMap model
 			) {
-		recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
+		
+		if (!bindingResult.hasErrors()) {
+			try {
+				recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
+			} catch (InvalidFieldException e) {
+				bindingResult.rejectValue(e.getField(), e.getCode(), e.getMessage());
+			}
+		}
+		
+		if (bindingResult.hasErrors()) {
+			String title = err.getId() == null ? "Add New External Recruitment Resource" : "Edit External Recruitment Resource";
+			model.put("title", title);
+			return "edit-external-recruitment-resource";
+		}
+		
 		return "redirect:/manager/recruitment/external/search";
 	}
 	
 	@PostMapping("/hr/recruitment/direct/save")
-	public String saveExternalRecruitmentResource(
+	public String saveDirectRecruitmentResource(
+			@Validated
 			@ModelAttribute("recruitmentResource")
-			DirectRecruitmentResourceDto drr
+			DirectRecruitmentResourceDto drr,
+			BindingResult bindingResult,
+			ModelMap model
 			) {
-		recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
+		
+		if (!bindingResult.hasErrors()) {
+			try {
+				recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
+			} catch (InvalidFieldException e) {
+				bindingResult.rejectValue(e.getField(), e.getCode(), e.getMessage());
+			}
+		}
+		
+		if (bindingResult.hasErrors()) {
+			String title = drr.getId() == null ? "Add New Direct Recruitment Resource" : "Edit Direct Recruitment Resource";
+			model.put("title", title);
+			return "edit-direct-recruitment-resource";
+		}
+		
 		return "redirect:/manager/recruitment/direct/search";
 	}
 	
