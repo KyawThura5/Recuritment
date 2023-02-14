@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,17 @@ import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.repo.UserRepo;
 import team.ojt7.recruitment.model.service.UserService;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldException;
+import team.ojt7.recruitment.util.generator.UserCodeGenerator;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	UserRepo userRepo;
+	private UserRepo userRepo;
+	
+	@Autowired
+	private UserCodeGenerator userCodeGenerator;
 	
 	@Override
 	@Transactional
@@ -37,6 +43,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public UserDto save(User user) {
+		User duplicateEntry = userRepo.findByCodeAndIsDeleted(user.getCode(), false);
+		if (duplicateEntry != null && !Objects.equals(user.getId(), duplicateEntry.getId())) {
+			throw new InvalidFieldException("code", "duplicated", "A user with this code already exists");
+		}
+		
+		duplicateEntry = userRepo.findByEmailAndIsDeleted(user.getEmail(), false);
+		if (duplicateEntry != null && !Objects.equals(user.getId(), duplicateEntry.getId())) {
+			throw new InvalidFieldException("email", "duplicated", "A user with this email already exists");
+		}
+		
+		duplicateEntry = userRepo.findByPhoneAndIsDeleted(user.getPhone(), false);
+		if (duplicateEntry != null && !Objects.equals(user.getId(), duplicateEntry.getId())) {
+			throw new InvalidFieldException("phone", "duplicated", "A user with this phone already exists");
+		}
+		
 		User savedUser = userRepo.save(user);
 		return UserDto.of(savedUser);
 	}
@@ -46,6 +67,15 @@ public class UserServiceImpl implements UserService {
 	public boolean deleteById(Long id) {
 		userRepo.deleteById(id);
 		return true;
+	}
+
+	@Override
+	public UserDto generateNewUser() {
+		Long maxId = userRepo.findMaxId();
+		Long id = maxId == null ? 1 : maxId + 1;
+		UserDto user = new UserDto();
+		user.setCode(userCodeGenerator.generate(id));
+		return user;
 	}
 
 }

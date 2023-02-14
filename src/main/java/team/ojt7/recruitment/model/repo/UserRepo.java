@@ -1,7 +1,6 @@
 package team.ojt7.recruitment.model.repo;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,7 +14,14 @@ import team.ojt7.recruitment.model.entity.User.Role;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
     
-    public Optional<User> findById(Long id);
+	@Query(value = "SELECT MAX(id) FROM user", nativeQuery = true)
+    public Long findMaxId();
+	
+	public User findByCodeAndIsDeleted(String code, boolean isDeleted);
+	
+	public User findByEmailAndIsDeleted(String email, boolean isDeleted);
+	
+	public User findByPhoneAndIsDeleted(String phone, boolean isDeleted);
 
     @Query("""
     		SELECT u FROM User u WHERE
