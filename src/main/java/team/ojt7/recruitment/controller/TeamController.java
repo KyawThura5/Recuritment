@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +18,8 @@ import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.TeamService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Controller
 public class TeamController {
@@ -28,15 +28,6 @@ public class TeamController {
 	
 	@Autowired
 	private DepartmentService departmentService;
-	
-	@Autowired
-	@Qualifier("departmentFormatter")
-	private Formatter<DepartmentDto> departmentFormatter;
-	
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.addCustomFormatter(departmentFormatter);
-	}
 	
 	@GetMapping("/admin/team/search")
 	public String searchTeams(
@@ -60,11 +51,23 @@ public class TeamController {
 
 	@PostMapping("/admin/team/save")
 	public String saveTeam(@ModelAttribute("team")@Validated TeamDto dto, BindingResult bs, ModelMap model) {
+		
+		if (!bs.hasErrors()) {
+			try {
+				teamService.save(TeamDto.parse(dto));
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidFiled : e.getFields()) {
+					bs.rejectValue(invalidFiled.getField(), invalidFiled.getCode(), invalidFiled.getMessage());
+				}
+			}
+		}
+		
 		if (bs.hasErrors()) {
+			List<DepartmentDto> departmentDtos = departmentService.findAll();
+			model.put("departmentList", departmentDtos);
 			return "edit-team";
 		}
-
-		teamService.save(TeamDto.parse(dto));
+		
 		return "redirect:/admin/team/search";
 	}
 

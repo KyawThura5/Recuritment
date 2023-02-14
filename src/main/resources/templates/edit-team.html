@@ -42,14 +42,11 @@ body {
 			<div class="row">
 				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
 					<div class="form-group">
-						<label for="departmentName" class="form-label">Department
-							Name </label> <select class="form-control" id="dropDownList"
-							th:field="*{department}">
-							
-							<option th:each="option : ${departmentList}" th:value="${option.id}"
-								th:text="${option.name}"></option>
-						</select> <label th:if="${#fields.hasErrors('department')}"
-							th:errors="*{department}" style="color: red;">Error </label>
+						<label for="departmentName" class="form-label">Select Department</label>
+							<select class="form-select" id="dropDownList" th:field="*{department.id}">
+								<option th:each="option : ${departmentList}" th:value="${option.id}" th:text="${option.name}"></option>
+							</select>
+						<label th:if="${#fields.hasErrors('department')}" th:errors="*{department}" style="color: red;">Error </label>
 					</div>
 				</div>
 			</div>

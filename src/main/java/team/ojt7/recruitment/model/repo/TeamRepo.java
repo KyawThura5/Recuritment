@@ -12,6 +12,9 @@ import team.ojt7.recruitment.model.entity.Team;
 
 @Repository
 public interface TeamRepo extends JpaRepository<Team,Long> {
+	
+	Team findByNameAndDepartmentIdAndIsDeleted(String name, Long departmentId, boolean isDeleted);
+	
 	@Query("SELECT t FROM Team t WHERE (name LIKE :keyword OR t.department.name LIKE :keyword) AND (t.isDeleted = false AND t.department.isDeleted = false)")
 	List<Team> search(@Param("keyword") String keyword);
 
