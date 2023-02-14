@@ -15,5 +15,5 @@ public interface UserService {
     public Optional<UserDto> findById(Long id);
     public UserDto save(User user);
     public boolean deleteById(Long id);
-
+    UserDto generateNewUser();
 }

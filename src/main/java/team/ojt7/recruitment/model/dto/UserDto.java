@@ -3,11 +3,10 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.constraints.*;
-
-import org.hibernate.validator.constraints.Range;
-
-import org.hibernate.validator.constraints.Range;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import team.ojt7.recruitment.model.entity.Gender;
 import team.ojt7.recruitment.model.entity.User;
@@ -79,6 +78,24 @@ public class UserDto {
 	
 	public static List<UserDto> ofList(List<User> users) {
 		return users.stream().map(u -> UserDto.of(u)).toList();
+	}
+	
+	public static User parse(UserDto dto) {
+		User user = new User();
+		user.setId(dto.getId());
+		user.setCode(dto.getCode());
+		user.setName(dto.getName());
+		user.setRole(dto.getRole());
+		user.setGender(dto.getGender());
+		user.setEmail(dto.getEmail());
+		user.setPhone(dto.getPhone());
+		user.setDeleted(dto.isDeleted());
+		user.setPassword(dto.getPassword());
+		return user;
+	}
+	
+	public static List<User> parseList(List<UserDto> dtos) {
+		return dtos.stream().map(u -> parse(u)).toList();
 	}
 
 	public Long getId() {
