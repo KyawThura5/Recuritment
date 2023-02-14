@@ -17,6 +17,7 @@ import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Controller
 public class RecruitmentResourceController {
@@ -81,13 +82,15 @@ public class RecruitmentResourceController {
 			ModelMap model
 			) {
 		
-//		if (!bindingResult.hasErrors()) {
-//			try {
-//				recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
-//			} catch (InvalidField e) {
-//				bindingResult.rejectValue(e.getField(), e.getCode(), e.getMessage());
-//			}
-//		}
+		if (!bindingResult.hasErrors()) {
+			try {
+				recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+		}
 		
 		if (bindingResult.hasErrors()) {
 			String title = err.getId() == null ? "Add New External Recruitment Resource" : "Edit External Recruitment Resource";
@@ -107,13 +110,15 @@ public class RecruitmentResourceController {
 			ModelMap model
 			) {
 		
-//		if (!bindingResult.hasErrors()) {
-//			try {
-//				recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
-//			} catch (InvalidField e) {
-//				bindingResult.rejectValue(e.getField(), e.getCode(), e.getMessage());
-//			}
-//		}
+		if (!bindingResult.hasErrors()) {
+			try {
+				recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+		}
 		
 		if (bindingResult.hasErrors()) {
 			String title = drr.getId() == null ? "Add New Direct Recruitment Resource" : "Edit Direct Recruitment Resource";
