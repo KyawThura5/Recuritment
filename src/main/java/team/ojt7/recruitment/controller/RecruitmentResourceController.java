@@ -16,6 +16,7 @@ import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldException;
 
 @Controller
 public class RecruitmentResourceController {
@@ -79,12 +80,21 @@ public class RecruitmentResourceController {
 			BindingResult bindingResult,
 			ModelMap model
 			) {
+		
+		if (!bindingResult.hasErrors()) {
+			try {
+				recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
+			} catch (InvalidFieldException e) {
+				bindingResult.rejectValue(e.getField(), e.getCode(), e.getMessage());
+			}
+		}
+		
 		if (bindingResult.hasErrors()) {
 			String title = err.getId() == null ? "Add New External Recruitment Resource" : "Edit External Recruitment Resource";
 			model.put("title", title);
 			return "edit-external-recruitment-resource";
 		}
-		recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
+		
 		return "redirect:/manager/recruitment/external/search";
 	}
 	
@@ -96,12 +106,21 @@ public class RecruitmentResourceController {
 			BindingResult bindingResult,
 			ModelMap model
 			) {
+		
+		if (!bindingResult.hasErrors()) {
+			try {
+				recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
+			} catch (InvalidFieldException e) {
+				bindingResult.rejectValue(e.getField(), e.getCode(), e.getMessage());
+			}
+		}
+		
 		if (bindingResult.hasErrors()) {
 			String title = drr.getId() == null ? "Add New Direct Recruitment Resource" : "Edit Direct Recruitment Resource";
 			model.put("title", title);
 			return "edit-direct-recruitment-resource";
 		}
-		recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
+		
 		return "redirect:/manager/recruitment/direct/search";
 	}
 	
