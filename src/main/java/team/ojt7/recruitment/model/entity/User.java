@@ -11,9 +11,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "user")
+@Table(
+	name = "user",
+	uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"code", "is_deleted"}),
+		@UniqueConstraint(columnNames = {"email", "is_deleted"}),
+		@UniqueConstraint(columnNames = {"phone", "is_deleted"}),
+	}
+)
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,17 +30,15 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
     
-    @Column(unique = true)
 	private String code;
+	
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
-	@Column(unique = true)
 	private String email;
 	
-	@Column(unique = true)
 	private String phone;
 	
 	@Enumerated(EnumType.STRING)

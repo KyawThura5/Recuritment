@@ -17,7 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.service.UserService;
-import team.ojt7.recruitment.model.service.exception.InvalidFieldException;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Controller
 public class UserController {
@@ -41,15 +42,17 @@ public class UserController {
 	public String saveUser(@ModelAttribute("user")@Validated UserDto dto,BindingResult bs,ModelMap model) {
 		
 		if(!dto.getPassword().equals(dto.getConfirmPassword())) {
-			bs.rejectValue("confirmPassword", "notSame", "Passwords are not the same.");
+			bs.rejectValue("confirmPassword", "notSame", "Passwords are not the same");
 		}
 		
 		if (!bs.hasErrors()) {
 			try {
 				User user = UserDto.parse(dto);
 				userService.save(user);
-			} catch (InvalidFieldException e) {
-				bs.rejectValue(e.getField(), e.getCode(), e.getMessage());
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
 			}
 		}
 		
