@@ -2,10 +2,14 @@ package team.ojt7.recruitment.model.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import team.ojt7.recruitment.model.entity.Position;
 
 public class PositionDto {
 	private Long id;
+	
+	@NotBlank(message = "{notBlank.position.name}")
 	private String name;
 	private boolean isDeleted;
 	public Long getId() {
