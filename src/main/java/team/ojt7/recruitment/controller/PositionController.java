@@ -3,6 +3,7 @@ package team.ojt7.recruitment.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -49,6 +50,7 @@ public class PositionController {
 		return "edit-position";
 	}
 
+	 //@PreAuthorize("hasAnyRole('ADMIN','GENERAL_MANAGER')")
 	@PostMapping("/admin/position/save")
 	public String savePosition(@Validated @ModelAttribute("position") PositionDto dto,BindingResult bs,ModelMap model) {
 		

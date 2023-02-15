@@ -86,4 +86,10 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	@Transactional
+	public void changePassword(Long userId, String password) {
+		userRepo.updatePasswordById(password, userId);
+	}
+
 }

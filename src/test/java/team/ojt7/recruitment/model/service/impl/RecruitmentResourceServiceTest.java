@@ -1,4 +1,4 @@
-package team.ojt7.recruitment;
+package team.ojt7.recruitment.model.service.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -40,6 +39,7 @@ public class RecruitmentResourceServiceTest {
 	}
 	@Disabled
 	@Test
+	
 	public void testSearch() {
 		List<RecruitmentResource> resultList=new ArrayList<>();
 		RecruitmentResource recruitmentResource1=new RecruitmentResource();
@@ -52,10 +52,10 @@ public class RecruitmentResourceServiceTest {
 		recruitmentResource2.setName("Redirect");
 		resultList.add(recruitmentResource1);
 		resultList.add(recruitmentResource2);
-		when(recruitmentresourceRepo.search("%"+recruitmentResource1.getName()+"%")).thenReturn(resultList);
-		List<RecruitmentResourceDto> resources=recruitmentResourceService.search(recruitmentResource1.getName());
+		when(recruitmentresourceRepo.search("%"+"Direct"+"%")).thenReturn(resultList);
+		List<RecruitmentResourceDto> resources=recruitmentResourceService.search("%"+"Direct"+"%");
 		assertEquals(1,resources.size());
-		verify(recruitmentresourceRepo,times(1)).search("%"+recruitmentResource1.getName()+"%");
+		verify(recruitmentresourceRepo,times(1)).search("%"+"Direct"+"%");
 	}
 	@Test
 	public void testSearhForTwoParameter() {
