@@ -37,7 +37,7 @@ public class RecruitmentResourceServiceTest {
 		
 		
 	}
-	@Disabled
+	//@Disabled
 	@Test
 	
 	public void testSearch() {
