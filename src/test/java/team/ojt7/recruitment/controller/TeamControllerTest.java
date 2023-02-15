@@ -2,6 +2,7 @@ package team.ojt7.recruitment.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
@@ -28,11 +30,11 @@ import team.ojt7.recruitment.model.service.impl.TeamServiceImpl;
 class TeamControllerTest {
 	@Autowired
 	MockMvc mock;
-	@MockBean
+	@Autowired
 	TeamServiceImpl service;
 	@MockBean
 	TeamRepo repo;
-	@MockBean
+	@Autowired
 	DepartmentServiceImpl service1;
 	@MockBean
 	DepartmentRepo repo1;
@@ -42,7 +44,7 @@ class TeamControllerTest {
 	}
 
 	@Test
-	void testEditTeam() {
+	void testEditTeam() throws Exception{
 		TeamDto dto=new TeamDto();
 		Long id=(long) 001;
 		dto.setId(id);
@@ -50,8 +52,10 @@ class TeamControllerTest {
 		DepartmentDto d=new DepartmentDto();
 		d.setName("Java");
 		dto.setDepartment(d);
-		when(service.findById(id)).thenReturn(Optional.ofNullable(dto));
-				
+		this.mock.perform(get("/admin/team/edit").param("id","001"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("edit-team"))
+		.andExpect(model().attributeExists("team"));		
 		}
 
 	@Test
