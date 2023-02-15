@@ -44,6 +44,8 @@ public class TeamController {
 		TeamDto teamDto = teamService.findById(id).orElse(new TeamDto());
 		model.put("team", teamDto);
 		model.put("departmentList", departmentDtos);
+		String title = teamDto.getId() == null ? "Add New Team" : "Edit Team";
+		model.put("title", title);
 		return "edit-team";
 	}
 
@@ -63,6 +65,8 @@ public class TeamController {
 		if (bs.hasErrors()) {
 			List<DepartmentDto> departmentDtos = departmentService.findAll();
 			model.put("departmentList", departmentDtos);
+			String title = dto.getId() == null ? "Add New Team" : "Edit Team";
+			model.put("title", title);
 			return "edit-team";
 		}
 		

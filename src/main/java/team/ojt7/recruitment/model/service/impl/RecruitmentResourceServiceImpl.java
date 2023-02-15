@@ -13,12 +13,15 @@ import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
+import team.ojt7.recruitment.util.generator.RecruitmentResourceCodeGenerator;
 
-@Service
+@Service("RecruitmentResource")
 public class RecruitmentResourceServiceImpl implements RecruitmentResourceService {
 
 	@Autowired
 	private RecruitmentResourceRepo recruitmentResourceRepo;
+	
+	private RecruitmentResourceCodeGenerator recruitmentResourceCodeGenerator;
 	
 	@Override
 	public List<RecruitmentResourceDto> search(String keyword) {
@@ -58,5 +61,16 @@ public class RecruitmentResourceServiceImpl implements RecruitmentResourceServic
 		}
 		return RecruitmentResourceDto.of(recruitmentResourceRepo.save(rr));
 	}
+
+	@Override
+	public RecruitmentResourceDto generateNewWithCode() {
+		Long maxId = recruitmentResourceRepo.findMaxId();
+		Long id = maxId == null ? 1 : maxId + 1;
+		RecruitmentResourceDto dto = new RecruitmentResourceDto();
+		dto.setCode(recruitmentResourceCodeGenerator.generate(id));
+		return dto;
+	}
+
+	
 
 }

@@ -33,6 +33,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	@Transactional
 	public Optional<DepartmentDto> findById(Long id) {
+		if (id == null) {
+			return Optional.ofNullable(null);
+		}
 		Department department=departmentRepo.findById(id).orElse(null);
 		return Optional.ofNullable(DepartmentDto.of(department));
 	}
