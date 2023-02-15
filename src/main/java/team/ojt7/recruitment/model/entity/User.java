@@ -11,17 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(
-	name = "user",
-	uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"code", "is_deleted"}),
-		@UniqueConstraint(columnNames = {"email", "is_deleted"}),
-		@UniqueConstraint(columnNames = {"phone", "is_deleted"}),
-	}
-)
+@Table(name = "user")
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
