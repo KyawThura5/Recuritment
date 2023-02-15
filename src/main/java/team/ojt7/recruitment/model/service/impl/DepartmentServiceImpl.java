@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.repo.DepartmentRepo;
 import team.ojt7.recruitment.model.service.DepartmentService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -36,6 +39,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public DepartmentDto save(Department department) {
+		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
+		
+		Department duplicatedEntry = departmentRepo.findByNameAndIsDeleted(department.getName(), false);
+		if (duplicatedEntry != null && !Objects.equals(department.getId(), duplicatedEntry.getId())) {
+			invalidFieldsException.addField(new InvalidField("name", "duplicated", "A department with this name already exists"));
+		}
+		
+		if (invalidFieldsException.hasFields()) {
+			throw invalidFieldsException;
+		}
+		
 		Department savedDepartment=departmentRepo.save(department);
 		return DepartmentDto.of(savedDepartment);
 	}

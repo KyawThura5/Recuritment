@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
-import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.service.DepartmentService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Controller
 public class DepartmentController {
@@ -51,11 +51,21 @@ public class DepartmentController {
 
 	@PostMapping("/admin/department/save")
 	public String saveDepartment(@ModelAttribute("department") @Validated DepartmentDto dto,BindingResult bs,ModelMap model) {
+		
+		if (!bs.hasErrors()) {
+			try {
+				departmentService.save(DepartmentDto.parse(dto));
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+		}
+		
 		if(bs.hasErrors()) {
 			return "edit-department";
 		}
 		
-		departmentService.save(DepartmentDto.parse(dto));
 		return "redirect:/admin/department/search";
 	}
 

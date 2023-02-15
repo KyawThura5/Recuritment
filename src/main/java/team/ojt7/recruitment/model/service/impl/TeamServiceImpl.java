@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.repo.TeamRepo;
 import team.ojt7.recruitment.model.service.TeamService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -38,6 +41,16 @@ public Optional<TeamDto> findById(Long id) {
 
 @Override
 public TeamDto save(Team team) {
+	InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
+	
+	Team duplicatedEntry = teamRepo.findByNameAndDepartmentIdAndIsDeleted(team.getName(), team.getDepartment().getId(), false);
+	if (duplicatedEntry != null && !Objects.equals(team.getId(), duplicatedEntry.getId())) {
+		invalidFieldsException.addField(new InvalidField("name", "duplicated", "A team with this name already exists in the department"));
+	}
+	
+	if (invalidFieldsException.hasFields()) {
+		throw invalidFieldsException;
+	}
 	Team savedTeam=teamRepo.save(team);
 	return TeamDto.of(savedTeam);
 }

@@ -13,6 +13,8 @@ import team.ojt7.recruitment.model.entity.Department;
 @Repository
 public interface DepartmentRepo extends JpaRepository<Department, Long> {
 
+	Department findByNameAndIsDeleted(String name, boolean isDeleted);
+	
 	@Query("SELECT d FROM Department d WHERE (name LIKE :keyword) AND (is_deleted = false)")
 	List<Department> search(@Param("keyword") String keyword);
 	
