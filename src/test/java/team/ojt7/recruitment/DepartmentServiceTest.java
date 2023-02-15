@@ -1,5 +1,6 @@
 package team.ojt7.recruitment;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,12 +73,19 @@ public class DepartmentServiceTest {
 	@Test
 	public void testSave() {
 		Department department=new Department();
-		department.setId(1L);
+		department.setId(Long.valueOf(1));
 		department.setName("Software Department");
 		department.setDeleted(false);
-		departmentService.save(department);
-		//when(departmentRepo.save(department)).thenReturn(department);
-		verify(departmentRepo,times(1)).save(department);
+		//departmentService.save(department);
+		
+		
+		when(departmentRepo.save(ArgumentMatchers.any(Department.class))).thenReturn(department);
+
+        DepartmentDto created = departmentService.save(department);
+
+        assertThat(created.getId()).isSameAs(department.getId());
+        verify(departmentRepo).save(department);
+		
 		
 	}
 	@Test

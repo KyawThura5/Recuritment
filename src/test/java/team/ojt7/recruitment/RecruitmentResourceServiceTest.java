@@ -49,10 +49,10 @@ public class RecruitmentResourceServiceTest {
 		recruitmentResource2.setName("Redirect");
 		resultList.add(recruitmentResource1);
 		resultList.add(recruitmentResource2);
-		when(recruitmentresourceRepo.search("Direct")).thenReturn(resultList);
-		List<RecruitmentResourceDto> resources=recruitmentResourceService.search("Direct");
+		when(recruitmentresourceRepo.search("%"+"Direct"+"%")).thenReturn(resultList);
+		List<RecruitmentResourceDto> resources=recruitmentResourceService.search("%"+"Direct"+"%");
 		assertEquals(1,resources.size());
-		verify(recruitmentresourceRepo,times(1)).search("Direct");
+		verify(recruitmentresourceRepo,times(1)).search("%"+"Direct"+"%");
 	}
 	@Test
 	public void testSearhForTwoParameter() {
