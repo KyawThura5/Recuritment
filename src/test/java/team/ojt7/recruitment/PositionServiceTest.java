@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.entity.Position;
-import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.repo.PositionRepo;
 import team.ojt7.recruitment.model.service.impl.PositionServiceImpl;
 
