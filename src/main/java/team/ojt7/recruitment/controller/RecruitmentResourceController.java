@@ -3,6 +3,7 @@ package team.ojt7.recruitment.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
+import team.ojt7.recruitment.model.service.DirectRecruitmentResourceService;
+import team.ojt7.recruitment.model.service.ExternalRecruitmentResourceService;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
@@ -23,7 +26,16 @@ import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 public class RecruitmentResourceController {
 	
 	@Autowired
+	@Qualifier("RecruitmentResource")
 	private RecruitmentResourceService recruitmentResourceService;
+	
+	@Autowired
+	@Qualifier("direct")
+	private DirectRecruitmentResourceService directRecruitmentResourceService;
+	
+	@Autowired
+	@Qualifier("external")
+	private ExternalRecruitmentResourceService externalRecruitmentResourceService;
 
 	@GetMapping("/manager/recruitment/external/search")
 	public String searchExternalRecruitmentResources(
@@ -53,7 +65,7 @@ public class RecruitmentResourceController {
 			Long id,
 			ModelMap model
 			) {
-		ExternalRecruitmentResourceDto err = (ExternalRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(new ExternalRecruitmentResourceDto());
+		ExternalRecruitmentResourceDto err = (ExternalRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(externalRecruitmentResourceService.generateNewWithCode());
 		model.put("recruitmentResource", err);
 		String title = err.getId() == null ? "Add New External Recruitment Resource" : "Edit External Recruitment Resource";
 		model.put("title", title);
@@ -66,7 +78,7 @@ public class RecruitmentResourceController {
 			Long id,
 			ModelMap model
 			) {
-		DirectRecruitmentResourceDto drr = (DirectRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(new DirectRecruitmentResourceDto());
+		DirectRecruitmentResourceDto drr = (DirectRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(directRecruitmentResourceService.generateNewWithCode());
 		model.put("recruitmentResource", drr);
 		String title = drr.getId() == null ? "Add New Direct Recruitment Resource" : "Edit Direct Recruitment Resource";
 		model.put("title", title);

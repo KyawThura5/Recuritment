@@ -20,4 +20,6 @@ public interface RecruitmentResourceService {
 	Optional<RecruitmentResourceDto> findById(Long id);
 	
 	boolean deleteById(Long id);
+	
+	RecruitmentResourceDto generateNewWithCode();
 }
