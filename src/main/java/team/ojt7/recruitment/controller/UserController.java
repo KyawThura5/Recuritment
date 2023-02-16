@@ -196,8 +196,36 @@ public class UserController {
 		return "userprofile";
 
 	}
-	@RequestMapping(value = "/admin/user/editprofile", method = RequestMethod.GET)
-	public String Editprofile() {
+	
+	@PostMapping("/user/profile/save")
+	public String saveProfile(
+			@Validated
+			@ModelAttribute("user")
+			UserDto user,
+			BindingResult bindingResult
+			) {
+		
+		if (!bindingResult.hasErrors()) {
+			try {
+				userService.save(UserDto.parse(user));
+			}  catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+		}
+		
+		if (bindingResult.hasErrors()) {
+			return "editprofile";
+		}
+		
+		return "redirect:/user/profile";
+	}
+	
+	@RequestMapping(value = "/user/profile/edit", method = RequestMethod.GET)
+	public String Editprofile(ModelMap model, HttpSession session) {
+		User loginUser = (User) session.getAttribute("loginUser");
+		model.put("user", UserDto.of(loginUser));
 		return "editprofile";
 
 	}
