@@ -5,9 +5,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import team.ojt7.recruitment.event.UserUpdateEvent;
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
@@ -19,6 +21,9 @@ import team.ojt7.recruitment.util.generator.UserCodeGenerator;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
+	@Autowired
+	private ApplicationEventPublisher eventPublisher;
 
 	@Autowired
 	private UserRepo userRepo;
@@ -67,6 +72,8 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		User savedUser = userRepo.save(user);
+		UserUpdateEvent userUpdateEvent = new UserUpdateEvent(savedUser);
+		eventPublisher.publishEvent(userUpdateEvent);
 		return UserDto.of(savedUser);
 	}
 
