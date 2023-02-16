@@ -92,4 +92,22 @@ public class UserServiceImpl implements UserService {
 		userRepo.updatePasswordById(password, userId);
 	}
 
+	@Override
+	@Transactional
+	public void changePassword(Long userId, String oldPassword, String newPassword) {
+		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
+		
+		User user = userRepo.findByIdAndPasswordAndIsDeleted(userId, oldPassword, false);
+		if (user == null) {
+			invalidFieldsException.addField(new InvalidField("oldPassword", "notFound", "The password is incorrect"));
+		}
+		
+		if (invalidFieldsException.hasFields()) {
+			throw invalidFieldsException;
+		}
+		
+		user.setPassword(newPassword);
+		userRepo.save(user);
+	}
+
 }

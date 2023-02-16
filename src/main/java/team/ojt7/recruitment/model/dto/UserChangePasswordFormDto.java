@@ -7,17 +7,20 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class AdminChangePasswordFormDto {
+public class UserChangePasswordFormDto {
 
 	@NotNull
 	private Long userId;
 	
-	@NotBlank(message="NotBlank.user.password")
+	@NotBlank(message = "{notBlank.user.oldPassword}")
+	private String oldPassword;
+	
+	@NotBlank(message="{notBlank.user.newPassword}")
 	@Size(min = 8, max = 30, message = "{invalidSize.user.password}")
 	@Pattern(regexp="\\S+",message="{invalid.password}")
-	private String password;
+	private String newPassword;
 	
-	@NotBlank(message="NotBlank.user.confirmPassword")
+	@NotBlank(message = "{NotBlank.user.confirmPassword}")
 	private String confirmPassword;
 
 	public Long getUserId() {
@@ -28,12 +31,20 @@ public class AdminChangePasswordFormDto {
 		this.userId = userId;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getOldPassword() {
+		return oldPassword;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 
 	public String getConfirmPassword() {
@@ -46,7 +57,7 @@ public class AdminChangePasswordFormDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(confirmPassword, password, userId);
+		return Objects.hash(confirmPassword, newPassword, oldPassword, userId);
 	}
 
 	@Override
@@ -57,9 +68,9 @@ public class AdminChangePasswordFormDto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AdminChangePasswordFormDto other = (AdminChangePasswordFormDto) obj;
-		return Objects.equals(confirmPassword, other.confirmPassword) && Objects.equals(password, other.password)
-				&& Objects.equals(userId, other.userId);
+		UserChangePasswordFormDto other = (UserChangePasswordFormDto) obj;
+		return Objects.equals(confirmPassword, other.confirmPassword) && Objects.equals(newPassword, other.newPassword)
+				&& Objects.equals(oldPassword, other.oldPassword) && Objects.equals(userId, other.userId);
 	}
 
 }

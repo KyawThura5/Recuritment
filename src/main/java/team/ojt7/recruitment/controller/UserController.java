@@ -3,6 +3,8 @@ package team.ojt7.recruitment.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team.ojt7.recruitment.model.dto.AdminChangePasswordFormDto;
+import team.ojt7.recruitment.model.dto.UserChangePasswordFormDto;
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.service.UserService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 import team.ojt7.recruitment.model.validator.AdminChangePasswordFormValidator;
+import team.ojt7.recruitment.model.validator.UserChangePasswordFormValidator;
 
 @Controller
 public class UserController {
@@ -34,11 +38,21 @@ public class UserController {
 	@Autowired
 	private AdminChangePasswordFormValidator adminChangePasswordFormValidator;
 	
+	@Autowired
+	private UserChangePasswordFormValidator userChangePasswordFormValidator;
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		var target = binder.getTarget();
-		if (target != null && adminChangePasswordFormValidator.supports(target.getClass())) {
-			binder.addValidators(adminChangePasswordFormValidator);
+		if (target != null) {
+			if (adminChangePasswordFormValidator.supports(target.getClass())) {
+				binder.addValidators(adminChangePasswordFormValidator);
+			}
+			
+			if (userChangePasswordFormValidator.supports(target.getClass())) {
+				binder.addValidators(userChangePasswordFormValidator);
+			}
+			
 		}
 	}
 
@@ -84,7 +98,6 @@ public class UserController {
 		
 		return "redirect:/admin/user/search";
 	}
-	
 
 	@RequestMapping(value = "admin/user/detail", method = RequestMethod.GET)
 	public String showUserDetail(@RequestParam("id") Long id,ModelMap model) {
@@ -117,13 +130,22 @@ public class UserController {
 	}
 	
 	@GetMapping("/admin/user/password/change")
-	public String showChangePasswordPage(
+	public String showAdminChangePasswordPage(
 			@RequestParam Long id,
 			ModelMap model) {
 		AdminChangePasswordFormDto form = new AdminChangePasswordFormDto();
 		form.setUserId(id);
 		model.put("passwordForm", form);
 		return "change-user-password";
+	}
+	
+	@GetMapping("/user/password/change")
+	public String showUserChangePasswordPage(ModelMap model, HttpSession session) {
+		User loginUser = (User) session.getAttribute("loginUser");
+		UserChangePasswordFormDto form = new UserChangePasswordFormDto();
+		form.setUserId(loginUser.getId());
+		model.put("passwordForm", form);
+		return "change-password";
 	}
 	
 	@PostMapping("/admin/user/password/save")
@@ -142,8 +164,35 @@ public class UserController {
 		return "redirect:/admin/user/search";
 	}
 	
-	@RequestMapping(value = "/admin/user/profile", method = RequestMethod.GET)
-	public String showUserprofile() {
+	@PostMapping("/user/password/save")
+	public String savePassword(
+			@Validated
+			@ModelAttribute("passwordForm")
+			UserChangePasswordFormDto passwordForm,
+			BindingResult bindingResult
+			) {
+		
+		if (!bindingResult.hasErrors()) {
+			try {
+				userService.changePassword(passwordForm.getUserId(), passwordForm.getOldPassword(), passwordForm.getNewPassword());
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+		}
+		
+		if (bindingResult.hasErrors()) {
+			return "change-password";
+		}
+		
+		return "redirect:/user/profile";
+	}
+	
+	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+	public String showUserprofile(ModelMap model, HttpSession session) {
+		User loginUser = (User) session.getAttribute("loginUser");
+		model.put("user", UserDto.of(loginUser));
 		return "userprofile";
 
 	}
