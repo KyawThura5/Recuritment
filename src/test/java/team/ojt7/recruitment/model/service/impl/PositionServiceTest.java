@@ -1,4 +1,4 @@
-package team.ojt7.recruitment;
+package team.ojt7.recruitment.model.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
