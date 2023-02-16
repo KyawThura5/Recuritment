@@ -10,8 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
@@ -24,12 +22,6 @@ public class DepartmentController {
 
 	@Autowired
 	private DepartmentService departmentService;
-	
-	@RequestMapping(value = "/admin/department/add", method = RequestMethod.GET)
-	public String addNewDepartment(ModelMap model) {
-		model.addAttribute("department",new DepartmentDto());		
-		return "edit-department";
-	}
 
 	@GetMapping("/admin/department/search")
 	public String searchDepartments(@RequestParam(required = false) String keyword, ModelMap model) {
@@ -46,6 +38,8 @@ public class DepartmentController {
 			) {
 		DepartmentDto departmentDto = departmentService.findById(id).orElse(new DepartmentDto());
 		model.put("department", departmentDto);
+		String title = departmentDto.getId() == null ? "Add New Department" : "Edit Department";
+		model.put("title", title);
 		return "edit-department";
 	}
 
@@ -63,6 +57,8 @@ public class DepartmentController {
 		}
 		
 		if(bs.hasErrors()) {
+			String title = dto.getId() == null ? "Add New Department" : "Edit Department";
+			model.put("title", title);
 			return "edit-department";
 		}
 		

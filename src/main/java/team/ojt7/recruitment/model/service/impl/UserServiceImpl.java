@@ -78,12 +78,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto generateNewUser() {
+	public UserDto generateNewWithCode() {
 		Long maxId = userRepo.findMaxId();
 		Long id = maxId == null ? 1 : maxId + 1;
 		UserDto user = new UserDto();
 		user.setCode(userCodeGenerator.generate(id));
 		return user;
+	}
+
+	@Override
+	@Transactional
+	public void changePassword(Long userId, String password) {
+		userRepo.updatePasswordById(password, userId);
 	}
 
 }

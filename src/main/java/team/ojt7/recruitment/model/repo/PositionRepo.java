@@ -9,7 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 import team.ojt7.recruitment.model.entity.Position;
 
-public interface PositionRepo extends JpaRepository<Position,Long>{
+public interface PositionRepo extends JpaRepository<Position,Long> {
+	
+	Position findByNameAndIsDeleted(String keyword, boolean isDeleted);
 
 	@Query("Select p from Position p where(name LIKE :keyword) and (is_deleted = false)")
 	List<Position> search(@Param("keyword") String keyword);

@@ -15,6 +15,9 @@ public interface RecruitmentResourceRepo extends JpaRepository<RecruitmentResour
 
 	RecruitmentResource findByCodeAndIsDeleted(String code, boolean isDeleted);
 	
+	@Query(value = "SELECT MAX(id) FROM recruitment_resource", nativeQuery = true)
+	Long findMaxId();
+	
 	@Query("SELECT r FROM RecruitmentResource r WHERE (code LIKE :keyword OR name LIKE :keyword) AND (is_deleted = false)")
 	List<RecruitmentResource> search(@Param("keyword") String keyword);
 	

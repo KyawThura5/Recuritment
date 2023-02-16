@@ -40,8 +40,10 @@
 				</div>
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
 					<div class="form-group">
-						<label for="" class="form-label">Name</label> <input type="text"
-							class="form-control" th:field="*{name}"> <label
+						<label for="" class="form-label">Name</label>
+						<input type="text"
+							class="form-control" th:field="*{name}">
+						<label
 							th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
 							style="color: red;">Error </label>
 					</div>

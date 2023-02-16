@@ -15,13 +15,21 @@ import team.ojt7.recruitment.model.entity.User.Role;
 public interface UserRepo extends JpaRepository<User, Long> {
     
 	@Query(value = "SELECT MAX(id) FROM user", nativeQuery = true)
-    public Long findMaxId();
+    Long findMaxId();
 	
-	public User findByCodeAndIsDeleted(String code, boolean isDeleted);
+	User findByCodeAndIsDeleted(String code, boolean isDeleted);
 	
-	public User findByEmailAndIsDeleted(String email, boolean isDeleted);
+	User findByEmailAndIsDeleted(String email, boolean isDeleted);
 	
-	public User findByPhoneAndIsDeleted(String phone, boolean isDeleted);
+	User findByPhoneAndIsDeleted(String phone, boolean isDeleted);
+	
+	@Modifying
+	@Query("UPDATE User SET password = :password WHERE id = :id")
+	void updatePasswordById(
+			@Param("password")
+			String password,
+			@Param("id")
+			Long id);
 
     @Query("""
     		SELECT u FROM User u WHERE

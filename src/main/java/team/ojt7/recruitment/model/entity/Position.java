@@ -16,7 +16,7 @@ public class Position implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	@Column(name="is_deleted",nullable=false,columnDefinition="boolean default false")
+	@Column(name="is_deleted", nullable=false, columnDefinition = "boolean default false")
 	private boolean isDeleted;
 	public Long getId() {
 		return id;
