@@ -63,26 +63,38 @@ class PositionControllerTest {
 
 	//@Disabled
 	@Test
-	@WithMockUser(authorities = "ADMIN, GENERAL_MANAGER")
+	@WithMockUser(authorities = "ADMIN")
 	void testEditPosition() throws Exception {
 		
-PositionDto positionDto=new PositionDto();
+		PositionDto positionDto=new PositionDto();
 		
-		positionDto.setId(Long.valueOf(1));
-		positionDto.setName("Software Engineer");
-		positionDto.setDeleted(false);
+		Position position = new Position();
 		
-		//when(positionService.findById(positionDto.getId()).orElse(new PositionDto())).thenReturn(positionDto);
+		position.setId(Long.valueOf(1));
+		position.setName("Software Engineer");
+		position.setDeleted(false);
+		
+		positionDto.setId(position.getId());
+		positionDto.setName(position.getName());
+		positionDto.setDeleted(position.isDeleted());
+		
+		Long id = positionDto.getId();
+		
+		
+		
+		//when(positionService.findById(positionDto.getId())).thenReturn(Optional.of(positionDto));
+		
 		
 		this.mockMvc.perform(get("/admin/position/edit").param("id", "1"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("edit-position"))
 		.andExpect(model().attributeExists("position"));
+		
 	}
 
 	//@Disabled
 	@Test
-	@WithMockUser(authorities  = "ADMIN, GENERAL_MANAGER")
+	@WithMockUser(authorities  = "ADMIN")
 	void testSavePosition() throws Exception {
 		Position position=new Position();
 		
@@ -98,15 +110,15 @@ PositionDto positionDto=new PositionDto();
 		//when(positionService.save(position)).thenReturn(positionDto);
 		
 		this.mockMvc.perform(post("/admin/position/save").flashAttr("position", position))
-		.andExpect(status().isOk())
+		.andExpect(status().is(302))
 		.andExpect(redirectedUrl("/manager/position/search"));
 	}
 
 	//@Disabled
 	@Test
-	@WithMockUser(authorities = "ADMIN, GENERAL_MANAGER")
+	@WithMockUser(authorities = "ADMIN")
 	void testDeletePosition() throws Exception {
-Position position=new Position();
+		Position position=new Position();
 		
 		position.setId(Long.valueOf(1));
 		position.setName("Software Engineer");
@@ -118,10 +130,10 @@ Position position=new Position();
 		positionDto.setDeleted(position.isDeleted());
 		
 		
-		//when(positionService.deleteById(positionDto.getId())).thenReturn(true);
+	//when(positionService.deleteById(positionDto.getId())).thenReturn(true);
 		
 		this.mockMvc.perform(get("/admin/position/delete").param("id", "1"))
-		.andExpect(status().isOk())
+		.andExpect(status().is(302))
 		.andExpect(redirectedUrl("/manager/position/search"));
 	}
 
