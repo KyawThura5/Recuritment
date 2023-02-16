@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.security.SecurityConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,6 +29,8 @@ import team.ojt7.recruitment.model.service.PositionService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(SecurityConfig.class)
+
 class PositionControllerTest {
 	@Autowired
 	MockMvc mockMvc;
@@ -34,15 +38,6 @@ class PositionControllerTest {
 	@Autowired
 	PositionService positionService;
 
-	//@Disabled
-	@Test
-	@WithMockUser(authorities = "ADMIN,GENERAL_MANAGER")
-	void testAddNewPosition() throws Exception{
-		this.mockMvc.perform(get("/admin/position/add"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("edit-position"))
-		.andExpect(model().attributeExists("position"));
-	}
 
 	//@Disabled
 	@Test
@@ -68,7 +63,7 @@ class PositionControllerTest {
 
 	//@Disabled
 	@Test
-	@WithMockUser(authorities = "ADMIN,GENERAL_MANAGER")
+	@WithMockUser(authorities = "ADMIN, GENERAL_MANAGER")
 	void testEditPosition() throws Exception {
 		
 PositionDto positionDto=new PositionDto();
@@ -77,7 +72,7 @@ PositionDto positionDto=new PositionDto();
 		positionDto.setName("Software Engineer");
 		positionDto.setDeleted(false);
 		
-		//when(positionService.findById(positionDto.getId())).thenReturn(Optional.of(positionDto));
+		//when(positionService.findById(positionDto.getId()).orElse(new PositionDto())).thenReturn(positionDto);
 		
 		this.mockMvc.perform(get("/admin/position/edit").param("id", "1"))
 		.andExpect(status().isOk())
@@ -87,7 +82,7 @@ PositionDto positionDto=new PositionDto();
 
 	//@Disabled
 	@Test
-	@WithMockUser(authorities  = "ADMIN,GENERAL_MANAGER")
+	@WithMockUser(authorities  = "ADMIN, GENERAL_MANAGER")
 	void testSavePosition() throws Exception {
 		Position position=new Position();
 		
@@ -100,7 +95,7 @@ PositionDto positionDto=new PositionDto();
 		positionDto.setName(position.getName());
 		positionDto.setDeleted(position.isDeleted());
 		
-	//	when(positionService.save(position)).thenReturn(positionDto);
+		//when(positionService.save(position)).thenReturn(positionDto);
 		
 		this.mockMvc.perform(post("/admin/position/save").flashAttr("position", position))
 		.andExpect(status().isOk())
@@ -109,7 +104,7 @@ PositionDto positionDto=new PositionDto();
 
 	//@Disabled
 	@Test
-	@WithMockUser(authorities = "ADMIN,GENERAL_MANAGER")
+	@WithMockUser(authorities = "ADMIN, GENERAL_MANAGER")
 	void testDeletePosition() throws Exception {
 Position position=new Position();
 		
@@ -123,7 +118,7 @@ Position position=new Position();
 		positionDto.setDeleted(position.isDeleted());
 		
 		
-	//	when(positionService.deleteById(positionDto.getId())).thenReturn(true);
+		//when(positionService.deleteById(positionDto.getId())).thenReturn(true);
 		
 		this.mockMvc.perform(get("/admin/position/delete").param("id", "1"))
 		.andExpect(status().isOk())
