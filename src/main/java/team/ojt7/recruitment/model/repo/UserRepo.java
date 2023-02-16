@@ -24,6 +24,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	
 	User findByPhoneAndIsDeleted(String phone, boolean isDeleted);
 	
+	User findByIdAndPasswordAndIsDeleted(Long id, String password, boolean isDeleted);
+	
 	Optional<User> findOneByCode(String code);
 	
 	@Modifying
