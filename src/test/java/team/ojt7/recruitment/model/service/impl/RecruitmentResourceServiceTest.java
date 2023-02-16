@@ -1,4 +1,4 @@
-package team.ojt7.recruitment;
+package team.ojt7.recruitment.model.service.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -36,7 +37,9 @@ public class RecruitmentResourceServiceTest {
 		
 		
 	}
+	//@Disabled
 	@Test
+	
 	public void testSearch() {
 		List<RecruitmentResource> resultList=new ArrayList<>();
 		RecruitmentResource recruitmentResource1=new RecruitmentResource();

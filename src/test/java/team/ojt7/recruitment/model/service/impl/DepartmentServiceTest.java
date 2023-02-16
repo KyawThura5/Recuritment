@@ -1,4 +1,4 @@
-package team.ojt7.recruitment;
+package team.ojt7.recruitment.model.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
