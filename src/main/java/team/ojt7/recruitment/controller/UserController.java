@@ -117,13 +117,21 @@ public class UserController {
 	}
 	
 	@GetMapping("/admin/user/password/change")
-	public String showChangePasswordPage(
+	public String showAdminChangePasswordPage(
 			@RequestParam Long id,
 			ModelMap model) {
 		AdminChangePasswordFormDto form = new AdminChangePasswordFormDto();
 		form.setUserId(id);
 		model.put("passwordForm", form);
 		return "change-user-password";
+	}
+	
+	@GetMapping("/user/password/change")
+	public String showUserChangePasswordPage(
+			@RequestParam
+			Long id
+			) {
+		return "change-password";
 	}
 	
 	@PostMapping("/admin/user/password/save")

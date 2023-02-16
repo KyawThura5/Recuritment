@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.repo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,6 +23,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	User findByEmailAndIsDeleted(String email, boolean isDeleted);
 	
 	User findByPhoneAndIsDeleted(String phone, boolean isDeleted);
+	
+	Optional<User> findOneByCode(String code);
 	
 	@Modifying
 	@Query("UPDATE User SET password = :password WHERE id = :id")
