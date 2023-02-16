@@ -16,4 +16,5 @@ public interface UserService {
     public UserDto save(User user);
     public boolean deleteById(Long id);
     UserDto generateNewWithCode();
+    void changePassword(Long userId, String passwrod);
 }
