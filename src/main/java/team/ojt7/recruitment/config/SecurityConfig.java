@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.config;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,17 +9,21 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import team.ojt7.recruitment.security.LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 @SuppressWarnings("deprecation")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	@Autowired
-//    private DataSource dataSource;
+	@Autowired
+    private DataSource dataSource;
+	
+	@Autowired
+	private LoginSuccessHandler loginSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -26,22 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.inMemoryAuthentication()
-    		.passwordEncoder(passwordEncoder())
-    		.withUser(
-				User.builder()
-				.username("admin")
-				.password("admin")
-				.roles("ADMIN")
-				.authorities("ADMIN")
-				.build()
-    		);
     	
-//        auth.jdbcAuthentication()
-//            .passwordEncoder(passwordEncoder())
-//            .dataSource(dataSource)
-//            .usersByUsernameQuery("SELECT `email`, `password`, `approved` FROM `user` WHERE `email` = ?")
-//            .authoritiesByUsernameQuery("SELECT `email`, `role` FROM `user` WHERE `email` = ?");
+        auth.jdbcAuthentication()
+            .passwordEncoder(passwordEncoder())
+            .dataSource(dataSource)
+            .usersByUsernameQuery("SELECT `code`, `password`, if(`is_deleted` = 0, true, false) FROM `user` WHERE `code` = ?")
+            .authoritiesByUsernameQuery("SELECT `code`, `role` FROM `user` WHERE `code` = ?");
     }
 
     @Override
@@ -58,9 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .loginProcessingUrl("/login")
             .usernameParameter("employeeCode")
             .passwordParameter("password")
-            .successForwardUrl("/")
-            .defaultSuccessUrl("/", true)
-            .failureUrl("/fail");
+            .successHandler(loginSuccessHandler);
 
         http.logout()
             .logoutUrl("/logout")

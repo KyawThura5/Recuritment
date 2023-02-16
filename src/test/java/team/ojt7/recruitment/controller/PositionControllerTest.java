@@ -34,7 +34,7 @@ class PositionControllerTest {
 	@Autowired
 	PositionService positionService;
 
-	@Disabled
+	//@Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN,GENERAL_MANAGER")
 	void testAddNewPosition() throws Exception{
@@ -44,7 +44,7 @@ class PositionControllerTest {
 		.andExpect(model().attributeExists("position"));
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN,GENERAL_MANAGER")
 	void testSearchPositions() throws Exception {
@@ -58,7 +58,7 @@ class PositionControllerTest {
 		
 		positionDtos.add(positionDto);
 		
-		when(positionService.search("%So%")).thenReturn(positionDtos);
+		//when(positionService.search("%So%")).thenReturn(positionDtos);
 		
 		this.mockMvc.perform(get("/manager/position/search").flashAttr("user", positionDtos))
 		.andExpect(status().isOk())
@@ -66,7 +66,7 @@ class PositionControllerTest {
 		
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN,GENERAL_MANAGER")
 	void testEditPosition() throws Exception {
@@ -77,7 +77,7 @@ PositionDto positionDto=new PositionDto();
 		positionDto.setName("Software Engineer");
 		positionDto.setDeleted(false);
 		
-		when(positionService.findById(positionDto.getId())).thenReturn(Optional.of(positionDto));
+		//when(positionService.findById(positionDto.getId())).thenReturn(Optional.of(positionDto));
 		
 		this.mockMvc.perform(get("/admin/position/edit").param("id", "1"))
 		.andExpect(status().isOk())
@@ -85,7 +85,7 @@ PositionDto positionDto=new PositionDto();
 		.andExpect(model().attributeExists("position"));
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	@WithMockUser(authorities  = "ADMIN,GENERAL_MANAGER")
 	void testSavePosition() throws Exception {
@@ -100,14 +100,14 @@ PositionDto positionDto=new PositionDto();
 		positionDto.setName(position.getName());
 		positionDto.setDeleted(position.isDeleted());
 		
-		when(positionService.save(position)).thenReturn(positionDto);
+	//	when(positionService.save(position)).thenReturn(positionDto);
 		
 		this.mockMvc.perform(post("/admin/position/save").flashAttr("position", position))
 		.andExpect(status().isOk())
 		.andExpect(redirectedUrl("/manager/position/search"));
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN,GENERAL_MANAGER")
 	void testDeletePosition() throws Exception {
@@ -123,7 +123,7 @@ Position position=new Position();
 		positionDto.setDeleted(position.isDeleted());
 		
 		
-		when(positionService.deleteById(positionDto.getId())).thenReturn(true);
+	//	when(positionService.deleteById(positionDto.getId())).thenReturn(true);
 		
 		this.mockMvc.perform(get("/admin/position/delete").param("id", "1"))
 		.andExpect(status().isOk())

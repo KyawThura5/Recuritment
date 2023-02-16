@@ -17,4 +17,5 @@ public interface UserService {
     public boolean deleteById(Long id);
     UserDto generateNewWithCode();
     void changePassword(Long userId, String passwrod);
+    void changePassword(Long userId, String oldPassword, String newPassword);
 }
