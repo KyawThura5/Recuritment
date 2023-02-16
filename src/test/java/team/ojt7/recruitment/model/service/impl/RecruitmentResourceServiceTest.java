@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -36,7 +37,9 @@ public class RecruitmentResourceServiceTest {
 		
 		
 	}
+	//@Disabled
 	@Test
+	
 	public void testSearch() {
 		List<RecruitmentResource> resultList=new ArrayList<>();
 		RecruitmentResource recruitmentResource1=new RecruitmentResource();
