@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -29,7 +29,11 @@ public class RequirePosition implements Serializable {
 	@Column(nullable = false)
 	private int count;
 	
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name = "team_id")
+	private Team team;
+	
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "position_id")
 	private Position position;
 
@@ -57,6 +61,14 @@ public class RequirePosition implements Serializable {
 		this.count = count;
 	}
 
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+
 	public Position getPosition() {
 		return position;
 	}
@@ -67,7 +79,7 @@ public class RequirePosition implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(count, foc, id, position);
+		return Objects.hash(count, foc, id, position, team);
 	}
 
 	@Override
@@ -80,8 +92,9 @@ public class RequirePosition implements Serializable {
 			return false;
 		RequirePosition other = (RequirePosition) obj;
 		return count == other.count && foc == other.foc && Objects.equals(id, other.id)
-				&& Objects.equals(position, other.position);
+				&& Objects.equals(position, other.position) && Objects.equals(team, other.team);
 	}
+
 	
 	
 }

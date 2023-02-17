@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 
@@ -12,7 +11,6 @@ public class VacancyDto {
 
 	private Long id;
 	private String code;
-	private Team team;
 	private LocalDate createdDate;
 	private LocalDate dueDate;
 	private Status status;
@@ -50,14 +48,6 @@ public class VacancyDto {
 
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	public Team getTeam() {
-		return team;
-	}
-
-	public void setTeam(Team team) {
-		this.team = team;
 	}
 
 	public LocalDate getCreatedDate() {
@@ -110,7 +100,7 @@ public class VacancyDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, deleted, dueDate, id, requirePositions, status, team);
+		return Objects.hash(code, comment, createdDate, deleted, dueDate, id, requirePositions, status);
 	}
 
 	@Override
@@ -125,9 +115,7 @@ public class VacancyDto {
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
 				&& Objects.equals(createdDate, other.createdDate) && deleted == other.deleted
 				&& Objects.equals(dueDate, other.dueDate) && Objects.equals(id, other.id)
-				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status
-				&& Objects.equals(team, other.team);
+				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;
 	}
-	
 
 }

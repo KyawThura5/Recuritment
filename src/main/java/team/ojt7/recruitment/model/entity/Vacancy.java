@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,10 +29,6 @@ public class Vacancy implements Serializable {
 
 	@Column(nullable = false)
 	private String code;
-
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "team_id")
-	private Team team;
 	
 	@Column(name = "created_date", nullable = false, columnDefinition = "DATE DEFAULT (CURRENT_DATE)", updatable = false)
 	private LocalDate createdDate;
@@ -82,14 +77,6 @@ public class Vacancy implements Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	public Team getTeam() {
-		return team;
-	}
-
-	public void setTeam(Team team) {
-		this.team = team;
 	}
 
 	public LocalDate getCreatedDate() {
@@ -142,7 +129,7 @@ public class Vacancy implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, deleted, dueDate, id, requirePositions, status, team);
+		return Objects.hash(code, comment, createdDate, deleted, dueDate, id, requirePositions, status);
 	}
 
 	@Override
@@ -157,10 +144,7 @@ public class Vacancy implements Serializable {
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
 				&& Objects.equals(createdDate, other.createdDate) && deleted == other.deleted
 				&& Objects.equals(dueDate, other.dueDate) && Objects.equals(id, other.id)
-				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status
-				&& Objects.equals(team, other.team);
+				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;
 	}
-
-	
 
 }
