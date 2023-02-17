@@ -239,12 +239,29 @@ class UserControllerTest {
 
 	}
 
-	// @Disabled
+	@Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testEditprofile() throws Exception {
-		this.mockMvc.perform(get("/admin/user/editprofile"))
+		UserDto userDto = new UserDto();
+
+		User user = new User();
+		
+		Gender gender = null;
+
+		user.setId(Long.valueOf(1));
+		user.setCode("c1");
+		user.setName("Khin");
+		user.setEmail("khin@gmail.com");
+		user.setGender(gender.FEMALE);
+		user.setPhone("09955049889");
+		user.setRole(userDto.getRole().ADMIN);
+		user.setPassword("12345678");
+		userDto.setConfirmPassword("12345678");
+		
+		this.mockMvc.perform(get("/user/profile/edit"))
 		.andExpect(status().isOk())
+		.andExpect(model().attribute("user",UserDto.of(user)))
 		.andExpect(view().name("editprofile"));
 
 	}
