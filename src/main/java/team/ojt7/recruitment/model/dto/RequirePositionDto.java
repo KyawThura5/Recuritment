@@ -10,20 +10,21 @@ public class RequirePositionDto {
 	private Long id;
 	private boolean foc;
 	private int count;
+	private TeamDto team;
 	private PositionDto position;
-	
+
 	public static RequirePositionDto of(RequirePosition entity) {
 		return null;
 	}
-	
+
 	public static List<RequirePositionDto> ofList(List<RequirePosition> entityList) {
 		return entityList.stream().map(e -> of(e)).toList();
 	}
-	
+
 	public static RequirePosition parse(RequirePositionDto dto) {
 		return null;
 	}
-	
+
 	public static List<RequirePosition> parseList(List<RequirePositionDto> dtoList) {
 		return dtoList.stream().map(d -> parse(d)).toList();
 	}
@@ -52,6 +53,14 @@ public class RequirePositionDto {
 		this.count = count;
 	}
 
+	public TeamDto getTeam() {
+		return team;
+	}
+
+	public void setTeam(TeamDto team) {
+		this.team = team;
+	}
+
 	public PositionDto getPosition() {
 		return position;
 	}
@@ -62,7 +71,7 @@ public class RequirePositionDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(count, foc, id, position);
+		return Objects.hash(count, foc, id, position, team);
 	}
 
 	@Override
@@ -75,7 +84,7 @@ public class RequirePositionDto {
 			return false;
 		RequirePositionDto other = (RequirePositionDto) obj;
 		return count == other.count && foc == other.foc && Objects.equals(id, other.id)
-				&& Objects.equals(position, other.position);
+				&& Objects.equals(position, other.position) && Objects.equals(team, other.team);
 	}
 
 }

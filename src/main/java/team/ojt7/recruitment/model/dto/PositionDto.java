@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
 
@@ -55,4 +56,21 @@ public class PositionDto {
 		
 		return position;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, isDeleted, name);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PositionDto other = (PositionDto) obj;
+		return Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name);
+	}
+	
+	
 }
