@@ -223,12 +223,18 @@ class UserControllerTest {
 
 	}
 
-	// @Disabled
+	@Disabled
 	@Test
-	@WithMockUser(authorities = "ADMIN")
+	//@WithMockUser(authorities = "ADMIN")
 	void testShowUserprofile() throws Exception {
-		this.mockMvc.perform(get("/admin/user/profile"))
+		
+		UserDto userDto=new UserDto();
+		userDto.setName("admin");
+		userDto.setPassword("12345678");
+		
+		this.mockMvc.perform(get("/user/profile"))
 		.andExpect(status().isOk())
+		.andExpect(model().attribute("user",userDto))
 		.andExpect(view().name("userprofile"));
 
 	}
