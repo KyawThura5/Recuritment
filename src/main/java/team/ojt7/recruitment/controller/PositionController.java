@@ -24,11 +24,7 @@ import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 public class PositionController {
 	@Autowired
 	private PositionService positionService;
-//	@RequestMapping(value = "/admin/position/add", method = RequestMethod.GET)
-//	public String addNewPosition(ModelMap model) {
-//		model.addAttribute("position",new PositionDto());		
-//		return "edit-position";
-//	}
+
 
 	@GetMapping("/manager/position/search")
 	public String searchPositions(@RequestParam(required = false) String keyword, ModelMap model) {
@@ -45,7 +41,7 @@ public class PositionController {
 			) {
 		PositionDto positionDto = positionService.findById(id).orElse(new PositionDto());
 		model.put("position", positionDto);
-		String title = positionDto.getId() == null ? "Add New Positin" : "Edit Position";
+		String title = positionDto.getId() == null ? "Add New Position" : "Edit Position";
 		model.put("title", title);
 		return "edit-position";
 	}
