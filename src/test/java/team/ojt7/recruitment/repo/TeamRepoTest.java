@@ -1,5 +1,4 @@
 package team.ojt7.recruitment.repo;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,7 +16,7 @@ import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.repo.TeamRepo;
 
 @SpringBootTest
-public class TeamRepoTest {
+public class TeamRepoTest{
 
 	@Autowired
 	private TeamRepo teamRepo;

@@ -1,4 +1,4 @@
-package team.ojt7.recruitment;
+package team.ojt7.recruitment.model.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.entity.Position;
-import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.repo.PositionRepo;
 import team.ojt7.recruitment.model.service.impl.PositionServiceImpl;
 
