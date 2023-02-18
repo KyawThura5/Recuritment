@@ -15,11 +15,11 @@ import team.ojt7.recruitment.model.entity.Vacancy.Status;
 @Repository
 public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	
-	Long findMaxId();
-	
-	Vacancy findByCodeAndIsDeleted(String code, boolean isDeleted);
-
-	void deleteById(@Param("id") Long id);
-	
-	List<Vacancy> search(String keyword, Team team, Status status, Position position, LocalDate dateFrom, LocalDate dateTo);
+//	Long findMaxId();
+//	
+//	Vacancy findByCodeAndIsDeleted(String code, boolean isDeleted);
+//
+//	void deleteById(@Param("id") Long id);
+//	
+//	List<Vacancy> search(String keyword, Team team, Status status, Position position, LocalDate dateFrom, LocalDate dateTo);
 }

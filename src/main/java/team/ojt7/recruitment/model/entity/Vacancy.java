@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,7 +30,11 @@ public class Vacancy implements Serializable {
 
 	@Column(nullable = false)
 	private String code;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "department_id")
+	private Department department;
+
 	@Column(name = "created_date", nullable = false, columnDefinition = "DATE DEFAULT (CURRENT_DATE)", updatable = false)
 	private LocalDate createdDate;
 
@@ -41,7 +46,7 @@ public class Vacancy implements Serializable {
 	private Status status;
 
 	private String comment;
-	
+
 	@Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
 	private boolean deleted;
 
@@ -77,6 +82,14 @@ public class Vacancy implements Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 
 	public LocalDate getCreatedDate() {
@@ -129,7 +142,7 @@ public class Vacancy implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, deleted, dueDate, id, requirePositions, status);
+		return Objects.hash(code, comment, createdDate, deleted, department, dueDate, id, requirePositions, status);
 	}
 
 	@Override
@@ -143,8 +156,11 @@ public class Vacancy implements Serializable {
 		Vacancy other = (Vacancy) obj;
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
 				&& Objects.equals(createdDate, other.createdDate) && deleted == other.deleted
-				&& Objects.equals(dueDate, other.dueDate) && Objects.equals(id, other.id)
-				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;
+				&& Objects.equals(department, other.department) && Objects.equals(dueDate, other.dueDate)
+				&& Objects.equals(id, other.id) && Objects.equals(requirePositions, other.requirePositions)
+				&& status == other.status;
 	}
+
+	
 
 }

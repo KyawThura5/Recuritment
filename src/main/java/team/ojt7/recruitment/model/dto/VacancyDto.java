@@ -11,6 +11,7 @@ public class VacancyDto {
 
 	private Long id;
 	private String code;
+	private DepartmentDto department;
 	private LocalDate createdDate;
 	private LocalDate dueDate;
 	private Status status;
@@ -48,6 +49,14 @@ public class VacancyDto {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public DepartmentDto getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(DepartmentDto department) {
+		this.department = department;
 	}
 
 	public LocalDate getCreatedDate() {
@@ -100,7 +109,7 @@ public class VacancyDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, deleted, dueDate, id, requirePositions, status);
+		return Objects.hash(code, comment, createdDate, deleted, department, dueDate, id, requirePositions, status);
 	}
 
 	@Override
@@ -114,8 +123,11 @@ public class VacancyDto {
 		VacancyDto other = (VacancyDto) obj;
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
 				&& Objects.equals(createdDate, other.createdDate) && deleted == other.deleted
-				&& Objects.equals(dueDate, other.dueDate) && Objects.equals(id, other.id)
-				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;
+				&& Objects.equals(department, other.department) && Objects.equals(dueDate, other.dueDate)
+				&& Objects.equals(id, other.id) && Objects.equals(requirePositions, other.requirePositions)
+				&& status == other.status;
 	}
+
+	
 
 }

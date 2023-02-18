@@ -19,5 +19,179 @@
 
 	<div th:replace="nav-bar :: navbar('vacancies')"></div>
 
+	<main class="container-fluid mt-2 py-3">
+        <div class="row">
+            <h2 class="col-auto fs-5 fw-bold">Vacancies</h2>
+        </div>
+
+        <form id="searchForm" th:action="@{/manager/vacancy/search}" class="row mt-4">
+			<div class="col-auto">
+				<div class="input-group">
+					<input class="form-control" type="text" name="keyword" th:value="${param.keyword}" placeholder="Search" />
+					<a th:href="@{/manager/vacancy/search}" class="input-group-text">
+						<i class="fa-solid fa-delete-left"></i>
+					</a>
+					<button class="btn btn-primary" type="submit">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</div>
+			</div>
+
+			<div class="col-auto">
+				<select name="status" class="form-select">
+					<option value="1">All</option>
+					<option value="1">Opening</option>
+					<option value="1">Closed</option>
+					<option value="1">Exipred</option>
+				</select>
+			</div>
+			
+			<div class="col-auto">
+				<input type="date" class="form-control">
+			</div>
+			
+			<div class="col-auto">
+				<input type="date" class="form-control">
+			</div>
+			
+			<div class="col-auto">
+				<a th:href="@{/dh/test/vacancy/edit}" class="btn btn-success">
+					<i class="fa-solid fa-plus"></i>
+					Add New
+				</a>
+			</div>
+        </form>
+
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Code</th>
+                    <th>Post Date</th>
+                    <th>Due Date</th>
+					<th>Department</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+					<td rowspan="3" class="align-middle">1</td>
+					<td>DAT_VACANCY_001</td>
+					<td>2023/02/01</td>
+					<td>2023/03/01</td>
+					<td>Department Alpha</td>
+					<td>Opening</td>
+					<td>
+                        <a th:href="@{/}" class="btn btn-success">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/}" class="btn btn-secondary">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>
+                        <form th:action="@{/}" method="post" class="d-inline-block">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </td>
+				</tr>
+				<tr>
+					<td colspan="6">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Position</th>
+									<th>Post</th>
+									<th>Team</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Junior Programmer</td>
+									<td>2</td>
+									<td>Team Alpha</td>
+								</tr>
+								<tr>
+									<td>Senior Programmer (FOC)</td>
+									<td>1</td>
+									<td>Team Beta</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="6">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore repudiandae sequi eos nostrum ipsam laboriosam in asperiores minima est aliquam. Suscipit iure praesentium ratione consectetur deserunt nihil libero animi fuga!
+					</td>
+				</tr>
+
+				<tr><td colspan="7"></td></tr>
+
+				<tr>
+					<td rowspan="3" class="align-middle">2</td>
+					<td>DAT_VACANCY_002</td>
+					<td>2023/02/01</td>
+					<td>2023/03/01</td>
+					<td>Department Alpah</td>
+					<td>Opening</td>
+					<td>
+                        <a th:href="@{/}" class="btn btn-success">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/}" class="btn btn-secondary">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>
+                        <form th:action="@{/}" method="post" class="d-inline-block">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </td>
+				</tr>
+				<tr>
+					<td colspan="6">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Position</th>
+									<th>Post</th>
+									<th>Team</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Junior Programmer</td>
+									<td>2</td>
+									<td>Team Alpha</td>
+								</tr>
+								<tr>
+									<td>Project Manager</td>
+									<td>1</td>
+									<td>Team Beta</td>
+								</tr>
+								<tr>
+									<td>Senior Software Engineer</td>
+									<td>2</td>
+									<td>Team Beta</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="6">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ipsam quas, molestias, eveniet blanditiis deleniti ab culpa incidunt quis qui consequuntur maxime atque delectus? Eum corrupti ipsam quam non aliquam.
+					</td>
+				</tr>
+
+				<tr><td colspan="6"></td></tr>
+				
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>
