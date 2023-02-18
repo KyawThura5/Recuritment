@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
-import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.service.DepartmentService;
 
 @Component
