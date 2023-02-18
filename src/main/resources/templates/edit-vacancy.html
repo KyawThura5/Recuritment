@@ -48,7 +48,7 @@
 				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-3">
 					<div class="form-group">
 						<label for="" class="form-label">Department</label>
-						<select class="form-select" id="department" th:field="*{department.id}">
+						<select class="form-select" id="department" th:field="*{department}">
 							<option th:each="dept: ${departments}" th:text="${dept.name}" th:value="${dept.id}"></option>
 						</select>
 					</div>
@@ -89,7 +89,7 @@
 				<div class="row mt-3" th:each="rPosition, rPositionStat : *{requirePositions}">
 					<input type="hidden" th:field="*{requirePositions[__${rPositionStat.index}__].id}">
 					<div class="offset-sm-1 col-sm-2 offset-md-1 col-md-4">
-						<select class="form-select" th:field="*{requirePositions[__${rPositionStat.index}__].position.id}">
+						<select class="form-select" th:field="*{requirePositions[__${rPositionStat.index}__].position}">
 							<option th:each="position : ${positions}" th:text="${position.name}" th:value="${position.id}"></option>
 						</select>
 					</div>
@@ -103,7 +103,7 @@
 						<input type="text" class="form-control"  th:field="*{requirePositions[__${rPositionStat.index}__].count}">
 					</div>
 					<div class="offset-sm-1 col-sm-3 offset-md-0 col-md-3 team-select-wrapper">
-						<select class="form-select"  th:field="*{requirePositions[__${rPositionStat.index}__].team.id}">
+						<select class="form-select"  th:field="*{requirePositions[__${rPositionStat.index}__].team}">
 							<option th:each="team: *{department.teams}" th:text="${team.name}" th:value="${team.id}"></option>
 						</select>
 					</div>

@@ -21,7 +21,7 @@ const addNewPositionEntry = () => {
         <div class="row mt-3">
             <input type="hidden" id="requirePositions${index}.id" name="requirePositions[${index}].id" value="">
             <div class="offset-sm-1 col-sm-2 offset-md-1 col-md-4">
-                <select class="form-select" id="requirePositions${index}.position.id" name="requirePositions[${index}].position.id">
+                <select class="form-select" id="requirePositions${index}.position" name="requirePositions[${index}].position">
                     ${positionOptions}
                 </select>
             </div>
@@ -36,7 +36,7 @@ const addNewPositionEntry = () => {
                 <input type="text" class="form-control" id="requirePositions${index}.count" name="requirePositions[${index}].count" value="1">
             </div>
             <div class="offset-sm-1 col-sm-3 offset-md-0 col-md-3 team-select-wrapper">
-                <select class="form-select" id="requirePositions${index}.team.id" name="requirePositions[${index}].team.id">
+                <select class="form-select" id="requirePositions${index}.team" name="requirePositions[${index}].team">
                     ${teamOptions}
                 </select>
             </div>
@@ -91,7 +91,7 @@ const ajaxQueryTeamByDepartment = () => {
 			teamSelects.each(function(i, target) {
                 console.log(i);
                 let optionSelect = `
-                    <select class="form-select" id="requirePositions${i}.team.id" name="requirePositions[${i}].team.id">
+                    <select class="form-select" id="requirePositions${i}.team" name="requirePositions[${i}].team">
                         ${options}
                     </select>
                 `;

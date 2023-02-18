@@ -4,9 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.Formatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +41,22 @@ public class VacancyTestController {
 	
 	@Autowired
 	private VacancyRepo vacancyRepo;
+	
+	@Autowired
+	private Formatter<DepartmentDto> departmentDtoFormatter;
+	
+	@Autowired
+	private Formatter<TeamDto> teamDtoFormatter;
+	
+	@Autowired
+	private Formatter<PositionDto> positionDtoFormatter;
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.addCustomFormatter(departmentDtoFormatter);
+		binder.addCustomFormatter(teamDtoFormatter);
+		binder.addCustomFormatter(positionDtoFormatter);
+	}
 
 	@GetMapping("/dh/test/vacancy/edit")
 	public String editVacancy(
