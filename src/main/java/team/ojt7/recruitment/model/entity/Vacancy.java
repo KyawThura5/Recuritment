@@ -48,7 +48,7 @@ public class Vacancy implements Serializable {
 	private String comment;
 
 	@Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-	private boolean deleted;
+	private boolean isDeleted;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vacancy_id")
@@ -101,11 +101,11 @@ public class Vacancy implements Serializable {
 	}
 
 	public boolean isDeleted() {
-		return deleted;
+		return isDeleted;
 	}
 
 	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+		this.isDeleted = deleted;
 	}
 
 	public LocalDate getDueDate() {
@@ -142,7 +142,7 @@ public class Vacancy implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, deleted, department, dueDate, id, requirePositions, status);
+		return Objects.hash(code, comment, createdDate, isDeleted, department, dueDate, id, requirePositions, status);
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class Vacancy implements Serializable {
 			return false;
 		Vacancy other = (Vacancy) obj;
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
-				&& Objects.equals(createdDate, other.createdDate) && deleted == other.deleted
+				&& Objects.equals(createdDate, other.createdDate) && isDeleted == other.isDeleted
 				&& Objects.equals(department, other.department) && Objects.equals(dueDate, other.dueDate)
 				&& Objects.equals(id, other.id) && Objects.equals(requirePositions, other.requirePositions)
 				&& status == other.status;

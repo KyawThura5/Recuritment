@@ -25,9 +25,9 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	Vacancy findByStatusAndIsDeleted(Status status,boolean isDeleted);
 
     @Modifying
-    @Query(value = "UPDATE vacancy SET is_deleted = true WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE Vacancy SET is_deleted = true WHERE id = :id", nativeQuery = true)
 	void deleteById(@Param("id") Long id);
 	
-    @Query("SELECT v FROM vacancy v WHERE (code LIKE :keyword or created_date like :dateFrom or due_date like :dateTo or v.status like :status) AND (is_deleted = false)")
+    @Query("SELECT v FROM Vacancy v WHERE (code LIKE :keyword or created_date like :dateFrom or due_date like :dateTo or v.status like :status) AND (is_deleted = false)")
 	List<Vacancy> search(String keyword, Status status, LocalDate dateFrom, LocalDate dateTo);
 }
