@@ -46,7 +46,7 @@ public class VacancyServiceImpl implements VacancyService {
 	}
 
 	@Override
-	public List<VacancyDto> search(String keyword, Team team, Status status, Position position, LocalDate dateFrom, LocalDate dateTo) {
+	public List<VacancyDto> search(String keyword, Status status, LocalDate dateFrom, LocalDate dateTo) {
 		return null;
 	}
 
