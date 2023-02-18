@@ -6,7 +6,7 @@ $(document).ready(function () {
     });
 
 
-	// ajaxQueryTeamByDepartment();
+	initTeamSelector();
 
     $("#btnAddNewPosition").click(addNewPositionEntry);
     listenRemovePositionEntry();
@@ -97,6 +97,39 @@ const ajaxQueryTeamByDepartment = () => {
                 `;
 				$(this).html(optionSelect);
 			});
+            
+        },
+        error: function (e) {
+
+            console.log('error');
+        }
+    });
+};
+
+const initTeamSelector = () => {
+    let departmentId = $('#department').find(":selected").val();
+
+    let data = {};
+    data['departmentId'] = departmentId;
+    
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/api/teamByDepartmentId/search",
+        data: JSON.stringify(data),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+
+			let options = "";
+			for (let i = 0; i < data.length; i++) {
+				let team = data[i];
+				options += `<option value=${team.id}>${team.name}</option>`;
+			}
+
+			let teamSelectWrapper = $("#teamSelectorWrapper");
+			teamSelectWrapper.html(`<select class='form-select'>${options}</select>`)
             
         },
         error: function (e) {

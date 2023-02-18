@@ -29,11 +29,11 @@ public class RequirePosition implements Serializable {
 	@Column(nullable = false)
 	private int count;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne
 	@JoinColumn(name = "team_id")
 	private Team team;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne
 	@JoinColumn(name = "position_id")
 	private Position position;
 

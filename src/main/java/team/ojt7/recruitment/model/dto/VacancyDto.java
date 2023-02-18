@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 
@@ -12,7 +14,11 @@ public class VacancyDto {
 	private Long id;
 	private String code;
 	private DepartmentDto department;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate createdDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dueDate;
 	private Status status;
 	private String comment;
