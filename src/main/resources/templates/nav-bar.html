@@ -73,7 +73,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			</li>
 
 			<li class="nav-item" th:classappend="${menu == 'vacancies' ? 'active' : ''}">
-				<a th:href="@{/manager/vacancy/search}" class="nav-link">
+				<a th:href="@{/manager/test/vacancy/search}" class="nav-link">
 					<i class="fa-solid fa-image-portrait me-2"></i>
 					Vacancies
 				</a>
@@ -97,6 +97,15 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					Reports
 				</a>
 			</li>
+
+			<li class="nav-item" th:classappend="${menu == 'ajax' ? 'active' : ''}">
+				<a th:href="@{/ajax}" class="nav-link">
+					<i class="fa-solid fa-chart-simple me-2"></i>
+					Ajax
+				</a>
+			</li>
+			
+
 			<li class="nav-item"  th:classappend="${menu == 'profile' ? 'active' : ''}">
 
 				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

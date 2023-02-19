@@ -20,5 +20,5 @@ public interface VacancyService {
 	
 	VacancyDto generateNewWithCode();
 	
-	List<VacancyDto> search(String keyword, Team team, Status status, Position position, LocalDate dateFrom, LocalDate dateTo);
+	List<VacancyDto> search(String keyword, Status status, LocalDate dateFrom, LocalDate dateTo);
 }

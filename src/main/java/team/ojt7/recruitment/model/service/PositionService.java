@@ -11,4 +11,5 @@ List<PositionDto> search(String keyword);
 Optional<PositionDto>findById(Long id);
 PositionDto save(Position position);
 boolean deleteById(Long id);
+List<PositionDto> findAll();
 }

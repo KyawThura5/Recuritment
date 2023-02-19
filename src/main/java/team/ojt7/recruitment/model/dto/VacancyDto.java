@@ -4,22 +4,61 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 
 public class VacancyDto {
 
 	private Long id;
+
+	@NotBlank(message = "{notBlank.vacancy.code}")
 	private String code;
+
+	@NotNull(message = "{notNull.vacancy.department}")
+	private DepartmentDto department;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate createdDate;
+
+	@NotNull(message = "{notNull.vacancy.dueDate}")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dueDate;
+
+	@NotNull(message = "{notNull.vacancy.status}")
 	private Status status;
 	private String comment;
 	private boolean deleted;
+
+	private UserDto createdUser;
+
+	@Valid
+	@NotEmpty(message = "{notEmpty.vacancy.requirePositions}")
 	private List<RequirePositionDto> requirePositions;
 
-	public static VacancyDto of(Vacancy vacancy) {
-		return null;
+	public static VacancyDto of(Vacancy entity) {
+		if (entity == null) {
+			return null;
+		}
+
+		VacancyDto dto = new VacancyDto();
+		dto.setId(entity.getId());
+		dto.setCode(entity.getCode());
+		dto.setDueDate(entity.getDueDate());
+		dto.setCreatedDate(entity.getCreatedDate());
+		dto.setDepartment(DepartmentDto.of(entity.getDepartment()));
+		dto.setStatus(entity.getStatus());
+		dto.setComment(entity.getComment());
+		dto.setDeleted(entity.isDeleted());
+		dto.setCreatedUser(UserDto.of(entity.getCreatedUser()));
+		dto.setRequirePositions(RequirePositionDto.ofList(entity.getRequirePositions()));
+		return dto;
 	}
 
 	public static List<VacancyDto> ofList(List<Vacancy> list) {
@@ -27,7 +66,22 @@ public class VacancyDto {
 	}
 
 	public static Vacancy parse(VacancyDto dto) {
-		return null;
+		if (dto == null) {
+			return null;
+		}
+
+		Vacancy entity = new Vacancy();
+		entity.setId(dto.getId());
+		entity.setCode(dto.getCode());
+		entity.setDueDate(dto.getDueDate());
+		entity.setCreatedDate(dto.getCreatedDate());
+		entity.setDepartment(DepartmentDto.parse(dto.getDepartment()));
+		entity.setStatus(dto.getStatus());
+		entity.setComment(dto.getComment());
+		entity.setDeleted(dto.isDeleted());
+		entity.setCreatedUser(UserDto.parse(dto.getCreatedUser()));
+		entity.setRequirePositions(RequirePositionDto.parseList(dto.getRequirePositions()));
+		return entity;
 	}
 
 	public static List<Vacancy> parseList(List<VacancyDto> dtoList) {
@@ -48,6 +102,14 @@ public class VacancyDto {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public DepartmentDto getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(DepartmentDto department) {
+		this.department = department;
 	}
 
 	public LocalDate getCreatedDate() {
@@ -90,6 +152,14 @@ public class VacancyDto {
 		this.deleted = deleted;
 	}
 
+	public UserDto getCreatedUser() {
+		return createdUser;
+	}
+
+	public void setCreatedUser(UserDto createdUser) {
+		this.createdUser = createdUser;
+	}
+
 	public List<RequirePositionDto> getRequirePositions() {
 		return requirePositions;
 	}
@@ -100,7 +170,8 @@ public class VacancyDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, deleted, dueDate, id, requirePositions, status);
+		return Objects.hash(code, comment, createdDate, createdUser, deleted, department, dueDate, id, requirePositions,
+				status);
 	}
 
 	@Override
@@ -113,7 +184,8 @@ public class VacancyDto {
 			return false;
 		VacancyDto other = (VacancyDto) obj;
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
-				&& Objects.equals(createdDate, other.createdDate) && deleted == other.deleted
+				&& Objects.equals(createdDate, other.createdDate) && Objects.equals(createdUser, other.createdUser)
+				&& deleted == other.deleted && Objects.equals(department, other.department)
 				&& Objects.equals(dueDate, other.dueDate) && Objects.equals(id, other.id)
 				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;
 	}
