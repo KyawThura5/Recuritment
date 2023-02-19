@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,8 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -31,14 +32,14 @@ public class Vacancy implements Serializable {
 	@Column(nullable = false)
 	private String code;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "team_id")
-	private Team team;
-	
-	@Column(name = "created_date", nullable = false, columnDefinition = "DATE DEFAULT (CURRENT_DATE)", updatable = false)
+	@ManyToOne
+	@JoinColumn(name = "department_id")
+	private Department department;
+
+	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDate createdDate;
 
-	@Column(name = "due_date", nullable = false)
+	@Column(name = "due_date", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDate dueDate;
 
 	@Enumerated(EnumType.STRING)
@@ -46,13 +47,17 @@ public class Vacancy implements Serializable {
 	private Status status;
 
 	private String comment;
-	
+
 	@Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-	private boolean deleted;
+	private boolean isDeleted;
+
+	@ManyToOne
+	@JoinColumn(name = "created_user_id")
+	private User createdUser;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vacancy_id")
-	private List<RequirePosition> requirePositions;
+	private List<RequirePosition> requirePositions = new ArrayList<>();
 
 	public enum Status {
 		OPENING("Opening"), CLOSED("Closed");
@@ -84,12 +89,12 @@ public class Vacancy implements Serializable {
 		this.code = code;
 	}
 
-	public Team getTeam() {
-		return team;
+	public Department getDepartment() {
+		return department;
 	}
 
-	public void setTeam(Team team) {
-		this.team = team;
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 
 	public LocalDate getCreatedDate() {
@@ -101,11 +106,11 @@ public class Vacancy implements Serializable {
 	}
 
 	public boolean isDeleted() {
-		return deleted;
+		return isDeleted;
 	}
 
 	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+		this.isDeleted = deleted;
 	}
 
 	public LocalDate getDueDate() {
@@ -132,6 +137,14 @@ public class Vacancy implements Serializable {
 		this.comment = comment;
 	}
 
+	public User getCreatedUser() {
+		return createdUser;
+	}
+
+	public void setCreatedUser(User createdUser) {
+		this.createdUser = createdUser;
+	}
+
 	public List<RequirePosition> getRequirePositions() {
 		return requirePositions;
 	}
@@ -142,7 +155,8 @@ public class Vacancy implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, deleted, dueDate, id, requirePositions, status, team);
+		return Objects.hash(code, comment, createdDate, createdUser, department, dueDate, id, isDeleted,
+				requirePositions, status);
 	}
 
 	@Override
@@ -155,10 +169,10 @@ public class Vacancy implements Serializable {
 			return false;
 		Vacancy other = (Vacancy) obj;
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
-				&& Objects.equals(createdDate, other.createdDate) && deleted == other.deleted
-				&& Objects.equals(dueDate, other.dueDate) && Objects.equals(id, other.id)
-				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status
-				&& Objects.equals(team, other.team);
+				&& Objects.equals(createdDate, other.createdDate) && Objects.equals(createdUser, other.createdUser)
+				&& Objects.equals(department, other.department) && Objects.equals(dueDate, other.dueDate)
+				&& Objects.equals(id, other.id) && isDeleted == other.isDeleted
+				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;
 	}
 
 	

@@ -61,5 +61,11 @@ public boolean deleteById(Long id) {
 	return true;
 }
 
+@Override
+public List<PositionDto> findAll() {
+	List<Position> positions = repo.findAll();
+	return PositionDto.ofList(positions);
+}
+
 
 }

@@ -73,7 +73,7 @@ public class DepartmentDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, isDeleted, name, teams);
+		return Objects.hash(id, isDeleted, name);
 	}
 
 	@Override
@@ -85,8 +85,9 @@ public class DepartmentDto {
 		if (getClass() != obj.getClass())
 			return false;
 		DepartmentDto other = (DepartmentDto) obj;
-		return Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name)
-				&& Objects.equals(teams, other.teams);
+		return Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name);
 	}
+
+	
 	
 }
