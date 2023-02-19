@@ -66,6 +66,7 @@
                     <th>Due Date</th>
 					<th>Department</th>
                     <th>Status</th>
+					<th>Post By</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -77,6 +78,7 @@
 					<td th:text="${vacancy.dueDate}"></td>
 					<td th:text="${vacancy.department.name}"></td>
 					<td th:text="${vacancy.status.displayName}"></td>
+					<td th:text="${vacancy.createdUser.name}"></td>
 					<td>
                         <a th:href="@{/dh/test/vacancy/edit(id=${vacancy.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -92,7 +94,7 @@
                     </td>
 				</tr>
 				<tr>
-					<td colspan="6">
+					<td colspan="7">
 						<table class="table">
 							<thead>
 								<tr>
@@ -113,7 +115,7 @@
 				</tr>
 
 				<tr>
-					<td colspan="6" th:text="${vacancy.comment}"></td>
+					<td colspan="7" th:text="${vacancy.comment}"></td>
 				</tr>
 				
             </tbody>

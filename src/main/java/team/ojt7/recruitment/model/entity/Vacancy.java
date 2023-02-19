@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,7 +36,7 @@ public class Vacancy implements Serializable {
 	@JoinColumn(name = "department_id")
 	private Department department;
 
-	@Column(name = "created_date", nullable = false, columnDefinition = "DATE DEFAULT (CURRENT_DATE)", updatable = false)
+	@Column(name = "created_date", columnDefinition = "DATE DEFAULT (CURRENT_DATE)")
 	private LocalDate createdDate;
 
 	@Column(name = "due_date", nullable = false)
@@ -50,9 +51,13 @@ public class Vacancy implements Serializable {
 	@Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
 	private boolean isDeleted;
 
+	@ManyToOne
+	@JoinColumn(name = "created_user_id")
+	private User createdUser;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vacancy_id")
-	private List<RequirePosition> requirePositions;
+	private List<RequirePosition> requirePositions = new ArrayList<>();
 
 	public enum Status {
 		OPENING("Opening"), CLOSED("Closed");
@@ -132,6 +137,14 @@ public class Vacancy implements Serializable {
 		this.comment = comment;
 	}
 
+	public User getCreatedUser() {
+		return createdUser;
+	}
+
+	public void setCreatedUser(User createdUser) {
+		this.createdUser = createdUser;
+	}
+
 	public List<RequirePosition> getRequirePositions() {
 		return requirePositions;
 	}
@@ -142,7 +155,8 @@ public class Vacancy implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, isDeleted, department, dueDate, id, requirePositions, status);
+		return Objects.hash(code, comment, createdDate, createdUser, department, dueDate, id, isDeleted,
+				requirePositions, status);
 	}
 
 	@Override
@@ -155,10 +169,10 @@ public class Vacancy implements Serializable {
 			return false;
 		Vacancy other = (Vacancy) obj;
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
-				&& Objects.equals(createdDate, other.createdDate) && isDeleted == other.isDeleted
+				&& Objects.equals(createdDate, other.createdDate) && Objects.equals(createdUser, other.createdUser)
 				&& Objects.equals(department, other.department) && Objects.equals(dueDate, other.dueDate)
-				&& Objects.equals(id, other.id) && Objects.equals(requirePositions, other.requirePositions)
-				&& status == other.status;
+				&& Objects.equals(id, other.id) && isDeleted == other.isDeleted
+				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;
 	}
 
 	

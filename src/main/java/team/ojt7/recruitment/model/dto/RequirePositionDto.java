@@ -24,7 +24,17 @@ public class RequirePositionDto {
 	private PositionDto position;
 
 	public static RequirePositionDto of(RequirePosition entity) {
-		return null;
+		if (entity == null) {
+			return null;
+		}
+		
+		RequirePositionDto dto = new RequirePositionDto();
+		dto.setId(entity.getId());
+		dto.setCount(entity.getCount());
+		dto.setFoc(entity.isFoc());
+		dto.setPosition(PositionDto.of(entity.getPosition()));
+		dto.setTeam(TeamDto.of(entity.getTeam()));
+		return dto;
 	}
 
 	public static List<RequirePositionDto> ofList(List<RequirePosition> entityList) {
@@ -32,7 +42,17 @@ public class RequirePositionDto {
 	}
 
 	public static RequirePosition parse(RequirePositionDto dto) {
-		return null;
+		if (dto == null) {
+			return null;
+		}
+		
+		RequirePosition entity = new RequirePosition();
+		entity.setId(dto.getId());
+		entity.setCount(dto.getCount());
+		entity.setFoc(dto.isFoc());
+		entity.setPosition(PositionDto.parse(dto.getPosition()));
+		entity.setTeam(TeamDto.parse(dto.getTeam()));
+		return entity;
 	}
 
 	public static List<RequirePosition> parseList(List<RequirePositionDto> dtoList) {

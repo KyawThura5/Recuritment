@@ -81,6 +81,9 @@ public class UserDto {
 	}
 	
 	public static User parse(UserDto dto) {
+		if (dto == null) {
+			return null;
+		}
 		User user = new User();
 		user.setId(dto.getId());
 		user.setCode(dto.getCode());
