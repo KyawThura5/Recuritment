@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a th:fragment="vacancy(pageNum, label, tooltip)" class="page-link"
+        th:href="@{'/manager/test/vacancy/search?' + ${vacancySearch.keyword!=null && vacancySearch.keyword!=''? 'keyword=' + vacancySearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}"
+        th:title="${tooltip}" rel="tooltip">
+        [[${label}]]
+    </a>
+
+
+</body>
+</html>

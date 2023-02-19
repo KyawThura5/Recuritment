@@ -5,6 +5,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vacancies</title>
+<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
@@ -19,11 +20,12 @@
             <h2 class="col-auto fs-5 fw-bold">Vacancies</h2>
         </div>
 
-        <form id="searchForm" th:action="@{/manager/vacancy/search}" class="row mt-4">
+        <form id="searchForm" th:action="@{/manager/test/vacancy/search}" th:object="${vacancySearch}" class="row mt-4">
 			<div class="col-auto">
+				<input id="pageParamInput" type="hidden" th:field="*{page}"/>
 				<div class="input-group">
-					<input class="form-control" type="text" name="keyword" th:value="${param.keyword}" placeholder="Search" />
-					<a th:href="@{/manager/vacancy/search}" class="input-group-text">
+					<input class="form-control" type="text" th:field="*{keyword}" onchange="changePageSize()" placeholder="Search" />
+					<a th:href="@{'/manager/test/vacancy/search?page=' + ${currentPage} + '&size=' +${pageSize}}" class="input-group-text">
 						<i class="fa-solid fa-delete-left"></i>
 					</a>
 					<button class="btn btn-primary" type="submit">
@@ -33,20 +35,20 @@
 			</div>
 
 			<div class="col-auto">
-				<select name="status" class="form-select">
-					<option value="1">All</option>
-					<option value="1">Opening</option>
-					<option value="1">Closed</option>
-					<option value="1">Exipred</option>
+				<select th:field="*{status}" onchange="changePageSize()" class="form-select">
+					<option value="">All</option>
+					<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING}"></option>
+					<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED}"></option>
+					<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).EXPIRED.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).EXPIRED}"></option>
 				</select>
 			</div>
 			
 			<div class="col-auto">
-				<input type="date" class="form-control">
+				<input type="date" th:field="*{dateFrom}" onchange="changePageSize()" class="form-control">
 			</div>
 			
 			<div class="col-auto">
-				<input type="date" class="form-control">
+				<input type="date" th:field="*{dateTo}" onchange="changePageSize()" class="form-control">
 			</div>
 			
 			<div class="col-auto">
@@ -56,6 +58,21 @@
 				</a>
 			</div>
         </form>
+
+		<div class="row mt-3">
+			<div class="form-group-col col-auto">
+				<label for="" class="col-form-label">Showing</label>
+			</div>
+			<div class="col-auto">
+				<select form="searchForm" name="size" th:value="${pageSize}" onchange="changePageSize()" class="form-select">
+					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == pageSize}"></option>
+				</select>
+			</div>
+			<div class="col-auto">
+				<p class="col-form-label">items per page</p>
+			</div>
+			
+		</div>
 
         <table class="table mt-3" th:each="vacancy : ${vacancies}">
             <thead>
@@ -72,7 +89,7 @@
             </thead>
             <tbody>
                 <tr>
-					<td rowspan="3" class="align-middle" th:text="${vacancyStat.index + 1}"></td>
+					<td rowspan="3" class="align-middle" th:text="${((currentPage - 1) * pageSize) + vacancyStat.index + 1}"></td>
 					<td th:text="${vacancy.code}"></td>
 					<td th:text="${vacancy.createdDate}"></td>
 					<td th:text="${vacancy.dueDate}"></td>
@@ -117,6 +134,39 @@
 				
             </tbody>
         </table>
+		<nav aria-label="Pagination" th:if="${totalPages > 0}" class="mt-3">
+			<ul class="pagination justify-content-center bg-white">
+			  <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+				<a th:replace="page-nav :: vacancy(1, '<<', 'First Page')"></a>
+			  </li>
+			  <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+				<a th:replace="page-nav :: vacancy(${currentPage - 1}, 'Prev', 'Previous Page')"></a>
+			  </li>
+			  <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
+				<a class="page-link" href="#">...</a>
+			  </li>
+			  <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+				th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+				<a th:replace="page-nav :: vacancy(${page}, ${page}, 'Page ' + ${page})"></a>
+			  </li>
+			  <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
+				<a class="page-link" href="#">...</a>
+			  </li>
+			  <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+				<a th:replace="page-nav :: vacancy(${currentPage + 1},'Next', 'Next Page')"></a>
+			  </li>
+			  <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+				<a th:replace="page-nav :: vacancy(${totalPages}, '>>', 'Last Page')"></a>
+			  </li>
+			</ul>
+		  </nav>
     </main>
+	<script type="text/javascript">
+	  
+		function changePageSize() {
+			$("#pageParamInput").val("1");
+		  	$("#searchForm").submit();
+		}
+	  </script>
 </body>
 </html>
