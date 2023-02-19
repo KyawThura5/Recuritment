@@ -29,6 +29,7 @@
 
 			<div id="positionSelectorWrapper" class="d-none">
 				<select class="form-select">
+					<option value="">-- select a position --</option>
 					<option th:each="position : ${positions}" th:text="${position.name}" th:value="${position.id}"></option>
 				</select>
 			</div>
@@ -43,29 +44,35 @@
 					<div class="form-group">
 						<label for="" class="form-label">Code</label>
 						<input type="text" class="form-control" th:field="*{code}">
+						<label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" th:errorclass="text-danger"></label>
 					</div>
 				</div>
 				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-3">
 					<div class="form-group">
 						<label for="" class="form-label">Department</label>
 						<select class="form-select" id="department" th:field="*{department}">
+							<option value="">-- select a department --</option>
 							<option th:each="dept: ${departments}" th:text="${dept.name}" th:value="${dept.id}"></option>
 						</select>
+						<label th:if="${#fields.hasErrors('department')}" th:errors="*{department}" th:errorclass="text-danger"></label>
 					</div>
 				</div>
 				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-2">
 					<div class="form-group">
 						<label for="" class="form-label">Due Date</label>
 						<input type="date" class="form-control" th:field="*{dueDate}">
+						<label th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" th:errorclass="text-danger"></label>
 					</div>
 				</div>
 				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-2">
 					<div class="form-group">
 						<label for="" class="form-label">Status</label>
 						<select class="form-select" th:field="*{status}">
+							<option value="">-- select a status --</option>
 							<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING}"></option>
 							<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED}"></option>
 						</select>
+						<label th:if="${#fields.hasErrors('status')}" th:errors="*{status}" th:errorclass="text-danger"></label>
 					</div>
 				</div>
 			</div>
@@ -75,6 +82,7 @@
 					<div class="form-group">
 						<label for="" class="form-label">Comment</label>
 						<textarea class="form-control" th:field="*{comment}"></textarea>
+						<label th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" th:errorclass="text-danger"></label>
 					</div>
 				</div>
 			</div>
@@ -90,8 +98,10 @@
 					<input type="hidden" th:field="*{requirePositions[__${rPositionStat.index}__].id}">
 					<div class="offset-sm-1 col-sm-2 offset-md-1 col-md-4">
 						<select class="form-select" th:field="*{requirePositions[__${rPositionStat.index}__].position}">
+							<option value="">-- select a position --</option>
 							<option th:each="position : ${positions}" th:text="${position.name}" th:value="${position.id}"></option>
 						</select>
+						<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].position')}" th:errors="*{requirePositions[__${rPositionStat.index}__].position}" th:errorclass="text-danger"></label>
 					</div>
 					<div class="offset-sm-1 col-sm-1 offset-md-0 col-md-1">
 						<div class="form-check form-switch">
@@ -101,15 +111,26 @@
 					</div>
 					<div class="offset-sm-1 col-sm-1 offset-md-0 col-md-1">
 						<input type="text" class="form-control"  th:field="*{requirePositions[__${rPositionStat.index}__].count}">
+						<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].count')}" th:errors="*{requirePositions[__${rPositionStat.index}__].count}" th:errorclass="text-danger"></label>
 					</div>
+					
 					<div class="offset-sm-1 col-sm-3 offset-md-0 col-md-3 team-select-wrapper">
 						<select class="form-select"  th:field="*{requirePositions[__${rPositionStat.index}__].team}">
-							<option th:each="team: *{department.teams}" th:text="${team.name}" th:value="${team.id}"></option>
+							<option value="">-- select a team --</option>
+							<th:block th:if="${vacancy.department != null}">
+								<option th:each="team: *{department.teams}" th:text="${team.name}" th:value="${team.id}"></option>
+							</th:block>
 						</select>
+						<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].team')}" th:errors="*{requirePositions[__${rPositionStat.index}__].team}" th:errorclass="text-danger"></label>
 					</div>
 					<div class="offset-sm-1 col-sm-3 offset-md-0 col-md-2">
 						<span class="btn btn-danger btnPositionRemove">Remove</span>
 					</div>
+				</div>
+			</div>
+			<div id="requirePositionsErrorMessage" class="row mt-1">
+				<div  class="offset-sm-1 col-sm-10 offset-md-1 col-md-10">
+					<label th:if="${#fields.hasErrors('requirePositions')}" th:errors="*{requirePositions}" th:errorclass="text-danger"></label>
 				</div>
 			</div>
 

@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import team.ojt7.recruitment.model.entity.Vacancy;
@@ -12,17 +17,27 @@ import team.ojt7.recruitment.model.entity.Vacancy.Status;
 public class VacancyDto {
 
 	private Long id;
+	
+	@NotBlank(message = "{notBlank.vacancy.code}")
 	private String code;
+	
+	@NotNull(message = "{notNull.vacancy.department}")
 	private DepartmentDto department;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate createdDate;
 	
+	@NotNull(message = "{notNull.vacancy.dueDate}")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dueDate;
+	
+	@NotNull(message = "{notNull.vacancy.status}")
 	private Status status;
 	private String comment;
 	private boolean deleted;
+	
+	@Valid
+	@NotEmpty(message = "{notEmpty.vacancy.requirePositions}")
 	private List<RequirePositionDto> requirePositions;
 
 	public static VacancyDto of(Vacancy vacancy) {

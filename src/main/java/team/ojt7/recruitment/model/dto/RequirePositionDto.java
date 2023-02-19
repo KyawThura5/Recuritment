@@ -3,14 +3,24 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import team.ojt7.recruitment.model.entity.RequirePosition;
 
 public class RequirePositionDto {
 
 	private Long id;
 	private boolean foc;
-	private int count;
-	private TeamDto team;
+
+	@NotNull(message = "{notNull.requirePosition.count}")
+	@Min(value = 1, message = "{min.requirePosition.count}")
+	Integer count;
+
+	@NotNull(message = "{notNull.requirePosition.team}")
+	TeamDto team;
+	
+	@NotNull(message = "{notNull.requirePosition.position}")
 	private PositionDto position;
 
 	public static RequirePositionDto of(RequirePosition entity) {
@@ -45,11 +55,11 @@ public class RequirePositionDto {
 		this.foc = foc;
 	}
 
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 

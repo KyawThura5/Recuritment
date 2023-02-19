@@ -13,6 +13,8 @@ $(document).ready(function () {
 });
 
 const addNewPositionEntry = () => {
+    let requirePositionsErrorMessage = $("#requirePositionsErrorMessage");
+    requirePositionsErrorMessage.remove();
     let positionWrapper = $("#positionWrapper");
     let index = positionWrapper.children().length;
     let positionOptions = $("#positionSelectorWrapper select").html();
@@ -85,13 +87,17 @@ const ajaxQueryTeamByDepartment = () => {
 			}
 
 			let teamSelectWrapper = $("#teamSelectorWrapper");
-			teamSelectWrapper.html(`<select class='form-select'>${options}</select>`)
+			teamSelectWrapper.html(`<select class='form-select'>
+                <option value=''>-- select a team --</option>
+                ${options}
+                </select>`);
 
             let teamSelects = $('#positionWrapper .team-select-wrapper');
 			teamSelects.each(function(i, target) {
                 console.log(i);
                 let optionSelect = `
                     <select class="form-select" id="requirePositions${i}.team" name="requirePositions[${i}].team">
+                        <option value=''>-- select a team --</option>
                         ${options}
                     </select>
                 `;
@@ -129,7 +135,9 @@ const initTeamSelector = () => {
 			}
 
 			let teamSelectWrapper = $("#teamSelectorWrapper");
-			teamSelectWrapper.html(`<select class='form-select'>${options}</select>`)
+			teamSelectWrapper.html(`<select class='form-select'>
+                <option value=''>-- select a team --</option>
+                ${options}</select>`);
             
         },
         error: function (e) {
