@@ -36,7 +36,7 @@ public class Vacancy implements Serializable {
 	@JoinColumn(name = "department_id")
 	private Department department;
 
-	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "created_date", nullable = false, updatable = false, insertable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDate createdDate;
 
 	@Column(name = "due_date", nullable = false, columnDefinition = "TIMESTAMP")
