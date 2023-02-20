@@ -98,14 +98,6 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				</a>
 			</li>
 
-			<li class="nav-item" th:classappend="${menu == 'ajax' ? 'active' : ''}">
-				<a th:href="@{/ajax}" class="nav-link">
-					<i class="fa-solid fa-chart-simple me-2"></i>
-					Ajax
-				</a>
-			</li>
-			
-
 			<li class="nav-item"  th:classappend="${menu == 'profile' ? 'active' : ''}">
 
 				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

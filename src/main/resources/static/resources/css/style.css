@@ -26,6 +26,8 @@ nav .logo {
 	display: flex;
 	align-items: stretch;
 	align-self: stretch;
+	font-size: 0.9em;
+	font-weight: 500;
 }
 
 .nav-item {
