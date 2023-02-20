@@ -24,8 +24,8 @@
 			<div class="col-auto">
 				<input id="pageParamInput" type="hidden" th:field="*{page}"/>
 				<div class="input-group">
-					<input class="form-control" type="text" th:field="*{keyword}" onchange="changePageSize()" placeholder="Search" />
-					<a th:href="@{'/manager/test/vacancy/search?page=' + ${currentPage} + '&size=' +${pageSize}}" class="input-group-text">
+					<input class="form-control" type="text" th:field="*{keyword}" placeholder="Search" />
+					<a th:href="@{'/manager/test/vacancy/search?' + 'size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}" class="input-group-text">
 						<i class="fa-solid fa-delete-left"></i>
 					</a>
 					<button class="btn btn-primary" type="submit">
@@ -94,13 +94,16 @@
 					<td th:text="${vacancy.createdDate}"></td>
 					<td th:text="${vacancy.dueDate}"></td>
 					<td th:text="${vacancy.department.name}"></td>
-					<td th:text="${vacancy.status.displayName}"></td>
+					<td>
+						<label th:text="${vacancy.status.displayName}"></label>
+						<p th:if="${vacancy.expired}" class="text-danger">(Expired)</p>
+					</td>
 					<td th:text="${vacancy.createdUser.name}"></td>
 					<td>
                         <a th:href="@{/dh/test/vacancy/edit(id=${vacancy.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <form th:action="@{/}" method="post" class="d-inline-block">
+                        <form th:action="@{/dh/test/vacancy/delete(id=${vacancy.id})}" method="post" class="d-inline-block">
                             <button type="submit" class="btn btn-danger">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>

@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
+import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.repo.DepartmentRepo;
 import team.ojt7.recruitment.model.service.DepartmentService;
@@ -67,6 +69,24 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public List<DepartmentDto> findAll() {
 		List<Department> departments = departmentRepo.findAll();
 		return DepartmentDto.ofList(departments);
+	}
+
+	@Override
+	public List<DepartmentDto> findAllByIsDeleted(boolean isDelete) {
+		return DepartmentDto.ofList(departmentRepo.findAllByIsDeleted(isDelete));
+	}
+
+	@Override
+	public List<DepartmentDto> findAllForVacancy(VacancyDto vacancy) {
+		List<DepartmentDto> departments = findAllByIsDeleted(false);
+		if (vacancy.getId() != null && vacancy.getDepartment() != null) {
+			if (!departments.contains(vacancy.getDepartment())) {
+				List<DepartmentDto> newDepartments = new ArrayList<>(departments);
+				newDepartments.add(vacancy.getDepartment());
+				return newDepartments;
+			}
+		}
+		return departments;
 	}
 
 }

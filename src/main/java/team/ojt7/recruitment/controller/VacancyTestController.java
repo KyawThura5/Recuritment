@@ -71,12 +71,17 @@ public class VacancyTestController {
 			@RequestParam(required = false)
 			Long id,
 			ModelMap model) {
-		List<DepartmentDto> departments = departmentService.findAll();
+		VacancyDto vacancyDto = vacancyTestService.findById(id).orElse(vacancyTestService.generateNewWihCode());
+		List<DepartmentDto> departments = departmentService.findAllForVacancy(vacancyDto);
 		List<PositionDto> positions = positionService.findAll();
+		
+		if (vacancyDto.getId() != null) {
+			
+		}
 		
 		model.put("departments", departments);
 		model.put("positions", positions);
-		model.put("vacancy", id == null ? new VacancyDto() : VacancyDto.of(vacancyRepo.findById(id).get()));
+		model.put("vacancy", vacancyDto);
 		return "edit-vacancy";
 	}
 	
@@ -90,7 +95,7 @@ public class VacancyTestController {
 			HttpSession session) {
 		User loginUser = (User) session.getAttribute("loginUser");
 		if (bindingResult.hasErrors()) {
-			List<DepartmentDto> departments = departmentService.findAll();
+			List<DepartmentDto> departments = departmentService.findAllForVacancy(vacancyDto);
 			List<PositionDto> positions = positionService.findAll();
 			model.put("departments", departments);
 			model.put("positions", positions);
@@ -113,5 +118,11 @@ public class VacancyTestController {
 		model.put("vacancySearch", vacancySearch);
 		model.put("vacancyPage", vacancyPage);
 		return "vacancies";
+	}
+	
+	@PostMapping("/dh/test/vacancy/delete")
+	public String deleteVacancyById(@RequestParam Long id) {
+		vacancyTestService.deleteById(id);
+		return "redirect:/manager/test/vacancy/search";
 	}
 }
