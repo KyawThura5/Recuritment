@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,11 +23,13 @@ import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
+import team.ojt7.recruitment.model.dto.VacancySearchCriteria;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.repo.VacancyRepo;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.PositionService;
+import team.ojt7.recruitment.model.service.VacancyTestService;
 
 @Controller
 public class VacancyTestController {
@@ -39,6 +42,9 @@ public class VacancyTestController {
 	
 	@Autowired
 	private VacancyRepo vacancyRepo;
+	
+	@Autowired
+	private VacancyTestService vacancyTestService;
 	
 	@Autowired
 	private Formatter<DepartmentDto> departmentDtoFormatter;
@@ -99,8 +105,18 @@ public class VacancyTestController {
 	}
 	
 	@GetMapping("/manager/test/vacancy/search")
-	public String searchVacancies(ModelMap model) {
-		model.put("vacancies", vacancyRepo.findAll());
+	public String searchVacancies(
+			@ModelAttribute("vacancySearch")
+			VacancySearchCriteria vacancySearch,
+			ModelMap model) {
+		Page<VacancyDto> vacancyPage = vacancyTestService.search(vacancySearch);
+		model.put("vacancySearch", vacancySearch);
+		model.put("keyword", vacancySearch.getKeyword());
+		model.put("vacancies", vacancyPage.getContent());
+		model.put("currentPage", vacancyPage.getNumber() + 1);
+		model.put("totalItems", vacancyPage.getTotalElements());
+		model.put("totalPages", vacancyPage.getTotalPages());
+		model.put("pageSize", vacancyPage.getSize());
 		return "vacancies";
 	}
 }

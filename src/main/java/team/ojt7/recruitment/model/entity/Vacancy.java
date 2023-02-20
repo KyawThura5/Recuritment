@@ -60,7 +60,7 @@ public class Vacancy implements Serializable {
 	private List<RequirePosition> requirePositions = new ArrayList<>();
 
 	public enum Status {
-		OPENING("Opening"), CLOSED("Closed");
+		OPENING("Opening"), CLOSED("Closed"), EXPIRED("Expired");
 
 		private String displayName;
 
