@@ -85,10 +85,34 @@ class TeamControllerTest {
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testEditTeam() throws Exception{	
+		TeamDto dto=new TeamDto();
+		dto.setId(Long.valueOf(1));
+		dto.setName("Team A");
+		dto.setDeleted(false);
+		DepartmentDto d=new DepartmentDto();
+		d.setId(Long.valueOf(1));
+		d.setName("Java");
+		d.setDeleted(false);
+		List<TeamDto>list=new ArrayList<>();
+		d.setTeams(list);
+		dto.setDepartment(d);
+		
+		Team team=new Team();
+		team.setId(Long.valueOf(1));
+		team.setName("Team A");
+		team.setDeleted(false);
+		Department d1=new Department();
+		d1.setId(Long.valueOf(1));
+		d1.setName("Java");
+		d1.setDeleted(false);
+		List<Team>list1=new ArrayList<>();
+		d1.setTeams(list1);
+		team.setDepartment(d1);
 		this.mock.perform(get("/admin/team/edit").param("id","1"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("edit-team"))
-		.andExpect(model().attributeExists("team"))		
+		.andExpect(model().attributeExists("team"))	
+		.andExpect(model().attributeExists("title"))		
 		.andExpect(model().attributeExists("departmentList"));		
 		}
 
@@ -103,6 +127,16 @@ class TeamControllerTest {
 		d.setName("Java");
 		List<Team>list=new ArrayList<>();
 		d.setTeams(list);
+		dto.setDepartment(d);
+		
+		TeamDto dto1=new TeamDto();
+		dto1.setId(Long.valueOf(1));
+		dto1.setName("Team A");
+		DepartmentDto d1=new DepartmentDto();
+		d1.setId(Long.valueOf(1));
+		d1.setName("Java");
+		List<TeamDto>list1=new ArrayList<>();
+		d1.setTeams(list1);
 		dto.setDepartment(d);
 		this.mock.perform(post("/admin/team/save").flashAttr("team",dto))
 		.andExpect(redirectedUrl("/admin/team/search"));
