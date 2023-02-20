@@ -11,6 +11,8 @@ import team.ojt7.recruitment.model.entity.Position;
 
 public interface PositionRepo extends JpaRepository<Position,Long> {
 	
+	List<Position> findAllByIsDeleted(boolean isDeleted);
+	
 	Position findByNameAndIsDeleted(String keyword, boolean isDeleted);
 
 	@Query("Select p from Position p where(name LIKE :keyword) and (is_deleted = false)")

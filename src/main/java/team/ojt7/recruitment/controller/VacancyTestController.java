@@ -26,7 +26,6 @@ import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.dto.VacancySearch;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Vacancy;
-import team.ojt7.recruitment.model.repo.VacancyRepo;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.PositionService;
 import team.ojt7.recruitment.model.service.VacancyTestService;
@@ -39,9 +38,6 @@ public class VacancyTestController {
 	
 	@Autowired
 	private PositionService positionService;
-	
-	@Autowired
-	private VacancyRepo vacancyRepo;
 	
 	@Autowired
 	private VacancyTestService vacancyTestService;
@@ -73,7 +69,7 @@ public class VacancyTestController {
 			ModelMap model) {
 		VacancyDto vacancyDto = vacancyTestService.findById(id).orElse(vacancyTestService.generateNewWihCode());
 		List<DepartmentDto> departments = departmentService.findAllForVacancy(vacancyDto);
-		List<PositionDto> positions = positionService.findAll();
+		List<PositionDto> positions = positionService.findAllForVacancy(vacancyDto);
 		
 		if (vacancyDto.getId() != null) {
 			
@@ -96,7 +92,7 @@ public class VacancyTestController {
 		User loginUser = (User) session.getAttribute("loginUser");
 		if (bindingResult.hasErrors()) {
 			List<DepartmentDto> departments = departmentService.findAllForVacancy(vacancyDto);
-			List<PositionDto> positions = positionService.findAll();
+			List<PositionDto> positions = positionService.findAllForVacancy(vacancyDto);
 			model.put("departments", departments);
 			model.put("positions", positions);
 			return "edit-vacancy";
@@ -105,7 +101,7 @@ public class VacancyTestController {
 		if (vacancy.getCreatedUser() == null) {
 			vacancy.setCreatedUser(loginUser);
 		}
-		vacancyRepo.save(vacancy);
+		vacancyTestService.save(vacancy);
 		return "redirect:/manager/test/vacancy/search";
 	}
 	

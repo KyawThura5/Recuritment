@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import team.ojt7.recruitment.model.dto.VacancyDto;
-import team.ojt7.recruitment.model.entity.Position;
-import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 

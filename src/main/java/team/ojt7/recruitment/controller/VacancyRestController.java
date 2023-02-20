@@ -23,7 +23,6 @@ public class VacancyRestController {
 	@PostMapping("/api/teamByDepartmentId/search")
 	public ResponseEntity<List<? extends TeamDto>> findTeam(@RequestBody TeamSearchByDepartmentIdDto dto) {
 		DepartmentDto departmentDto = departmentService.findById(dto.getDepartmentId()).orElse(null);
-		List<TeamDto> teams = departmentDto == null ? Collections.emptyList() : departmentDto.getTeams();
-		return ResponseEntity.ok(teams);
+		return ResponseEntity.ok(departmentDto == null ? Collections.emptyList() : departmentDto.getTeams());
 	}
 }
