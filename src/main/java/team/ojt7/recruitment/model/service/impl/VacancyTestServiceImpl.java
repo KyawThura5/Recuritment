@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import team.ojt7.recruitment.model.dto.VacancyDto;
-import team.ojt7.recruitment.model.dto.VacancySearchCriteria;
+import team.ojt7.recruitment.model.dto.VacancySearch;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 import team.ojt7.recruitment.model.repo.VacancyTestRepo;
@@ -21,7 +21,7 @@ public class VacancyTestServiceImpl implements VacancyTestService {
 	private VacancyTestRepo vacancyRepo;
 
 	@Override
-	public Page<VacancyDto> search(VacancySearchCriteria vacancySearch) {
+	public Page<VacancyDto> search(VacancySearch vacancySearch) {
 		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
 		boolean expired = vacancySearch.getStatus() == Status.EXPIRED;
 		if (expired) {
