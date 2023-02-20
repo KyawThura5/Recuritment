@@ -4,9 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
+import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Department;
 
 public interface DepartmentService {
+	
+	List<DepartmentDto> findAllByIsDeleted(boolean isDelete);
+	
+	List<DepartmentDto> findAllForVacancy(VacancyDto vacancy);
 
 	List<DepartmentDto> search(String keyword);
 	

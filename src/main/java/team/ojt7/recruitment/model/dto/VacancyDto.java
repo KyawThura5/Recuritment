@@ -159,6 +159,10 @@ public class VacancyDto {
 	public void setCreatedUser(UserDto createdUser) {
 		this.createdUser = createdUser;
 	}
+	
+	public boolean isExpired() {
+		return status == Status.OPENING && dueDate.isBefore(LocalDate.now());
+	}
 
 	public List<RequirePositionDto> getRequirePositions() {
 		return requirePositions;

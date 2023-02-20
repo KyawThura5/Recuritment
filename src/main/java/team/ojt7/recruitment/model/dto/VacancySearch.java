@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 
-public class VacancySearchCriteria {
+public class VacancySearch {
 
 	public static int DEFAULT_PAGE = 1;
 	public static int DEFAULT_SIZE = 10;
@@ -84,7 +84,7 @@ public class VacancySearchCriteria {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		VacancySearchCriteria other = (VacancySearchCriteria) obj;
+		VacancySearch other = (VacancySearch) obj;
 		return Objects.equals(dateFrom, other.dateFrom) && Objects.equals(dateTo, other.dateTo)
 				&& Objects.equals(keyword, other.keyword) && Objects.equals(page, other.page)
 				&& Objects.equals(size, other.size) && status == other.status;

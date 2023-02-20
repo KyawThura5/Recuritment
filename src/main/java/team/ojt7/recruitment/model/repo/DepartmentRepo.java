@@ -12,6 +12,8 @@ import team.ojt7.recruitment.model.entity.Department;
 
 @Repository
 public interface DepartmentRepo extends JpaRepository<Department, Long> {
+	
+	List<Department> findAllByIsDeleted(boolean isDeleted);
 
 	Department findByNameAndIsDeleted(String name, boolean isDeleted);
 	

@@ -24,8 +24,8 @@
 			<div class="col-auto">
 				<input id="pageParamInput" type="hidden" th:field="*{page}"/>
 				<div class="input-group">
-					<input class="form-control" type="text" th:field="*{keyword}" onchange="changePageSize()" placeholder="Search" />
-					<a th:href="@{'/manager/test/vacancy/search?page=' + ${currentPage} + '&size=' +${pageSize}}" class="input-group-text">
+					<input class="form-control" type="text" th:field="*{keyword}" placeholder="Search" />
+					<a th:href="@{'/manager/test/vacancy/search?' + 'size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}" class="input-group-text">
 						<i class="fa-solid fa-delete-left"></i>
 					</a>
 					<button class="btn btn-primary" type="submit">
@@ -64,8 +64,8 @@
 				<label for="" class="col-form-label">Showing</label>
 			</div>
 			<div class="col-auto">
-				<select form="searchForm" name="size" th:value="${pageSize}" onchange="changePageSize()" class="form-select">
-					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == pageSize}"></option>
+				<select form="searchForm" name="size" th:value="${vacancyPage.size}" onchange="changePageSize()" class="form-select">
+					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == vacancyPage.size}"></option>
 				</select>
 			</div>
 			<div class="col-auto">
@@ -74,7 +74,7 @@
 			
 		</div>
 
-        <table class="table mt-3" th:each="vacancy : ${vacancies}">
+        <table class="table mt-3" th:each="vacancy : ${vacancyPage.content}">
             <thead>
                 <tr>
                     <th>#</th>
@@ -89,18 +89,21 @@
             </thead>
             <tbody>
                 <tr>
-					<td rowspan="3" class="align-middle" th:text="${((currentPage - 1) * pageSize) + vacancyStat.index + 1}"></td>
+					<td rowspan="3" class="align-middle" th:text="${((vacancyPage.number) * vacancyPage.size) + vacancyStat.index + 1}"></td>
 					<td th:text="${vacancy.code}"></td>
 					<td th:text="${vacancy.createdDate}"></td>
 					<td th:text="${vacancy.dueDate}"></td>
 					<td th:text="${vacancy.department.name}"></td>
-					<td th:text="${vacancy.status.displayName}"></td>
+					<td>
+						<label th:text="${vacancy.status.displayName}"></label>
+						<p th:if="${vacancy.expired}" class="text-danger">(Expired)</p>
+					</td>
 					<td th:text="${vacancy.createdUser.name}"></td>
 					<td>
                         <a th:href="@{/dh/test/vacancy/edit(id=${vacancy.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <form th:action="@{/}" method="post" class="d-inline-block">
+                        <form th:action="@{/dh/test/vacancy/delete(id=${vacancy.id})}" method="post" class="d-inline-block">
                             <button type="submit" class="btn btn-danger">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
@@ -134,29 +137,29 @@
 				
             </tbody>
         </table>
-		<nav aria-label="Pagination" th:if="${totalPages > 0}" class="mt-3">
+		<nav aria-label="Pagination" th:if="${vacancyPage.totalPages > 0}" class="mt-3">
 			<ul class="pagination justify-content-center bg-white">
-			  <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+			  <li class="page-item" th:classappend="${vacancyPage.number + 1 == 1} ? 'disabled'">
 				<a th:replace="page-nav :: vacancy(1, '<<', 'First Page')"></a>
 			  </li>
-			  <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
-				<a th:replace="page-nav :: vacancy(${currentPage - 1}, 'Prev', 'Previous Page')"></a>
+			  <li class="page-item font-weight-bold" th:classappend="${vacancyPage.number + 1 == 1} ? 'disabled'">
+				<a th:replace="page-nav :: vacancy(${vacancyPage.number}, 'Prev', 'Previous Page')"></a>
 			  </li>
-			  <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
+			  <li class="page-item disabled" th:if="${vacancyPage.number - 1 > 1}">
 				<a class="page-link" href="#">...</a>
 			  </li>
-			  <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
-				th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+			  <li class="page-item" th:classappend="${page == vacancyPage.number + 1} ? 'active'"
+				th:each="page : ${#numbers.sequence(vacancyPage.number + 1 > 2 ? vacancyPage.number - 1 : 1, vacancyPage.number + 3 < vacancyPage.totalPages ? vacancyPage.number + 3 : vacancyPage.totalPages)}">
 				<a th:replace="page-nav :: vacancy(${page}, ${page}, 'Page ' + ${page})"></a>
 			  </li>
-			  <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
+			  <li class="page-item disabled" th:if="${vacancyPage.number + 3 < vacancyPage.totalPages}">
 				<a class="page-link" href="#">...</a>
 			  </li>
-			  <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
-				<a th:replace="page-nav :: vacancy(${currentPage + 1},'Next', 'Next Page')"></a>
+			  <li class="page-item font-weight-bold" th:classappend="${vacancyPage.number + 1 == vacancyPage.totalPages} ? 'disabled'">
+				<a th:replace="page-nav :: vacancy(${vacancyPage.number + 2},'Next', 'Next Page')"></a>
 			  </li>
-			  <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-				<a th:replace="page-nav :: vacancy(${totalPages}, '>>', 'Last Page')"></a>
+			  <li class="page-item" th:classappend="${vacancyPage.number + 1 == vacancyPage.totalPages} ? 'disabled'">
+				<a th:replace="page-nav :: vacancy(${vacancyPage.totalPages}, '>>', 'Last Page')"></a>
 			  </li>
 			</ul>
 		  </nav>
