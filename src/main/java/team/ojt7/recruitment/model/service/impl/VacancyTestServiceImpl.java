@@ -1,6 +1,9 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.dto.VacancySearch;
+import team.ojt7.recruitment.model.entity.RequirePosition;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.repo.VacancyTestRepo;
 import team.ojt7.recruitment.model.service.VacancyTestService;
@@ -59,6 +63,34 @@ public class VacancyTestServiceImpl implements VacancyTestService {
 	public boolean deleteById(Long id) {
 		vacancyRepo.deleteById(id);
 		return true;
+	}
+
+	@Override
+	public VacancyDto save(Vacancy vacancy) {
+		List<RequirePosition> requirePositions = vacancy.getRequirePositions();
+		List<Integer> removeList = new ArrayList<>();
+		for (int i = 0; i < requirePositions.size(); i++) {
+			RequirePosition ip = requirePositions.get(i);
+			for (int j = i + 1; j < requirePositions.size(); j++) {
+				RequirePosition jp = requirePositions.get(j);
+				if (ip.isEqualsPosition(jp)) {
+					if (ip.getId() == null) {
+						jp.setCount(jp.getCount() + ip.getCount());
+						removeList.add(i);
+					} else {
+						ip.setCount(ip.getCount() + jp.getCount());
+						removeList.add(j);
+					}
+				}
+			}
+		}
+		
+		List<RequirePosition> normalizedRequirePositions = new LinkedList<>(requirePositions);
+		for (Integer ri : removeList) {
+			normalizedRequirePositions.remove((int) ri);
+		}
+		vacancy.setRequirePositions(normalizedRequirePositions);
+		return VacancyDto.of(vacancyRepo.save(vacancy));
 	}
 
 }

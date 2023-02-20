@@ -75,6 +75,10 @@ public class RequirePosition implements Serializable {
 	public void setPosition(Position position) {
 		this.position = position;
 	}
+	
+	public boolean isEqualsPosition(RequirePosition rp) {
+		return Objects.equals(this.position, rp.position) && Objects.equals(this.foc, rp.foc) && Objects.equals(this.team, rp.team);
+	}
 
 	@Override
 	public int hashCode() {
