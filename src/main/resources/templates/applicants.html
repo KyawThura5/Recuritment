@@ -4,9 +4,165 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Applicants</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
 </head>
 <body>
     
+    <div th:replace="nav-bar :: navbar('applicants')"></div>
+    <main class="container-fluid mt-2 py-3">
+        <div class="row">
+            <h2 class="col-auto fs-5 fw-bold">Applicants</h2>
+        </div>
+
+        <form id="searchForm" th:action="@{/manager/applicant/search}" class="row mt-4">
+			<div class="col-auto">
+				<input id="pageParamInput" type="hidden">
+				<div class="input-group">
+					<input class="form-control" type="text" placeholder="Search" />
+					<a th:href="@{/manager/applicant/search}" class="input-group-text">
+						<i class="fa-solid fa-delete-left"></i>
+					</a>
+					<button class="btn btn-primary" type="submit">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</div>
+			</div>
+			
+			<div class="col-auto">
+				<input type="date" class="form-control">
+			</div>
+			
+			<div class="col-auto">
+				<input type="date" class="form-control">
+			</div>
+			
+			<div class="col-auto">
+				<a th:href="@{/dh/test/vacancy/edit}" class="btn btn-success">
+					<i class="fa-solid fa-plus"></i>
+					Add New
+				</a>
+			</div>
+        </form>
+        <div class="container-fluid py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col mb-4 mb-lg-0">
+                    <div class="card mb-3" style="border-radius: .5rem;">
+                        <div class="row g-0">
+                            <div class="col">
+                                <div class="card-body p-4">
+                                    <div class="row">
+                                        <h6 class="col-sm-12 col-md-6">1. Khun Pyae Phyo Aung (DAT_APPLICANT_0001)</h6>
+                                        <h6 class="col-sm-12 col-md-6">2023/02/01 11:23 AM (User 001)</h6>
+                                    </div>
+                                    
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Vacancy</h6>
+                                            <p class="text-muted">DAT_VA_0001</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Position</h6>
+                                            <p class="text-muted">Junior Programmer (FOC)</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Department</h6>
+                                            <p class="text-muted">Offshore Department</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Team</h6>
+                                            <p class="text-muted">Team Alpha</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col mb-4 mb-lg-0">
+                    <div class="card mb-3" style="border-radius: .5rem;">
+                        <div class="row g-0">
+                            <div class="col">
+                                <div class="card-body p-4">
+                                    <div class="row">
+                                        <h6 class="col-sm-12 col-md-6">1. Khun Pyae Phyo Aung (DAT_APPLICANT_0001)</h6>
+                                        <h6 class="col-sm-12 col-md-6">2023/02/01 11:23 AM (User 001)</h6>
+                                    </div>
+                                    
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Vacancy</h6>
+                                            <p class="text-muted">DAT_VA_0001</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Position</h6>
+                                            <p class="text-muted">Junior Programmer (FOC)</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Department</h6>
+                                            <p class="text-muted">Offshore Department</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Team</h6>
+                                            <p class="text-muted">Team Alpha</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col mb-4 mb-lg-0">
+                    <div class="card mb-3" style="border-radius: .5rem;">
+                        <div class="row g-0">
+                            <div class="col">
+                                <div class="card-body p-4">
+                                    <div class="row">
+                                        <h6 class="col-sm-12 col-md-6">1. Khun Pyae Phyo Aung (DAT_APPLICANT_0001)</h6>
+                                        <h6 class="col-sm-12 col-md-6">2023/02/01 11:23 AM (User 001)</h6>
+                                    </div>
+                                    
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Vacancy</h6>
+                                            <p class="text-muted">DAT_VA_0001</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Position</h6>
+                                            <p class="text-muted">Junior Programmer (FOC)</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Department</h6>
+                                            <p class="text-muted">Offshore Department</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 mb-3">
+                                            <h6>Team</h6>
+                                            <p class="text-muted">Team Alpha</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+		
+    </main>
 </body>
 </html>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuthController {
 
 	@GetMapping("/login")
-	public String showLoginPage(@RequestParam String error ,ModelMap model) {
+	public String showLoginPage(@RequestParam(required = false) String error ,ModelMap model) {
 		if (error != null) {
 			model.put("loginFormErrorMessage", "Invalid employee code or password");
 		}
