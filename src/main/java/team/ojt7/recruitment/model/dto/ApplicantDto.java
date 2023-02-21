@@ -10,39 +10,38 @@ import javax.validation.constraints.Size;
 
 import team.ojt7.recruitment.model.entity.Applicant;
 
-
 public class ApplicantDto {
-private Long id;
-    @NotBlank(message="NotBlank.applicant.code")
+	private Long id;
+	@NotBlank(message = "NotBlank.applicant.code")
 	private String code;
-    @NotBlank(message="NotBlank.applicant.name")
+	@NotBlank(message = "NotBlank.applicant.name")
 	private String name;
-    @NotBlank(message="NotBlank.applicant.phone")
-    @Size(min = 6, max = 16, message = "{invalidSize.applicant.phone}")
+	@NotBlank(message = "NotBlank.applicant.phone")
+	@Size(min = 6, max = 16, message = "{invalidSize.applicant.phone}")
 	@Pattern(regexp = "\\d+", message = "{invalid.phone}")
 	private String phone;
-    @NotBlank(message="NotBlank.applicant.email")
+	@NotBlank(message = "NotBlank.applicant.email")
 	@Pattern(regexp = "^(.+)@(.+)$", message = "{invalid.email}")
 	private String email;
-	
+
 	private String address;
-	@NotBlank(message="NotBlank.applicant.experience")
+	@NotBlank(message = "NotBlank.applicant.experience")
 	private String experience;
-	@NotBlank(message="NotBlank.applicant.education")
+	@NotBlank(message = "NotBlank.applicant.education")
 	private String education;
-	@NotBlank(message="NotBlank.applicant.skill")
+	@NotBlank(message = "NotBlank.applicant.skill")
 	private String skill;
-	@NotBlank(message="NotBlank.applicant.attachedUri")
+//	@NotBlank(message = "NotBlank.applicant.attachedUri")
 	private String attachedUri;
-	
+
 	private RecruitmentResourceDto recruitmentResource;
-	
+
 	private LocalDateTime createdDate;
-	
+
 	private UserDto createdUser;
 
 	private RequirePositionDto requirePosition;
-	
+
 	private boolean isDeleted;
 
 	public boolean isDeleted() {
@@ -164,12 +163,12 @@ private Long id;
 	public void setRequirePosition(RequirePositionDto requirePosition) {
 		this.requirePosition = requirePosition;
 	}
-	
+
 	public static ApplicantDto of(Applicant applicant) {
-		if(applicant==null) {
+		if (applicant == null) {
 			return null;
 		}
-		ApplicantDto dto=new ApplicantDto();
+		ApplicantDto dto = new ApplicantDto();
 		dto.setId(applicant.getId());
 		dto.setCode(applicant.getCode());
 		dto.setName(applicant.getName());
@@ -177,6 +176,7 @@ private Long id;
 		dto.setPhone(applicant.getPhone());
 		dto.setAddress(applicant.getAddress());
 		dto.setExperience(applicant.getExperience());
+		dto.setEducation(applicant.getEducation());
 		dto.setSkill(applicant.getSkill());
 		dto.setAttachedUri(applicant.getAttachedUri());
 		dto.setRecruitmentResource(RecruitmentResourceDto.of(applicant.getRecruitmentResource()));
@@ -184,13 +184,14 @@ private Long id;
 		dto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
 		dto.setRequirePosition(RequirePositionDto.of(applicant.getRequirePosition()));
 		return dto;
-		
+
 	}
+
 	public static Applicant parse(ApplicantDto dto) {
-		if(dto==null) {
+		if (dto == null) {
 			return null;
 		}
-		Applicant applicant=new Applicant();
+		Applicant applicant = new Applicant();
 		applicant.setId(dto.getId());
 		applicant.setCode(dto.getCode());
 		applicant.setName(dto.getName());
@@ -198,6 +199,7 @@ private Long id;
 		applicant.setPhone(dto.getPhone());
 		applicant.setAddress(dto.getAddress());
 		applicant.setExperience(dto.getExperience());
+		applicant.setEducation(dto.getEducation());
 		applicant.setSkill(dto.getSkill());
 		applicant.setAttachedUri(dto.getAttachedUri());
 		applicant.setRecruitmentResource(RecruitmentResourceDto.parse(dto.getRecruitmentResource()));
@@ -205,14 +207,14 @@ private Long id;
 		applicant.setCreatedUser(UserDto.parse(dto.getCreatedUser()));
 		applicant.setRequirePosition(RequirePositionDto.parse(dto.getRequirePosition()));
 		return applicant;
-		
+
 	}
-	
-	public static List<ApplicantDto> ofList(List<Applicant> list){
+
+	public static List<ApplicantDto> ofList(List<Applicant> list) {
 		return list.stream().map(d -> of(d)).toList();
 	}
-	
-	public static List<Applicant> parseList(List<ApplicantDto> dtoList){
+
+	public static List<Applicant> parseList(List<ApplicantDto> dtoList) {
 		return dtoList.stream().map(d -> parse(d)).toList();
 	}
 
@@ -240,7 +242,4 @@ private Long id;
 				&& Objects.equals(requirePosition, other.requirePosition) && Objects.equals(skill, other.skill);
 	}
 
-	
-	
 }
-
