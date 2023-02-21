@@ -56,7 +56,7 @@ public class ApplicantController {
 		return "redirect:/hr/applicant/search";
 	}
 
-	@RequestMapping(value = "/hr/applicant/search", method = RequestMethod.GET)
+	@RequestMapping(value = "/manager/applicant/search", method = RequestMethod.GET)
 	public String searchApplicant(@ModelAttribute("applicantSearch")
 	ApplicantSearch applicantSearch,
 	ModelMap model) {

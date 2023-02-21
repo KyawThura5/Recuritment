@@ -25,7 +25,7 @@
                 <input id="pageParamInput" type="hidden" th:field="*{page}">
                 <div class="input-group">
                     <input class="form-control" type="text" th:field="*{keyword}" placeholder="Search" />
-                    <a th:href="@{/manager/applicant/search}" class="input-group-text">
+                    <a th:href="@{'/manager/applicant/search?' + 'size=' + ${applicantSearch.size} + ${applicantSearch.dateFrom != null && applicantSearch.dateFrom != '' ? '&dateFrom=' + applicantSearch.dateFrom : ''} + ${applicantSearch.dateTo != null && applicantSearch.dateTo != '' ? '&dateTo=' + applicantSearch.dateTo : ''}}" class="input-group-text">
                         <i class="fa-solid fa-delete-left"></i>
                     </a>
                     <button class="btn btn-primary" type="submit">

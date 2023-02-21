@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.repo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,8 +37,8 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
     	)
     	Page<Applicant> search(
     			@Param("keyword") String keyword,
-    			@Param("dateFrom") LocalDate dateFrom,
-    			@Param("dateTo") LocalDate dateTo,
+    			@Param("dateFrom") LocalDateTime dateFrom,
+    			@Param("dateTo") LocalDateTime dateTo,
     			Pageable pageable);
     	
     }

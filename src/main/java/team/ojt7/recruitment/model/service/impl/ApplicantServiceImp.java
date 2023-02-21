@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +62,9 @@ public class ApplicantServiceImp implements ApplicantService{
 	@Override
 	public Page<ApplicantDto> search(ApplicantSearch applicantSearch) {
 		String keyword = applicantSearch.getKeyword() == null ? "%%" : "%" + applicantSearch.getKeyword() + "%";
-		
-		Page<Applicant> applicants =  applicantRepo.search(keyword, applicantSearch.getDateFrom(), applicantSearch.getDateTo(), PageRequest.of(applicantSearch.getPage() - 1, applicantSearch.getSize())); 
+		LocalDateTime dateFrom = applicantSearch.getDateFrom() == null ? null : LocalDateTime.of(applicantSearch.getDateFrom(), LocalTime.of(0, 0));
+		LocalDateTime dateTo = applicantSearch.getDateTo() == null ? null : LocalDateTime.of(applicantSearch.getDateTo(), LocalTime.of(0, 0));
+		Page<Applicant> applicants =  applicantRepo.search(keyword, dateFrom, dateTo, PageRequest.of(applicantSearch.getPage() - 1, applicantSearch.getSize())); 
 		Pageable applicantsPageable = applicants.getPageable();
 		Page<ApplicantDto> page = new PageImpl<ApplicantDto>(ApplicantDto.ofList(applicants.getContent()), applicantsPageable, applicants.getTotalElements());
 		

@@ -76,7 +76,7 @@ public class PositionServiceImpl implements PositionService{
 			vacancy.getRequirePositions().stream()
 				.map(rp -> rp.getPosition())
 				.forEach(p -> {
-					if (!positions.contains(p)) {
+					if (p != null && !positions.contains(p)) {
 						positions.add(p);
 					}
 				});
