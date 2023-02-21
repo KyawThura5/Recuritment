@@ -28,8 +28,10 @@ public class ApplicantServiceImp implements ApplicantService{
 
 	@Override
 	public ApplicantDto save(Applicant applicant) {
-		// TODO Auto-generated method stub
-		return null;
+		Applicant applicants= applicantRepo.save(applicant);
+		
+		return ApplicantDto.of(applicants);
+		
 	}
 
 	@Override
