@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import team.ojt7.recruitment.model.entity.Vacancy.Status;
 
 public class ApplicantSearch {
 	
@@ -13,7 +12,6 @@ public class ApplicantSearch {
 	public static int DEFAULT_SIZE = 10;
 
 	private String keyword;
-	private Status status;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateFrom;
@@ -31,13 +29,7 @@ public class ApplicantSearch {
 		this.keyword = keyword;
 	}
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+	
 
 	public LocalDate getDateFrom() {
 		return dateFrom;
@@ -73,7 +65,7 @@ public class ApplicantSearch {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dateFrom, dateTo, keyword, page, size, status);
+		return Objects.hash(dateFrom, dateTo, keyword, page, size);
 	}
 
 	@Override
@@ -87,7 +79,7 @@ public class ApplicantSearch {
 		ApplicantSearch other = (ApplicantSearch) obj;
 		return Objects.equals(dateFrom, other.dateFrom) && Objects.equals(dateTo, other.dateTo)
 				&& Objects.equals(keyword, other.keyword) && Objects.equals(page, other.page)
-				&& Objects.equals(size, other.size) && status == other.status;
+				&& Objects.equals(size, other.size) ;
 	}
 
 }
