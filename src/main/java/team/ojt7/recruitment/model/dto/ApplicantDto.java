@@ -4,28 +4,35 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import team.ojt7.recruitment.model.entity.Applicant;
 
 
 public class ApplicantDto {
 private Long id;
-	
+    @NotBlank(message="NotBlank.applicant.code")
 	private String code;
-	
+    @NotBlank(message="NotBlank.applicant.name")
 	private String name;
-	
+    @NotBlank(message="NotBlank.applicant.phone")
+    @Size(min = 6, max = 16, message = "{invalidSize.applicant.phone}")
+	@Pattern(regexp = "\\d+", message = "{invalid.phone}")
 	private String phone;
-	
+    @NotBlank(message="NotBlank.applicant.email")
+	@Pattern(regexp = "^(.+)@(.+)$", message = "{invalid.email}")
 	private String email;
 	
 	private String address;
-	
+	@NotBlank(message="NotBlank.applicant.experience")
 	private String experience;
-	
+	@NotBlank(message="NotBlank.applicant.education")
 	private String education;
-	
+	@NotBlank(message="NotBlank.applicant.skill")
 	private String skill;
-	
+	@NotBlank(message="NotBlank.applicant.attachedUri")
 	private String attachedUri;
 	
 	private RecruitmentResourceDto recruitmentResource;
