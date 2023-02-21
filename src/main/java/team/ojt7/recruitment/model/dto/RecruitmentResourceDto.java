@@ -23,6 +23,10 @@ public class RecruitmentResourceDto {
 	
 	public static RecruitmentResourceDto of(RecruitmentResource rr) {
 		
+		if (rr == null) {
+			return null;
+		}
+		
 		if (rr instanceof ExternalRecruitmentResource err) {
 			ExternalRecruitmentResourceDto dto = new ExternalRecruitmentResourceDto();
 			dto.setId(err.getId());
@@ -59,6 +63,10 @@ public class RecruitmentResourceDto {
 	}
 	
 	public static RecruitmentResource parse(RecruitmentResourceDto dto) {
+		if (dto == null) {
+			return null;
+		}
+		
 		if (dto instanceof ExternalRecruitmentResourceDto errDto) {
 			ExternalRecruitmentResource err = new ExternalRecruitmentResource();
 			err.setId(errDto.getId());

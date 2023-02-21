@@ -39,7 +39,7 @@ public class Applicant implements Serializable{
 	
 	private String experience;
 	
-	@Column(nullable=false)
+//	@Column(nullable=false)
 	private String education;
 	
 	@Column(nullable=false)
