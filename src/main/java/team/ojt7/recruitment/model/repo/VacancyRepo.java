@@ -15,7 +15,6 @@ import team.ojt7.recruitment.model.entity.Vacancy.Status;
 @Repository
 public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	
-
 	@Query(value = "SELECT MAX(id) FROM vacancy", nativeQuery = true)
 	Long findMaxId();
 	
@@ -28,6 +27,10 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
     @Query(value = "UPDATE Vacancy SET is_deleted = true WHERE id = :id", nativeQuery = true)
 	void deleteById(@Param("id") Long id);
 	
+    
+    
     @Query("SELECT v FROM Vacancy v WHERE (code LIKE :keyword or created_date like :dateFrom or due_date like :dateTo or v.status like :status) AND (is_deleted = false)")
+   // List<Vacancy> search(@Param("keyword") String keyword);
+    
 	List<Vacancy> search(String keyword, Status status, LocalDate dateFrom, LocalDate dateTo);
 }

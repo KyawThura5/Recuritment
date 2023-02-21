@@ -61,6 +61,17 @@ public class Applicant implements Serializable{
 	@ManyToOne()
 	@JoinColumn(name="require_position_id")
 	private RequirePosition requirePosition;
+	
+	@Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+	private boolean isDeleted;
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 	public Long getId() {
 		return id;

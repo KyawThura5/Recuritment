@@ -1,14 +1,16 @@
 package team.ojt7.recruitment.model.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 import team.ojt7.recruitment.model.dto.ApplicantDto;
+import team.ojt7.recruitment.model.dto.ApplicantSearch;
 import team.ojt7.recruitment.model.entity.Applicant;
 
 public interface ApplicantService {
-ApplicantDto save(Applicant applicant);
+
+	ApplicantDto save(Applicant applicant);
 	
 	boolean deleteById(Long id);
 	
@@ -16,5 +18,6 @@ ApplicantDto save(Applicant applicant);
 	
 	ApplicantDto generateNewWithCode();
 	
-	List<ApplicantDto> search(String keyword,LocalDateTime dateFrom, LocalDateTime dateTo);
+	Page<ApplicantDto> search(ApplicantSearch applicantSearch);
+
 }

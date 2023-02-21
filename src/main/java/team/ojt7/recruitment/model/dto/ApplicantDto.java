@@ -35,6 +35,16 @@ private Long id;
 	private UserDto createdUser;
 
 	private RequirePositionDto requirePosition;
+	
+	private boolean isDeleted;
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 	public Long getId() {
 		return id;
