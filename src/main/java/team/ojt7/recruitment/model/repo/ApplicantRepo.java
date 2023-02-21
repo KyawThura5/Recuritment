@@ -21,14 +21,14 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
 	
     @Query(
     		value = """
-    				SELECT a FROM Applicant a where code LIKE :keyword 
+    				SELECT a FROM Applicant a where code LIKE :keyword  or name LIKE :keyword
     				AND (:dateFrom is null OR createdDate >= :dateFrom) 
     				AND (:dateTo is null OR createdDate <= :dateTo) 
     				AND isDeleted = false
     				ORDER BY createdDate desc
     				""",
     		countQuery = """
-    				SELECT COUNT(a) FROM Applicant a where code LIKE :keyword
+    				SELECT COUNT(a) FROM Applicant a where code LIKE :keyword or name LIKE :keyword
     				AND (:dateFrom is null OR createdDate >= :dateFrom)
     				AND (:dateTo is null OR createdDate <= :dateTo)
     				AND isDeleted = false
