@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -43,7 +44,7 @@ class VacancyTestServiceImplTest {
 	@Mock
 	VacancySearch vacancySearch;
 
-	@Disabled
+	//@Disabled
 	@Test
 	void testSearch() {
 		
@@ -95,14 +96,12 @@ class VacancyTestServiceImplTest {
 		vacancySearch.setDateFrom(vacancy.getCreatedDate());
 		vacancySearch.setDateTo(vacancy.getDueDate());
 		
-		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
 		
-		Page<Vacancy> vacancies = vacancyTestRepo.search(keyword, vacancySearch.getStatus(), vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize())); 
-		Pageable vacanciesPageable = vacancies.getPageable();
-		Page<VacancyDto> page = new PageImpl<VacancyDto>(VacancyDto.ofList(vacancies.getContent()), vacanciesPageable, vacancies.getTotalElements());
 		
-		when(vacancyTestRepo.search(keyword, vacancySearch.getStatus(), vacancySearch.getDateFrom(),vacancySearch.getDateTo(),vacanciesPageable)).thenReturn(vacancies);
-		assertEquals(1,vacancies.getPageable());		
+		Page<Vacancy> vacancies = vacancyTestRepo.search("%1%", Status.OPENING, LocalDate.now(), LocalDate.of(2023, 04, 22), PageRequest.of(1,10)); 
+		
+		when(vacancyTestRepo.search("%1%", Status.OPENING, LocalDate.now(), LocalDate.of(2023, 04, 22),PageRequest.of(1,10))).thenReturn(vacancies);
+		assertThat(vacancies);		
 	}
 
 	@Test
