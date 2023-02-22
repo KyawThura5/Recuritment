@@ -14,21 +14,25 @@ import team.ojt7.recruitment.model.entity.Applicant;
 public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
 	@Query(value = "SELECT MAX(id) FROM applicant", nativeQuery = true)
 	Long findMaxId();
+	
+	Applicant findByCodeAndIsDeleted(String code, boolean isDeleted);
 
     @Modifying
-    @Query(value = "UPDATE Applicant SET is_deleted = true WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE Applicant SET is_deleted = true WHERE id = :id")
 	void deleteById(@Param("id") Long id);
 	
     @Query(
     		value = """
-    				SELECT a FROM Applicant a where code LIKE :keyword  or name LIKE :keyword
+    				SELECT a FROM Applicant a where 
+    				(code LIKE :keyword  OR name LIKE :keyword)
     				AND (:dateFrom is null OR createdDate >= :dateFrom) 
     				AND (:dateTo is null OR createdDate <= :dateTo) 
     				AND isDeleted = false
     				ORDER BY createdDate desc
     				""",
     		countQuery = """
-    				SELECT COUNT(a) FROM Applicant a where code LIKE :keyword or name LIKE :keyword
+    				SELECT COUNT(a) FROM Applicant a where
+    				(code LIKE :keyword  OR name LIKE :keyword)
     				AND (:dateFrom is null OR createdDate >= :dateFrom)
     				AND (:dateTo is null OR createdDate <= :dateTo)
     				AND isDeleted = false

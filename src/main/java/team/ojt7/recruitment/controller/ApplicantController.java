@@ -19,7 +19,8 @@ import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.service.ApplicantService;
-import team.ojt7.recruitment.model.service.impl.FileStorageService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Controller
 @MultipartConfig(maxFileSize = 5000000)
@@ -27,21 +28,12 @@ public class ApplicantController {
 	
 	@Autowired
 	private ApplicantService applicantService;
-	
-	@Autowired
-	private FileStorageService fileStorageService;
 
 	@RequestMapping(value = "/hr/applicant/edit", method = RequestMethod.GET)
 	public String addNewApplicant(@RequestParam(required = false)
 	Long id,
 	ModelMap model) {
 		ApplicantDto applicantDto = applicantService.findById(id).orElse(applicantService.generateNewWithCode());
-		
-
-		if (applicantDto.getId() != null) {
-	
-		}
-
 		
 		model.put("applicant", applicantDto);
 		return "edit-applicant";
@@ -52,21 +44,34 @@ public class ApplicantController {
 			@Validated
 			@ModelAttribute("applicant")
 			ApplicantDto applicantDto,
+			BindingResult bindingResult,
 			@RequestParam(required = false)
 			CommonsMultipartFile attachedFile,
-			BindingResult bindingResult,
 			ModelMap model) {
-		String fileName = fileStorageService.storeFile(attachedFile);
-		Applicant applicant = ApplicantDto.parse(applicantDto);
-		applicantService.save(applicant);
+		
+		if (!bindingResult.hasErrors()) {
+			try {
+				Applicant applicant = ApplicantDto.parse(applicantDto);
+				applicantService.save(applicant, attachedFile);
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+		}
+		
+		if (bindingResult.hasErrors()) {
+			return "edit-applicant";
+		}
+		
 		return "redirect:/manager/applicant/search";
 		
 	}
 
-	@RequestMapping(value = "/hr/applicant/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/hr/applicant/delete", method = RequestMethod.POST)
 	public String deleteApplicant(@RequestParam("id")Long id) {
 		applicantService.deleteById(id);
-		return "redirect:/hr/applicant/search";
+		return "redirect:/manager/applicant/search";
 	}
 
 	@RequestMapping(value = "/manager/applicant/search", method = RequestMethod.GET)

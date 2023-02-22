@@ -35,11 +35,11 @@
             </div>
             
             <div class="col-auto">
-                <input type="date" th:field="*{dateFrom}" class="form-control">
+                <input type="date" th:field="*{dateFrom}" onchange="changePageSize()" class="form-control">
             </div>
             
             <div class="col-auto">
-                <input type="date" th:field="*{dateTo}" class="form-control">
+                <input type="date" th:field="*{dateTo}" onchange="changePageSize()" class="form-control">
             </div>
             
             <div class="col-auto">
@@ -49,6 +49,21 @@
                 </a>
             </div>
         </form>
+
+        <div class="row mt-3">
+			<div class="form-group-col col-auto">
+				<label for="" class="col-form-label">Showing</label>
+			</div>
+			<div class="col-auto">
+				<select form="searchForm" name="size" th:value="${applicantPage.size}" onchange="changePageSize()" class="form-select">
+					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == applicantPage.size}"></option>
+				</select>
+			</div>
+			<div class="col-auto">
+				<p class="col-form-label">items per page</p>
+			</div>
+			
+		</div>
 
         <div th:each="applicant : ${applicantPage.content}" class="row d-flex justify-content-center align-items-center h-100 mt-3">
             <div class="col mb-4 mb-lg-0">
@@ -62,8 +77,12 @@
                                     <h6 class="col-3" th:text="${applicant.createdDate}"></h6>
                                     <div class="col-3">
                                         <a th:href="@{/hr/applicant/edit(id=${applicant.id})}" class="btn btn-success">Edit</a>
-                                        <a href="" class="btn btn-warning">View</a>
-                                        <a href="" class="btn btn-danger">Delete</a>
+                                        <a th:href="@{/{cvLink}(cvLink=${applicant.attachedUri})}" target="_blank" class="btn btn-warning">View</a>
+                                        <form th:action="@{/hr/applicant/delete(id=${applicant.id})}" method="post" class="d-inline-block">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa-regular fa-trash-can"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                                 
@@ -121,5 +140,12 @@
 		</nav>
 
     </main>
+    <script type="text/javascript">
+	  
+		function changePageSize() {
+			$("#pageParamInput").val("1");
+		  	$("#searchForm").submit();
+		}
+	</script>
 </body>
 </html>

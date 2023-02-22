@@ -88,5 +88,12 @@ public class RecruitmentManagementSystemApplication {
 	public CommonsMultipartResolver multipartResolver() {
 		return new CommonsMultipartResolver();
 	}
+	
+	@Bean
+	public String applicantCvLocation() {
+		return "storage/applicant/cv";
+	}
+	
+	
 
 }

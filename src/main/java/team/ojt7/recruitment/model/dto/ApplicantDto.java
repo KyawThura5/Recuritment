@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.dto;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -130,6 +131,14 @@ public class ApplicantDto {
 
 	public void setAttachedUri(String attachedUri) {
 		this.attachedUri = attachedUri;
+	}
+	
+	public String getAttachedFileName() {
+		if (attachedUri == null || attachedUri.isBlank()) {
+			return null;
+		}
+		int separatorIndex = attachedUri.lastIndexOf(File.separator);
+		return separatorIndex == -1 ? attachedUri : attachedUri.substring(separatorIndex + 1);
 	}
 
 	public RecruitmentResourceDto getRecruitmentResource() {

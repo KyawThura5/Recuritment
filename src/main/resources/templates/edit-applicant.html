@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Applicant</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/edit-applicant.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
@@ -20,26 +21,33 @@
                     <h2 class="col fs-5 fw-bold">Edit Applicant</h2>
                 </div>
                 <input type="hidden" th:field="*{id}">
+                <input type="hidden" class="form-control" th:field="*{attachedUri}">
+                
                 <div class="row">
                     <div class="col-12 col-md-6 form-group my-2">
                         <label for="" class="form-label">Code</label>
                         <input type="text" class="form-control" th:field="*{code}">
+                        <label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 col-md-6 form-group my-2">
                         <label for="" class="form-label">Name</label>
                         <input type="text" class="form-control" th:field="*{name}">
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 col-md-6 form-group  my-2">
                         <label for="" class="form-label">Phone</label>
                         <input type="text" class="form-control"  th:field="*{phone}">
+                        <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 col-md-6 form-group my-2">
                         <label for="" class="form-label">Email</label>
                         <input type="text" class="form-control" th:field="*{email}">
+                        <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 col-md-6 form-group  my-2">
                         <label for="" class="form-label">Recruitment Resource</label>
                         <select class="form-select" th:field="*{recruitmentResource}"></select>
+                        <label th:if="${#fields.hasErrors('recruitmentResource')}" th:errors="*{recruitmentResource}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 col-md-6 form-group my-2">
                         <label for="" class="form-label">Vacancy</label>
@@ -48,22 +56,33 @@
                     <div class="col-12 form-group  my-2">
                         <label for="" class="form-label">Position</label>
                         <select class="form-select" th:field="*{requirePosition}"></select>
+                        <label th:if="${#fields.hasErrors('requirePosition')}" th:errors="*{requirePosition}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 form-group my-2">
                         <label for="" class="form-label">CV</label>
-                        <input type="file" class="form-control" name="attachedFile">
+                        <div class="input-group">
+                            <label class="input-group-text" for="cvFileInput">Choose File</label>
+                            <input id="attachedFileNameInput" type="hidden" th:value="*{attachedFileName}">
+                            <input id="cvFileNameInput" type="text" class="form-control bg-white" th:value="*{attachedFileName}" disabled="disabled">
+                            <input id="cvFileInput" class="d-none" name="attachedFile" type="file" accept=".pdf,.docx" onchange="onCvFileChange()">
+                        </div>
+                        <label th:if="${#fields.hasErrors('attachedUri')}" th:errors="*{attachedUri}" th:errorclass="text-danger"></label>
                     </div>
+                    
                     <div class="col-12 form-group my-2">
                         <label for="" class="form-label">Education</label>
                         <input type="text" class="form-control" th:field="*{education}">
+                        <label th:if="${#fields.hasErrors('education')}" th:errors="*{education}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 form-group my-2">
                         <label for="" class="form-label">Experience</label>
                         <textarea class="form-control" th:field="*{experience}"></textarea>
+                        <label th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 form-group my-2">
                         <label for="" class="form-label">Skills</label>
                         <textarea class="form-control" th:field="*{skill}"></textarea>
+                        <label th:if="${#fields.hasErrors('skill')}" th:errors="*{skill}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 form-group my-2">
                         <label for="" class="form-label">Address</label>

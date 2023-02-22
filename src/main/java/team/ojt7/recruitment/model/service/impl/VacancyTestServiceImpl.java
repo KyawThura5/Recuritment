@@ -34,7 +34,9 @@ public class VacancyTestServiceImpl implements VacancyTestService {
 	public Page<VacancyDto> search(VacancySearch vacancySearch) {
 		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
 		
-		Page<Vacancy> vacancies = vacancySearch.getStatus() == null ? vacancyRepo.search(keyword, vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize())) : vacancyRepo.search(keyword, vacancySearch.getStatus(), vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize())); 
+		Page<Vacancy> vacancies = vacancySearch.getStatus() == null
+									? vacancyRepo.search(keyword, vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize()))
+									: vacancyRepo.search(keyword, vacancySearch.getStatus(), vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize())); 
 		Pageable vacanciesPageable = vacancies.getPageable();
 		Page<VacancyDto> page = new PageImpl<VacancyDto>(VacancyDto.ofList(vacancies.getContent()), vacanciesPageable, vacancies.getTotalElements());
 		return page;
