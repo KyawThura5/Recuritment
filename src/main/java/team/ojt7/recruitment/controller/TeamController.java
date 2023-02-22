@@ -3,6 +3,7 @@ package team.ojt7.recruitment.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.TeamDto;
+import team.ojt7.recruitment.model.dto.TeamSearch;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.TeamService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
@@ -41,11 +43,19 @@ public class TeamController {
 	@GetMapping("/admin/team/search")
 	public String searchTeams(
 			@RequestParam(required = false) String keyword,
+			@RequestParam(required =false,defaultValue="1")Integer page,
+			@RequestParam(required =false,defaultValue="10")Integer size,
 			ModelMap model
 			) {
 		List<TeamDto> teamDtos = teamService.search(keyword);
+		TeamSearch dto=new TeamSearch();
+		dto.setKeyword(keyword);
+		dto.setPage(page);
+		dto.setSize(size);
+		Page<TeamDto>teamPage=teamService.findpage(keyword,page,size);
 		model.put("teamList", teamDtos);
-		
+		model.put("teamPage", teamPage);
+		model.put("teamSearch",dto);
 		return "teams";
 	}
 
