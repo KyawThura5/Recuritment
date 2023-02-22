@@ -7,6 +7,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,5 +94,13 @@ public TeamDto save(Team team) {
 	@Override
 	public List<TeamDto> findAllByDepartmentIdAndIsDeleted(Long id, boolean isDeleted) {
 		return TeamDto.ofList(teamRepo.findAllByDepartmentIdAndIsDeleted(id, isDeleted));
+	}
+	@Override
+	public Page<TeamDto> findpage(String keyword, int page,int size) {
+		keyword=keyword==null? "%%" :"%"+keyword+"%";
+		Page<Team>teams=teamRepo.searchPage(keyword,PageRequest.of(page-1,size));
+		Pageable pageable=teams.getPageable();
+		Page<TeamDto>p=new PageImpl<TeamDto>(TeamDto.ofList(teams.getContent()),pageable,teams.getTotalElements());		
+		return p;
 	}
 }
