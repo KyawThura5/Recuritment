@@ -76,8 +76,12 @@
                                     <h6 class="col-3" th:text="${applicant.code}"></h6>
                                     <h6 class="col-3" th:text="${applicant.createdDate}"></h6>
                                     <div class="col-3">
-                                        <a th:href="@{/hr/applicant/edit(id=${applicant.id})}" class="btn btn-success">Edit</a>
-                                        <a th:href="@{/{cvLink}(cvLink=${applicant.attachedUri})}" target="_blank" class="btn btn-warning">View</a>
+                                        <a th:href="@{/hr/applicant/edit(id=${applicant.id})}" class="btn btn-success">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a th:href="@{/{cvLink}(cvLink=${applicant.attachedUri})}" target="_blank" class="btn btn-warning">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
                                         <form th:action="@{/hr/applicant/delete(id=${applicant.id})}" method="post" class="d-inline-block">
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fa-regular fa-trash-can"></i>

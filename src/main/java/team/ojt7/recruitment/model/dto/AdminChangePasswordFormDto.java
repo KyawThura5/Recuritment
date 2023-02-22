@@ -7,22 +7,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import team.ojt7.recruitment.model.validator.NotBlankGroup;
-import team.ojt7.recruitment.model.validator.NotNullGroup;
-import team.ojt7.recruitment.model.validator.PatternGroup;
-import team.ojt7.recruitment.model.validator.SizeGroup;
-
 public class AdminChangePasswordFormDto {
 
-	@NotNull(groups = NotNullGroup.class)
+	@NotNull
 	private Long userId;
 	
-	@NotBlank(message="{NotBlank.user.password}", groups = NotBlankGroup.class)
-	@Pattern(regexp="\\S+",message="{invalid.password}", groups = PatternGroup.class)
-	@Size(min = 8, max = 30, message = "{invalidSize.user.password}", groups = SizeGroup.class)
+	@NotBlank(message="{NotBlank.user.password}")
+	@Pattern(regexp="\\S+",message="{invalid.password}")
+	@Size(min = 8, max = 30, message = "{invalidSize.user.password}")
 	private String password;
 	
-	@NotBlank(message="{NotBlank.user.confirmPassword}", groups = NotBlankGroup.class)
+	@NotBlank(message="{NotBlank.user.confirmPassword}")
 	private String confirmPassword;
 
 	public Long getUserId() {

@@ -73,7 +73,7 @@ const ajaxQueryTeamByDepartment = () => {
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/api/teamByDepartmentId/search",
+        url: "/user/api/teamByDepartmentId/search",
         data: JSON.stringify(data),
         dataType: 'json',
         cache: false,
@@ -121,7 +121,7 @@ const initTeamSelector = () => {
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/api/teamByDepartmentId/search",
+        url: "/user/api/teamByDepartmentId/search",
         data: JSON.stringify(data),
         dataType: 'json',
         cache: false,

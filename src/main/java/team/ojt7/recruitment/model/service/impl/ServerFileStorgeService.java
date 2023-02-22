@@ -1,6 +1,5 @@
 package team.ojt7.recruitment.model.service.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,7 +29,7 @@ public class ServerFileStorgeService {
 				Files.createDirectories(folderPath);
 			}
 			file.transferTo(filePath);
-			return folder + File.separator + fileName;
+			return folder + "/" + fileName;
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}

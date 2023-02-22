@@ -32,7 +32,7 @@
 						<input type="text"
 							class="form-control" th:field="*{code}">
 						<label
-							th:if="${#fields.hasErrors('code')}" th:errors="*{code}"
+							th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}"
 							style="color: red;">Error </label>
 					</div>
 				</div>
@@ -42,7 +42,7 @@
 						<input type="text"
 							class="form-control" th:field="*{name}">
 						<label
-							th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+							th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')[__0__]}"
 							style="color: red;">Error </label>
 					</div>
 				</div>
@@ -53,7 +53,7 @@
 					<div class="form-group">
 						<label for="" class="form-label">Email</label> <input type="text"
 							class="form-control" th:field="*{email}"> <label
-							th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+							th:if="${#fields.hasErrors('email')}"  th:text="${#fields.errors('email')[__0__]}"
 							style="color: red;">Error </label>
 					</div>
 				</div>
@@ -61,7 +61,7 @@
 					<div class="form-group">
 						<label for="" class="form-label">Phone</label> <input type="text"
 							class="form-control" th:field="*{phone}"> <label
-							th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"
+							th:if="${#fields.hasErrors('phone')}"  th:text="${#fields.errors('phone')[__0__]}"
 							style="color: red;">Error </label>
 					</div>
 				</div>
@@ -74,8 +74,8 @@
 							id="" class="form-select" th:field="*{role}">
 							<option
 								th:each="userRole:${T(team.ojt7.recruitment.model.entity.User.Role).values()}"
-								th:value="${userRole}" th:text="${userRole.displayName}" />
-						</select> <label th:if="${#fields.hasErrors('role')}" th:errors="*{role}"
+								th:value="${userRole}" th:text="${userRole.displayName}" ></option>
+						</select> <label th:if="${#fields.hasErrors('role')}"  th:text="${#fields.errors('role')[__0__]}"
 							style="color: red;">Error </label>
 					</div>
 				</div>
@@ -85,9 +85,9 @@
 							id="" class="form-select" th:field="*{gender}">
 							<option
 								th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
-								th:value="${g}" th:text="${g.displayName}" />
+								th:value="${g}" th:text="${g.displayName}" ></option>
 						</select> <label th:if="${#fields.hasErrors('gender')}"
-							th:errors="*{gender}" style="color: red;">Error </label>
+						th:text="${#fields.errors('gender')[__0__]}" style="color: red;">Error </label>
 					</div>
 				</div>
 			</div>
@@ -98,7 +98,7 @@
 						<label for="" class="form-label">Password</label> <input
 							type="password" class="form-control"  name="password" th:value="${user.password}">
 						<label th:if="${#fields.hasErrors('password')}"
-							th:errors="*{password}" style="color: red;">Error </label>
+						th:text="${#fields.errors('password')[__0__]}" style="color: red;">Error </label>
 					</div>
 				</div>
 				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
@@ -106,7 +106,7 @@
 						<label for="" class="form-label">Confirm Password</label> <input
 							type="password" class="form-control" name="confirmPassword" th:value="${user.confirmPassword}">
 							<label th:if="${#fields.hasErrors('confirmPassword')}"
-							th:errors="*{confirmPassword}" style="color: red;">Error </label>
+							th:text="${#fields.errors('confirmPassword')[__0__]}" style="color: red;">Error </label>
 					</div>
 				</div>
 			</div>

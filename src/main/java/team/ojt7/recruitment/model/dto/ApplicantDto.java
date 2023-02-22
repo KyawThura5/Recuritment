@@ -9,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import team.ojt7.recruitment.model.entity.Applicant;
 
 public class ApplicantDto {
@@ -37,6 +39,7 @@ public class ApplicantDto {
 
 	private RecruitmentResourceDto recruitmentResource;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime createdDate;
 
 	private UserDto createdUser;

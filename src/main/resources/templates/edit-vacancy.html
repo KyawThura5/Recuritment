@@ -19,7 +19,7 @@
 				<h2 class="fs-4 fw-bold">Edit Vacancy</h2>
 			</div>
 		</div>
-		<form action="#" th:action="@{/dh/test/vacancy/save}" th:object="${vacancy}"
+		<form action="#" th:action="@{/dh/vacancy/save}" th:object="${vacancy}"
 			method="post" class="mt-2">
 
 			<input type="hidden" th:field="*{id}">
@@ -49,9 +49,9 @@
 				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-3">
 					<div class="form-group">
 						<label for="" class="form-label">Department</label>
-						<select class="form-select" id="department" th:field="*{department}" th:attrappend="disabled=*{department != null ? 'disabled' : ''}">
-							<option value="">-- select a department --</option>
-							<option th:each="dept: ${departments}" th:text="${dept.name}" th:value="${dept.id}"></option>
+						<select class="form-select" id="department" th:field="*{department}">
+							<option value="" th:attrappend="disabled=${vacancy.department != null && vacancy.department.id != null ? 'disabled' : ''}">-- select a department --</option>
+							<option th:each="dept: ${departments}" th:text="${dept.name}" th:value="${dept.id}" th:attrappend="disabled=${vacancy.department != null && vacancy.department.id != dept.id ? 'disabled' : ''}"></option>
 						</select>
 						<label th:if="${#fields.hasErrors('department')}" th:errors="*{department}" th:errorclass="text-danger"></label>
 					</div>
@@ -145,7 +145,7 @@
 				<div
 					class="offset-sm-1 col-sm-10 offset-md-1 col-md-10 d-flex flex-row-reverse">
 					<button type="submit" class="btn btn-success ms-1">Save</button>
-					<a th:href="@{/manager/test/vacancy/search}" class="btn btn-secondary ms-1">Cancel</a>
+					<a th:href="@{/manager/vacancy/search}" class="btn btn-secondary ms-1">Cancel</a>
 				</div>
 			</div>
 		</form>

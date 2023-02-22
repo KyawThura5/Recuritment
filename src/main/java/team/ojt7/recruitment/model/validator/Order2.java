@@ -1,5 +1,5 @@
 package team.ojt7.recruitment.model.validator;
 
-public interface PatternGroup {
+public interface Order2 {
 
 }

@@ -27,7 +27,7 @@ import team.ojt7.recruitment.model.service.UserService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 import team.ojt7.recruitment.model.validator.AdminChangePasswordFormValidator;
-import team.ojt7.recruitment.model.validator.AdminChangePasswordFormValidationOrder;
+import team.ojt7.recruitment.model.validator.DefaultValidationGroupOrder;
 import team.ojt7.recruitment.model.validator.UserChangePasswordFormValidator;
 
 @Controller
@@ -72,7 +72,7 @@ public class UserController {
 
 	@RequestMapping(value="/admin/user/save",method=RequestMethod.POST)
 	public String saveUser(
-			@Validated 
+			@Validated
 			@ModelAttribute("user")
 			UserDto dto,
 			BindingResult bs,
@@ -151,7 +151,7 @@ public class UserController {
 	
 	@PostMapping("/admin/user/password/save")
 	public String savePassword(
-			@Validated(value = AdminChangePasswordFormValidationOrder.class)
+			@Validated
 			@ModelAttribute("passwordForm")
 			AdminChangePasswordFormDto passwordForm,
 			BindingResult bindingResult
