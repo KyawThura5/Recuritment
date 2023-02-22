@@ -6,6 +6,13 @@
 
 body {
 	background-color: rgb(255, 255, 255);
+	-ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll; 
+}
+
+body::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
 }
 
 nav {
@@ -73,4 +80,14 @@ a {
 .btn-primary:hover {
 	background-color: #2d5175;
 	border-color: #2d5175;
+}
+
+.hide-scroll {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll; 
+}
+
+.hide-scroll::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
 }

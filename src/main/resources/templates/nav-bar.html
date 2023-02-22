@@ -14,7 +14,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<img class="logo" th:src="@{/resources/images/dat-logo.png}" alt="">
 		</div>
 		
-		<ul class="nav-item-wrapper fw-bold">
+		<ul class="nav-item-wrapper fw-bold overflow-scroll hide-scroll">
 			<li class="nav-item" th:classappend="${menu == 'home' ? 'active' : ''}">
 				<a th:href="@{/}" class="nav-link">
 					<i class="fa-solid fa-house me-2"></i>
