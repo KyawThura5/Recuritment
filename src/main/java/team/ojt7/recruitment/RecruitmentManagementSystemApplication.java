@@ -17,6 +17,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import team.ojt7.recruitment.event.UserUpdateEvent;
 import team.ojt7.recruitment.model.entity.User;
@@ -81,6 +82,11 @@ public class RecruitmentManagementSystemApplication {
 			securityContext.setAuthentication(auth);
 		}
 		
+	}
+	
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		return new CommonsMultipartResolver();
 	}
 
 }
