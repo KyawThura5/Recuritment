@@ -19,6 +19,11 @@
         [[${label}]]
     </a>
 
-
+	<a th:fragment="team(pageNum, label, tooltip)" class="page-link"
+        th:href="@{'/admin/team/search?' + ${teamSearch.keyword!=null && teamSearch.keyword!=''? 'keyword=' + teamSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${teamSearch.size}}"
+        th:title="${tooltip}" rel="tooltip">
+        [[${label}]]
+    </a>
+	
 </body>
 </html>
