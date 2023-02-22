@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.entity.RecruitmentResource;
 
@@ -12,6 +13,10 @@ import team.ojt7.recruitment.model.entity.RecruitmentResource;
 public interface RecruitmentResourceService {
 	
 	RecruitmentResourceDto save(RecruitmentResource rr);
+	
+	List<RecruitmentResourceDto> findAllByIsDeleted(boolean isDeleted);
+	
+	List<RecruitmentResourceDto> findAllForApplicant(ApplicantDto applicant);
 
 	List<RecruitmentResourceDto> search(String keyword);
 	

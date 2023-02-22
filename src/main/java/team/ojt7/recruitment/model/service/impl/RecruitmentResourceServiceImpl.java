@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.entity.RecruitmentResource;
 import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
@@ -71,6 +73,21 @@ public class RecruitmentResourceServiceImpl implements RecruitmentResourceServic
 		return dto;
 	}
 
+	@Override
+	public List<RecruitmentResourceDto> findAllByIsDeleted(boolean isDeleted) {
+		return RecruitmentResourceDto.ofList(recruitmentResourceRepo.findAllByIsDeleted(isDeleted));
+	}
 	
+	@Override
+	public List<RecruitmentResourceDto> findAllForApplicant(ApplicantDto applicant) {
+		Objects.requireNonNull(applicant);
+		List<RecruitmentResourceDto> dtos = findAllByIsDeleted(false);
+		if (applicant.getRecruitmentResource() == null || dtos.contains(applicant.getRecruitmentResource())) {
+			return dtos;
+		}
+		List<RecruitmentResourceDto> newList = new ArrayList<>(dtos);
+		newList.add(applicant.getRecruitmentResource());
+		return newList;
+	}
 
 }

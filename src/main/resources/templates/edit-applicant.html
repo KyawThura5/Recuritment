@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Applicant</title>
+    <title th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/edit-applicant.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -18,7 +18,7 @@
         <form th:action="@{/hr/applicant/save}" class="row" method="post" th:object="${applicant}" enctype="multipart/form-data">
             <div class="offset-0 offset-md-2 col-12 col-md-8">
                 <div class="row">
-                    <h2 class="col fs-5 fw-bold">Edit Applicant</h2>
+                    <h2 class="col fs-5 fw-bold" th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></h2>
                 </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" class="form-control" th:field="*{attachedUri}">
@@ -46,7 +46,10 @@
                     </div>
                     <div class="col-12 col-md-6 form-group  my-2">
                         <label for="" class="form-label">Recruitment Resource</label>
-                        <select class="form-select" th:field="*{recruitmentResource}"></select>
+                        <select class="form-select" th:field="*{recruitmentResource}">
+                            <option value="">-- select a resource --</option>
+                            <option th:each="rr : ${recruitmentResources}" th:text="${rr.name}" th:value="${rr.id}"></option>
+                        </select>
                         <label th:if="${#fields.hasErrors('recruitmentResource')}" th:errors="*{recruitmentResource}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 col-md-6 form-group my-2">
