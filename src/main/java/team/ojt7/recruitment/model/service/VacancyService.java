@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
@@ -19,4 +20,7 @@ public interface VacancyService {
 	VacancyDto generateNewWithCode();
 	
 	List<VacancyDto> search(String keyword, Status status, LocalDate dateFrom, LocalDate dateTo);
+
+	List<VacancyDto> findAllForApplicant(ApplicantDto applicantDto);
+
 }

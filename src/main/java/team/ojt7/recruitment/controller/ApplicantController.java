@@ -1,6 +1,8 @@
 package team.ojt7.recruitment.controller;
 
 
+import java.util.List;
+
 import javax.servlet.annotation.MultipartConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,15 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
+import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
+import team.ojt7.recruitment.model.dto.RequirePositionDto;
+import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
+import team.ojt7.recruitment.model.service.RequiredPositionService;
+import team.ojt7.recruitment.model.service.VacancyService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
@@ -34,7 +41,13 @@ public class ApplicantController {
 	
 	@Autowired
 	private ApplicantService applicantService;
+		
+	@Autowired
+	private RequiredPositionService requriedPositionService;
 	
+	@Autowired
+	private VacancyService vacancyService;
+		
 	@Autowired
 	private Formatter<RecruitmentResourceDto> recruitmentResourceDtoFormatter;
 	
@@ -52,7 +65,10 @@ public class ApplicantController {
 	Long id,
 	ModelMap model) {
 		ApplicantDto applicantDto = applicantService.findById(id).orElse(applicantService.generateNewWithCode());
-		
+		List<RequirePositionDto>dto=requriedPositionService.findAllByApplicant(applicantDto);
+		List<VacancyDto>vacancy=vacancyService.findAllForApplicant(applicantDto);
+		model.put("vacancy",vacancy);
+		model.put("requirePositionDto",dto);
 		model.put("applicant", applicantDto);
 		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 		return "edit-applicant";

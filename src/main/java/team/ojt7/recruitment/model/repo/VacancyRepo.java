@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 
@@ -33,4 +34,7 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
    // List<Vacancy> search(@Param("keyword") String keyword);
     
 	List<Vacancy> search(String keyword, Status status, LocalDate dateFrom, LocalDate dateTo);
+
+	List<Vacancy> findAllByStatusAndIsDeleted(Status status,boolean isDeleted);
+
 }
