@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/recruitmentresource/**/**").hasAnyAuthority("ADMIN", "HIRING_MANAGER")
             .antMatchers("/team/search").authenticated()
             .antMatchers("/team/**").hasAnyAuthority("ADMIN", "DEPARTMENT_HEAD")
-            .antMatchers("/vacancy/search").authenticated()
+            .antMatchers("/vacancy/search").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
             .antMatchers("/vacancy/**").hasAuthority("DEPARTMENT_HEAD")
             .antMatchers("/login", "/resources/**").permitAll()
             .antMatchers("/", "/profile/**").authenticated();
