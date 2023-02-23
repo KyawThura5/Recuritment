@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,12 +22,12 @@
             <h2 class="col-auto fs-5 fw-bold">Applicants</h2>
         </div>
 
-        <form id="searchForm" th:action="@{/manager/applicant/search}" th:object="${applicantSearch}" class="row mt-4 mb-4">
+        <form id="searchForm" th:action="@{/applicant/search}" th:object="${applicantSearch}" class="row mt-4 mb-4">
             <div class="col-auto">
                 <input id="pageParamInput" type="hidden" th:field="*{page}">
                 <div class="input-group">
                     <input class="form-control" type="text" th:field="*{keyword}" placeholder="Search" />
-                    <a th:href="@{'/manager/applicant/search?' + 'size=' + ${applicantSearch.size} + ${applicantSearch.dateFrom != null && applicantSearch.dateFrom != '' ? '&dateFrom=' + applicantSearch.dateFrom : ''} + ${applicantSearch.dateTo != null && applicantSearch.dateTo != '' ? '&dateTo=' + applicantSearch.dateTo : ''}}" class="input-group-text">
+                    <a th:href="@{'/applicant/search?' + 'size=' + ${applicantSearch.size} + ${applicantSearch.dateFrom != null && applicantSearch.dateFrom != '' ? '&dateFrom=' + applicantSearch.dateFrom : ''} + ${applicantSearch.dateTo != null && applicantSearch.dateTo != '' ? '&dateTo=' + applicantSearch.dateTo : ''}}" class="input-group-text">
                         <i class="fa-solid fa-delete-left"></i>
                     </a>
                     <button class="btn btn-primary" type="submit">
@@ -42,8 +44,8 @@
                 <input type="date" th:field="*{dateTo}" onchange="changePageSize()" class="form-control">
             </div>
             
-            <div class="col-auto">
-                <a th:href="@{/hr/applicant/edit}" class="btn btn-success">
+            <div sec:authorize="hasAnyAuthority('HIRING_MANAGER')" class="col-auto">
+                <a th:href="@{/applicant/edit}" class="btn btn-success">
                     <i class="fa-solid fa-plus"></i>
                     Add New
                 </a>
@@ -76,13 +78,13 @@
                                     <h6 class="col-3" th:text="${applicant.code}"></h6>
                                     <h6 class="col-3" th:text="${applicant.createdDate}"></h6>
                                     <div class="col-3">
-                                        <a th:href="@{/hr/applicant/edit(id=${applicant.id})}" class="btn btn-success">
+                                        <a sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:href="@{/applicant/edit(id=${applicant.id})}" class="btn btn-success">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
-                                        <a th:href="@{/{cvLink}(cvLink=${applicant.attachedUri})}" target="_blank" class="btn btn-warning">
+                                        <a sec:authorize="hasAnyAuthority('GENERAL_MANAGER', 'DEPARTMENT_HEAD', 'PROJECT_MANAGER', 'HIRING_MANAGER')" th:href="@{/{cvLink}(cvLink=${applicant.attachedUri})}" target="_blank" class="btn btn-warning">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
-                                        <form th:action="@{/hr/applicant/delete(id=${applicant.id})}" method="post" class="d-inline-block">
+                                        <form sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:action="@{/applicant/delete(id=${applicant.id})}" method="post" class="d-inline-block">
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fa-regular fa-trash-can"></i>
                                             </button>

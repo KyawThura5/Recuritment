@@ -30,7 +30,7 @@ xmlns:th="http://www.thymeleaf.org">
 				</div>
 			</div>
 			
-			<div sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" class="col-auto">
+			<div sec:authorize="hasAnyAuthority('HIRING_MANAGER')" class="col-auto">
 				<a th:href="@{/recruitmentresource/external/edit}" class="btn btn-success">
 					<i class="fa-solid fa-plus"></i>
 					Add New
@@ -66,13 +66,13 @@ xmlns:th="http://www.thymeleaf.org">
                         <a th:href="@{//{link}(link=${rr.websiteLink})}" target="_blank" class="btn btn-primary" th:classappend="${rr.websiteLink == null || rr.websiteLink.isBlank()} ? disabled : ''">
                             <i class="fa-solid fa-globe"></i>
                         </a>
-                        <a sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" th:href="@{/recruitmentresource/external/edit(id=${rr.id})}" class="btn btn-success">
+                        <a sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:href="@{/recruitmentresource/external/edit(id=${rr.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                         <a th:href="@{/recruitmentresource/external/detail(id=${rr.id})}" class="btn btn-secondary">
                             <i class="fa-solid fa-circle-info"></i>
                         </a>
-                        <form sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" th:action="@{/recruitmentresource/external/delete(id=${rr.id})}" method="post" class="d-inline-block">
+                        <form sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:action="@{/recruitmentresource/external/delete(id=${rr.id})}" method="post" class="d-inline-block">
                             <button type="submit" class="btn btn-danger">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>

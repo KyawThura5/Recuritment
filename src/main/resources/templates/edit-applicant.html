@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +16,7 @@
 <body>
     <div th:replace="nav-bar :: navbar('applicants')"></div>
     <div class="container-md-fluid container-lg mt-2 py-3">
-        <form th:action="@{/hr/applicant/save}" class="row" method="post" th:object="${applicant}" enctype="multipart/form-data">
+        <form th:action="@{/applicant/save}" class="row" method="post" th:object="${applicant}" enctype="multipart/form-data">
             <div class="offset-0 offset-md-2 col-12 col-md-8">
                 <div class="row">
                     <h2 class="col fs-5 fw-bold" th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></h2>
@@ -99,7 +100,7 @@
                     </div>
                     <div class="col-12 mt-3 d-flex flex-row-reverse">
                         <button type="submit" class="btn btn-success ms-1">Save</button>
-                        <a th:href="@{/manager/applicant/search}" class="btn btn-secondary ms-1">Cancel</a>
+                        <a th:href="@{/applicant/search}" class="btn btn-secondary ms-1">Cancel</a>
                     </div>
                 </div>
             </div>

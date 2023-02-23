@@ -14,7 +14,7 @@
     </a>
 
     <a th:fragment="applicant(pageNum, label, tooltip)" class="page-link"
-        th:href="@{'/manager/applicant/search?' + ${applicantSearch.keyword!=null && applicantSearch.keyword!=''? 'keyword=' + applicantSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${applicantSearch.size} + ${applicantSearch.dateFrom != null && applicantSearch.dateFrom != '' ? '&dateFrom=' + applicantSearch.dateFrom : ''} + ${applicantSearch.dateTo != null && applicantSearch.dateTo != '' ? '&dateTo=' + applicantSearch.dateTo : ''}}"
+        th:href="@{'/applicant/search?' + ${applicantSearch.keyword!=null && applicantSearch.keyword!=''? 'keyword=' + applicantSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${applicantSearch.size} + ${applicantSearch.dateFrom != null && applicantSearch.dateFrom != '' ? '&dateFrom=' + applicantSearch.dateFrom : ''} + ${applicantSearch.dateTo != null && applicantSearch.dateTo != '' ? '&dateTo=' + applicantSearch.dateTo : ''}}"
         th:title="${tooltip}" rel="tooltip">
         [[${label}]]
     </a>

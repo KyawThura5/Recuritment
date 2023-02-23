@@ -17,7 +17,7 @@ import team.ojt7.recruitment.model.service.VacancyService;
 public class ApplicantRestController {
 @Autowired
 VacancyService service;
-@PostMapping("/user/api/positionByVacancy/search")
+@PostMapping("/api/positionByVacancy/search")
 public ResponseEntity<List<? extends RequirePositionDto>> findPosition(@RequestBody PositionSearchByVacancy dto) {
 	VacancyDto vacancyDto = service.findById(dto.getVacancyId()).orElse(null);
 	return ResponseEntity.ok(vacancyDto == null ? Collections.emptyList() :vacancyDto.getRequirePositions());

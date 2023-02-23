@@ -1,7 +1,7 @@
 $(document).ready(function () {
-$("#vacancy").change(function (event){
-	        ajaxQuerypositionByVacancy();
-});
+	$("#vacancy").change(function (event){
+		ajaxQuerypositionByVacancy();
+	});
 });
 
 const onCvFileChange = () => {
@@ -25,7 +25,7 @@ const ajaxQuerypositionByVacancy = () => {
 	$.ajax({
 		type:"POST",
 		contentType: "application/json",
-		url: "/user/api/positionByVacancy/search",
+		url: "/api/positionByVacancy/search",
 		data: JSON.stringify(data),
 		dataType: 'json',
 		cache: false,
@@ -34,15 +34,14 @@ const ajaxQuerypositionByVacancy = () => {
 			let options = "";
 			for(let i=0;i<data.length;i++){
 				let position=data[i];
-			options += `<option value=${position.id}>${position.position.name}/${position.team.name}/${position.team.department.name}</option>`;			
-			
+				options += `<option value=${position.id}>${position.position.name}/${position.team.name}/${position.team.department.name}</option>`;			
 			}
-			console.log(options);		
-		let positionSelectWrapper = $("#position-select-wrapper");
+					
+			let positionSelectWrapper = $("#position-select-wrapper");
 			positionSelectWrapper.html(`
                 <option value=''>-- select a team --</option>
                 ${options}`);
-  },
+  		},
         error: function (e) {
 
             console.log('error');

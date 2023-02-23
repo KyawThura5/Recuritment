@@ -31,7 +31,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				</div>
 			</div>
 			
-			<div sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" class="col-auto">
+			<div sec:authorize="hasAnyAuthority('HIRING_MANAGER')" class="col-auto">
 				<a th:href="@{/recruitmentresource/direct/edit}" class="btn btn-success">
 					<i class="fa-solid fa-plus"></i>
 					Add New
@@ -54,13 +54,13 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                     <td th:text="${rr.code}"></td>
                     <td th:text="${rr.name}"></td>
                     <td>
-                        <a sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" th:href="@{/recruitmentresource/direct/edit(id=${rr.id})}" class="btn btn-success">
+                        <a sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:href="@{/recruitmentresource/direct/edit(id=${rr.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                         <a th:href="@{/recruitmentresource/direct/detail(id=${rr.id})}" class="btn btn-secondary">
                             <i class="fa-solid fa-circle-info"></i>
                         </a>
-                        <form sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" th:action="@{/recruitmentresource/direct/delete(id=${rr.id})}" method="post" class="d-inline-block">
+                        <form sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:action="@{/recruitmentresource/direct/delete(id=${rr.id})}" method="post" class="d-inline-block">
                             <button type="submit" class="btn btn-danger">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>

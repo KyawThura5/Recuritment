@@ -49,13 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/department/**").hasAuthority("ADMIN")
             .antMatchers("/position/search").authenticated()
             .antMatchers("/position/**").hasAnyAuthority("ADMIN", "DEPARTMENT_HEAD")
-            .antMatchers("/recruitmentresource/**/search").authenticated()
-            .antMatchers("/recruitmentresource/**/detail").authenticated()
-            .antMatchers("/recruitmentresource/**/**").hasAnyAuthority("ADMIN", "HIRING_MANAGER")
+            .antMatchers("/recruitmentresource/**/search").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
+            .antMatchers("/recruitmentresource/**/detail").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
+            .antMatchers("/recruitmentresource/**/**").hasAnyAuthority("HIRING_MANAGER")
             .antMatchers("/team/search").authenticated()
             .antMatchers("/team/**").hasAnyAuthority("ADMIN", "DEPARTMENT_HEAD")
             .antMatchers("/vacancy/search").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
             .antMatchers("/vacancy/**").hasAuthority("DEPARTMENT_HEAD")
+            .antMatchers("/applicant/search").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
+            .antMatchers("/applicant/**").hasAuthority("HIRING_MANAGER")
             .antMatchers("/login", "/resources/**").permitAll()
             .antMatchers("/", "/profile/**").authenticated();
 

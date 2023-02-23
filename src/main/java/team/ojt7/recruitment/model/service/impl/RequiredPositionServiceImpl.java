@@ -2,15 +2,13 @@ package team.ojt7.recruitment.model.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
-import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
-import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.repo.RequirePositionRepo;
 import team.ojt7.recruitment.model.service.RequiredPositionService;
 
@@ -36,6 +34,12 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 			}
 		}
 		return requireposition;
+	}
+
+
+	@Override
+	public Optional<RequirePositionDto> findById(Long id) {
+		return Optional.ofNullable(RequirePositionDto.of(repo.findById(id).orElse(null)));
 	}
 
 	

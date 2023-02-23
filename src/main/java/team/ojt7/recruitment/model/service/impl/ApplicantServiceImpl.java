@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
@@ -26,7 +29,7 @@ import team.ojt7.recruitment.util.generator.ApplicantCodeGenerator;
 
 
 @Service
-public class ApplicantServiceImp implements ApplicantService{
+public class ApplicantServiceImpl implements ApplicantService{
 	
 	@Autowired
 	private ApplicantRepo applicantRepo;
@@ -39,6 +42,9 @@ public class ApplicantServiceImp implements ApplicantService{
 	
 	@Autowired
 	private String applicantCvLocation;
+	
+	@Autowired
+	private HttpSession session;
 
 	@Override
 	@Transactional
@@ -57,6 +63,10 @@ public class ApplicantServiceImp implements ApplicantService{
 		
 		if (invalidFieldsException.hasFields()) {
 			throw invalidFieldsException;
+		}
+		
+		if (applicant.getCreatedUser() == null) {
+			applicant.setCreatedUser((User) session.getAttribute("loginUser"));
 		}
 		
 		Applicant savedApplicant = applicantRepo.save(applicant);

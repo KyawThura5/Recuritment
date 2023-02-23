@@ -23,7 +23,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
-import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
@@ -52,15 +51,19 @@ public class ApplicantController {
 	private Formatter<RecruitmentResourceDto> recruitmentResourceDtoFormatter;
 	
 	@Autowired
+	private Formatter<RequirePositionDto> requirePositionDtoFormatter;
+	
+	@Autowired
 	@Qualifier("RecruitmentResource")
 	private RecruitmentResourceService recruitmentResourceService;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.addCustomFormatter(recruitmentResourceDtoFormatter);
+		binder.addCustomFormatter(requirePositionDtoFormatter);
 	}
 
-	@RequestMapping(value = "/hr/applicant/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/applicant/edit", method = RequestMethod.GET)
 	public String addNewApplicant(@RequestParam(required = false)
 	Long id,
 	ModelMap model) {
@@ -74,7 +77,7 @@ public class ApplicantController {
 		return "edit-applicant";
 	}
 
-	@RequestMapping(value="/hr/applicant/save",method=RequestMethod.POST)
+	@RequestMapping(value="/applicant/save",method=RequestMethod.POST)
 	public String saveApplicant(
 			@Validated
 			@ModelAttribute("applicant")
@@ -100,17 +103,17 @@ public class ApplicantController {
 			return "edit-applicant";
 		}
 		
-		return "redirect:/manager/applicant/search";
+		return "redirect:/applicant/search";
 		
 	}
 
-	@RequestMapping(value = "/hr/applicant/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/applicant/delete", method = RequestMethod.POST)
 	public String deleteApplicant(@RequestParam("id")Long id) {
 		applicantService.deleteById(id);
-		return "redirect:/manager/applicant/search";
+		return "redirect:/applicant/search";
 	}
 
-	@RequestMapping(value = "/manager/applicant/search", method = RequestMethod.GET)
+	@RequestMapping(value = "/applicant/search", method = RequestMethod.GET)
 	public String searchApplicant(@ModelAttribute("applicantSearch")
 	ApplicantSearch applicantSearch,
 	ModelMap model) {
