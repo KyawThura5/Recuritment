@@ -1,10 +1,13 @@
 package team.ojt7.recruitment.model.service.impl;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
@@ -69,4 +72,12 @@ public class VacancyServiceImpl implements VacancyService {
 		return VacancyDto.ofList(vacancies);
 	}
 
+	@Override
+	public List<VacancyDto> findAllForApplicant(ApplicantDto applicantDto) {
+		List<VacancyDto>vacancy=new ArrayList<>(findAllByStatusAndIsDeleted(Status.OPENING,false));
+		return vacancy;
+	}
+public List<VacancyDto>findAllByStatusAndIsDeleted(Status status,boolean isDeleted){	
+return VacancyDto.ofList(vacancyRepo.findAllByStatusAndIsDeleted(status,false));	
+}
 }
