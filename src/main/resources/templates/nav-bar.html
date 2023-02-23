@@ -21,28 +21,34 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					Home
 				</a>
 			</li>
-			<li class="nav-item" th:classappend="${menu == 'users' ? 'active' : ''}">
-				<a th:href="@{/admin/user/search}" class="nav-link">
+			<li sec:authorize="hasAuthority('ADMIN')" class="nav-item" th:classappend="${menu == 'users' ? 'active' : ''}">
+				<a th:href="@{/user/search}" class="nav-link">
 					<i class="fa-solid fa-user me-2"></i>
 					Users
-					<span sec:authorize="hasAuthority('ADMIN')" class="badge bg-danger ms-1" th:if="${userRequestCount > 0}" th:text="${userRequestCount}"></span>
 				</a>
 			</li>
 			<li class="nav-item" th:classappend="${menu == 'departments' ? 'active' : ''}">
-				<a th:href="@{/admin/department/search}" class="nav-link">
+				<a th:href="@{/department/search}" class="nav-link">
 					<i class="fa-solid fa-building me-2"></i>
 					Departments
 				</a>
 			</li>
 			
-			<li class="nav-item" th:classappend="${menu == 'teams' ? 'active' : ''}">
-				<a th:href="@{/admin/team/search}" class="nav-link">
+			<li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${menu == 'teams' ? 'active' : ''}">
+				<a th:href="@{/team/search}" class="nav-link">
 					<i class="fa-solid fa-building me-2"></i>
 					Teams
 				</a>
 			</li>
 
-			<li class="nav-item" th:classappend="${menu == 'resources' ? 'active' : ''}">
+			<li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${menu == 'positions' ? 'active' : ''}">
+				<a th:href="@{/position/search}" class="nav-link">
+					<i class="fa-solid fa-medal me-2"></i>
+					Position
+				</a>
+			</li>
+
+			<li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${menu == 'resources' ? 'active' : ''}">
 				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					<i class="fa-solid fa-hand-holding-hand me-2"></i>
 					Resources
@@ -50,13 +56,13 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			
 				<ul class="dropdown-menu dropdown-menu-dark">
 					<li>
-						<a class="dropdown-item" th:href="@{/manager/recruitment/direct/search}">
+						<a class="dropdown-item" th:href="@{/recruitmentresource/direct/search}">
 							<i class="fa-solid fa-people-arrows me-2"></i>
 							Direct
 						</a>
 					</li>
 					<li>
-						<a class="dropdown-item" th:href="@{/manager/recruitment/external/search}">
+						<a class="dropdown-item" th:href="@{/recruitmentresource/external/search}">
 							<i class="fa-solid fa-handshake-simple me-2"></i>
 							External
 						</a>
@@ -65,21 +71,14 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				
 			</li>
 
-			<li class="nav-item" th:classappend="${menu == 'positions' ? 'active' : ''}">
-				<a th:href="@{/manager/position/search}" class="nav-link">
-					<i class="fa-solid fa-medal me-2"></i>
-					Position
-				</a>
-			</li>
-
-			<li class="nav-item" th:classappend="${menu == 'vacancies' ? 'active' : ''}">
-				<a th:href="@{/manager/vacancy/search}" class="nav-link">
+			<li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${menu == 'vacancies' ? 'active' : ''}">
+				<a th:href="@{/vacancy/search}" class="nav-link">
 					<i class="fa-solid fa-image-portrait me-2"></i>
 					Vacancies
 				</a>
 			</li>
 
-			<li class="nav-item" th:classappend="${menu == 'applicants' ? 'active' : ''}">
+			<li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${menu == 'applicants' ? 'active' : ''}">
 				<a th:href="@{/manager/applicant/search}" class="nav-link">
 					<i class="fa-solid fa-address-card me-2"></i>
 					Applicants
@@ -98,7 +97,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				</a>
 			</li>
 
-			<li class="nav-item"  th:classappend="${menu == 'profile' ? 'active' : ''}">
+			<li sec:authorize="isAuthenticated()" class="nav-item"  th:classappend="${menu == 'profile' ? 'active' : ''}">
 
 				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					<i class="fa-solid fa-circle-user"></i>
@@ -106,7 +105,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			
 				<ul class="dropdown-menu dropdown-menu-dark">
 					<li>
-						<a class="dropdown-item" th:href="@{/user/profile}">
+						<a class="dropdown-item" th:href="@{/profile}">
 							<i class="fa-solid fa-user me-2"></i>
 							Profile
 						</a>

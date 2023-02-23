@@ -19,7 +19,7 @@
 				<h2 class="fs-4 fw-bold">Edit Vacancy</h2>
 			</div>
 		</div>
-		<form action="#" th:action="@{/dh/vacancy/save}" th:object="${vacancy}"
+		<form action="#" th:action="@{/vacancy/save}" th:object="${vacancy}"
 			method="post" class="mt-2">
 
 			<input type="hidden" th:field="*{id}">
@@ -145,7 +145,7 @@
 				<div
 					class="offset-sm-1 col-sm-10 offset-md-1 col-md-10 d-flex flex-row-reverse">
 					<button type="submit" class="btn btn-success ms-1">Save</button>
-					<a th:href="@{/manager/vacancy/search}" class="btn btn-secondary ms-1">Cancel</a>
+					<a th:href="@{/vacancy/search}" class="btn btn-secondary ms-1">Cancel</a>
 				</div>
 			</div>
 		</form>

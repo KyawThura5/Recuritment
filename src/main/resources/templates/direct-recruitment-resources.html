@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" 
-xmlns:th="http://www.thymeleaf.org">
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <title th:text="${title}"></title>
@@ -17,11 +18,11 @@ xmlns:th="http://www.thymeleaf.org">
             <h2 class="col-auto fs-5 fw-bold" th:text="${title}"></h2>
         </div>
 
-        <form id="searchForm" th:action="@{/manager/recruitment/direct/search}" class="row mt-4">
+        <form id="searchForm" th:action="@{/recruitmentresource/direct/search}" class="row mt-4">
 			<div class="col-auto">
 				<div class="input-group">
 					<input class="form-control" type="text" name="keyword" th:value="${param.keyword}" placeholder="Search" />
-					<a th:href="@{/manager/recruitment/direct/search}" class="input-group-text">
+					<a th:href="@{/recruitmentresource/direct/search}" class="input-group-text">
 						<i class="fa-solid fa-delete-left"></i>
 					</a>
 					<button class="btn btn-primary" type="submit">
@@ -30,8 +31,8 @@ xmlns:th="http://www.thymeleaf.org">
 				</div>
 			</div>
 			
-			<div class="col-auto">
-				<a th:href="@{/hr/recruitment/direct/edit}" class="btn btn-success">
+			<div sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" class="col-auto">
+				<a th:href="@{/recruitmentresource/direct/edit}" class="btn btn-success">
 					<i class="fa-solid fa-plus"></i>
 					Add New
 				</a>
@@ -53,13 +54,13 @@ xmlns:th="http://www.thymeleaf.org">
                     <td th:text="${rr.code}"></td>
                     <td th:text="${rr.name}"></td>
                     <td>
-                        <a th:href="@{/hr/recruitment/direct/edit(id=${rr.id})}" class="btn btn-success">
+                        <a sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" th:href="@{/recruitmentresource/direct/edit(id=${rr.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a th:href="@{/manager/recruitment/direct/detail(id=${rr.id})}" class="btn btn-secondary">
+                        <a th:href="@{/recruitmentresource/direct/detail(id=${rr.id})}" class="btn btn-secondary">
                             <i class="fa-solid fa-circle-info"></i>
                         </a>
-                        <form th:action="@{/hr/recruitment/direct/delete(id=${rr.id})}" method="post" class="d-inline-block">
+                        <form sec:authorize="hasAnyAuthority('ADMIN', 'HIRING_MANAGER')" th:action="@{/recruitmentresource/direct/delete(id=${rr.id})}" method="post" class="d-inline-block">
                             <button type="submit" class="btn btn-danger">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>

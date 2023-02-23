@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title th:text="${title}"></title>
@@ -9,9 +10,9 @@
 <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
  <style>
-            body{background-color: #e3e8e7;}
-    
-        </style> 
+    body{background-color: #e3e8e7;}
+
+</style> 
 </head>
 <body>
     <div th:replace="nav-bar :: navbar('departments')"></div>
@@ -21,7 +22,7 @@
                 <h2 class="fs-4 fw-bold" th:text="${title}"></h2>
             </div>
         </div>
-		<form action="#" th:action="@{/admin/department/save}" class="mt-2" th:object="${department}" method="post">
+		<form action="#" th:action="@{/department/save}" class="mt-2" th:object="${department}" method="post">
             <input type="hidden" id="departmentId" th:field="*{id}">
 			<input type="hidden" th:field="*{deleted}">
 				
@@ -39,13 +40,11 @@
                 <div class="col-md-3"></div>
                  <div class="col-md-4">
                     <button type="submit" class="btn btn-success">Save</button>
-                    <a th:href="@{/admin/department/search}" class="btn btn-secondary">Cancel</a>
+                    <a th:href="@{/department/search}" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>
 			</form>
 	</div>
-
-
 
 </body>
 </html>

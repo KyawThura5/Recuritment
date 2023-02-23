@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Position Managements</title>
@@ -15,7 +16,7 @@
 	<div th:replace="nav-bar :: navbar('positions')"></div>
 	<div class="container bg-white mt-2 pt-3">
 		<form class="row g-3 mt-3" action="#"
-			th:action="@{/manager/position/search}" method="get">
+			th:action="@{/position/search}" method="get">
 
 			<div class="col-auto">
 
@@ -24,7 +25,7 @@
 			</div>
 
 			<div class="col-auto">
-				<a th:href="@{/manager/position/search}" class="btn btn-secondary">
+				<a th:href="@{/position/search}" class="btn btn-secondary">
 
 					<span class="material-symbols-outlined"> restart_alt </span>
 
@@ -36,8 +37,8 @@
 					<span class="material-symbols-outlined">search</span>
 				</button>
 			</div>
-			<div class="col-auto">
-				<a th:href="@{/admin/position/edit}" class="btn btn-secondary"> <span
+			<div class="col-auto" sec:authorize="hasAnyAuthority('ADMIN', 'DEPARTMENT_HEAD')">
+				<a th:href="@{/position/edit}" class="btn btn-secondary"> <span
 					class="material-symbols-outlined">add_circle</span>
 				</a>
 			</div>
@@ -45,22 +46,26 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-
+					<th>#</th>
 					<th>Name</th>
-					<th>Action</th>
+					<th sec:authorize="hasAnyAuthority('ADMIN', 'DEPARTMENT_HEAD')">Action</th>
 
 				</tr>
 			</thead>
 			<tbody>
 
 				<tr th:each="position : ${list}">
+					<td th:text="${positionStat.index + 1}"></td>
 					<td th:text="${position.name}"></td>
-					<td><a th:href="@{/admin/position/edit(id=${position.id})}"
-						class="btn btn-warning "><span
-							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/admin/position/delete(id=${position.id})}"
-						class="btn btn-info"><span class="material-symbols-outlined">
-								delete </span></a></td>
+					<td sec:authorize="hasAnyAuthority('ADMIN', 'DEPARTMENT_HEAD')">
+						<a th:href="@{/position/edit(id=${position.id})}"
+						class="btn btn-warning ">
+							<span class="material-symbols-outlined"> edit </span>
+						</a>
+						<form th:action="@{/position/delete(id=${position.id})}" method="post" class="d-inline-block">
+							<button type="submit" class="btn btn-danger">Del</button>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 		</table>

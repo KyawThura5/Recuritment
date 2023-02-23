@@ -8,7 +8,7 @@
 </head>
 <body>
     <a th:fragment="vacancy(pageNum, label, tooltip)" class="page-link"
-        th:href="@{'/manager/vacancy/search?' + ${vacancySearch.keyword!=null && vacancySearch.keyword!=''? 'keyword=' + vacancySearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}"
+        th:href="@{'/vacancy/search?' + ${vacancySearch.keyword!=null && vacancySearch.keyword!=''? 'keyword=' + vacancySearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}"
         th:title="${tooltip}" rel="tooltip">
         [[${label}]]
     </a>
@@ -20,7 +20,7 @@
     </a>
 
 	<a th:fragment="team(pageNum, label, tooltip)" class="page-link"
-        th:href="@{'/admin/team/search?' + ${teamSearch.keyword!=null && teamSearch.keyword!=''? 'keyword=' + teamSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${teamSearch.size}}"
+        th:href="@{'/team/search?' + ${teamSearch.keyword!=null && teamSearch.keyword!=''? 'keyword=' + teamSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${teamSearch.size}}"
         th:title="${tooltip}" rel="tooltip">
         [[${label}]]
     </a>

@@ -22,7 +22,7 @@ body {
 				<h2 class="fs-4 fw-bold" th:text="${title}"></h2>
 			</div>
 		</div>
-		<form th:action="@{/admin/team/save}" class="mt-2" th:object="${team}"
+		<form th:action="@{/team/save}" class="mt-2" th:object="${team}"
 			method="post">
 
 			<input type="hidden" th:field="*{id}">
@@ -53,7 +53,7 @@ body {
 				<div class="col-md-3"></div>
 				<div class="col-md-4">
 					<button type="submit" class="btn btn-success">Save</button>
-					<a th:href="@{/admin/team/search}" class="btn btn-secondary">Cancel</a>
+					<a th:href="@{/team/search}" class="btn btn-secondary">Cancel</a>
 				</div>
 			</div>
 		</form>

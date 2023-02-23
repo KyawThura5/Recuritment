@@ -23,14 +23,14 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentService;
 
-	@GetMapping("/admin/department/search")
+	@GetMapping("/department/search")
 	public String searchDepartments(@RequestParam(required = false) String keyword, ModelMap model) {
 		List<DepartmentDto> list = departmentService.search(keyword);
 		model.addAttribute("list", list);
 		return "departments";
 	}
 
-	@GetMapping("/admin/department/edit")
+	@GetMapping("/department/edit")
 	public String editDepartment(
 			@RequestParam(required = false)
 			Long id,
@@ -43,7 +43,7 @@ public class DepartmentController {
 		return "edit-department";
 	}
 
-	@PostMapping("/admin/department/save")
+	@PostMapping("/department/save")
 	public String saveDepartment(@ModelAttribute("department") @Validated DepartmentDto dto,BindingResult bs,ModelMap model) {
 		
 		if (!bs.hasErrors()) {
@@ -62,13 +62,13 @@ public class DepartmentController {
 			return "edit-department";
 		}
 		
-		return "redirect:/admin/department/search";
+		return "redirect:/department/search";
 	}
 
-	@GetMapping("/admin/department/delete")
+	@PostMapping("/department/delete")
 	public String deleteDepartment(@RequestParam("id") Long id) {
 		
 		departmentService.deleteById(id);
-		return "redirect:/admin/department/search";
+		return "redirect:/department/search";
 	}
 }

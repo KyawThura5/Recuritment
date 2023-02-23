@@ -19,7 +19,7 @@
 			</div>
 		</div>
 
-		<form action="#" th:action="@{/admin/user/save}" th:object="${user}"
+		<form action="#" th:action="@{/user/save}" th:object="${user}"
 			method="Post" class="mt-2">
 			
 			<input type="hidden" class="form-control" th:field="*{id}">
@@ -89,8 +89,8 @@
 				<div
 					class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 d-flex flex-row-reverse">
 					<button type="submit" class="btn btn-success ms-1">Save</button>
-					<a th:href="@{/admin/user/search}" class="btn btn-secondary ms-1">Cancel</a>
-					<a th:if="${user.id != null}" th:href="@{/admin/user/password/change(id=${user.id})}" class="btn btn-primary">Change Password</a>
+					<a th:href="@{/user/search}" class="btn btn-secondary ms-1">Cancel</a>
+					<a th:if="${user.id != null}" th:href="@{/user/password/change(id=${user.id})}" class="btn btn-primary">Change Password</a>
 				</div>
 			</div>
 		</form>

@@ -62,7 +62,7 @@ public class VacancyController {
 		binder.addCustomFormatter(userDtoFormatter);
 	}
 
-	@GetMapping("/dh/vacancy/edit")
+	@GetMapping("/vacancy/edit")
 	public String editVacancy(
 			@RequestParam(required = false)
 			Long id,
@@ -81,7 +81,7 @@ public class VacancyController {
 		return "edit-vacancy";
 	}
 	
-	@PostMapping("/dh/vacancy/save")
+	@PostMapping("/vacancy/save")
 	public String saveVacancy(
 			@Validated
 			@ModelAttribute("vacancy")
@@ -102,10 +102,10 @@ public class VacancyController {
 			vacancy.setCreatedUser(loginUser);
 		}
 		vacancyTestService.save(vacancy);
-		return "redirect:/manager/vacancy/search";
+		return "redirect:/vacancy/search";
 	}
 	
-	@GetMapping("/manager/vacancy/search")
+	@GetMapping("/vacancy/search")
 	public String searchVacancies(
 			@ModelAttribute("vacancySearch")
 			VacancySearch vacancySearch,
@@ -116,9 +116,9 @@ public class VacancyController {
 		return "vacancies";
 	}
 	
-	@PostMapping("/dh/vacancy/delete")
+	@PostMapping("/vacancy/delete")
 	public String deleteVacancyById(@RequestParam Long id) {
 		vacancyTestService.deleteById(id);
-		return "redirect:/manager/vacancy/search";
+		return "redirect:/vacancy/search";
 	}
 }

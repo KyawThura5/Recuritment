@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 
@@ -20,12 +21,12 @@
             <h2 class="col-auto fs-5 fw-bold">Vacancies</h2>
         </div>
 
-        <form id="searchForm" th:action="@{/manager/vacancy/search}" th:object="${vacancySearch}" class="row mt-4">
+        <form id="searchForm" th:action="@{/vacancy/search}" th:object="${vacancySearch}" class="row mt-4">
 			<div class="col-auto">
 				<input id="pageParamInput" type="hidden" th:field="*{page}"/>
 				<div class="input-group">
 					<input class="form-control" type="text" th:field="*{keyword}" placeholder="Search" />
-					<a th:href="@{'/manager/vacancy/search?' + 'size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}" class="input-group-text">
+					<a th:href="@{'/vacancy/search?' + 'size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}" class="input-group-text">
 						<i class="fa-solid fa-delete-left"></i>
 					</a>
 					<button class="btn btn-primary" type="submit">
@@ -52,7 +53,7 @@
 			</div>
 			
 			<div class="col-auto">
-				<a th:href="@{/dh/vacancy/edit}" class="btn btn-success">
+				<a th:href="@{/vacancy/edit}" class="btn btn-success">
 					<i class="fa-solid fa-plus"></i>
 					Add New
 				</a>
@@ -100,10 +101,10 @@
 					</td>
 					<td th:text="${vacancy.createdUser.name}"></td>
 					<td>
-                        <a th:href="@{/dh/vacancy/edit(id=${vacancy.id})}" class="btn btn-success">
+                        <a th:href="@{/vacancy/edit(id=${vacancy.id})}" class="btn btn-success">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <form th:action="@{/dh/vacancy/delete(id=${vacancy.id})}" method="post" class="d-inline-block">
+                        <form th:action="@{/vacancy/delete(id=${vacancy.id})}" method="post" class="d-inline-block">
                             <button type="submit" class="btn btn-danger">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>

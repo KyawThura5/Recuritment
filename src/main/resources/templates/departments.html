@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Department Managements</title>
@@ -15,7 +16,7 @@
 	<div th:replace="nav-bar :: navbar('departments')"></div>
 	<div class="container bg-white mt-2 pt-3">
 		<form class="row g-3 mt-3" action="#"
-			th:action="@{/admin/department/search}" method="get">
+			th:action="@{/department/search}" method="get">
 
 			<div class="col-auto">
 
@@ -23,7 +24,7 @@
 			</div>
 
 			<div class="col-auto">
-				<a th:href="@{/admin/department/search}" type="reset" class="btn btn-primary ">
+				<a th:href="@{/department/search}" type="reset" class="btn btn-primary ">
 					<span class="material-symbols-outlined"> restart_alt </span>
 				</a>
 
@@ -34,8 +35,8 @@
 					<span class="material-symbols-outlined">search</span>
 				</button>
 			</div>
-			<div class="col-auto">
-				<a th:href="@{/admin/department/edit}" class="btn btn-secondary">
+			<div sec:authorize="hasAuthority('ADMIN')" class="col-auto">
+				<a th:href="@{/department/edit}" class="btn btn-secondary">
 					<span class="material-symbols-outlined">add_circle</span>
 				</a>
 			</div>
@@ -46,8 +47,7 @@
 					<th>#</th>
 					<th>Name</th>
 					<th>Teams</th>
-					<th>Action</th>
-
+					<th sec:authorize="hasAuthority('ADMIN')">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -56,11 +56,14 @@
 					<td th:text="${deptStat.index + 1}"></td>
 					<td th:text="${dept.name}"></td>
 					<td th:text="${dept.teams.size}"></td>
-					<td><a th:href="@{/admin/department/edit(id=${dept.id})}"
-						class="btn btn-warning "><span
-							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/admin/department/delete(id=${dept.id})}" class="btn btn-info"><span
-							class="material-symbols-outlined"> delete </span></a></td>
+					<td sec:authorize="hasAuthority('ADMIN')">
+						<a th:href="@{/department/edit(id=${dept.id})}" class="btn btn-warning ">
+							<span class="material-symbols-outlined"> edit </span>
+						</a>
+						<form th:action="@{/department/delete(id=${dept.id})}" method="post" class="d-inline-block">
+							<button type="submit" class="btn btn-danger">Del</button>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 		</table>

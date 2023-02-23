@@ -19,7 +19,7 @@
 			</div>
 		</div>
 
-		<form action="#" th:action="@{/admin/user/save}" th:object="${user}"
+		<form action="#" th:action="@{/user/save}" th:object="${user}"
 			class="mt-2" method="post">
 
 
@@ -115,7 +115,7 @@
 				<div
 					class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 d-flex flex-row-reverse">
 					<button type="submit" class="btn btn-success ms-1">Save</button>
-					<a th:href="@{/admin/user/search}" class="btn btn-secondary">Cancel</a>
+					<a th:href="@{/user/search}" class="btn btn-secondary">Cancel</a>
 				</div>
 			</div>
 		</form>

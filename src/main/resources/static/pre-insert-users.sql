@@ -1,2 +1,14 @@
 INSERT INTO `user` (`code`, `name`, `email`, `phone`, `role`, `gender`, `password`, `is_deleted`) VALUES
-('admin', 'Admin', 'admin@gmail.com', "0999999999", 'ADMIN', 'MALE', '11111111', false);
+('ad', 'Admin', 'ad@gmail.com', "0911111111", 'ADMIN', 'MALE', '11111111', false);
+
+INSERT INTO `user` (`code`, `name`, `email`, `phone`, `role`, `gender`, `password`, `is_deleted`) VALUES
+('hr', 'HR', 'hr@gmail.com', "0922222222", 'HIRING_MANAGER', 'MALE', '11111111', false);
+
+INSERT INTO `user` (`code`, `name`, `email`, `phone`, `role`, `gender`, `password`, `is_deleted`) VALUES
+('gm', 'GM', 'gm@gmail.com', "033333333", 'GENERAL_MANAGER', 'MALE', '11111111', false);
+
+INSERT INTO `user` (`code`, `name`, `email`, `phone`, `role`, `gender`, `password`, `is_deleted`) VALUES
+('dh', 'DH', 'dh@gmail.com', "0944444444", 'DEPARTMENT_HEAD', 'MALE', '11111111', false);
+
+INSERT INTO `user` (`code`, `name`, `email`, `phone`, `role`, `gender`, `password`, `is_deleted`) VALUES
+('pm', 'PM', 'pm@gmail.com', "0955555555", 'PROJECT_MANAGER', 'MALE', '11111111', false);

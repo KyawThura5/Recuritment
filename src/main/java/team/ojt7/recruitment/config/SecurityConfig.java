@@ -44,10 +44,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-            .antMatchers("/admin/**").hasAuthority("ADMIN")
-            
-            .antMatchers("/login", "/signup", "/resources/**").permitAll()
-            .antMatchers("/**").authenticated();
+        	.antMatchers("/user/**").hasAuthority("ADMIN")
+            .antMatchers("/department/search").authenticated()
+            .antMatchers("/department/**").hasAuthority("ADMIN")
+            .antMatchers("/position/search").authenticated()
+            .antMatchers("/position/**").hasAnyAuthority("ADMIN", "DEPARTMENT_HEAD")
+            .antMatchers("/recruitmentresource/**/search").authenticated()
+            .antMatchers("/recruitmentresource/**/detail").authenticated()
+            .antMatchers("/recruitmentresource/**/**").hasAnyAuthority("ADMIN", "HIRING_MANAGER")
+            .antMatchers("/team/search").authenticated()
+            .antMatchers("/team/**").hasAnyAuthority("ADMIN", "DEPARTMENT_HEAD")
+            .antMatchers("/vacancy/search").authenticated()
+            .antMatchers("/vacancy/**").hasAuthority("DEPARTMENT_HEAD")
+            .antMatchers("/login", "/resources/**").permitAll()
+            .antMatchers("/", "/profile/**").authenticated();
 
         http.formLogin()
             .loginPage("/login")

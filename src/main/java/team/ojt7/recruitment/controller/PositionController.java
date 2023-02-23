@@ -17,22 +17,21 @@ import team.ojt7.recruitment.model.service.PositionService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
-
-
 @Controller
 public class PositionController {
+	
 	@Autowired
 	private PositionService positionService;
 
 
-	@GetMapping("/manager/position/search")
+	@GetMapping("/position/search")
 	public String searchPositions(@RequestParam(required = false) String keyword, ModelMap model) {
 		List<PositionDto> list = positionService.search(keyword);
 		model.addAttribute("list", list);
 		return "positions";
 	}
 
-	@GetMapping("/admin/position/edit")
+	@GetMapping("/position/edit")
 	public String editPosition(
 			@RequestParam(required = false)
 			Long id,
@@ -45,8 +44,7 @@ public class PositionController {
 		return "edit-position";
 	}
 
-	 //@PreAuthorize("hasAnyRole('ADMIN','GENERAL_MANAGER')")
-	@PostMapping("/admin/position/save")
+	@PostMapping("/position/save")
 	public String savePosition(@Validated @ModelAttribute("position") PositionDto dto,BindingResult bs,ModelMap model) {
 		
 		if (!bs.hasErrors()) {
@@ -65,14 +63,14 @@ public class PositionController {
 			return "edit-position";
 		}
 		
-		return "redirect:/manager/position/search";
+		return "redirect:/position/search";
 	}
 
-	@GetMapping("/admin/position/delete")
+	@PostMapping("/position/delete")
 	public String deletePosition(@RequestParam("id") Long id) {
 		
 		positionService.deleteById(id);
-		return "redirect:/manager/position/search";
+		return "redirect:/position/search";
 	}
 
 

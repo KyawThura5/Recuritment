@@ -40,7 +40,7 @@ public class TeamController {
 		binder.addCustomFormatter(departmentDtoFormatter);
 	}
 	
-	@GetMapping("/admin/team/search")
+	@GetMapping("/team/search")
 	public String searchTeams(
 			@RequestParam(required = false) String keyword,
 			@RequestParam(required =false,defaultValue="1")Integer page,
@@ -59,7 +59,7 @@ public class TeamController {
 		return "teams";
 	}
 
-	@GetMapping("/admin/team/edit")
+	@GetMapping("/team/edit")
 	public String editTeam(@RequestParam(required = false) Long id, ModelMap model) {
 		List<DepartmentDto> departmentDtos = departmentService.findAll();
 		TeamDto teamDto = teamService.findById(id).orElse(new TeamDto());
@@ -70,7 +70,7 @@ public class TeamController {
 		return "edit-team";
 	}
 
-	@PostMapping("/admin/team/save")
+	@PostMapping("/team/save")
 	public String saveTeam(@ModelAttribute("team")@Validated TeamDto dto, BindingResult bs, ModelMap model) {
 		
 		if (!bs.hasErrors()) {
@@ -91,14 +91,14 @@ public class TeamController {
 			return "edit-team";
 		}
 		
-		return "redirect:/admin/team/search";
+		return "redirect:/team/search";
 	}
 
-	@PostMapping("/admin/team/delete")
+	@PostMapping("/team/delete")
 	public String deleteTeam(@RequestParam("id") Long id) {
 
 		teamService.deleteById(id);
-		return "redirect:/admin/team/search";
+		return "redirect:/team/search";
 	}
 
 }

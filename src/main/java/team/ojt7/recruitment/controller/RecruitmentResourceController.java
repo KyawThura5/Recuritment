@@ -37,7 +37,7 @@ public class RecruitmentResourceController {
 	@Qualifier("external")
 	private ExternalRecruitmentResourceService externalRecruitmentResourceService;
 
-	@GetMapping("/manager/recruitment/external/search")
+	@GetMapping("/recruitmentresource/external/search")
 	public String searchExternalRecruitmentResources(
 			@RequestParam(required = false)
 			String keyword,
@@ -48,7 +48,7 @@ public class RecruitmentResourceController {
 		return "external-recruitment-resources";
 	}
 	
-	@GetMapping("/manager/recruitment/direct/search")
+	@GetMapping("/recruitmentresource/direct/search")
 	public String searchDirectRecruitmentResources(
 			@RequestParam(required = false)
 			String keyword,
@@ -59,7 +59,7 @@ public class RecruitmentResourceController {
 		return "direct-recruitment-resources";
 	}
 	
-	@GetMapping("/hr/recruitment/external/edit")
+	@GetMapping("/recruitmentresource/external/edit")
 	public String editExternalRecruitmentResource(
 			@RequestParam(required = false)
 			Long id,
@@ -72,7 +72,7 @@ public class RecruitmentResourceController {
 		return "edit-external-recruitment-resource";
 	}
 	
-	@GetMapping("/hr/recruitment/direct/edit")
+	@GetMapping("/recruitmentresource/direct/edit")
 	public String editDirectRecruitmentResource(
 			@RequestParam(required = false)
 			Long id,
@@ -85,7 +85,7 @@ public class RecruitmentResourceController {
 		return "edit-direct-recruitment-resource";
 	}
 	
-	@PostMapping("/hr/recruitment/external/save")
+	@PostMapping("/recruitmentresource/external/save")
 	public String saveExternalRecruitmentResource(
 			@Validated
 			@ModelAttribute("recruitmentResource")
@@ -110,10 +110,10 @@ public class RecruitmentResourceController {
 			return "edit-external-recruitment-resource";
 		}
 		
-		return "redirect:/manager/recruitment/external/search";
+		return "redirect:/recruitmentresource/external/search";
 	}
 	
-	@PostMapping("/hr/recruitment/direct/save")
+	@PostMapping("/recruitmentresource/direct/save")
 	public String saveDirectRecruitmentResource(
 			@Validated
 			@ModelAttribute("recruitmentResource")
@@ -138,10 +138,10 @@ public class RecruitmentResourceController {
 			return "edit-direct-recruitment-resource";
 		}
 		
-		return "redirect:/manager/recruitment/direct/search";
+		return "redirect:/recruitmentresource/direct/search";
 	}
 	
-	@GetMapping("/manager/recruitment/external/detail")
+	@GetMapping("/recruitmentresource/external/detail")
 	public String showExternalRecruitmentResourceDetail(
 			@RequestParam
 			Long id,
@@ -153,7 +153,7 @@ public class RecruitmentResourceController {
 		return "external-recruitment-resource-detail";
 	}
 	
-	@GetMapping("/manager/recruitment/direct/detail")
+	@GetMapping("/recruitmentresource/direct/detail")
 	public String showDirectRecruitmentResourceDetail(
 			@RequestParam
 			Long id,
@@ -165,15 +165,15 @@ public class RecruitmentResourceController {
 		return "direct-recruitment-resource-detail";
 	}
 	
-	@PostMapping("/hr/recruitment/external/delete")
+	@PostMapping("/recruitmentresource/external/delete")
 	public String deleteExternalRecruitmentResource(@RequestParam Long id) {
 		recruitmentResourceService.deleteById(id);
-		return "redirect:/manager/recruitment/external/search";
+		return "redirect:/recruitmentresource/external/search";
 	}
 	
-	@PostMapping("/hr/recruitment/direct/delete")
+	@PostMapping("/recruitmentresource/direct/delete")
 	public String deleteDirectRecruitmentResource(@RequestParam Long id) {
 		recruitmentResourceService.deleteById(id);
-		return "redirect:/manager/recruitment/direct/search";
+		return "redirect:/recruitmentresource/direct/search";
 	}
 }

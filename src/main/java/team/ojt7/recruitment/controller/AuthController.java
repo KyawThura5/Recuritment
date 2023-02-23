@@ -15,4 +15,9 @@ public class AuthController {
 		}
 		return "login";
 	}
+	
+	@GetMapping("/unauthorized")
+	public String showUnauthorizedPage() {
+		return "error-page";
+	}
 }

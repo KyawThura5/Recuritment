@@ -31,7 +31,7 @@
 		<h2 class="fs-4 fw-bold">User Management</h2>
 
 
-		<form class="row g-3 mt-3" action="#" th:action="@{/admin/user/search}">
+		<form class="row g-3 mt-3" th:action="@{/user/search}">
 
 			<div class="col-auto">
 
@@ -39,7 +39,7 @@
 			</div>
 
 			<div class="col-auto">
-				<a th:href="@{/admin/user/search}" class="btn btn-primary ">
+				<a th:href="@{/user/search}" class="btn btn-primary ">
 					<span class="material-symbols-outlined"> restart_alt </span>
 				</a>
 
@@ -53,7 +53,7 @@
 				</button>
 			</div>
 			<div class="col-auto">
-				<a th:href="@{/admin/user/add}" class="btn btn-secondary">
+				<a th:href="@{/user/add}" class="btn btn-secondary">
 					<span class="material-symbols-outlined"> person_add </span>
 				</a>
 			</div>
@@ -81,11 +81,11 @@
 					<td th:text="${u.phone}"></td>
 					<td th:text="${u.role.displayName}"></td>
 					<td th:text="${u.gender.displayName}"></td>
-					<td><a th:href="@{/admin/user/edit(id=${u.id})}" class="btn btn-warning "><span
+					<td><a th:href="@{/user/edit(id=${u.id})}" class="btn btn-warning "><span
 							class="material-symbols-outlined"> edit </span> </a> <a
-						th:href="@{/admin/user/delete(id=${u.id})}" class="btn btn-info"><span
+						th:href="@{/user/delete(id=${u.id})}" class="btn btn-info"><span
 							class="material-symbols-outlined"> delete </span></a> <a
-						th:href="@{/admin/user/detail(id=${u.id})}" class="btn btn-success"> <span
+						th:href="@{/user/detail(id=${u.id})}" class="btn btn-success"> <span
 							class="material-symbols-outlined"> info </span>
 					</a></td>
 

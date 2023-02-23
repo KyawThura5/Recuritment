@@ -27,7 +27,6 @@ import team.ojt7.recruitment.model.service.UserService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 import team.ojt7.recruitment.model.validator.AdminChangePasswordFormValidator;
-import team.ojt7.recruitment.model.validator.DefaultValidationGroupOrder;
 import team.ojt7.recruitment.model.validator.UserChangePasswordFormValidator;
 
 @Controller
@@ -57,20 +56,20 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/admin/user/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String addNewUser(ModelMap model) {
 		model.addAttribute("user", userService.generateNewWithCode());		
 		return "adduser";
 	}
 
-	@RequestMapping(value = "/admin/user/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
 	public String editUser(@RequestParam("id")Long id, ModelMap model) {
 		model.put("user", userService.findById(id).get());
 		return "edituser";
 
 	}
 
-	@RequestMapping(value="/admin/user/save",method=RequestMethod.POST)
+	@RequestMapping(value="/user/save",method=RequestMethod.POST)
 	public String saveUser(
 			@Validated
 			@ModelAttribute("user")
@@ -97,10 +96,10 @@ public class UserController {
 			return dto.getId() == null ? "adduser" : "edituser";
 		}
 		
-		return "redirect:/admin/user/search";
+		return "redirect:/user/search";
 	}
 
-	@RequestMapping(value = "admin/user/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/detail", method = RequestMethod.GET)
 	public String showUserDetail(@RequestParam("id") Long id,ModelMap model) {
 		Optional<UserDto> user=userService.findById(id);
 		if (user.isPresent()) {
@@ -113,13 +112,13 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = "/admin/user/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/delete", method = RequestMethod.GET)
 	public String deleteUser(@RequestParam("id")Long id) {
 		userService.deleteById(id);
-		return "redirect:/admin/user/search";
+		return "redirect:/user/search";
 	}
 
-	@RequestMapping(value = "/admin/user/search", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/search", method = RequestMethod.GET)
 	public String searchUsers(
 			@RequestParam(required=false)
 			String keyword,
@@ -130,7 +129,7 @@ public class UserController {
 
 	}
 	
-	@GetMapping("/admin/user/password/change")
+	@GetMapping("/user/password/change")
 	public String showAdminChangePasswordPage(
 			@RequestParam Long id,
 			ModelMap model) {
@@ -140,7 +139,7 @@ public class UserController {
 		return "change-user-password";
 	}
 	
-	@GetMapping("/user/password/change")
+	@GetMapping("/profile/password/change")
 	public String showUserChangePasswordPage(ModelMap model, HttpSession session) {
 		User loginUser = (User) session.getAttribute("loginUser");
 		UserChangePasswordFormDto form = new UserChangePasswordFormDto();
@@ -149,7 +148,7 @@ public class UserController {
 		return "change-password";
 	}
 	
-	@PostMapping("/admin/user/password/save")
+	@PostMapping("/user/password/save")
 	public String savePassword(
 			@Validated
 			@ModelAttribute("passwordForm")
@@ -162,10 +161,10 @@ public class UserController {
 		}
 		
 		userService.changePassword(passwordForm.getUserId(), passwordForm.getPassword());
-		return "redirect:/admin/user/search";
+		return "redirect:/user/search";
 	}
 	
-	@PostMapping("/user/password/save")
+	@PostMapping("/profile/password/save")
 	public String savePassword(
 			@Validated
 			@ModelAttribute("passwordForm")
@@ -187,10 +186,10 @@ public class UserController {
 			return "change-password";
 		}
 		
-		return "redirect:/user/profile";
+		return "redirect:/profile";
 	}
 	
-	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String showUserprofile(ModelMap model, HttpSession session) {
 		User loginUser = (User) session.getAttribute("loginUser");
 		model.put("user", UserDto.of(loginUser));
@@ -198,7 +197,7 @@ public class UserController {
 
 	}
 	
-	@PostMapping("/user/profile/save")
+	@PostMapping("/profile/save")
 	public String saveProfile(
 			@Validated
 			@ModelAttribute("user")
@@ -220,10 +219,10 @@ public class UserController {
 			return "editprofile";
 		}
 		
-		return "redirect:/user/profile";
+		return "redirect:/profile";
 	}
 	
-	@RequestMapping(value = "/user/profile/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/profile/edit", method = RequestMethod.GET)
 	public String Editprofile(ModelMap model, HttpSession session) {
 		User loginUser = (User) session.getAttribute("loginUser");
 		model.put("user", UserDto.of(loginUser));
