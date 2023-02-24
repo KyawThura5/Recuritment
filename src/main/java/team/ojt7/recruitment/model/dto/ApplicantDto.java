@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -37,13 +38,18 @@ public class ApplicantDto {
 //	@NotBlank(message = "NotBlank.applicant.attachedUri")
 	private String attachedUri;
 
+	@NotNull(message = "Select a recruitment resource")
 	private RecruitmentResourceDto recruitmentResource;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime createdDate;
 
 	private UserDto createdUser;
+	
+	@NotNull(message = "Select a vacancy")
+	private VacancyDto vacancy;
 
+	@NotNull(message = "Select a position")
 	private RequirePositionDto requirePosition;
 
 	private boolean isDeleted;
@@ -167,6 +173,14 @@ public class ApplicantDto {
 	public void setCreatedUser(UserDto createdUser) {
 		this.createdUser = createdUser;
 	}
+	
+	public VacancyDto getVacancy() {
+		return vacancy;
+	}
+
+	public void setVacancy(VacancyDto vacancy) {
+		this.vacancy = vacancy;
+	}
 
 	public RequirePositionDto getRequirePosition() {
 		return requirePosition;
@@ -194,6 +208,7 @@ public class ApplicantDto {
 		dto.setRecruitmentResource(RecruitmentResourceDto.of(applicant.getRecruitmentResource()));
 		dto.setCreatedDate(applicant.getCreatedDate());
 		dto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
+		dto.setVacancy(VacancyDto.of(applicant.getVacancy()));
 		dto.setRequirePosition(RequirePositionDto.of(applicant.getRequirePosition()));
 		return dto;
 
@@ -217,6 +232,7 @@ public class ApplicantDto {
 		applicant.setRecruitmentResource(RecruitmentResourceDto.parse(dto.getRecruitmentResource()));
 		applicant.setCreatedDate(dto.getCreatedDate());
 		applicant.setCreatedUser(UserDto.parse(dto.getCreatedUser()));
+		applicant.setVacancy(VacancyDto.parse(dto.getVacancy()));
 		applicant.setRequirePosition(RequirePositionDto.parse(dto.getRequirePosition()));
 		return applicant;
 

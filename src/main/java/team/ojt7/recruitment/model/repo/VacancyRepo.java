@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 
@@ -23,7 +22,7 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	Vacancy findByIdAndIsDeleted(Long id, boolean isDeleted);
 	Vacancy findByCreatedDateAndDueDateAndIsDeleted(LocalDate createdDate,LocalDate dueDate,boolean isDeleted);
 	Vacancy findByStatusAndIsDeleted(Status status,boolean isDeleted);
-
+	
     @Modifying
     @Query(value = "UPDATE Vacancy SET is_deleted = true WHERE id = :id", nativeQuery = true)
 	void deleteById(@Param("id") Long id);

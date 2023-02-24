@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import team.ojt7.recruitment.model.entity.RequirePosition;
+import team.ojt7.recruitment.model.entity.Vacancy;
 
 public class RequirePositionDto {
 
@@ -19,21 +20,40 @@ public class RequirePositionDto {
 
 	@NotNull(message = "{notNull.requirePosition.team}")
 	TeamDto team;
-	
+
 	@NotNull(message = "{notNull.requirePosition.position}")
 	private PositionDto position;
+
+	private VacancyDto vacancy;
 
 	public static RequirePositionDto of(RequirePosition entity) {
 		if (entity == null) {
 			return null;
 		}
 		
+		
+
 		RequirePositionDto dto = new RequirePositionDto();
 		dto.setId(entity.getId());
 		dto.setCount(entity.getCount());
 		dto.setFoc(entity.isFoc());
 		dto.setPosition(PositionDto.of(entity.getPosition()));
 		dto.setTeam(TeamDto.of(entity.getTeam()));
+		
+		if (entity.getVacancy() != null) {
+			Vacancy vacancy = entity.getVacancy();
+			VacancyDto vacancyDto = new VacancyDto();
+			vacancyDto.setId(vacancy.getId());
+			vacancyDto.setCode(vacancy.getCode());
+			vacancyDto.setDueDate(vacancy.getDueDate());
+			vacancyDto.setStatus(vacancy.getStatus());
+			vacancyDto.setComment(vacancy.getComment());
+			vacancyDto.setDeleted(vacancy.isDeleted());
+			vacancyDto.setCreatedDate(vacancy.getCreatedDate());
+			vacancyDto.setDepartment(DepartmentDto.of(vacancy.getDepartment()));
+			vacancyDto.setCreatedUser(UserDto.of(vacancy.getCreatedUser()));
+			dto.setVacancy(vacancyDto);
+		}
 		return dto;
 	}
 
@@ -45,13 +65,29 @@ public class RequirePositionDto {
 		if (dto == null) {
 			return null;
 		}
-		
+
 		RequirePosition entity = new RequirePosition();
 		entity.setId(dto.getId());
 		entity.setCount(dto.getCount());
 		entity.setFoc(dto.isFoc());
 		entity.setPosition(PositionDto.parse(dto.getPosition()));
 		entity.setTeam(TeamDto.parse(dto.getTeam()));
+		
+		if (dto.getVacancy() != null) {
+			VacancyDto vacancyDto = dto.getVacancy();
+			Vacancy vacancy = new Vacancy();
+			vacancy.setId(vacancyDto.getId());
+			vacancy.setCode(vacancyDto.getCode());
+			vacancy.setDueDate(vacancyDto.getDueDate());
+			vacancy.setStatus(vacancyDto.getStatus());
+			vacancy.setComment(vacancyDto.getComment());
+			vacancy.setDeleted(vacancyDto.isDeleted());
+			vacancy.setCreatedDate(vacancyDto.getCreatedDate());
+			vacancy.setDepartment(DepartmentDto.parse(vacancyDto.getDepartment()));
+			vacancy.setCreatedUser(UserDto.parse(vacancyDto.getCreatedUser()));
+			entity.setVacancy(vacancy);
+		}
+		
 		return entity;
 	}
 
@@ -97,6 +133,14 @@ public class RequirePositionDto {
 
 	public void setPosition(PositionDto position) {
 		this.position = position;
+	}
+
+	public VacancyDto getVacancy() {
+		return vacancy;
+	}
+
+	public void setVacancy(VacancyDto vacancy) {
+		this.vacancy = vacancy;
 	}
 
 	@Override

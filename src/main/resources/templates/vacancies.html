@@ -119,6 +119,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 									<th>Position</th>
 									<th>Post</th>
 									<th>Team</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -126,6 +127,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 									<td th:text="${requirePosition.position.name + (requirePosition.foc ? ' (FOC)' : '')}"></td>
 									<td th:text="${requirePosition.count}"></td>
 									<td th:text="${requirePosition.team.name}"></td>
+									<td>
+										<a th:href="@{/applicant/vacancy/add(id=${requirePosition.id},vacancyId=${vacancy.id})}" class="btn btn-warning">+</a>
+									</td>
 								</tr>
 							</tbody>
 						</table>

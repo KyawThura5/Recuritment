@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,6 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 	@Autowired
 	private RequirePositionRepo repo;
 
-	
 	public List<RequirePositionDto> findAll() {		
 		return RequirePositionDto.ofList(repo.findAll());
 	}
@@ -27,6 +27,9 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 
 	@Override
 	public List<RequirePositionDto> findAllByApplicant(ApplicantDto applicant) {
+		if (applicant.getId() == null) {
+			return Collections.emptyList();
+		}
 		List<RequirePositionDto> requireposition = new ArrayList<>(findAll());
 		if (applicant.getRequirePosition() != null) {
 			if (applicant.getRequirePosition() != null && !requireposition.contains(applicant.getRequirePosition())) {
@@ -39,7 +42,8 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 
 	@Override
 	public Optional<RequirePositionDto> findById(Long id) {
-		return Optional.ofNullable(RequirePositionDto.of(repo.findById(id).orElse(null)));
+		RequirePositionDto dto = RequirePositionDto.of(repo.findById(id).orElse(null));
+		return Optional.ofNullable(dto);
 	}
 
 	

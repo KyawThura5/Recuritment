@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "require_position")
@@ -21,20 +22,23 @@ public class RequirePosition implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "is_foc", nullable = false, columnDefinition = "boolean default false")
 	private boolean foc;
-	
+
 	@Column(nullable = false)
 	private int count;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "team_id")
 	private Team team;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "position_id")
 	private Position position;
+
+	@Transient
+	private Vacancy vacancy;
 
 	public Long getId() {
 		return id;
@@ -75,9 +79,18 @@ public class RequirePosition implements Serializable {
 	public void setPosition(Position position) {
 		this.position = position;
 	}
-	
+
+	public Vacancy getVacancy() {
+		return vacancy;
+	}
+
+	public void setVacancy(Vacancy vacancy) {
+		this.vacancy = vacancy;
+	}
+
 	public boolean isEqualsPosition(RequirePosition rp) {
-		return Objects.equals(this.position, rp.position) && Objects.equals(this.foc, rp.foc) && Objects.equals(this.team, rp.team);
+		return Objects.equals(this.position, rp.position) && Objects.equals(this.foc, rp.foc)
+				&& Objects.equals(this.team, rp.team);
 	}
 
 	@Override
@@ -98,6 +111,4 @@ public class RequirePosition implements Serializable {
 				&& Objects.equals(position, other.position) && Objects.equals(team, other.team);
 	}
 
-	
-	
 }
