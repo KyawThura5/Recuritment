@@ -1,6 +1,8 @@
 package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -39,6 +42,9 @@ public class RequirePosition implements Serializable {
 
 	@Transient
 	private Vacancy vacancy;
+	
+	@OneToMany(mappedBy = "requirePosition")
+	private List<Applicant> applicants = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -86,6 +92,14 @@ public class RequirePosition implements Serializable {
 
 	public void setVacancy(Vacancy vacancy) {
 		this.vacancy = vacancy;
+	}
+
+	public List<Applicant> getApplicants() {
+		return applicants;
+	}
+
+	public void setApplicants(List<Applicant> applicants) {
+		this.applicants = applicants;
 	}
 
 	public boolean isEqualsPosition(RequirePosition rp) {

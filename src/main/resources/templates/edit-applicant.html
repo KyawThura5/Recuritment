@@ -65,7 +65,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         <label for="" class="form-label">Position</label>
                        
                         <select id="position-select-wrapper" class="form-select" th:field="*{requirePosition}">
-                            <option th:if="${requirePositions == null || requirePositions.isEmpty}" value="">-- select a positoin --</option>
+                            <option value="">-- select a positoin --</option>
                             <option th:each="requirePosition:${requirePositions}" th:text="${requirePosition.position.name}" th:value="${requirePosition.id}"></option>
                         </select>
                         

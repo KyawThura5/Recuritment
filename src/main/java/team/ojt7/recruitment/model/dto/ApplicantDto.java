@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.RequirePosition;
 
 public class ApplicantDto {
 	private Long id;
@@ -209,7 +210,19 @@ public class ApplicantDto {
 		dto.setCreatedDate(applicant.getCreatedDate());
 		dto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
 		dto.setVacancy(VacancyDto.of(applicant.getVacancy()));
-		dto.setRequirePosition(RequirePositionDto.of(applicant.getRequirePosition()));
+		
+		if (applicant.getRequirePosition() != null) {
+			RequirePosition requirePosition = applicant.getRequirePosition();
+			RequirePositionDto requirePositionDto = new RequirePositionDto();
+			requirePositionDto.setId(requirePosition.getId());
+			requirePositionDto.setPosition(PositionDto.of(requirePosition.getPosition()));
+			requirePositionDto.setFoc(requirePosition.isFoc());
+			requirePositionDto.setCount(requirePosition.getCount());
+			requirePositionDto.setTeam(TeamDto.of(requirePosition.getTeam()));
+			requirePositionDto.setVacancy(VacancyDto.of(requirePosition.getVacancy()));
+			dto.setRequirePosition(requirePositionDto);
+		}
+		
 		return dto;
 
 	}
@@ -233,7 +246,18 @@ public class ApplicantDto {
 		applicant.setCreatedDate(dto.getCreatedDate());
 		applicant.setCreatedUser(UserDto.parse(dto.getCreatedUser()));
 		applicant.setVacancy(VacancyDto.parse(dto.getVacancy()));
-		applicant.setRequirePosition(RequirePositionDto.parse(dto.getRequirePosition()));
+		
+		if (dto.getRequirePosition() != null) {
+			RequirePositionDto requirePositionDto = dto.getRequirePosition();
+			RequirePosition requirePosition = new RequirePosition();
+			requirePosition.setId(requirePositionDto.getId());
+			requirePosition.setPosition(PositionDto.parse(requirePositionDto.getPosition()));
+			requirePosition.setFoc(requirePositionDto.isFoc());
+			requirePosition.setCount(requirePositionDto.getCount());
+			requirePosition.setTeam(TeamDto.parse(requirePositionDto.getTeam()));
+			requirePosition.setVacancy(VacancyDto.parse(requirePositionDto.getVacancy()));
+			applicant.setRequirePosition(requirePosition);
+		}
 		return applicant;
 
 	}

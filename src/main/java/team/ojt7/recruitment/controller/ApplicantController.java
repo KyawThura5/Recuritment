@@ -73,10 +73,11 @@ public class ApplicantController {
 			Long id,
 			ModelMap model) {
 		ApplicantDto applicantDto = applicantService.findById(id).orElse(applicantService.generateNewWithCode());
-		List<RequirePositionDto>dto=requriedPositionService.findAllByApplicant(applicantDto);
-		List<VacancyDto>vacancy=vacancyService.findAllForApplicant(applicantDto);
-		model.put("vacancy",vacancy);
-		model.put("requirePositions",dto);
+		List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
+		if (applicantDto.getVacancy() != null) {
+			model.put("requirePositions", applicantDto.getVacancy().getRequirePositions());
+		}
+		model.put("vacancy",vacancyList);
 		model.put("applicant", applicantDto);
 		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 		return "edit-applicant";
@@ -91,11 +92,12 @@ public class ApplicantController {
 			ModelMap model
 			) {
 		ApplicantDto applicantDto = applicantService.generateNewWithCode();
+		List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
 		RequirePositionDto requirePositionDto = requriedPositionService.findById(id).orElse(null);
 		VacancyDto vacancy = vacancyService.findById(vacancyId).get();
 		applicantDto.setRequirePosition(requirePositionDto);
 		applicantDto.setVacancy(vacancy);
-		model.put("vacancy",List.of(vacancy));
+		model.put("vacancy",vacancyList);
 		model.put("requirePositions", vacancy.getRequirePositions());
 		model.put("applicant", applicantDto);
 		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
@@ -124,6 +126,11 @@ public class ApplicantController {
 		}
 		
 		if (bindingResult.hasErrors()) {
+			List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
+			if (applicantDto.getVacancy() != null) {
+				model.put("requirePositions", applicantDto.getVacancy().getRequirePositions());
+			}
+			model.put("vacancy",vacancyList);
 			model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 			return "edit-applicant";
 		}
