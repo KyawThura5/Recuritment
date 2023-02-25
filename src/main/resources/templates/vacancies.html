@@ -130,7 +130,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 									<td th:text="${requirePosition.team.name}"></td>
 									<td th:text="${requirePosition.applicants.size()}"></td>
 									<td>
-										<a th:href="@{/applicant/vacancy/add(id=${requirePosition.id},vacancyId=${vacancy.id})}" class="btn btn-warning">+</a>
+										<a th:href="@{/applicant/vacancy/add(id=${requirePosition.id},vacancyId=${vacancy.id})}" class="btn btn-warning" th:classappend="${vacancy.status.name() == 'CLOSED'} ? disabled : ''">+</a>
 									</td>
 								</tr>
 							</tbody>

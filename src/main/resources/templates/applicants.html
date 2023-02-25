@@ -74,7 +74,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         <div class="col">
                             <div class="card-body p-4">
                                 <div class="row my-2">
-                                    <h6 class="col-3" th:text="${(applicantStat.index + 1) + '. ' + applicant.name }"></h6>
+                                    <h6 class="col-3" th:text="${((applicantPage.number * applicantPage.size) + applicantStat.index + 1) + '. ' + applicant.name }"></h6>
                                     <h6 class="col-3" th:text="${applicant.code}"></h6>
                                     <h6 class="col-3" th:text="${applicant.createdDate}"></h6>
                                     <div class="col-3">
