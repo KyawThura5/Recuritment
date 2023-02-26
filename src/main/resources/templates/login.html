@@ -1,33 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<link rel="stylesheet" th:href="@{/resources/stylesheets/test.css}">
-<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title></title>
+	<title>Login 10</title>
+	<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link th:href="@{https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap}" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}">
+
+	<link rel="stylesheet" th:href="@{css/style.css}">
+	
+	<link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css}">
+	
+	<link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css}" rel="stylesheet">
+
 </head>
-<body class="login-page-body"> 
-  
-    <div class="login-page">
-      <div class="form">
-        <div class="login">
-          <div class="login-header">
-            <h1>Welcome!</h1>
-          </div>
-          <p style="color:red;" th:text="${loginFormErrorMessage}"></p>
-        </div>
-        <form class="login-form" th:action="@{/login}" method="POST">              
-           <input required="required" name="employeeCode" type="text" class="form-control" placeholder="Employee Code"/>
-          
-          <input required="required" name="password" type="password" class="form-control" value="11111111" placeholder="Password"/>
-          
-          <button>login</button>
-          <p class="message">Not registered? <a th:href="@{/createuser}">Create an account</a></p>
-        </form>
-      </div>
-    </div>
+
+<body class="img js-fullheight" style="background-image:url(https://i.pinimg.com/564x/04/18/8d/04188dd366eb1bc4d808213318c6f30c.jpg);background-repeat: no-repeat;background-size:100%;">
+	<section class="ftco-section">
+		<div class="container">
+			<div></div>
+			<div class="row justify-content-center mx-md-n5">
+				<div class="col-md-6 text-center mb-5">
+					<img class="user" style="margin-bottom: 10px;margin-top: 200px;border-radius: 50%;width:20%;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAQlBMVEX///8zZpn/zDMzZJn+yjPMskwxYpwzZ5f+zjCMkmtyhXjkvz+ypVg/a5JYeIX+yTNMcoyln17XuEZmfn7yxTh+jHLAGpQpAAADwUlEQVR4nO2b7XqbMAyFg+wm2dqu7T7u/1bX50kawDqSgYFt2Hl/1sj2WyFsCJxOhBBCCCGEEEIIIYQQQgghhBBCCCGEEEL+C6LUnsFaHEVEjiNyDJMoEmvPYRXkIBmJRxGRQ4kcoUiOJSLX2tP4Z+JNZP9VItuKdAYhdKv09mj6SsiXiTWwTVjicQ+9HEQknUyOiz1671FRxO8i09u9qfe4X4GriHxynuARnOEHIlJVZMoJ5sU1JJI/wRyRq6TnVkWRbFKcoNiWSMbEiZERb9VFXBNY67fxr2MRqS/imTjjxyOIdDohLYjY3YFl/cb5lHo0IWLmxJmAEpFiIkbhOiZORKgikp/a7Ny+axE5hQQw8ZSlIubk5op02gPcuk/9jy0RMaYH/zXzRMB94k5FdEq2FcHzAx0NL77qhAciOiUbi0CVTEeXNOZ7qyL6Vj6Mu0iOf21VJHOQDvqmRdSDus1FkIkq94zIlOtWFRF11FFEQtrYpMiE69aoLSizrvuhRdKVpIAI2gd53ZzAnj6fkgIi4ChPBIYAkZgbpITI+DBVIocQCTDkOXtuNSACEqKKJL9LaUBk1BCMmKfcudWayFdLeqkDu5S2RcygXLnXF0ElMk1E/EFKixgNaQQokn2K5Bb3xkT6JV9tbDJF0pjIvIw0JWLU+uxqry1yHv05OFGZXUptETs6LRL0CCJ6g7Qi8pLGgMV9YNKuyHMaA24T9yASRaXELffKImczWkSlpGWRcUUPL1qfk9yRSHJlGr6xAkRePJO6InawABF0m/gwaVUkAhG4A47mIBVFsjSXkbDMoz2RbkWRWEwE/U69UATtUsyXHEuImOE5aoqg+ZiGOxNZWutY5FpP5LaCL0gIFLHe1lxZBEz3sjghzuK+uQiYjd2SBd0m7lIE7lKKiKy4iNxAInF7ETiX1UXwu4FrijgeuxLxPNJzrn/T7WnIaxqOHkFsLAI1rIQM7nJHU/xQ8cVFDA9DpH9jaPy28s9JIm/ri2S5R6ZnlpEQcJsId8DXHYrAIomlRYIV+egyfQ9e94FEpLSIGWglBIjAxd0Zq45ImhD5pQ6FRVJYxAzsr77pDH/rXtCDurIidqDpgaaI9vJFRfo49T7WLBFU7gVFvLhHgyoRkT+NibhxTkL0zyR1RUZhZ6sVJETkvR2R9APXtP1xzUIe+gcf9EVJARHwcUJ6yGPHCEUmLe4bixhftJtDVhNRn/9M+QxIh80eBTx1Ukz5YJsQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEENIqfwGYdTNAJKWEYAAAAABJRU5ErkJggg==">
+
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-6 col-lg-4">
+					<div class="login-wrap p-0">
+
+						<form th:action="@{/login}" method="POST" class="signin-form">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Employee Code" required>
+							</div>
+							<!-- <div class="form-group">
+								<input id="password-field" type="password" value="11111111" class="form-control" placeholder="Password"
+									required>
+								<span toggle="#password-field"
+									class="fa fa-fw fa-eye field-icon toggle-password"></span>
+							</div> -->
+
+							<div class="form-group">
+
+								<div class="input-group">
+									<input class="form-control" name="password" type="password" value="11111111" placeholder="Password">
+									<div class="input-group-append">
+										<span class="input-group-text">
+											<a href="#" class="toggle_hide_password">
+												<i class="fas fa-eye-slash" aria-hidden="true"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/javascript" src="resources/loginui/js/jquery.min.js"></script>
+	<script type="text/javascript" src="resources/loginui/js/popper.js"></script>
+	<script type="text/javascript" src="resources/loginui/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="resources/loginui/js/main.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 </body>
 
 </html>
