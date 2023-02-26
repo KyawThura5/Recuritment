@@ -34,8 +34,8 @@ import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
-import team.ojt7.recruitment.model.service.VacancyTestService;
-import team.ojt7.recruitment.model.service.impl.VacancyTestServiceImpl;
+import team.ojt7.recruitment.model.service.VacancyService;
+import team.ojt7.recruitment.model.service.impl.VacancyServiceImpl;
 @SpringBootTest
 @AutoConfigureMockMvc
 class VacancyControllerTest {
@@ -43,7 +43,7 @@ class VacancyControllerTest {
 	MockMvc mockMvc;
 
 	@MockBean
-	VacancyTestServiceImpl vacancyTestService;
+	VacancyServiceImpl vacancyTestService;
 	@MockBean
 	VacancySearch vacancySearch;
 

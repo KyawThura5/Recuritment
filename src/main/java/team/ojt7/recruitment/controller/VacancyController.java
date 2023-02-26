@@ -28,7 +28,7 @@ import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.PositionService;
-import team.ojt7.recruitment.model.service.VacancyTestService;
+import team.ojt7.recruitment.model.service.VacancyService;
 import team.ojt7.recruitment.model.validator.VacancyValidator;
 
 @Controller
@@ -41,7 +41,7 @@ public class VacancyController {
 	private PositionService positionService;
 	
 	@Autowired
-	private VacancyTestService vacancyTestService;
+	private VacancyService vacancyTestService;
 	
 	@Autowired
 	private Formatter<DepartmentDto> departmentDtoFormatter;

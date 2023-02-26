@@ -3,6 +3,8 @@ package team.ojt7.recruitment.model.repo;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -51,5 +53,25 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Modifying
     @Query(value = "UPDATE user SET is_deleted = true WHERE id = :id", nativeQuery = true)
     public void deleteById(@Param("id") Long id);
+    
+    @Query(value = """
+    		SELECT u FROM User u WHERE
+    		(name LIKE :keyword OR code LIKE :keyword OR email LIKE :keyword OR phone LIKE :keyword)
+    		AND (:role is null OR role = :role)
+    		AND is_deleted = false
+    		""",
+    		countQuery = """
+    		SELECT COUNT(u) FROM User u WHERE
+    		(name LIKE :keyword OR code LIKE :keyword OR email LIKE :keyword OR phone LIKE :keyword)
+    		AND (:role is null OR role = :role)
+    		AND is_deleted = false		
+    				""")
+    Page<User> search(
+    		@Param("keyword")
+    		String keyword,
+    		@Param("role")
+    		Role role,
+    		Pageable pageable
+    		);
 
 }

@@ -3,6 +3,8 @@ package team.ojt7.recruitment.model.repo;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,22 +20,59 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	@Query(value = "SELECT MAX(id) FROM vacancy", nativeQuery = true)
 	Long findMaxId();
 	
-	Vacancy findByCodeAndIsDeleted(String code, boolean isDeleted);
-	Vacancy findByIdAndIsDeleted(Long id, boolean isDeleted);
-	Vacancy findByCreatedDateAndDueDateAndIsDeleted(LocalDate createdDate,LocalDate dueDate,boolean isDeleted);
-	Vacancy findByStatusAndIsDeleted(Status status,boolean isDeleted);
-	
-    @Modifying
-    @Query(value = "UPDATE Vacancy SET is_deleted = true WHERE id = :id", nativeQuery = true)
+	@Modifying
+	@Query("UPDATE Vacancy SET isDeleted = true WHERE id = :id")
 	void deleteById(@Param("id") Long id);
 	
-    
-    
-    @Query("SELECT v FROM Vacancy v WHERE (code LIKE :keyword or created_date like :dateFrom or due_date like :dateTo or v.status like :status) AND (is_deleted = false)")
-   // List<Vacancy> search(@Param("keyword") String keyword);
-    
-	List<Vacancy> search(String keyword, Status status, LocalDate dateFrom, LocalDate dateTo);
-
+	Vacancy findByCodeAndIsDeleted(String code, boolean isDeleted);
+	
 	List<Vacancy> findAllByStatusAndIsDeleted(Status status,boolean isDeleted);
 
+	@Query(
+		value = """
+				SELECT v FROM Vacancy v where code LIKE :keyword 
+				AND (:dateFrom is null OR createdDate >= :dateFrom) 
+				AND (:dateTo is null OR createdDate <= :dateTo) 
+				AND ((:#{#status.toString()} = 'EXPIRED' AND dueDate < CURDATE() AND status = 'OPENING') OR (:#{#status.toString()} = 'OPENING' AND dueDate >= CURDATE() AND status = 'OPENING') OR (:#{#status.toString()} = 'CLOSED' AND status = 'CLOSED'))
+				AND isDeleted = false
+				ORDER BY createdDate desc
+				""",
+		countQuery = """
+				SELECT COUNT(v) FROM Vacancy v where code LIKE :keyword
+				AND (:dateFrom is null OR createdDate >= :dateFrom)
+				AND (:dateTo is null OR createdDate <= :dateTo)
+				AND ((:#{#status.toString()} = 'EXPIRED' AND dueDate < CURDATE() AND status = 'OPENING') OR (:#{#status.toString()} = 'OPENING' AND dueDate >= CURDATE() AND status = 'OPENING') OR (:#{#status.toString()} = 'CLOSED' AND status = 'CLOSED'))
+				AND isDeleted = false
+				ORDER BY createdDate desc
+				"""
+	)
+	Page<Vacancy> search(
+			@Param("keyword") String keyword,
+			@Param("status") Status status,
+			@Param("dateFrom") LocalDate dateFrom,
+			@Param("dateTo") LocalDate dateTo,
+			Pageable pageable);
+	
+	
+	@Query(
+			value = """
+					SELECT v FROM Vacancy v where code LIKE :keyword 
+					AND (:dateFrom is null OR createdDate >= :dateFrom) 
+					AND (:dateTo is null OR createdDate <= :dateTo)
+					AND isDeleted = false
+					ORDER BY createdDate desc
+					""",
+			countQuery = """
+					SELECT COUNT(v) FROM Vacancy v where code LIKE :keyword
+					AND (:dateFrom is null OR createdDate >= :dateFrom)
+					AND (:dateTo is null OR createdDate <= :dateTo)
+					AND isDeleted = false
+					ORDER BY createdDate desc
+					"""
+		)
+		Page<Vacancy> search(
+				@Param("keyword") String keyword,
+				@Param("dateFrom") LocalDate dateFrom,
+				@Param("dateTo") LocalDate dateTo,
+				Pageable pageable);
 }
