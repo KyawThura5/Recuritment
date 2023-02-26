@@ -6,10 +6,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
+import team.ojt7.recruitment.model.dto.DepartmentSearch;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.repo.DepartmentRepo;
@@ -87,6 +92,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 			}
 		}
 		return departments;
+	}
+
+	@Override
+	public Page<DepartmentDto> search(DepartmentSearch departmentSearch) {
+		String keyword = departmentSearch.getKeyword() == null ? "%%" : "%" + departmentSearch.getKeyword() + "%";
+		Pageable pageable = PageRequest.of(departmentSearch.getPage() - 1, departmentSearch.getSize());
+		
+		Page<Department> departmentPage = departmentRepo.search(keyword, pageable);
+		
+		Page<DepartmentDto> departmentDtoPage = new PageImpl<>(DepartmentDto.ofList(departmentPage.getContent()), pageable, departmentPage.getTotalElements());
+		return departmentDtoPage;
 	}
 
 }

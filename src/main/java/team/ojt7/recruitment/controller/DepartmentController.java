@@ -1,8 +1,7 @@
 package team.ojt7.recruitment.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
+import team.ojt7.recruitment.model.dto.DepartmentSearch;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
@@ -24,9 +24,13 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 
 	@GetMapping("/department/search")
-	public String searchDepartments(@RequestParam(required = false) String keyword, ModelMap model) {
-		List<DepartmentDto> list = departmentService.search(keyword);
-		model.addAttribute("list", list);
+	public String searchDepartments(
+			@ModelAttribute("departmentSearch")
+			DepartmentSearch departmentSearch,
+			ModelMap model) {
+		Page<DepartmentDto> page = departmentService.search(departmentSearch);
+		model.put("departmentPage", page);
+		model.put("departmentSearch", departmentSearch);
 		return "departments";
 	}
 

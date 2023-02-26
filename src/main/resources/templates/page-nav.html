@@ -16,6 +16,12 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         [[${label}]]
     </a>
 
+    <a th:fragment="department(pageNum, label, tooltip)" class="page-link"
+        th:href="@{'/department/search?' + ${departmentSearch.keyword!=null && departmentSearch.keyword!=''? 'keyword=' + departmentSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${departmentSearch.size}}"
+        th:title="${tooltip}" rel="tooltip">
+        [[${label}]]
+    </a>
+
     <a th:fragment="vacancy(pageNum, label, tooltip)" class="page-link"
         th:href="@{'/vacancy/search?' + ${vacancySearch.keyword!=null && vacancySearch.keyword!=''? 'keyword=' + vacancySearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}"
         th:title="${tooltip}" rel="tooltip">
