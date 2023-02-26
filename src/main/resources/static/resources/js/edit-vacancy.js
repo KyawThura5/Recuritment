@@ -29,9 +29,9 @@ const addNewPositionEntry = () => {
             </div>
             <div class="offset-sm-1 col-sm-1 offset-md-0 col-md-1">
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault${index}" name="requirePositions[${index}].foc" value="true" />
+                    <input class="form-check-input" type="checkbox" role="switch" id="requirePositions${index}.foc" name="requirePositions[${index}].foc" value="true" />
                     <input type="hidden" name="_requirePositions[${index}].foc" value="on"/>
-                    <label class="form-check-label" for="flexSwitchCheckDefault${index}">FOC</label>
+                    <label class="form-check-label" for="requirePositions${index}.foc">FOC</label>
                 </div>
             </div>
             <div class="offset-sm-1 col-sm-1 offset-md-0 col-md-1">
@@ -54,10 +54,13 @@ const addNewPositionEntry = () => {
 
 const listenRemovePositionEntry = () => {
     let btnRemoves = $("#positionWrapper .btnPositionRemove");
-    btnRemoves.each(function() {
+    btnRemoves.each(function(i, event) {
         let entry = $(this).parent().parent();
         $(this).click(function() {
-            entry.remove();
+            let idInput = document.getElementById("requirePositions" + i + ".id");
+            idInput.value = -1;
+            entry.addClass("d-none");
+            
         });
         
     });

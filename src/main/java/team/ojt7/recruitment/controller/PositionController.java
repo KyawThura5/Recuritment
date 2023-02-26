@@ -1,8 +1,7 @@
 package team.ojt7.recruitment.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team.ojt7.recruitment.model.dto.PositionDto;
+import team.ojt7.recruitment.model.dto.PositionSearch;
 import team.ojt7.recruitment.model.service.PositionService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
@@ -25,9 +25,13 @@ public class PositionController {
 
 
 	@GetMapping("/position/search")
-	public String searchPositions(@RequestParam(required = false) String keyword, ModelMap model) {
-		List<PositionDto> list = positionService.search(keyword);
-		model.addAttribute("list", list);
+	public String searchPositions(
+			@ModelAttribute("positionSearch")
+			PositionSearch positionSearch,
+			ModelMap model) {
+		Page<PositionDto> positionPage = positionService.search(positionSearch);
+		model.put("positionPage", positionPage);
+		model.put("positionSearch", positionSearch);
 		return "positions";
 	}
 

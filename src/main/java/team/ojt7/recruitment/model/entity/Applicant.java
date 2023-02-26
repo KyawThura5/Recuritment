@@ -58,6 +58,9 @@ public class Applicant implements Serializable{
 	@JoinColumn(name="created_user_id")
 	private User createdUser;
 	
+	@ManyToOne
+	private Vacancy vacancy;
+	
 	@ManyToOne()
 	@JoinColumn(name="require_position_id")
 	private RequirePosition requirePosition;
@@ -175,6 +178,14 @@ public class Applicant implements Serializable{
 
 	public void setCreatedUser(User createdUser) {
 		this.createdUser = createdUser;
+	}
+	
+	public Vacancy getVacancy() {
+		return vacancy;
+	}
+
+	public void setVacancy(Vacancy vacancy) {
+		this.vacancy = vacancy;
 	}
 
 	public RequirePosition getRequirePosition() {

@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,9 @@ public class ApplicantController {
 	private Formatter<RequirePositionDto> requirePositionDtoFormatter;
 	
 	@Autowired
+	private Formatter<VacancyDto> vacancyDtoFromatter;
+	
+	@Autowired
 	@Qualifier("RecruitmentResource")
 	private RecruitmentResourceService recruitmentResourceService;
 	
@@ -61,17 +65,40 @@ public class ApplicantController {
 	public void initBinder(WebDataBinder binder) {
 		binder.addCustomFormatter(recruitmentResourceDtoFormatter);
 		binder.addCustomFormatter(requirePositionDtoFormatter);
+		binder.addCustomFormatter(vacancyDtoFromatter);
 	}
 
 	@RequestMapping(value = "/applicant/edit", method = RequestMethod.GET)
-	public String addNewApplicant(@RequestParam(required = false)
-	Long id,
-	ModelMap model) {
+			public String addNewApplicant(@RequestParam(required = false)
+			Long id,
+			ModelMap model) {
 		ApplicantDto applicantDto = applicantService.findById(id).orElse(applicantService.generateNewWithCode());
-		List<RequirePositionDto>dto=requriedPositionService.findAllByApplicant(applicantDto);
-		List<VacancyDto>vacancy=vacancyService.findAllForApplicant(applicantDto);
-		model.put("vacancy",vacancy);
-		model.put("requirePositionDto",dto);
+		List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
+		if (applicantDto.getVacancy() != null) {
+			model.put("requirePositions", applicantDto.getVacancy().getRequirePositions());
+		}
+		model.put("vacancy",vacancyList);
+		model.put("applicant", applicantDto);
+		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
+		return "edit-applicant";
+	}
+	
+	@GetMapping("/applicant/vacancy/add")
+	public String addNewApplicantForRequirePosition(
+			@RequestParam
+			Long id,
+			@RequestParam
+			Long vacancyId,
+			ModelMap model
+			) {
+		ApplicantDto applicantDto = applicantService.generateNewWithCode();
+		List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
+		RequirePositionDto requirePositionDto = requriedPositionService.findById(id).orElse(null);
+		VacancyDto vacancy = vacancyService.findById(vacancyId).get();
+		applicantDto.setRequirePosition(requirePositionDto);
+		applicantDto.setVacancy(vacancy);
+		model.put("vacancy",vacancyList);
+		model.put("requirePositions", vacancy.getRequirePositions());
 		model.put("applicant", applicantDto);
 		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 		return "edit-applicant";
@@ -99,6 +126,11 @@ public class ApplicantController {
 		}
 		
 		if (bindingResult.hasErrors()) {
+			List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
+			if (applicantDto.getVacancy() != null) {
+				model.put("requirePositions", applicantDto.getVacancy().getRequirePositions());
+			}
+			model.put("vacancy",vacancyList);
 			model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 			return "edit-applicant";
 		}

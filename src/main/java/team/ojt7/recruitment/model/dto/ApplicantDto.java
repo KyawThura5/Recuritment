@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.RequirePosition;
 
 public class ApplicantDto {
 	private Long id;
@@ -37,13 +39,18 @@ public class ApplicantDto {
 //	@NotBlank(message = "NotBlank.applicant.attachedUri")
 	private String attachedUri;
 
+	@NotNull(message = "Select a recruitment resource")
 	private RecruitmentResourceDto recruitmentResource;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime createdDate;
 
 	private UserDto createdUser;
+	
+	@NotNull(message = "Select a vacancy")
+	private VacancyDto vacancy;
 
+	@NotNull(message = "Select a position")
 	private RequirePositionDto requirePosition;
 
 	private boolean isDeleted;
@@ -167,6 +174,14 @@ public class ApplicantDto {
 	public void setCreatedUser(UserDto createdUser) {
 		this.createdUser = createdUser;
 	}
+	
+	public VacancyDto getVacancy() {
+		return vacancy;
+	}
+
+	public void setVacancy(VacancyDto vacancy) {
+		this.vacancy = vacancy;
+	}
 
 	public RequirePositionDto getRequirePosition() {
 		return requirePosition;
@@ -194,7 +209,20 @@ public class ApplicantDto {
 		dto.setRecruitmentResource(RecruitmentResourceDto.of(applicant.getRecruitmentResource()));
 		dto.setCreatedDate(applicant.getCreatedDate());
 		dto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
-		dto.setRequirePosition(RequirePositionDto.of(applicant.getRequirePosition()));
+		dto.setVacancy(VacancyDto.of(applicant.getVacancy()));
+		
+		if (applicant.getRequirePosition() != null) {
+			RequirePosition requirePosition = applicant.getRequirePosition();
+			RequirePositionDto requirePositionDto = new RequirePositionDto();
+			requirePositionDto.setId(requirePosition.getId());
+			requirePositionDto.setPosition(PositionDto.of(requirePosition.getPosition()));
+			requirePositionDto.setFoc(requirePosition.isFoc());
+			requirePositionDto.setCount(requirePosition.getCount());
+			requirePositionDto.setTeam(TeamDto.of(requirePosition.getTeam()));
+			requirePositionDto.setVacancy(VacancyDto.of(requirePosition.getVacancy()));
+			dto.setRequirePosition(requirePositionDto);
+		}
+		
 		return dto;
 
 	}
@@ -217,7 +245,19 @@ public class ApplicantDto {
 		applicant.setRecruitmentResource(RecruitmentResourceDto.parse(dto.getRecruitmentResource()));
 		applicant.setCreatedDate(dto.getCreatedDate());
 		applicant.setCreatedUser(UserDto.parse(dto.getCreatedUser()));
-		applicant.setRequirePosition(RequirePositionDto.parse(dto.getRequirePosition()));
+		applicant.setVacancy(VacancyDto.parse(dto.getVacancy()));
+		
+		if (dto.getRequirePosition() != null) {
+			RequirePositionDto requirePositionDto = dto.getRequirePosition();
+			RequirePosition requirePosition = new RequirePosition();
+			requirePosition.setId(requirePositionDto.getId());
+			requirePosition.setPosition(PositionDto.parse(requirePositionDto.getPosition()));
+			requirePosition.setFoc(requirePositionDto.isFoc());
+			requirePosition.setCount(requirePositionDto.getCount());
+			requirePosition.setTeam(TeamDto.parse(requirePositionDto.getTeam()));
+			requirePosition.setVacancy(VacancyDto.parse(requirePositionDto.getVacancy()));
+			applicant.setRequirePosition(requirePosition);
+		}
 		return applicant;
 
 	}

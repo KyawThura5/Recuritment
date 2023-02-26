@@ -28,7 +28,8 @@ import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.PositionService;
-import team.ojt7.recruitment.model.service.VacancyTestService;
+import team.ojt7.recruitment.model.service.VacancyService;
+import team.ojt7.recruitment.model.validator.VacancyValidator;
 
 @Controller
 public class VacancyController {
@@ -40,7 +41,7 @@ public class VacancyController {
 	private PositionService positionService;
 	
 	@Autowired
-	private VacancyTestService vacancyTestService;
+	private VacancyService vacancyTestService;
 	
 	@Autowired
 	private Formatter<DepartmentDto> departmentDtoFormatter;
@@ -54,12 +55,19 @@ public class VacancyController {
 	@Autowired
 	private Formatter<UserDto> userDtoFormatter;
 	
+	@Autowired
+	private VacancyValidator vacancyValidator;
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.addCustomFormatter(departmentDtoFormatter);
 		binder.addCustomFormatter(teamDtoFormatter);
 		binder.addCustomFormatter(positionDtoFormatter);
 		binder.addCustomFormatter(userDtoFormatter);
+		
+		if (binder.getTarget() != null && vacancyValidator.supports(binder.getTarget().getClass())) {
+			binder.addValidators(vacancyValidator);
+		}
 	}
 
 	@GetMapping("/vacancy/edit")

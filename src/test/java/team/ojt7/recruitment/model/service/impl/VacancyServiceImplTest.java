@@ -30,16 +30,16 @@ import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
-import team.ojt7.recruitment.model.repo.VacancyTestRepo;
+import team.ojt7.recruitment.model.repo.VacancyRepo;
 
 @SpringBootTest
-class VacancyTestServiceImplTest {
+class VacancyServiceImplTest {
 	
 	@InjectMocks
 	VacancyServiceImpl vacancyServiceImpl;
 	
 	@Mock
-	VacancyTestRepo vacancyTestRepo;
+	VacancyRepo vacancyTestRepo;
 	
 	@Mock
 	VacancySearch vacancySearch;

@@ -6,10 +6,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.model.dto.PositionDto;
+import team.ojt7.recruitment.model.dto.PositionSearch;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Position;
 import team.ojt7.recruitment.model.repo.PositionRepo;
@@ -87,6 +92,21 @@ public class PositionServiceImpl implements PositionService{
 	@Override
 	public List<PositionDto> findAllByIsDeleted(boolean isDeleted) {
 		return PositionDto.ofList(repo.findAllByIsDeleted(isDeleted));
+	}
+
+	@Override
+	public Page<PositionDto> search(PositionSearch positionSearch) {
+		String keyword = positionSearch.getKeyword() == null ? "%%" : "%" + positionSearch.getKeyword() + "%";
+		Pageable pageable = PageRequest.of(positionSearch.getPage() - 1, positionSearch.getSize());
+		
+		Page<Position> positionPage = repo.search(keyword, pageable);
+		
+		Page<PositionDto> positionDtoPage = new PageImpl<>(
+												PositionDto.ofList(positionPage.getContent()),
+												pageable,
+												positionPage.getTotalElements()
+											);
+		return positionDtoPage;
 	}
 
 
