@@ -41,7 +41,7 @@
 			</div>
 
 			<div class="col-auto">
-				<a th:href="@{'/user/search?' + ${userSearch.keyword!=null && userSearch.keyword!=''? 'keyword=' + userSearch.keyword + '&' : ''} + '&size=' + ${userSearch.size} + ${userSearch.role != null && userSearch.role != '' ? '&role=' + userSearch.role : ''}}" class="btn btn-primary ">
+				<a th:href="@{'/user/search?' + 'size=' + ${userSearch.size} + ${userSearch.role != null && userSearch.role != '' ? '&role=' + userSearch.role : ''}}" class="btn btn-primary ">
 					<span class="material-symbols-outlined"> restart_alt </span>
 				</a>
 

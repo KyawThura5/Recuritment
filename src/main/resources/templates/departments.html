@@ -24,7 +24,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			</div>
 
 			<div class="col-auto">
-				<a th:href="@{'/department/search?' + ${departmentSearch.keyword!=null && departmentSearch.keyword!=''? 'keyword=' + departmentSearch.keyword + '&' : ''} + '&size=' + ${departmentSearch.size}}" type="reset" class="btn btn-primary ">
+				<a th:href="@{'/department/search?' + 'size=' + ${departmentSearch.size}}" type="reset" class="btn btn-primary ">
 					<span class="material-symbols-outlined"> restart_alt </span>
 				</a>
 
