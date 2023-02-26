@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Position Managements</title>
 <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+<script type="text/javascript"
+	th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<link rel="stylesheet"
+	th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
 <link rel="stylesheet"
@@ -15,7 +17,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <body>
 	<div th:replace="nav-bar :: navbar('positions')"></div>
 	<div class="container bg-white mt-2 pt-3">
-		<form id="searchForm" class="row g-3 mt-3" th:action="@{/position/search}" th:object="${positionSearch}" method="get">
+		<form id="searchForm" class="row g-3 mt-3"
+			th:action="@{/position/search}" th:object="${positionSearch}"
+			method="get">
 
 			<input id="pageParamInput" type="hidden" th:field="*{page}">
 
@@ -25,9 +29,10 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			</div>
 
 			<div class="col-auto">
-				<a th:href="@{'/position/search?' + 'size=' + ${positionSearch.size}}" class="btn btn-secondary">
-
-					<span class="material-symbols-outlined"> restart_alt </span>
+				<a
+					th:href="@{'/position/search?' + 'size=' + ${positionSearch.size}}"
+					class="btn btn-secondary"> <span
+					class="material-symbols-outlined"> restart_alt </span>
 
 				</a>
 			</div>
@@ -37,7 +42,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					<span class="material-symbols-outlined">search</span>
 				</button>
 			</div>
-			<div class="col-auto" sec:authorize="hasAnyAuthority('ADMIN', 'DEPARTMENT_HEAD')">
+			<div class="col-auto"
+				sec:authorize="hasAnyAuthority('ADMIN', 'DEPARTMENT_HEAD')">
 				<a th:href="@{/position/edit}" class="btn btn-secondary"> <span
 					class="material-symbols-outlined">add_circle</span>
 				</a>
@@ -49,14 +55,19 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				<label for="" class="col-form-label">Showing</label>
 			</div>
 			<div class="col-auto">
-				<select form="searchForm" name="size" th:value="${positionPage.size}" onchange="changePageSize()" class="form-select">
-					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == positionPage.size}"></option>
+				<select form="searchForm" name="size"
+					th:value="${positionPage.size}" onchange="changePageSize()"
+					class="form-select">
+					<option
+						th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
+						th:value="${s}" th:text="${s}"
+						th:selected="${s == positionPage.size}"></option>
 				</select>
 			</div>
 			<div class="col-auto">
 				<p class="col-form-label">items per page</p>
 			</div>
-			
+
 		</div>
 
 		<table class="table table-hover">
@@ -71,53 +82,83 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<tbody>
 
 				<tr th:each="position : ${positionPage.content}">
-					<td th:text="${(positionPage.number * positionPage.size) + positionStat.index + 1}"></td>
+					<td
+						th:text="${(positionPage.number * positionPage.size) + positionStat.index + 1}"></td>
 					<td th:text="${position.name}"></td>
 					<td sec:authorize="hasAnyAuthority('ADMIN', 'DEPARTMENT_HEAD')">
 						<a th:href="@{/position/edit(id=${position.id})}"
-						class="btn btn-warning ">
-							<span class="material-symbols-outlined"> edit </span>
-						</a>
-						<form th:action="@{/position/delete(id=${position.id})}" method="post" class="d-inline-block">
-							<button type="submit" class="btn btn-danger">Del</button>
-						</form>
+						class="btn btn-warning "> <span
+							class="material-symbols-outlined"> edit </span>
+					</a>
+						<button class="btn btn-danger"
+							th:onclick="showDialog([[${position.id}]])">Del</button>
 					</td>
+					</td>
+					<div th:id="modal+${position.id}" class="modal">
+
+
+						<div class="modal-content">
+							<span class="close delete"
+								th:onclick="closeDialog([[${position.id}]])">&times;</span>
+							<p>Are You Sure Want to Delete "<span th:text="${position.name}"> </span>"?</p>
+							
+							<center>
+								<span> <a class="btn btn-info "
+									th:onclick="closeDialog([[${position.id}]])">No </a>
+									<form th:action="@{/position/delete(id=${position.id})}"
+										method="post" class="d-inline-block">
+										<button type="submit" class="btn btn-danger">Yes</button>
+									</form>
+								</span>
+							</center>
+						</div>
 				</tr>
 			</tbody>
 		</table>
-		<nav aria-label="Pagination" th:if="${positionPage.totalPages > 0}" class="mt-3">
+		<nav aria-label="Pagination" th:if="${positionPage.totalPages > 0}"
+			class="mt-3">
 			<ul class="pagination justify-content-center bg-white">
-				<li class="page-item" th:classappend="${positionPage.number + 1 == 1} ? 'disabled'">
+				<li class="page-item"
+					th:classappend="${positionPage.number + 1 == 1} ? 'disabled'">
 					<a th:replace="page-nav :: position(1, '<<', 'First Page')"></a>
 				</li>
-				<li class="page-item font-weight-bold" th:classappend="${positionPage.number + 1 == 1} ? 'disabled'">
-					<a th:replace="page-nav :: position(${positionPage.number}, 'Prev', 'Previous Page')"></a>
+				<li class="page-item font-weight-bold"
+					th:classappend="${positionPage.number + 1 == 1} ? 'disabled'">
+					<a
+					th:replace="page-nav :: position(${positionPage.number}, 'Prev', 'Previous Page')"></a>
 				</li>
-				<li class="page-item disabled" th:if="${positionPage.number - 1 > 1}">
-					<a class="page-link" href="#">...</a>
-				</li>
-				<li class="page-item" th:classappend="${page == positionPage.number + 1} ? 'active'"
+				<li class="page-item disabled"
+					th:if="${positionPage.number - 1 > 1}"><a class="page-link"
+					href="#">...</a></li>
+				<li class="page-item"
+					th:classappend="${page == positionPage.number + 1} ? 'active'"
 					th:each="page : ${#numbers.sequence(positionPage.number + 1 > 2 ? positionPage.number - 1 : 1, positionPage.number + 3 < positionPage.totalPages ? positionPage.number + 3 : positionPage.totalPages)}">
-					<a th:replace="page-nav :: position(${page}, ${page}, 'Page ' + ${page})"></a>
+					<a
+					th:replace="page-nav :: position(${page}, ${page}, 'Page ' + ${page})"></a>
 				</li>
-				<li class="page-item disabled" th:if="${positionPage.number + 3 < positionPage.totalPages}">
+				<li class="page-item disabled"
+					th:if="${positionPage.number + 3 < positionPage.totalPages}">
 					<a class="page-link" href="#">...</a>
 				</li>
-				<li class="page-item font-weight-bold" th:classappend="${positionPage.number + 1 == positionPage.totalPages} ? 'disabled'">
-					<a th:replace="page-nav :: position(${positionPage.number + 2},'Next', 'Next Page')"></a>
+				<li class="page-item font-weight-bold"
+					th:classappend="${positionPage.number + 1 == positionPage.totalPages} ? 'disabled'">
+					<a
+					th:replace="page-nav :: position(${positionPage.number + 2},'Next', 'Next Page')"></a>
 				</li>
-				<li class="page-item" th:classappend="${positionPage.number + 1 == positionPage.totalPages} ? 'disabled'">
-					<a th:replace="page-nav :: position(${positionPage.totalPages}, '>>', 'Last Page')"></a>
+				<li class="page-item"
+					th:classappend="${positionPage.number + 1 == positionPage.totalPages} ? 'disabled'">
+					<a
+					th:replace="page-nav :: position(${positionPage.totalPages}, '>>', 'Last Page')"></a>
 				</li>
-			</ul>	
+			</ul>
 		</nav>
 	</div>
 	<script type="text/javascript">
-	  
 		function changePageSize() {
 			$("#pageParamInput").val("1");
-		  	$("#searchForm").submit();
+			$("#searchForm").submit();
 		}
 	</script>
+	<script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
 </body>
 </html>

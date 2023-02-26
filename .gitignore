@@ -34,3 +34,4 @@ src/main/webapp/storage/**
 ### VS Code ###
 .vscode/
 .metadata/
+/bin/
