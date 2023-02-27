@@ -8,7 +8,7 @@ import team.ojt7.recruitment.model.entity.Interview;
 
 public interface InterviewService {
 
-	List<Interview> findAllByIsDeleted(boolean isDelete);
+	List<InterviewDto> findAllByIsDeleted(boolean isDelete);
 
 	List<InterviewDto> search(String keyword);
 	
