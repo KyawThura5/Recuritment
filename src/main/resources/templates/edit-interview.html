@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="${title}"></title>
+<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+ <style>
+    body{background-color: #e3e8e7;}
+
+</style> 
+</head>
+<body>
+    <div th:replace="nav-bar :: navbar('interviews')"></div>
+	<div class="container mt-2 py-3">
+	<div class="row">
+            <div class="offset-sm-1 col-sm-10 col-md-8 offset-md-2">
+                <h2 class="fs-4 fw-bold" th:text="${title}"></h2>
+            </div>
+        </div>
+		<form action="#" th:action="@{/interview/save}" class="mt-2" th:object="${interview}" method="post">
+            <input type="hidden" id="interviewId" th:field="*{id}">
+			<input type="hidden" th:field="*{deleted}">
+				
+            <div class="row">
+                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
+                    <div class="form-group">
+                        <label for="interviewName" class="form-label" style="padding-left:5px">Title</label>
+                        <input type="text" class="form-control" id="interviewName" th:field="*{name}">
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Error
+                    </label>
+                    </div>
+                </div>
+                </div>
+				<div class="row mb-4 mt-3">
+                <div class="col-md-3"></div>
+                 <div class="col-md-4">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <a th:href="@{/interview/search}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+			</form>
+	</div>
+
+</body>
+</html>

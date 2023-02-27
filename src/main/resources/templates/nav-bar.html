@@ -84,6 +84,12 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					Applicants
 				</a>
 			</li>
+			<li sec:authorize="hasAnyAuthority('GENERAL_MANAGER', 'DEPARTMENT_HEAD', 'PROJECT_MANAGER', 'HIRING_MANAGER')" class="nav-item" th:classappend="${menu == 'interviews' ? 'active' : ''}">
+				<a th:href="@{/interview/search}" class="nav-link">
+					<i class="fa-solid fa-address-card me-2"></i>
+					Interviews
+				</a>
+			</li>
 			<li class="nav-item" th:classappend="${menu == 'students' ? 'active' : ''}">
 				<a th:href="@{/user/student/search}" class="nav-link">
 					<i class="fa-solid fa-file-signature me-2"></i>
