@@ -19,7 +19,6 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 	@Autowired
 	private RequirePositionRepo repo;
 
-	
 	public List<RequirePositionDto> findAll() {		
 		return RequirePositionDto.ofList(repo.findAll());
 	}
@@ -39,7 +38,8 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 
 	@Override
 	public Optional<RequirePositionDto> findById(Long id) {
-		return Optional.ofNullable(RequirePositionDto.of(repo.findById(id).orElse(null)));
+		RequirePositionDto dto = RequirePositionDto.of(repo.findById(id).orElse(null));
+		return Optional.ofNullable(dto);
 	}
 
 	

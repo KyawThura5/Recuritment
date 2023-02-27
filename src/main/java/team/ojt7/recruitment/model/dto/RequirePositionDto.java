@@ -1,12 +1,16 @@
 package team.ojt7.recruitment.model.dto;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.RequirePosition;
+import team.ojt7.recruitment.model.entity.Vacancy;
 
 public class RequirePositionDto {
 
@@ -19,21 +23,78 @@ public class RequirePositionDto {
 
 	@NotNull(message = "{notNull.requirePosition.team}")
 	TeamDto team;
-	
+
 	@NotNull(message = "{notNull.requirePosition.position}")
 	private PositionDto position;
+
+	private VacancyDto vacancy;
+
+	private List<ApplicantDto> applicants = new ArrayList<>();
 
 	public static RequirePositionDto of(RequirePosition entity) {
 		if (entity == null) {
 			return null;
 		}
-		
+
 		RequirePositionDto dto = new RequirePositionDto();
 		dto.setId(entity.getId());
 		dto.setCount(entity.getCount());
 		dto.setFoc(entity.isFoc());
 		dto.setPosition(PositionDto.of(entity.getPosition()));
 		dto.setTeam(TeamDto.of(entity.getTeam()));
+
+		if (entity.getVacancy() != null) {
+			Vacancy vacancy = entity.getVacancy();
+			VacancyDto vacancyDto = new VacancyDto();
+			vacancyDto.setId(vacancy.getId());
+			vacancyDto.setCode(vacancy.getCode());
+			vacancyDto.setDueDate(vacancy.getDueDate());
+			vacancyDto.setStatus(vacancy.getStatus());
+			vacancyDto.setComment(vacancy.getComment());
+			vacancyDto.setDeleted(vacancy.isDeleted());
+			vacancyDto.setCreatedDate(vacancy.getCreatedDate());
+			vacancyDto.setDepartment(DepartmentDto.of(vacancy.getDepartment()));
+			vacancyDto.setCreatedUser(UserDto.of(vacancy.getCreatedUser()));
+			dto.setVacancy(vacancyDto);
+		}
+
+		if (entity.getApplicants() != null && !entity.getApplicants().isEmpty()) {
+			List<ApplicantDto> applicants = new ArrayList<>();
+			for (Applicant applicant : entity.getApplicants()) {
+				ApplicantDto applicantDto = new ApplicantDto();
+				applicantDto.setId(applicant.getId());
+				applicantDto.setCode(applicant.getCode());
+				applicantDto.setName(applicant.getName());
+				applicantDto.setEmail(applicant.getEmail());
+				applicantDto.setPhone(applicant.getPhone());
+				applicantDto.setAddress(applicant.getAddress());
+				applicantDto.setExperience(applicant.getExperience());
+				applicantDto.setEducation(applicant.getEducation());
+				applicantDto.setSkill(applicant.getSkill());
+				applicantDto.setAttachedUri(applicant.getAttachedUri());
+				applicantDto.setRecruitmentResource(RecruitmentResourceDto.of(applicant.getRecruitmentResource()));
+				applicantDto.setCreatedDate(applicant.getCreatedDate());
+				applicantDto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
+				
+				if (applicant.getVacancy() != null) {
+					Vacancy vacancy = applicant.getVacancy();
+					VacancyDto vacancyDto = new VacancyDto();
+					vacancyDto.setId(vacancy.getId());
+					vacancyDto.setCode(vacancy.getCode());
+					vacancyDto.setDueDate(vacancy.getDueDate());
+					vacancyDto.setStatus(vacancy.getStatus());
+					vacancyDto.setCreatedDate(vacancy.getCreatedDate());
+					vacancyDto.setCreatedUser(UserDto.of(vacancy.getCreatedUser()));
+					vacancyDto.setDeleted(vacancy.isDeleted());
+					vacancyDto.setComment(vacancy.getComment());
+					vacancyDto.setDepartment(DepartmentDto.of(vacancy.getDepartment()));
+					applicantDto.setVacancy(vacancyDto);
+				}
+				
+				applicants.add(applicantDto);
+			}
+			dto.setApplicants(applicants);
+		}
 		return dto;
 	}
 
@@ -45,17 +106,75 @@ public class RequirePositionDto {
 		if (dto == null) {
 			return null;
 		}
-		
+
 		RequirePosition entity = new RequirePosition();
 		entity.setId(dto.getId());
 		entity.setCount(dto.getCount());
 		entity.setFoc(dto.isFoc());
 		entity.setPosition(PositionDto.parse(dto.getPosition()));
 		entity.setTeam(TeamDto.parse(dto.getTeam()));
+
+		if (dto.getVacancy() != null) {
+			VacancyDto vacancyDto = dto.getVacancy();
+			Vacancy vacancy = new Vacancy();
+			vacancy.setId(vacancyDto.getId());
+			vacancy.setCode(vacancyDto.getCode());
+			vacancy.setDueDate(vacancyDto.getDueDate());
+			vacancy.setStatus(vacancyDto.getStatus());
+			vacancy.setComment(vacancyDto.getComment());
+			vacancy.setDeleted(vacancyDto.isDeleted());
+			vacancy.setCreatedDate(vacancyDto.getCreatedDate());
+			vacancy.setDepartment(DepartmentDto.parse(vacancyDto.getDepartment()));
+			vacancy.setCreatedUser(UserDto.parse(vacancyDto.getCreatedUser()));
+			entity.setVacancy(vacancy);
+		}
+		
+		if (dto.getApplicants() != null && !dto.getApplicants().isEmpty()) {
+			List<Applicant> applicants = new ArrayList<>();
+			for (ApplicantDto appDto : dto.getApplicants()) {
+				Applicant applicant = new Applicant();
+				applicant.setId(appDto.getId());
+				applicant.setCode(appDto.getCode());
+				applicant.setName(appDto.getName());
+				applicant.setEmail(appDto.getEmail());
+				applicant.setPhone(appDto.getPhone());
+				applicant.setAddress(appDto.getAddress());
+				applicant.setExperience(appDto.getExperience());
+				applicant.setEducation(appDto.getEducation());
+				applicant.setSkill(appDto.getSkill());
+				applicant.setAttachedUri(appDto.getAttachedUri());
+				applicant.setRecruitmentResource(RecruitmentResourceDto.parse(appDto.getRecruitmentResource()));
+				applicant.setCreatedDate(appDto.getCreatedDate());
+				applicant.setCreatedUser(UserDto.parse(appDto.getCreatedUser()));
+				applicant.setVacancy(VacancyDto.parse(appDto.getVacancy()));
+				
+				if (appDto.getVacancy() != null) {
+					VacancyDto vacancyDto = appDto.getVacancy();
+					Vacancy vacancy = new Vacancy();
+					vacancy.setId(vacancyDto.getId());
+					vacancy.setCode(vacancyDto.getCode());
+					vacancy.setDueDate(vacancyDto.getDueDate());
+					vacancy.setStatus(vacancyDto.getStatus());
+					vacancy.setCreatedDate(vacancyDto.getCreatedDate());
+					vacancy.setCreatedUser(UserDto.parse(vacancyDto.getCreatedUser()));
+					vacancy.setDeleted(vacancyDto.isDeleted());
+					vacancy.setComment(vacancyDto.getComment());
+					vacancy.setDepartment(DepartmentDto.parse(vacancyDto.getDepartment()));
+					applicant.setVacancy(vacancy);
+				}
+				
+				applicants.add(applicant);
+			}
+			entity.setApplicants(applicants);
+		}
+
 		return entity;
 	}
 
 	public static List<RequirePosition> parseList(List<RequirePositionDto> dtoList) {
+		if (dtoList == null) {
+			return Collections.emptyList();
+		}
 		return dtoList.stream().map(d -> parse(d)).toList();
 	}
 
@@ -97,6 +216,22 @@ public class RequirePositionDto {
 
 	public void setPosition(PositionDto position) {
 		this.position = position;
+	}
+
+	public VacancyDto getVacancy() {
+		return vacancy;
+	}
+
+	public void setVacancy(VacancyDto vacancy) {
+		this.vacancy = vacancy;
+	}
+
+	public List<ApplicantDto> getApplicants() {
+		return applicants;
+	}
+
+	public void setApplicants(List<ApplicantDto> applicants) {
+		this.applicants = applicants;
 	}
 
 	@Override

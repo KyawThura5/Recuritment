@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -38,8 +36,6 @@ public class VacancyDto {
 
 	private UserDto createdUser;
 
-	@Valid
-	@NotEmpty(message = "{notEmpty.vacancy.requirePositions}")
 	private List<RequirePositionDto> requirePositions;
 
 	public static VacancyDto of(Vacancy entity) {

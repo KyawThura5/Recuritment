@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +9,25 @@
     <title>Document</title>
 </head>
 <body>
+
+    <a th:fragment="user(pageNum, label, tooltip)" class="page-link"
+        th:href="@{'/user/search?' + ${userSearch.keyword!=null && userSearch.keyword!=''? 'keyword=' + userSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${userSearch.size} + ${userSearch.role != null && userSearch.role != '' ? '&role=' + userSearch.role : ''}}"
+        th:title="${tooltip}" rel="tooltip">
+        [[${label}]]
+    </a>
+
+    <a th:fragment="department(pageNum, label, tooltip)" class="page-link"
+        th:href="@{'/department/search?' + ${departmentSearch.keyword!=null && departmentSearch.keyword!=''? 'keyword=' + departmentSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${departmentSearch.size}}"
+        th:title="${tooltip}" rel="tooltip">
+        [[${label}]]
+    </a>
+
+    <a th:fragment="position(pageNum, label, tooltip)" class="page-link"
+        th:href="@{'/position/search?' + ${positionSearch.keyword!=null && positionSearch.keyword!=''? 'keyword=' + positionSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${positionSearch.size}}"
+        th:title="${tooltip}" rel="tooltip">
+        [[${label}]]
+    </a>
+
     <a th:fragment="vacancy(pageNum, label, tooltip)" class="page-link"
         th:href="@{'/vacancy/search?' + ${vacancySearch.keyword!=null && vacancySearch.keyword!=''? 'keyword=' + vacancySearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}"
         th:title="${tooltip}" rel="tooltip">

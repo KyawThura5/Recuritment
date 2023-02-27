@@ -3,7 +3,10 @@ package team.ojt7.recruitment.model.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 import team.ojt7.recruitment.model.dto.DepartmentDto;
+import team.ojt7.recruitment.model.dto.DepartmentSearch;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Department;
 
@@ -14,6 +17,8 @@ public interface DepartmentService {
 	List<DepartmentDto> findAllForVacancy(VacancyDto vacancy);
 
 	List<DepartmentDto> search(String keyword);
+	
+	Page<DepartmentDto> search(DepartmentSearch departmentSearch);
 	
 	Optional<DepartmentDto> findById(Long id);
 	

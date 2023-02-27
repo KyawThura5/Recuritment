@@ -1,11 +1,11 @@
 package team.ojt7.recruitment.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import team.ojt7.recruitment.model.dto.AdminChangePasswordFormDto;
 import team.ojt7.recruitment.model.dto.UserChangePasswordFormDto;
 import team.ojt7.recruitment.model.dto.UserDto;
+import team.ojt7.recruitment.model.dto.UserSearch;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.service.UserService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
@@ -120,11 +121,12 @@ public class UserController {
 
 	@RequestMapping(value = "/user/search", method = RequestMethod.GET)
 	public String searchUsers(
-			@RequestParam(required=false)
-			String keyword,
+			@ModelAttribute("userSearch")
+			UserSearch userSearch,
 			ModelMap model) {
-		List<UserDto> list=userService.search(keyword,null);
-		model.addAttribute("list",list);
+		Page<UserDto> userPage=userService.search(userSearch);
+		model.put("userPage", userPage);
+		model.put("userSearch", userSearch);
 		return "users";
 
 	}

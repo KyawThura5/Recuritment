@@ -6,11 +6,16 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.event.UserUpdateEvent;
 import team.ojt7.recruitment.model.dto.UserDto;
+import team.ojt7.recruitment.model.dto.UserSearch;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.repo.UserRepo;
@@ -116,5 +121,19 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(newPassword);
 		userRepo.save(user);
 	}
+
+	@Override
+	public Page<UserDto> search(UserSearch userSearch) {
+		String keyword  = userSearch.getKeyword() == null ? "%%" : "%" + userSearch.getKeyword() + "%";
+		Role role = userSearch.getRole();
+		Pageable pageable = PageRequest.of(userSearch.getPage() - 1, userSearch.getSize());
+		
+		Page<User> userPage = userRepo.search(keyword, role, pageable);
+		
+		Page<UserDto> userDtoPage = new PageImpl<>(UserDto.ofList(userPage.getContent()), pageable, userPage.getTotalElements());
+		
+		return userDtoPage;
+	}
+
 
 }
