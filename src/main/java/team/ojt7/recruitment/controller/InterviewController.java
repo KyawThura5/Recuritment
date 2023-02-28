@@ -24,7 +24,7 @@ public class InterviewController {
 			@ModelAttribute("interview")
 			ModelMap model) {
 		
-		return null;
+		return "interviews";
 	}
 
 	@GetMapping("/interview/edit")

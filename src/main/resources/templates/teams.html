@@ -84,7 +84,7 @@
 							<span class="material-symbols-outlined"> edit </span>
 					</a>
 						<button class="btn btn-danger"
-							th:onclick="showDialog([[${dept.id}]])">Del</button>
+							th:onclick="showDialog([[${team.id}]])">Del</button>
 					</td>
 
 					<div th:id="modal+${team.id}" class="modal">
@@ -93,8 +93,8 @@
 						<div class="modal-content">
 							<span class="close delete"
 								th:onclick="closeDialog([[${team.id}]])">&times;</span>
-							<p>Are You Sure Want to Delete</p>
-							<span th:text="${team.department.name}"> </span>?
+							<p>Are you sure want to delete "<span th:text="${team.department.name}"> </span>"?
+							</p>
 							<center>
 								<span> <a class="btn btn-info "
 									th:onclick="closeDialog([[${team.id}]])">No </a>

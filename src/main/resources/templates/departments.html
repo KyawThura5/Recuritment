@@ -98,7 +98,7 @@
 							<span class="close delete"
 								th:onclick="closeDialog([[${dept.id}]])">&times;</span>
 							<p>
-								Are You Sure Want to Delete "<span th:text="${dept.name}"></span>"
+								Are you sure want to delete "<span th:text="${dept.name}"></span>"
 								?
 							</p>
 							<center>
@@ -106,7 +106,7 @@
 									th:onclick="closeDialog([[${dept.id}]])">No </a>
 									<form th:action="@{/department/delete(id=${dept.id})}"
 										method="post" class="d-inline-block">
-										<button type="submit" class="btn btn-danger">Del</button>
+										<button type="submit" class="btn btn-danger">Yes</button>
 									</form>
 								</span>
 							</center>
