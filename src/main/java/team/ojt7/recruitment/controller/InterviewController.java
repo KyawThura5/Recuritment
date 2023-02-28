@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,27 +23,33 @@ public class InterviewController {
 	
 	@GetMapping("/interview/search")
 	public String searchInterviews(
-			@ModelAttribute("interview")
+			@ModelAttribute("interview")InterviewDto dto,
+			@RequestParam(required =false)String keyword,
 			ModelMap model) {
-		
+		List<InterviewDto> list=interviewService.search(keyword);
+		model.addAttribute("list",list);
 		return "interviews";
 	}
 
 	@GetMapping("/interview/edit")
 	public String editInterview(
 			@RequestParam(required = false)
-			Long id,
+			Long id,@ModelAttribute("interview")InterviewDto dto,
 			ModelMap model
 			) {
 		
-		return null;
+		return "edit-interview";
 	}
 
 	@PostMapping("/interview/save")
 	public String saveInterview(@ModelAttribute("interview") @Validated InterviewDto dto,BindingResult bs,ModelMap model) {
-		
-		
-		return null;
+		if(!bs.hasErrors()) {
+			interviewService.save(InterviewDto.parse(dto));
+		}
+		if(bs.hasErrors()) {
+			return "edit-interview";
+		}
+		return "redirect:/interview/search";
 	}
 
 	@PostMapping("/interview/delete")

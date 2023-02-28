@@ -60,9 +60,9 @@
 		<tbody>
 
 			<tr th:each="interview : ${list}">
-
+			<td th:text="${interview.id}"></td>
 				<td th:text="${interview.name}"></td>
-				<td sec:authorize="hasAuthority('ADMIN')"><a
+				<td><a
 					th:href="@{/interview/edit(id=${interview.id})}"
 					class="btn btn-warning "> <span
 						class="material-symbols-outlined"> edit </span>
@@ -76,10 +76,9 @@
 						<span class="close delete"
 							th:onclick="closeDialog([[${interview.id}]])">&times;</span>
 						<p>
-							Are You Sure Want to Delete "<span th:text="${interview.name}"></span>"
+							Are you sure want to delete "<span th:text="${interview.name}"></span>"
 							?
 						</p>
-						<center>
 							<span> <a class="btn btn-info "
 								th:onclick="closeDialog([[${interview.id}]])">No </a>
 								<form th:action="@{/interview/delete(id=${interview.id})}"
@@ -87,7 +86,7 @@
 									<button type="submit" class="btn btn-danger">Del</button>
 								</form>
 							</span>
-						</center>
+						
 					</div>
 
 
