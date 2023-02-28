@@ -60,7 +60,7 @@
 		<tbody>
 
 			<tr th:each="interview : ${list}">
-
+				<td th:text="${interview.id}"></td>
 				<td th:text="${interview.name}"></td>
 				<td><a
 					th:href="@{/interview/edit(id=${interview.id})}"
