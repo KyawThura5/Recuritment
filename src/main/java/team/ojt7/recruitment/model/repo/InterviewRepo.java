@@ -20,7 +20,7 @@ public interface InterviewRepo extends JpaRepository<Interview, Long>{
 	
 	
 	
-	@Query("SELECT int FROM Interview int WHERE (name LIKE :keyword) AND (is_deleted = false)")
+	@Query("SELECT i FROM Interview i WHERE (name LIKE :keyword) AND (is_deleted = false)")
 			List<Interview> search(@Param("keyword") String keyword);
 	@Modifying
 	@Query(value = "UPDATE interview SET is_deleted = true WHERE id = :id", nativeQuery = true)

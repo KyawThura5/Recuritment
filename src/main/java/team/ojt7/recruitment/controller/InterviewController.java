@@ -26,9 +26,9 @@ public class InterviewController {
 	@GetMapping("/interview/search")
 	public String searchInterviews(
 			@ModelAttribute("interview")InterviewDto dto,
-			@RequestParam(required=false)String keyword,
+			@RequestParam(required=false)String name,
 			ModelMap model) {
-		List<InterviewDto> list=interviewService.search(keyword);
+		List<InterviewDto> list=interviewService.search(name);
 		model.addAttribute("list",list);
 		return "interviews";
 	}
