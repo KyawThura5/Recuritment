@@ -19,7 +19,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<div class="container mt-2 py-3">
 	<div class="row">
             <div class="offset-sm-1 col-sm-10 col-md-8 offset-md-2">
-                <h2 class="fs-4 fw-bold" th:text="${title}"></h2>
+                <h2 class="fs-4 fw-bold"></h2>
             </div>
         </div>
 		<form action="#" th:action="@{/interview/save}" class="mt-2" th:object="${interview}" method="post">
@@ -29,7 +29,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             <div class="row">
                 <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
                     <div class="form-group">
-                        <label for="interviewName" class="form-label" style="padding-left:5px">Title</label>
+                        <label for="interviewName" class="form-label" style="padding-left:5px">                <h2 class="fs-4 fw-bold" th:text="${title}"></h2>
+                        </label>
                         <input type="text" class="form-control" id="interviewName" th:field="*{name}">
                         <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Error
                     </label>

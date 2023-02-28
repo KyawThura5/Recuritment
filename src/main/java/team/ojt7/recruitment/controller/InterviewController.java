@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.service.InterviewService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 
 @Controller
 public class InterviewController {
@@ -24,7 +26,7 @@ public class InterviewController {
 	@GetMapping("/interview/search")
 	public String searchInterviews(
 			@ModelAttribute("interview")InterviewDto dto,
-			@RequestParam(required =false)String keyword,
+			@RequestParam(required=false)String keyword,
 			ModelMap model) {
 		List<InterviewDto> list=interviewService.search(keyword);
 		model.addAttribute("list",list);
@@ -34,19 +36,31 @@ public class InterviewController {
 	@GetMapping("/interview/edit")
 	public String editInterview(
 			@RequestParam(required = false)
-			Long id,@ModelAttribute("interview")InterviewDto dto,
+			Long id,
 			ModelMap model
 			) {
-		
+		InterviewDto dto=interviewService.findById(id).orElse(new InterviewDto());
+		model.put("interview", dto);
+		String title=dto.getId()==null ? "Add Title":"Edit Title";
+		model.put("title", title);
 		return "edit-interview";
 	}
 
 	@PostMapping("/interview/save")
 	public String saveInterview(@ModelAttribute("interview") @Validated InterviewDto dto,BindingResult bs,ModelMap model) {
 		if(!bs.hasErrors()) {
+			try {
 			interviewService.save(InterviewDto.parse(dto));
+			}catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+			
 		}
 		if(bs.hasErrors()) {
+			String title=dto.getId()==null ? "Add Title":"Edit Title";
+			model.put("title", title);
 			return "edit-interview";
 		}
 		return "redirect:/interview/search";
@@ -54,9 +68,9 @@ public class InterviewController {
 
 	@PostMapping("/interview/delete")
 	public String deleteInterview(@RequestParam("id") Long id) {
+		interviewService.deleteById(id);
 		
-		
-		return null;
+		return "redirect:/interview/search";
 	}
 	
 	
