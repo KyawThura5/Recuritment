@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.model.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 
 import team.ojt7.recruitment.model.dto.InterviewDto;
@@ -13,4 +15,8 @@ public interface InterviewService {
 	InterviewDto save(Interview interview);
 	
 	boolean deleteById(Long id);
+	
+	InterviewDto generateNewWithCode();
+	
+	Optional<InterviewDto> findById(Long id);
 }
