@@ -33,10 +33,13 @@ public class Interview implements Serializable {
 	
 	@Column(name = "date_time")
 	private LocalDateTime dateTime;
+	@Column(name = "is_deleted", columnDefinition = "boolean default false")
+	private boolean isDeleted;
 	
 	@ManyToOne
 	@JoinColumn(name = "applicant_id")
 	private Applicant applicant;
+	
 
 	public enum Status {
 		ON_HOLD("On-hold"), CANCELED("Canceled"), PASSED("Passed"), FAILED("Failed");
@@ -107,6 +110,15 @@ public class Interview implements Serializable {
 
 	public void setApplicant(Applicant applicant) {
 		this.applicant = applicant;
+	}
+	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	@Override
