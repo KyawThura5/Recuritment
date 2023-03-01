@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.Applicant.Status;
 import team.ojt7.recruitment.model.entity.RequirePosition;
 
 public class ApplicantDto {
@@ -28,6 +29,8 @@ public class ApplicantDto {
 	@NotBlank(message = "NotBlank.applicant.email")
 	@Pattern(regexp = "^(.+)@(.+)$", message = "{invalid.email}")
 	private String email;
+
+	private Status status;
 
 	private String address;
 	@NotBlank(message = "NotBlank.applicant.experience")
@@ -46,7 +49,7 @@ public class ApplicantDto {
 	private LocalDateTime createdDate;
 
 	private UserDto createdUser;
-	
+
 	@NotNull(message = "Select a vacancy")
 	private VacancyDto vacancy;
 
@@ -54,6 +57,8 @@ public class ApplicantDto {
 	private RequirePositionDto requirePosition;
 
 	private boolean isDeleted;
+
+	private List<InterviewDto> interviews;
 
 	public boolean isDeleted() {
 		return isDeleted;
@@ -95,6 +100,14 @@ public class ApplicantDto {
 		this.phone = phone;
 	}
 
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -117,6 +130,14 @@ public class ApplicantDto {
 
 	public void setExperience(String experience) {
 		this.experience = experience;
+	}
+
+	public List<InterviewDto> getInterviews() {
+		return interviews;
+	}
+
+	public void setInterviews(List<InterviewDto> interviews) {
+		this.interviews = interviews;
 	}
 
 	public String getEducation() {
@@ -142,7 +163,7 @@ public class ApplicantDto {
 	public void setAttachedUri(String attachedUri) {
 		this.attachedUri = attachedUri;
 	}
-	
+
 	public String getAttachedFileName() {
 		if (attachedUri == null || attachedUri.isBlank()) {
 			return null;
@@ -174,7 +195,7 @@ public class ApplicantDto {
 	public void setCreatedUser(UserDto createdUser) {
 		this.createdUser = createdUser;
 	}
-	
+
 	public VacancyDto getVacancy() {
 		return vacancy;
 	}
@@ -205,12 +226,13 @@ public class ApplicantDto {
 		dto.setExperience(applicant.getExperience());
 		dto.setEducation(applicant.getEducation());
 		dto.setSkill(applicant.getSkill());
+		dto.setStatus(applicant.getStatus());
 		dto.setAttachedUri(applicant.getAttachedUri());
 		dto.setRecruitmentResource(RecruitmentResourceDto.of(applicant.getRecruitmentResource()));
 		dto.setCreatedDate(applicant.getCreatedDate());
 		dto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
 		dto.setVacancy(VacancyDto.of(applicant.getVacancy()));
-		
+
 		if (applicant.getRequirePosition() != null) {
 			RequirePosition requirePosition = applicant.getRequirePosition();
 			RequirePositionDto requirePositionDto = new RequirePositionDto();
@@ -222,7 +244,7 @@ public class ApplicantDto {
 			requirePositionDto.setVacancy(VacancyDto.of(requirePosition.getVacancy()));
 			dto.setRequirePosition(requirePositionDto);
 		}
-		
+
 		return dto;
 
 	}
@@ -241,12 +263,13 @@ public class ApplicantDto {
 		applicant.setExperience(dto.getExperience());
 		applicant.setEducation(dto.getEducation());
 		applicant.setSkill(dto.getSkill());
+		applicant.setStatus(dto.getStatus());
 		applicant.setAttachedUri(dto.getAttachedUri());
 		applicant.setRecruitmentResource(RecruitmentResourceDto.parse(dto.getRecruitmentResource()));
 		applicant.setCreatedDate(dto.getCreatedDate());
 		applicant.setCreatedUser(UserDto.parse(dto.getCreatedUser()));
 		applicant.setVacancy(VacancyDto.parse(dto.getVacancy()));
-		
+
 		if (dto.getRequirePosition() != null) {
 			RequirePositionDto requirePositionDto = dto.getRequirePosition();
 			RequirePosition requirePosition = new RequirePosition();
@@ -273,7 +296,7 @@ public class ApplicantDto {
 	@Override
 	public int hashCode() {
 		return Objects.hash(address, attachedUri, code, createdDate, createdUser, education, email, experience, id,
-				name, phone, recruitmentResource, requirePosition, skill);
+				isDeleted, name, phone, recruitmentResource, requirePosition, skill, status, vacancy);
 	}
 
 	@Override
@@ -289,9 +312,10 @@ public class ApplicantDto {
 				&& Objects.equals(code, other.code) && Objects.equals(createdDate, other.createdDate)
 				&& Objects.equals(createdUser, other.createdUser) && Objects.equals(education, other.education)
 				&& Objects.equals(email, other.email) && Objects.equals(experience, other.experience)
-				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name)
 				&& Objects.equals(phone, other.phone) && Objects.equals(recruitmentResource, other.recruitmentResource)
-				&& Objects.equals(requirePosition, other.requirePosition) && Objects.equals(skill, other.skill);
+				&& Objects.equals(requirePosition, other.requirePosition) && Objects.equals(skill, other.skill)
+				&& status == other.status && Objects.equals(vacancy, other.vacancy);
 	}
 
 }

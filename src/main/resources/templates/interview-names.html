@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Interviews</title>
+<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<link rel="stylesheet"
+	th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+</head>
+<body>
+	<div th:replace="nav-bar :: navbar('interviews')"></div>
+	<div class="container bg-white mt-2 pt-3">
+		<form id="searchForm" class="row g-3 mt-3"
+			th:action="@{/interview/search}" th:object="${interview}"
+			method="get">
+
+
+
+			<div class="col-auto">
+				<input type="text" class="form-control" th:field="*{name}">
+			</div>
+
+			<div class="col-auto">
+				<a th:href="@{/interview/search}" type="reset"
+					class="btn btn-primary "> <span
+					class="material-symbols-outlined"> restart_alt </span>
+				</a>
+
+			</div>
+			<div class="col-auto">
+
+				<button type="submit" class="btn btn-info ">
+					<span class="material-symbols-outlined">search</span>
+				</button>
+			</div>
+			<div class="col-auto">
+				<a th:href="@{/interview/edit}" class="btn btn-secondary"> <span
+					class="material-symbols-outlined">add_circle</span>
+				</a>
+			</div>
+		</form>
+
+	
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr th:each="interview : ${list}">
+				<td th:text="${interview.id}"></td>
+				<td th:text="${interview.name}"></td>
+				<td><a
+					th:href="@{/interview/edit(id=${interview.id})}"
+					class="btn btn-warning "> <span
+						class="material-symbols-outlined"> edit </span>
+				</a>
+					<button class="btn btn-danger"
+						th:onclick="showDialog([[${interview.id}]])">Del</button></td>
+				<div th:id="modal+${interview.id}" class="modal">
+
+
+					<div class="modal-content">
+						<span class="close delete"
+							th:onclick="closeDialog([[${interview.id}]])">&times;</span>
+						<p>
+							Are You Sure Want to Delete "<span th:text="${interview.name}"></span>"
+							?
+						</p>
+						<center>
+							<span> <a class="btn btn-info "
+								th:onclick="closeDialog([[${interview.id}]])">No </a>
+								<form th:action="@{/interview/delete(id=${interview.id})}"
+									method="post" class="d-inline-block">
+									<button type="submit" class="btn btn-danger">Del</button>
+								</form>
+							</span>
+						</center>
+					</div>
+
+
+				</div>
+			</tr>
+		</tbody>
+	</table>
+</div>
+	<script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
+</body>
+</html>
