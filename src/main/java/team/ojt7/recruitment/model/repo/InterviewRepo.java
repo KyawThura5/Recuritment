@@ -22,7 +22,7 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 	@Query(
 			value=
 			"""
-					SELECT 	i FROM interview i WHERE 
+					SELECT 	i FROM Interview i WHERE 
 					(code LIKE :keyword OR interviewName = :interviewName)
 					AND(:dateFrom is null OR datetime >= :dateFrom)
 					AND(:dateTo is null OR datetime <= :dateTo)
@@ -31,7 +31,7 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 			""",
 			countQuery=
 					"""
-							SELECT COUNT(i) FROM interview i WHERE 
+							SELECT COUNT(i) FROM Interview i WHERE 
 							(code LIKE :keyword OR interviewName = :interviewName)
 							AND(:dateFrom is null OR datetime >= :dateFrom)
 							AND(:dateTo is null OR datetime <= :dateTo)
