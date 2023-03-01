@@ -1,10 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interviews</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 </head>
 <body>
+    <div th:replace="nav-bar :: navbar('interviews')"></div>
+    <main class="container py-3">
+        <h2 class="fs-4 fw-bold">Interviews</h2>
+            <div class="row">
+                <form id="searchForm" class="row g-3 mt-3" th:action="@{/interview/search}" th:object="${interviewSearch}">
 
+                <div class="col-auto">
+
+                    <input th:field="*{keyword}" type="text" class="form-control"
+                        th:value="${param.keyword}">
+                </div>
+
+                <div class="col-auto">
+                    <a
+                        th:href="@{'/user/search?' + 'size=' + ${userSearch.size} + ${userSearch.role != null && userSearch.role != '' ? '&role=' + userSearch.role : ''}}"
+                        class="btn btn-primary "> <span
+                        class="material-symbols-outlined"> restart_alt </span>
+                    </a>
+
+                </div>
+
+                <div class="col-auto">
+
+                    <button type="submit" class="btn btn-info ">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                </div>
+
+                <div class="col-auto">
+                    <select th:field="*{role}" class="form-select"
+                        onchange="changePageSize()">
+                        <option value="">All</option>
+                        <option
+                            th:each="role : ${T(team.ojt7.recruitment.model.entity.User.Role).values()}"
+                            th:text="${role.displayName}" th:value="${role}"></option>
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <a th:href="@{/user/add}" class="btn btn-secondary"> <span
+                        class="material-symbols-outlined"> person_add </span>
+                    </a>
+                </div>
+
+            </form>
+            <div class="row mt-3">
+                <div class="form-group-col col-auto">
+                    <label for="" class="col-form-label">Showing</label>
+                </div>
+                <div class="col-auto">
+                    <select form="searchForm" name="size" th:value="${userPage.size}"
+                        onchange="changePageSize()" class="form-select">
+                        <option
+                            th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
+                            th:value="${s}" th:text="${s}" th:selected="${s == userPage.size}"></option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <p class="col-form-label">items per page</p>
+                </div>
+
+            </div>
+        </div>
+    </main>
 </body>
 </html>

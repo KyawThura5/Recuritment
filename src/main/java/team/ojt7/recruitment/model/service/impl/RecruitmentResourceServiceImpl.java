@@ -6,10 +6,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
+import team.ojt7.recruitment.model.dto.RecruitmentResourceSearch;
 import team.ojt7.recruitment.model.entity.RecruitmentResource;
 import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
@@ -88,6 +93,17 @@ public class RecruitmentResourceServiceImpl implements RecruitmentResourceServic
 		List<RecruitmentResourceDto> newList = new ArrayList<>(dtos);
 		newList.add(applicant.getRecruitmentResource());
 		return newList;
+	}
+
+	@Override
+	public Page<RecruitmentResourceDto> search(RecruitmentResourceSearch search) {
+		String keyword = search.getKeyword() == null ? "%%" : "%" + search.getKeyword() + "%";
+		String entityType = search.getEntityType();
+		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize());
+
+		Page<RecruitmentResource> page = recruitmentResourceRepo.search(keyword, entityType, pageable);
+		Page<RecruitmentResourceDto> dtoPage = new PageImpl<>(RecruitmentResourceDto.ofList(page.getContent()), pageable, page.getTotalElements());
+		return dtoPage;
 	}
 
 }
