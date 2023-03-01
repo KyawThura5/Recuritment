@@ -18,6 +18,11 @@ public class InterviewDto {
 	
 
 	public static InterviewDto of(Interview interview) {
+		if(interview==null)
+		{
+			return null;
+		}
+		else {
 		InterviewDto interviewtDto = new InterviewDto();
 		interviewtDto.setId(interview.getId());
 		interviewtDto.setCode(interview.getCode());
@@ -27,6 +32,7 @@ public class InterviewDto {
 		interviewtDto.setDeleted(interview.isDeleted());
 		interviewtDto.setApplicant(ApplicantDto.of(interview.getApplicant()));
 		return interviewtDto;
+		}
 	}
 	
 	public static List<InterviewDto> ofList(List<Interview> interviews) {
@@ -34,6 +40,11 @@ public class InterviewDto {
 	}
 	
 	public static Interview parse(InterviewDto interviewDto) {
+		if(interviewDto==null)
+		{
+			return null;
+		}
+		else {
 		Interview interview = new Interview();
 		interview.setId(interviewDto.getId());
 		interview.setCode(interviewDto.getCode());
@@ -43,6 +54,7 @@ public class InterviewDto {
 		interview.setDeleted(interviewDto.isDeleted());
 		interview.setApplicant(ApplicantDto.parse(interviewDto.getApplicant()));
 		return interview;
+		}
 	}
 	
 	public static List<Interview> parseList(List<InterviewDto> interviewDto) {
