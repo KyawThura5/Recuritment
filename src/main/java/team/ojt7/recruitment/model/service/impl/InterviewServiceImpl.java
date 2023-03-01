@@ -35,15 +35,12 @@ public class InterviewServiceImpl implements InterviewService {
 	@Autowired
 	private InterviewCodeGenerator interviewCodeGenerator;
 	
-	@Autowired
-	InterviewNameDto interviewNameDto;
-
 	@Override
 	public Page<InterviewDto> search(InterviewSearch search) {
 		String keyword = search.getKeyword() == null ? "%%" : "%" + search.getKeyword() + "%";
 		
 		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize());
-		InterviewName interviewName= InterviewNameDto.parse(search.getInterviewName());
+		InterviewName interviewName = InterviewNameDto.parse(search.getInterviewName());
 		
 		Page<Interview> interviews =interviewRepo.search(keyword, search.getDateForm(), search.getDateTo(),search.getStatus(), interviewName, pageable); 
 		Pageable interviewsPageable = interviews.getPageable();
