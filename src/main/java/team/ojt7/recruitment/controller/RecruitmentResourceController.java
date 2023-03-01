@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
+import team.ojt7.recruitment.model.dto.RecruitmentResourceSearch;
 import team.ojt7.recruitment.model.service.DirectRecruitmentResourceService;
 import team.ojt7.recruitment.model.service.ExternalRecruitmentResourceService;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
@@ -39,22 +41,24 @@ public class RecruitmentResourceController {
 
 	@GetMapping("/recruitmentresource/external/search")
 	public String searchExternalRecruitmentResources(
-			@RequestParam(required = false)
-			String keyword,
+			@ModelAttribute
+			RecruitmentResourceSearch recruitmentResourceSearch,
 			ModelMap model) {
-		List<RecruitmentResourceDto> recruitmentRecourses = recruitmentResourceService.search(keyword, "ExternalRecruitmentResource");
-		model.put("recruitmentResourceList", recruitmentRecourses);
+		recruitmentResourceSearch.setEntityType("ExternalRecruitmentResource");
+		Page<RecruitmentResourceDto> page = recruitmentResourceService.search(recruitmentResourceSearch);
+		model.put("recruitmentResourcePage", page);
 		model.put("title", "External Recruitment Resources");
 		return "external-recruitment-resources";
 	}
 	
 	@GetMapping("/recruitmentresource/direct/search")
 	public String searchDirectRecruitmentResources(
-			@RequestParam(required = false)
-			String keyword,
+			@ModelAttribute
+			RecruitmentResourceSearch recruitmentResourceSearch,
 			ModelMap model) {
-		List<RecruitmentResourceDto> recruitmentRecourses = recruitmentResourceService.search(keyword, "DirectRecruitmentResource");
-		model.put("recruitmentResourceList", recruitmentRecourses);
+		recruitmentResourceSearch.setEntityType("DirectRecruitmentResource");
+		Page<RecruitmentResourceDto> page = recruitmentResourceService.search(recruitmentResourceSearch);
+		model.put("recruitmentResourcePage", page);
 		model.put("title", "Direct Recruitment Resources");
 		return "direct-recruitment-resources";
 	}

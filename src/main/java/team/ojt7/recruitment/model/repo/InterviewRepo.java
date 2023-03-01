@@ -15,20 +15,20 @@ import team.ojt7.recruitment.model.entity.InterviewName;
 @Repository
 public interface InterviewRepo extends JpaRepository<Interview, Long> {
 	
-	Long findMaxId();
-
-	Page<Interview> search(
-			@Param("keyword")
-			String keyword,
-			@Param("dateFrom")
-			LocalDate dateFrom,
-			@Param("dateTo")
-			LocalDate dateTo,
-			@Param("status")
-			Status status,
-			@Param("interviewName")
-			InterviewName interivewName,
-			Pageable pageable
-			);
+//	Long findMaxId();
+//
+//	Page<Interview> search(
+//			@Param("keyword")
+//			String keyword,
+//			@Param("dateFrom")
+//			LocalDate dateFrom,
+//			@Param("dateTo")
+//			LocalDate dateTo,
+//			@Param("status")
+//			Status status,
+//			@Param("interviewName")
+//			InterviewName interivewName,
+//			Pageable pageable
+//			);
 
 }

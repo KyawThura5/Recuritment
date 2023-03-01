@@ -1,75 +1,70 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>User Detail</title>
-<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
-
-<style>
-table.center {
-  margin-left: auto; 
-  margin-right: auto;
-}
-</style>
+    <meta charset="ISO-8859-1">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
 </head>
 <body>
-
 	<div th:replace="nav-bar :: navbar('users')"></div>
 
-
-
-		<div class="container mt-3 table-responsive" style="text-align:center">
-			<h3>User Detail Information</h3>
-			<table class="table center" style="width: 300px;text-align:left">
-				<tbody>
-					<tr>
-						<td>Code :</td>
-						<td th:text="${list.code}"></td>
-					</tr>
-
-
-					<tr>
-						<td>Name :</td>
-						<td th:text="${list.name}"></td>
-					</tr>
-
-					<tr>
-						<td>Email :</td>
-						<td th:text="${list.email}"></td>
-					</tr>
-
-					<tr>
-						<td>Phone :</td>
-						<td th:text="${list.phone}"></td>
-					</tr>
-
-					<tr>
-						<td>Role :</td>
-						<td th:text="${list.role.displayName}"></td>
-					</tr>
-
-					<tr>
-						<td>Gender :</td>
-						<td th:text="${list.gender.displayName}"></td>
-					</tr>
-
-					<tr>
-
-						<td><a th:href="@{/user/search}"
-							class="btn btn-outline-warning d-grid btn-block" style="width:300px">Back</a></td>
-
-					</tr>
-
-				</tbody>
-
-			</table>
-		</div>
-	
-
-
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row">
+                <div class="col col-lg-10 col-xl-8 mb-4 mx-auto">
+                    <div class="card mb-3 shadow p-3 mb-5 bg-white rounded" style="border-radius: .5rem;">
+                    <div class="row g-0">
+                        <div class="col-lg-4 gradient-custom text-center" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                alt="Avatar" class="img-fluid my-3" style="width: 80px;" />
+                            <h5 class="fs-4 fw-bold" th:text="${list.name}"></h5>
+                            <p class="text-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-award-fill" viewBox="0 0 16 16">
+                                    <path d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"/>
+                                    <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
+                                </svg>
+                                [[${list.role.displayName}]]
+                            </p>
+                        </div>
+                        <div class="col-lg-8">
+                        <div class="card-body p-4">
+                                <h2 class="fs-5 fw-bold">User Detail</h2>
+                            <hr class="mt-0 mb-4">
+                            <div class="row pt-1">
+                            <div class="col-6 mb-3">
+                                <h6>Code</h6>
+                                <p class="text-muted" th:text="${list.code}"></p>
+                            </div>
+                            <div class="col-12 col-sm-6 mb-3">
+                                <h6>Email</h6>
+                                <p class="text-muted" th:text="${list.email}"></p>
+                            </div>
+                            <div class="col-12 col-sm-6 mb-3">
+                                <h6>Phone</h6>
+                                <p class="text-muted" th:text="${list.phone}"></p>
+                            </div>
+                            <div class="col-12 col-sm-6 mb-3">
+                                <h6>Gender</h6>
+                                <p class="text-muted" th:text="${list.gender.displayName}"></p>
+                            </div>
+                            <div class="d-flex flex-row-reverse">
+                                <a th:href="@{/user/search}" class="btn btn-warning">
+                                    Back
+                                </a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

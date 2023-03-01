@@ -1,125 +1,97 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Add New User</title>
-<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
 </head>
 <body>
-	<div th:replace="nav-bar :: navbar('users')"></div>
-
-	<div class="container-fluid mt-2 py-3">
-		<div class="row">
-			<div class="offset-sm-1 col-sm-10 col-md-8 offset-md-2">
-				<h2 class="fs-4 fw-bold">Add New User</h2>
-			</div>
-		</div>
-
-		<form action="#" th:action="@{/user/save}" th:object="${user}"
-			class="mt-2" method="post">
-
-
-			<input type="hidden" class="form-control" th:field="*{id}">
-			<div class="row">
-
-				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-					<div class="form-group">
-						<label for="" class="form-label">Code</label>
-						<input type="text"
-							class="form-control" th:field="*{code}">
-						<label
-							th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}"
-							style="color: red;">Error </label>
-					</div>
-				</div>
-				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-					<div class="form-group">
-						<label for="" class="form-label">Name</label>
-						<input type="text"
-							class="form-control" th:field="*{name}">
-						<label
-							th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')[__0__]}"
-							style="color: red;">Error </label>
-					</div>
-				</div>
-			</div>
-
-			<div class="row mt-3">
-				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-					<div class="form-group">
-						<label for="" class="form-label">Email</label> <input type="text"
-							class="form-control" th:field="*{email}"> <label
-							th:if="${#fields.hasErrors('email')}"  th:text="${#fields.errors('email')[__0__]}"
-							style="color: red;">Error </label>
-					</div>
-				</div>
-				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-					<div class="form-group">
-						<label for="" class="form-label">Phone</label> <input type="text"
-							class="form-control" th:field="*{phone}"> <label
-							th:if="${#fields.hasErrors('phone')}"  th:text="${#fields.errors('phone')[__0__]}"
-							style="color: red;">Error </label>
-					</div>
-				</div>
-			</div>
-
-			<div class="row mt-3">
-				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-					<div class="form-group">
-						<label for="" class="form-label">Role</label> <select name=""
-							id="" class="form-select" th:field="*{role}">
-							<option
+    <div th:replace="nav-bar :: navbar('users')"></div>
+    <main class="container p-4">
+        <div class="row">
+            <div class="card shadow-lg p-4 offset-md-1 offset-xl-2 col-12 col-md-10 col-xl-8">
+                <form th:action="@{/user/save}" method="post" class="row card-body" th:object="${user}">
+                    <div class="card-title col-12 fs-5 fw-bold">
+                        Add New User
+                    </div>
+                    <input type="hidden" th:field="*{id}">
+                    <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="code" class="form-label">Code</label>
+                        <input id="code" type="text" class="form-control" th:field="*{code}">
+                        <label th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}" class="text-danger"></label>
+                    </div>
+                    <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="name" class="form-label">Name</label>
+                        <input id="name" type="text" class="form-control" th:field="*{name}">
+                        <label th:if="${#fields.hasErrors('name')}"  th:text="${#fields.errors('name')[__0__]}" class="text-danger"></label>
+                    </div>
+                    <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="text" class="form-control" th:field="*{email}">
+                        <label th:if="${#fields.hasErrors('email')}"  th:text="${#fields.errors('email')[__0__]}" class="text-danger"></label>
+                    </div>
+                    <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input id="phone" type="text" class="form-control" th:field="*{phone}">
+                        <label th:if="${#fields.hasErrors('phone')}"  th:text="${#fields.errors('phone')[__0__]}" class="text-danger"></label>
+                    </div>
+                    <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="role" class="form-label">Role</label>
+                        <select id="role" class="form-select" th:field="*{role}">
+                            <option value="">-- select role --</option>
+                            <option
 								th:each="userRole:${T(team.ojt7.recruitment.model.entity.User.Role).values()}"
-								th:value="${userRole}" th:text="${userRole.displayName}" ></option>
-						</select> <label th:if="${#fields.hasErrors('role')}"  th:text="${#fields.errors('role')[__0__]}"
-							style="color: red;">Error </label>
-					</div>
-				</div>
-				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-					<div class="form-group">
-						<label for="" class="form-label">Gender</label> <select name=""
-							id="" class="form-select" th:field="*{gender}">
-							<option
+								th:value="${userRole}" th:text="${userRole.displayName}" >
+                            </option>
+                        </select>
+                        <label th:if="${#fields.hasErrors('role')}"  th:text="${#fields.errors('role')[__0__]}" class="text-danger"></label>
+                    </div>
+                    <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select id="gender" class="form-select" th:field="*{gender}">
+                            <option value="">-- select gender --</option>
+                            <option
 								th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
-								th:value="${g}" th:text="${g.displayName}" ></option>
-						</select> <label th:if="${#fields.hasErrors('gender')}"
-						th:text="${#fields.errors('gender')[__0__]}" style="color: red;">Error </label>
-					</div>
-				</div>
-			</div>
-
-			<div class="row mt-3">
-				<div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-					<div class="form-group">
-						<label for="" class="form-label">Password</label> <input
-							type="password" class="form-control"  name="password" th:value="${user.password}">
-						<label th:if="${#fields.hasErrors('password')}"
-						th:text="${#fields.errors('password')[__0__]}" style="color: red;">Error </label>
-					</div>
-				</div>
-				<div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-					<div class="form-group">
-						<label for="" class="form-label">Confirm Password</label> <input
-							type="password" class="form-control" name="confirmPassword" th:value="${user.confirmPassword}">
-							<label th:if="${#fields.hasErrors('confirmPassword')}"
-							th:text="${#fields.errors('confirmPassword')[__0__]}" style="color: red;">Error </label>
-					</div>
-				</div>
-			</div>
-
-			<div class="row mt-4">
-				<div
-					class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 d-flex flex-row-reverse">
-					<button type="submit" class="btn btn-success ms-1">Save</button>
-					<a th:href="@{/user/search}" class="btn btn-secondary">Cancel</a>
-				</div>
-			</div>
-		</form>
-	</div>
-
+								th:value="${g}" th:text="${g.displayName}" >
+                            </option>
+                        </select>
+                        <label th:if="${#fields.hasErrors('gender')}"  th:text="${#fields.errors('gender')[__0__]}" class="text-danger"></label>
+                    </div>
+                    <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="password" class="form-label">Password</label>
+                        <input id="password" type="text" class="form-control" th:field="*{password}">
+                        <label th:if="${#fields.hasErrors('password')}"  th:text="${#fields.errors('password')[__0__]}" class="text-danger"></label>
+                    </div>
+                    <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input id="confirmPassword" type="text" class="form-control" th:field="*{confirmPassword}">
+                        <label th:if="${#fields.hasErrors('confirmPassword')}"  th:text="${#fields.errors('confirmPassword')[__0__]}" class="text-danger"></label>
+                    </div>
+                    <div class="col-12 d-flex flex-row-reverse mt-3">
+                        <button type="submit" class="btn btn-success ms-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                              </svg>
+                            Save
+                        </button>
+					    <a th:href="@{/user/search}" class="btn btn-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                              </svg>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </main>
 </body>
 </html>

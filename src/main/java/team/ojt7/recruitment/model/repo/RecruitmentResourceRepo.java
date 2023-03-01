@@ -2,6 +2,8 @@ package team.ojt7.recruitment.model.repo;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +30,18 @@ public interface RecruitmentResourceRepo extends JpaRepository<RecruitmentResour
 			@Param("keyword") String keyword,
 			@Param("entityType") String entityType
 			);
+
+	@Query(
+		value = "SELECT r FROM RecruitmentResource r WHERE (code LIKE :keyword OR name LIKE :keyword) AND (:entityType is null OR entity_type = :entityType) AND (is_deleted = false)",
+		countQuery = "SELECT COUNT(r) FROM RecruitmentResource r WHERE (code LIKE :keyword OR name LIKE :keyword) AND (:entityType is null OR entity_type = :entityType) AND (is_deleted = false)"
+	)
+	Page<RecruitmentResource> search(
+		@Param("keyword")
+		String keyword,
+		@Param("entityType")
+		String entityType,
+		Pageable pageable
+	);
 	
 	@Modifying
 	@Query(value = "UPDATE recruitment_resource SET is_deleted = true WHERE id = :id", nativeQuery = true)
