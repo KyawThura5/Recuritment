@@ -2,6 +2,8 @@ package team.ojt7.recruitment.model.service.impl;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -12,10 +14,12 @@ import org.springframework.stereotype.Service;
 import com.mysql.cj.util.SearchMode;
 
 import team.ojt7.recruitment.model.dto.InterviewDto;
+import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Interview;
+import team.ojt7.recruitment.model.entity.InterviewName;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.repo.InterviewRepo;
@@ -30,20 +34,25 @@ public class InterviewServiceImpl implements InterviewService {
 	
 	@Autowired
 	private InterviewCodeGenerator interviewCodeGenerator;
+	
+	@Autowired
+	InterviewNameDto interviewNameDto;
 
 	@Override
 	public Page<InterviewDto> search(InterviewSearch search) {
 		String keyword = search.getKeyword() == null ? "%%" : "%" + search.getKeyword() + "%";
 		
-		Page<Interview> interviews = search.getStatus() == null
-									? interviewRepo.search(keyword, search.getDateForm(), search.getDateTo(),search.getInterviewName(),PageRequest.of(search.getPage() - 1, search.getSize()))
-									: interviewRepo.search(keyword, search.getDateForm(), search.getDateTo(),search.getStatus(),search.getInterviewName(), PageRequest.of(search.getPage() - 1, search.getSize())); 
+		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize());
+		InterviewName interviewName= InterviewNameDto.parse(search.getInterviewName());
+		
+		Page<Interview> interviews =interviewRepo.search(keyword, search.getDateForm(), search.getDateTo(),search.getStatus(), interviewName, pageable); 
 		Pageable interviewsPageable = interviews.getPageable();
 		Page<InterviewDto> page = new PageImpl<InterviewDto>(InterviewDto.ofList(interviews.getContent()), interviewsPageable, interviews.getTotalElements());
 		return page;	
 	}
 
 	@Override
+	@Transactional
 	public InterviewDto save(Interview interview) {
 		InterviewDto interviewDto = InterviewDto.of(interviewRepo.save(interview));
 		return interviewDto;
