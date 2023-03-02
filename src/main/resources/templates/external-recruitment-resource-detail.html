@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" 
-xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title th:text="${title}"></title>
-<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
 </head>
 <body>
     <div th:replace="nav-bar :: navbar('resources')"></div>
+
     <main class="container-fluid mt-2 py-3">
         <div class="row">
             <div class="offset-3 col-6">

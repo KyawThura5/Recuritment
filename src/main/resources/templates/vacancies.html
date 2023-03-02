@@ -1,150 +1,178 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vacancies</title>
-<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 </head>
 <body>
+    <div th:replace="nav-bar :: navbar('vacancies')"></div>
 
-	<div th:replace="nav-bar :: navbar('vacancies')"></div>
+    <main class="container py-3">
+        <h2 class="fs-5 fw-bold mb-3">Vacancies</h2>
+        <form id="searchForm" class="row" th:action="@{/vacancy/search}" th:object="${vacancySearch}">
+            <div class="col col-md-auto">
+                <div class="input-group">
+                    <input th:field="*{keyword}" type="text" class="form-control" placeholder="Search">
+                    <a th:href="@{'/vacancy/search?' + 'size=' + ${vacancySearch.size}}" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
+                            <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
+                          </svg>
+                    </a>
+                </div>
+            </div>
 
-	<main class="container-fluid mt-2 py-3">
-        <div class="row">
-            <h2 class="col-auto fs-5 fw-bold">Vacancies</h2>
-        </div>
-
-        <form id="searchForm" th:action="@{/vacancy/search}" th:object="${vacancySearch}" class="row mt-4">
-			<div class="col-auto">
-				<input id="pageParamInput" type="hidden" th:field="*{page}"/>
-				<div class="input-group">
-					<input class="form-control" type="text" th:field="*{keyword}" placeholder="Search" />
-					<a th:href="@{'/vacancy/search?' + 'size=' + ${vacancySearch.size} + ${vacancySearch.status != null && vacancySearch.status != '' ? '&status=' + vacancySearch.status : ''} + ${vacancySearch.dateFrom != null && vacancySearch.dateFrom != '' ? '&dateFrom=' + vacancySearch.dateFrom : ''} + ${vacancySearch.dateTo != null && vacancySearch.dateTo != '' ? '&dateTo=' + vacancySearch.dateTo : ''}}" class="input-group-text">
-						<i class="fa-solid fa-delete-left"></i>
-					</a>
-					<button class="btn btn-primary" type="submit">
-						<i class="fa-solid fa-magnifying-glass"></i>
-					</button>
-				</div>
-			</div>
-
-			<div class="col-auto">
-				<select th:field="*{status}" onchange="changePageSize()" class="form-select">
-					<option value="">All</option>
-					<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING}"></option>
-					<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED}"></option>
-					<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).EXPIRED.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).EXPIRED}"></option>
-				</select>
-			</div>
-			
-			<div class="col-auto">
-				<input type="date" th:field="*{dateFrom}" onchange="changePageSize()" class="form-control">
-			</div>
-			
-			<div class="col-auto">
-				<input type="date" th:field="*{dateTo}" onchange="changePageSize()" class="form-control">
-			</div>
-			
-			<div class="col-auto">
-				<a th:href="@{/vacancy/edit}" class="btn btn-success">
-					<i class="fa-solid fa-plus"></i>
-					Add New
-				</a>
-			</div>
+            <div sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD')" class="col-2 col-md-auto">
+                <a th:href="@{/vacancy/edit}" class="btn btn-success form-control">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                      </svg>
+                </a>
+            </div>
+            
         </form>
 
-		<div class="row mt-3">
+        <div class="row mt-3">
 			<div class="form-group-col col-auto">
 				<label for="" class="col-form-label">Showing</label>
 			</div>
 			<div class="col-auto">
 				<select form="searchForm" name="size" th:value="${vacancyPage.size}" onchange="changePageSize()" class="form-select">
-					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == vacancyPage.size}"></option>
+					<option
+						th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
+						th:value="${s}" th:text="${s}" th:selected="${s == vacancyPage.size}"></option>
 				</select>
 			</div>
-			<div class="col-auto">
-				<p class="col-form-label">items per page</p>
-			</div>
-			
+
 		</div>
 
-        <table class="table mt-3" th:each="vacancy : ${vacancyPage.content}">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Code</th>
-                    <th>Post Date</th>
-                    <th>Due Date</th>
-					<th>Department</th>
-                    <th>Status</th>
-					<th>Post By</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-					<td rowspan="3" class="align-middle" th:text="${((vacancyPage.number) * vacancyPage.size) + vacancyStat.index + 1}"></td>
-					<td th:text="${vacancy.code}"></td>
-					<td th:text="${vacancy.createdDate}"></td>
-					<td th:text="${vacancy.dueDate}"></td>
-					<td th:text="${vacancy.department.name}"></td>
-					<td>
-						<label th:text="${vacancy.status.displayName}"></label>
-						<p th:if="${vacancy.expired}" class="text-danger">(Expired)</p>
-					</td>
-					<td th:text="${vacancy.createdUser.name}"></td>
-					<td>
-                        <a th:href="@{/vacancy/edit(id=${vacancy.id})}" class="btn btn-success">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                        <form th:action="@{/vacancy/delete(id=${vacancy.id})}" method="post" class="d-inline-block">
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fa-regular fa-trash-can"></i>
-                            </button>
-                        </form>
-                    </td>
-				</tr>
-				<tr>
-					<td colspan="7">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>Position</th>
-									<th>Post</th>
-									<th>Team</th>
-									<th>Applied</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="requirePosition : ${vacancy.requirePositions}">
-									<td th:text="${requirePosition.position.name + (requirePosition.foc ? ' (FOC)' : '')}"></td>
-									<td th:text="${requirePosition.count}"></td>
-									<td th:text="${requirePosition.team.name}"></td>
-									<td th:text="${requirePosition.applicants.size()}"></td>
-									<td>
-										<a th:href="@{/applicant/vacancy/add(id=${requirePosition.id},vacancyId=${vacancy.id})}" class="btn btn-warning" th:classappend="${vacancy.status.name() == 'CLOSED'} ? disabled : ''">+</a>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
+        <div class="row mt-3">
+            <div class="col-12 mb-5" th:each="vacancy  :${vacancyPage.content}">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <p>
+                                    <span class="fs-6 fw-bold">
+                                        [[${vacancy.code}]]
+                                    </span>
+                                    <label>
+                                        ([[${vacancy.department.name}]])
+                                    </label>
+                                </p>
+                                
+                                <div class="d-block d-lg-inline-block mt-2 mt-lg-0">
+									<label th:if="${vacancy.expired}" class="badge bg-warning my-1 text-black">
+										Expired
+									</label>
+									<label th:if="${vacancy.status.name() == 'OPENING' && !vacancy.expired}" class="badge bg-success my-1">
+										[[${vacancy.status.displayName}]]
+									</label>
+									<label th:if="${vacancy.status.name() == 'CLOSED'}" class="badge bg-danger my-1">
+										[[${vacancy.status.displayName}]]
+									</label>
+                                    <span class="mx-2">|</span>
+                                    <label class="my-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                                            <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+                                        </svg>
+                                        [[${vacancy.dueDate}]]
+                                    </label>
+                                </div>
 
-				<tr>
-					<td colspan="7" th:text="${vacancy.comment}"></td>
-				</tr>
-				
-            </tbody>
-        </table>
-		<nav aria-label="Pagination" th:if="${vacancyPage.totalPages > 0}" class="mt-3">
+                                <span class="mx-2 d-none d-lg-inline">|</span>
+
+                                <div class="d-block d-lg-inline-block mt-2">
+                                    <label>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill me-1" viewBox="0 0 16 16">
+                                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                        </svg> 
+                                        [[${vacancy.createdUser.name}]]
+                                    </label>
+                                    <span class="mx-2 d-none d-md-inline">|</span>
+                                    <label class="d-block d-md-inline-block mt-2 mt-md-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stopwatch-fill" viewBox="0 0 16 16">
+                                            <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584.531.531 0 0 0 .013-.012l.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354a.717.717 0 0 0-.012.012A6.973 6.973 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1h-3zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0z"/>
+                                        </svg>
+                                        [[${vacancy.createdDate}]]
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="dropdown">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                </svg>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                  <li>
+                                    <a class="dropdown-item" th:href="@{/vacancy/edit(id=${vacancy.id})}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                          </svg>
+                                        Edit
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <form th:action="@{/vacancy/delete(id=${vacancy.id})}" method="post">
+                                        <button class="dropdown-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    </form>
+                                  </li>
+                                  
+                                </ul>
+                                
+                            </div>
+
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Position</th>
+                                        <th>Post</th>
+                                        <th>Team</th>
+                                        <th>Applied</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="requirePosition : ${vacancy.requirePositions}">
+                                        <td>[[${requirePosition.position.name}]]</td>
+                                        <td>[[${requirePosition.count}]]</td>
+                                        <td>[[${requirePosition.team.name}]]</td>
+                                        <td>[[${requirePosition.applicants.size()}]]</td>
+                                        <td>
+                                            <a th:href="@{/applicant/vacancy/add(id=${requirePosition.id},vacancyId=${vacancy.id})}" class="btn btn-warning">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+													<path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+												</svg>
+											</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <nav aria-label="Pagination" th:if="${vacancyPage.totalPages > 0}" class="mt-3">
 			<ul class="pagination justify-content-center bg-white">
 			  <li class="page-item" th:classappend="${vacancyPage.number + 1 == 1} ? 'disabled'">
 				<a th:replace="page-nav :: vacancy(1, '<<', 'First Page')"></a>
@@ -170,13 +198,14 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			  </li>
 			</ul>
 		  </nav>
+
     </main>
-	<script type="text/javascript">
-	  
-		function changePageSize() {
-			$("#pageParamInput").val("1");
-		  	$("#searchForm").submit();
-		}
-	</script>
 </body>
+<script type="text/javascript">
+	  
+    function changePageSize() {
+        $("#pageParamInput").val("1");
+          $("#searchForm").submit();
+    }
+</script>
 </html>

@@ -1,10 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interviews</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 </head>
 <body>
+    <div th:replace="nav-bar :: navbar('interviews')"></div>
+    <main class="container-fluid p-3">
+        <h2 class="fs-5 fw-bold mb-3">Users</h2>
+        <form id="searchForm" class="row" th:action="@{/interviwe/search}" th:object="${interviewSearch}">
+            <div class="col-12 col-md-auto">
+                <div class="input-group">
+                    <input th:field="*{keyword}" type="text" class="form-control" placeholder="Search">
+                    <a th:href="@{'/interview/search?' + 'size=' + ${interviewSearch.size}}" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
+                            <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
+                          </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-10 col-md-auto mt-3 mt-md-0">
+                <select class="form-select" th:field="*{status}" onchange="changePageSize()">
+                    <option value="">All</option>
+					<option
+						th:each="status : ${T(team.ojt7.recruitment.model.entity.Interview.Status).values()}"
+						th:text="${status.displayName}"
+                        th:value="${status}">
+                    </option>
+                </select>
+            </div>
 
+            <div class="col-2 col-md-auto mt-3 mt-md-0">
+                <a th:href="@{/interview/edit}" class="btn btn-success form-control">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                      </svg>
+                </a>
+            </div>
+            
+        </form>
+
+        <div class="row mt-3">
+			<div class="form-group-col col-auto">
+				<label for="" class="col-form-label">Showing</label>
+			</div>
+			<div class="col-auto">
+				<select form="searchForm" name="size" th:value="${interviewPage.size}" onchange="changePageSize()" class="form-select">
+					<option
+						th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
+						th:value="${s}" th:text="${s}" th:selected="${s == interviewPage.size}"></option>
+				</select>
+			</div>
+
+		</div>
+    </main>
 </body>
 </html>

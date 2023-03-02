@@ -39,12 +39,18 @@ public class InterviewNameDto {
 	private boolean isDeleted;
 	
 	public static InterviewNameDto of(InterviewName interview) {
+		if(interview==null)
+		{
+			return null;
+		}
+		else {
 		InterviewNameDto interviewDto = new InterviewNameDto();
 		interviewDto.setId(interview.getId());
 		interviewDto.setName(interview.getName());
 		interviewDto.setDeleted(interview.isDeleted());
 		
 		return interviewDto;
+		}
 	}
 	
 	public static List<InterviewNameDto> ofList(List<InterviewName> interviews) {
@@ -52,12 +58,18 @@ public class InterviewNameDto {
 	}
 	
 	public static InterviewName parse(InterviewNameDto interviewDto) {
+		if(interviewDto==null)
+		{
+			return null;
+		}
+		else {
 		InterviewName interview = new InterviewName();
 		interview.setId(interviewDto.getId());
 		interview.setName(interviewDto.getName());
 		interview.setDeleted(interviewDto.isDeleted());
 		
 		return interview;
+		}
 	}
 
 	@Override
