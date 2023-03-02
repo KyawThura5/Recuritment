@@ -9,10 +9,9 @@ import team.ojt7.recruitment.model.entity.Interview.Status;
 public class InterviewDto {
 	private Long id;
 	private String code;
-	private String name;
+	private InterviewNameDto interviewName;
 	private Status status;
 	private String comment;
-	private boolean isDeleted;
 	private LocalDateTime dateTime;
 	private ApplicantDto applicant;
 	
@@ -26,10 +25,9 @@ public class InterviewDto {
 		InterviewDto interviewtDto = new InterviewDto();
 		interviewtDto.setId(interview.getId());
 		interviewtDto.setCode(interview.getCode());
-		interviewtDto.setName(interview.getName());
+		interviewtDto.setInterviewName(InterviewNameDto.of(interview.getInterviewName()));
 		interviewtDto.setStatus(interview.getStatus());
 		interviewtDto.setComment(interview.getComment());
-		interviewtDto.setDeleted(interview.isDeleted());
 		interviewtDto.setApplicant(ApplicantDto.of(interview.getApplicant()));
 		return interviewtDto;
 		}
@@ -48,10 +46,9 @@ public class InterviewDto {
 		Interview interview = new Interview();
 		interview.setId(interviewDto.getId());
 		interview.setCode(interviewDto.getCode());
-		interview.setName(interviewDto.getName());
+		interview.setInterviewName(InterviewNameDto.parse(interviewDto.getInterviewName()));
 		interview.setStatus(interviewDto.getStatus());
 		interview.setComment(interviewDto.getComment());
-		interview.setDeleted(interviewDto.isDeleted());
 		interview.setApplicant(ApplicantDto.parse(interviewDto.getApplicant()));
 		return interview;
 		}
@@ -77,12 +74,12 @@ public class InterviewDto {
 		this.code = code;
 	}
 
-	public String getName() {
-		return name;
+	public InterviewNameDto getInterviewName() {
+		return interviewName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setInterviewName(InterviewNameDto interviewName) {
+		this.interviewName = interviewName;
 	}
 
 	public Status getStatus() {
@@ -118,15 +115,6 @@ public class InterviewDto {
 	public void setApplicant(ApplicantDto applicant) {
 		this.applicant = applicant;
 	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
 	
 	
 }

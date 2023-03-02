@@ -20,26 +20,24 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 	Long findMaxId();
 	 
 	@Query(
-			value=
-			"""
-					SELECT 	i FROM Interview i WHERE 
-					(code LIKE :keyword OR interviewName = :interviewName)
-					AND(:dateFrom is null OR datetime >= :dateFrom)
-					AND(:dateTo is null OR datetime <= :dateTo)
-					AND(:status is null OR status = :status)
-					
-			""",
-			countQuery=
-					"""
-							SELECT COUNT(i) FROM Interview i WHERE 
-							(code LIKE :keyword OR interviewName = :interviewName)
-							AND(:dateFrom is null OR datetime >= :dateFrom)
-							AND(:dateTo is null OR datetime <= :dateTo)
-							AND(:status is null OR status = :status)
-					"""
-			
-			
-			)
+		value=
+		"""
+				SELECT 	i FROM Interview i WHERE 
+				(code LIKE :keyword)
+				AND(:dateFrom is null OR dateTime >= :dateFrom)
+				AND(:dateTo is null OR dateTime <= :dateTo)
+				AND(:status is null OR status = :status)
+				
+		""",
+		countQuery=
+				"""
+						SELECT COUNT(i) FROM Interview i WHERE 
+						(code LIKE :keyword)
+						AND(:dateFrom is null OR dateTime >= :dateFrom)
+						AND(:dateTo is null OR dateTime <= :dateTo)
+						AND(:status is null OR status = :status)
+				"""
+	)
 	Page<Interview> search(
 			@Param("keyword")
 			String keyword,
@@ -49,8 +47,6 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 			LocalDate dateTo,
 			@Param("status")
 			Status status,
-			@Param("interviewName")
-			InterviewName interivewName,
 			Pageable pageable
 			);
 

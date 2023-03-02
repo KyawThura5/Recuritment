@@ -13,10 +13,10 @@
 <body>
     <div th:replace="nav-bar :: navbar('vacancies')"></div>
 
-    <main class="container py-3">
+    <main class="container-fluid container-lg py-3">
         <h2 class="fs-5 fw-bold mb-3">Vacancies</h2>
         <form id="searchForm" class="row" th:action="@{/vacancy/search}" th:object="${vacancySearch}">
-            <div class="col col-md-auto">
+            <div class="col-auto">
                 <div class="input-group">
                     <input th:field="*{keyword}" type="text" class="form-control" placeholder="Search">
                     <a th:href="@{'/vacancy/search?' + 'size=' + ${vacancySearch.size}}" class="btn btn-secondary">
@@ -27,11 +27,22 @@
                 </div>
             </div>
 
-            <div sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD')" class="col-2 col-md-auto">
+            <div class="col-auto">
+                <select class="form-select" onchange="changePageSize()" th:field="*{status}">
+                    <option value="">All</option>
+                    <option
+						th:each="status : ${T(team.ojt7.recruitment.model.entity.Vacancy.Status).values()}"
+						th:text="${status.displayName}"
+                        th:value="${status}">
+                    </option>
+                </select>
+            </div>
+
+            <div sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD')" class="col-auto">
                 <a th:href="@{/vacancy/edit}" class="btn btn-success form-control">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                      </svg>
+                    </svg>
                 </a>
             </div>
             
@@ -151,7 +162,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="requirePosition : ${vacancy.requirePositions}">
-                                        <td>[[${requirePosition.position.name}]]</td>
+                                        <td>[[${requirePosition.position.name}]] [[${requirePosition.foc ? '(FOC)' : ''}]]</td>
                                         <td>[[${requirePosition.count}]]</td>
                                         <td>[[${requirePosition.team.name}]]</td>
                                         <td>[[${requirePosition.applicants.size()}]]</td>
@@ -204,8 +215,7 @@
 <script type="text/javascript">
 	  
     function changePageSize() {
-        $("#pageParamInput").val("1");
-          $("#searchForm").submit();
+        $("#searchForm").submit();
     }
 </script>
 </html>

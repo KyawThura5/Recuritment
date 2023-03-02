@@ -25,21 +25,21 @@ public class Interview implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String code;
-	private String name;
 	
+	@ManyToOne
+	@JoinColumn(name = "interview_name_id")
+	private InterviewName interViewName;
+
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	private String comment;
-	
+
 	@Column(name = "date_time")
 	private LocalDateTime dateTime;
-	@Column(name = "is_deleted", columnDefinition = "boolean default false")
-	private boolean isDeleted;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "applicant_id")
 	private Applicant applicant;
-	
 
 	public enum Status {
 		ON_HOLD("On-hold"), CANCELED("Canceled"), PASSED("Passed"), FAILED("Failed");
@@ -72,12 +72,12 @@ public class Interview implements Serializable {
 		this.code = code;
 	}
 
-	public String getName() {
-		return name;
+	public InterviewName getInterviewName() {
+		return interViewName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setInterviewName(InterviewName interViewName) {
+		this.interViewName = interViewName;
 	}
 
 	public Status getStatus() {
@@ -111,19 +111,10 @@ public class Interview implements Serializable {
 	public void setApplicant(Applicant applicant) {
 		this.applicant = applicant;
 	}
-	
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, id, name, status);
+		return Objects.hash(applicant, code, comment, dateTime, id, interViewName, status);
 	}
 
 	@Override
@@ -135,8 +126,10 @@ public class Interview implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Interview other = (Interview) obj;
-		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
-				&& Objects.equals(id, other.id) && Objects.equals(name, other.name) && status == other.status;
+		return Objects.equals(applicant, other.applicant) && Objects.equals(code, other.code)
+				&& Objects.equals(comment, other.comment) && Objects.equals(dateTime, other.dateTime)
+				&& Objects.equals(id, other.id) && Objects.equals(interViewName, other.interViewName)
+				&& status == other.status;
 	}
 
 }

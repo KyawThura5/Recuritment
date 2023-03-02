@@ -22,37 +22,40 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             <h2 class="col-auto fs-5 fw-bold">Applicants</h2>
         </div>
 
-        <form id="searchForm" th:action="@{/applicant/search}" th:object="${applicantSearch}" class="row mt-4 mb-4">
-            <div class="col-auto">
+        <form id="searchForm" th:action="@{/applicant/search}" th:object="${applicantSearch}" class="row mt-4">
+            <div class="col-12 col-sm-8 col-lg-3 col-xl-auto my-1">
                 <input id="pageParamInput" type="hidden" th:field="*{page}">
                 <div class="input-group">
                     <input class="form-control" type="text" th:field="*{keyword}" placeholder="Search" />
                     <a th:href="@{'/applicant/search?' + 'size=' + ${applicantSearch.size} + ${applicantSearch.dateFrom != null && applicantSearch.dateFrom != '' ? '&dateFrom=' + applicantSearch.dateFrom : ''} + ${applicantSearch.dateTo != null && applicantSearch.dateTo != '' ? '&dateTo=' + applicantSearch.dateTo : ''}}" class="input-group-text">
                         <i class="fa-solid fa-delete-left"></i>
                     </a>
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
                 </div>
             </div>
+
+            <div class="col-4 col-lg-3 col-xl-auto">
+                <select class="form-select my-1">
+                    <option value="">All</option>
+                </select>
+            </div>
             
-            <div class="col-auto">
+            <div class="col-4 col-lg-3 col-xl-auto my-1">
                 <input type="date" th:field="*{dateFrom}" onchange="changePageSize()" class="form-control">
             </div>
             
-            <div class="col-auto">
+            <div class="col-4 col-lg-3 col-xl-auto my-1">
                 <input type="date" th:field="*{dateTo}" onchange="changePageSize()" class="form-control">
             </div>
             
-            <div sec:authorize="hasAnyAuthority('HIRING_MANAGER')" class="col-auto">
-                <a th:href="@{/applicant/edit}" class="btn btn-success">
-                    <i class="fa-solid fa-plus"></i>
-                    Add New
+            <div sec:authorize="hasAnyAuthority('HIRING_MANAGER')" class="col-auto mt-1">
+                <a th:href="@{/applicant/edit}" class="form-control btn btn-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
                 </a>
             </div>
+            
         </form>
 
-        <div class="row mt-3">
+        <div class="row mt-1 mt-md-2">
 			<div class="form-group-col col-auto">
 				<label for="" class="col-form-label">Showing</label>
 			</div>
@@ -61,59 +64,123 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == applicantPage.size}"></option>
 				</select>
 			</div>
-			<div class="col-auto">
-				<p class="col-form-label">items per page</p>
-			</div>
-			
 		</div>
 
-        <div th:each="applicant : ${applicantPage.content}" class="row d-flex justify-content-center align-items-center h-100 mt-3">
-            <div class="col mb-4 mb-lg-0">
-                <div class="card mb-3" style="border-radius: .5rem;">
-                    <div class="row g-0">
-                        <div class="col">
-                            <div class="card-body p-4">
-                                <div class="row my-2">
-                                    <h6 class="col-3" th:text="${((applicantPage.number * applicantPage.size) + applicantStat.index + 1) + '. ' + applicant.name }"></h6>
-                                    <h6 class="col-3" th:text="${applicant.code}"></h6>
-                                    <h6 class="col-3" th:text="${applicant.createdDate}"></h6>
-                                    <div class="col-3">
-                                        <a sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:href="@{/applicant/edit(id=${applicant.id})}" class="btn btn-success">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+        <div class="row mt-3">
+            <div class="col-12 col-md-6 my-3" th:each="applicant : ${applicantPage.content}">
+                <div class="card shadow-lg" style="border-radius: 0.5em;">
+                    <div class="card-body">
+                        <div class="d-flex text-black align-items-center">
+                            <div class="flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                </svg>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="row">
+                                    <h6 class="col-12font-md fw-bold my-1">
+                                        [[${applicant.name}]]
+                                    </h6>
+
+                                    <label class="col-12 font-xs">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M181.3 32.4c17.4 2.9 29.2 19.4 26.3 36.8L197.8 128h95.1l11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3s29.2 19.4 26.3 36.8L357.8 128H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H347.1L325.8 320H384c17.7 0 32 14.3 32 32s-14.3 32-32 32H315.1l-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8l9.8-58.7H155.1l-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8L90.2 384H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h68.9l21.3-128H64c-17.7 0-32-14.3-32-32s14.3-32 32-32h68.9l11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3zM187.1 192L165.8 320h95.1l21.3-128H187.1z"/></svg>
+                                        [[${applicant.code}]]
+                                    </label>
+                                    <label class="col-12 font-xs">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg>
+                                        [[${applicant.createdDate}]]
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="dropdown">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                </svg>
+                                <ul class="dropdown-menu shadow-lg" aria-labelledby="dropdownMenu2">
+                                  <li>
+                                    <a class="dropdown-item" th:href="@{/applicant/edit(id=${applicant.id})}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
+                                        Edit
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" th:href="@{/}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 0a128 128 0 1 1 0 256A128 128 0 1 1 224 0zM178.3 304h91.4c11.8 0 23.4 1.2 34.5 3.3c-2.1 18.5 7.4 35.6 21.8 44.8c-16.6 10.6-26.7 31.6-20 53.3c4 12.9 9.4 25.5 16.4 37.6s15.2 23.1 24.4 33c15.7 16.9 39.6 18.4 57.2 8.7v.9c0 9.2 2.7 18.5 7.9 26.3H29.7C13.3 512 0 498.7 0 482.3C0 383.8 79.8 304 178.3 304zM436 218.2c0-7 4.5-13.3 11.3-14.8c10.5-2.4 21.5-3.7 32.7-3.7s22.2 1.3 32.7 3.7c6.8 1.5 11.3 7.8 11.3 14.8v30.6c7.9 3.4 15.4 7.7 22.3 12.8l24.9-14.3c6.1-3.5 13.7-2.7 18.5 2.4c7.6 8.1 14.3 17.2 20.1 27.2s10.3 20.4 13.5 31c2.1 6.7-1.1 13.7-7.2 17.2l-25 14.4c.4 4 .7 8.1 .7 12.3s-.2 8.2-.7 12.3l25 14.4c6.1 3.5 9.2 10.5 7.2 17.2c-3.3 10.6-7.8 21-13.5 31s-12.5 19.1-20.1 27.2c-4.8 5.1-12.5 5.9-18.5 2.4l-24.9-14.3c-6.9 5.1-14.3 9.4-22.3 12.8l0 30.6c0 7-4.5 13.3-11.3 14.8c-10.5 2.4-21.5 3.7-32.7 3.7s-22.2-1.3-32.7-3.7c-6.8-1.5-11.3-7.8-11.3-14.8V454.8c-8-3.4-15.6-7.7-22.5-12.9l-24.7 14.3c-6.1 3.5-13.7 2.7-18.5-2.4c-7.6-8.1-14.3-17.2-20.1-27.2s-10.3-20.4-13.5-31c-2.1-6.7 1.1-13.7 7.2-17.2l24.8-14.3c-.4-4.1-.7-8.2-.7-12.4s.2-8.3 .7-12.4L343.8 325c-6.1-3.5-9.2-10.5-7.2-17.2c3.3-10.6 7.7-21 13.5-31s12.5-19.1 20.1-27.2c4.8-5.1 12.4-5.9 18.5-2.4l24.8 14.3c6.9-5.1 14.5-9.4 22.5-12.9V218.2zm92.1 133.5a48.1 48.1 0 1 0 -96.1 0 48.1 48.1 0 1 0 96.1 0z"/></svg>
+                                        Evalulate
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" th:href="@{/}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                                        Detail
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" th:href="@{/applicant/delete(id=${applicant.id})}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                        Delete
+                                        
+                                    </a>
+                                  </li>
+                                  
+                                </ul>
+                                
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <div class="row">
+                            <label class="col-12 my-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M184 48H328c4.4 0 8 3.6 8 8V96H176V56c0-4.4 3.6-8 8-8zm-56 8V96H64C28.7 96 0 124.7 0 160v96H192 320 512V160c0-35.3-28.7-64-64-64H384V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zM512 288H320v32c0 17.7-14.3 32-32 32H224c-17.7 0-32-14.3-32-32V288H0V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V288z"/></svg>
+                                <span class="ms-2 font-sm">
+                                    [[${applicant.requirePosition.position.name}]]
+                                </span>
+                                
+                            </label>
+                            <label class="col-12 my-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                                  </svg>
+                                <span class="ms-2 font-sm">
+                                    [[${applicant.email}]]
+                                </span>
+                            </label>
+                            <label class="col-12 my-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                                  </svg>
+                                <span class="ms-2 font-sm">
+                                    [[${applicant.phone}]]
+                                </span>
+                            </label>
+                            <label class="col-12 my-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48V96H384V80c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H432c-26.5 0-48-21.5-48-48V160H192v16c0 1.7-.1 3.4-.3 5L272 288h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H272c-26.5 0-48-21.5-48-48V336c0-1.7 .1-3.4 .3-5L144 224H48c-26.5 0-48-21.5-48-48V80z"/></svg>
+                                <span class="ms-2 font-sm">
+                                    [[${applicant.recruitmentResource.name}]]
+                                </span>
+                            </label>
+
+                            <div class="col-12 mt-2">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a th:href="@{/{cvLink}(cvLink=${applicant.attachedUri})}" target="_blank" class="btn btn-sm btn-outline-warning">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
                                         </a>
-                                        <a sec:authorize="hasAnyAuthority('GENERAL_MANAGER', 'DEPARTMENT_HEAD', 'PROJECT_MANAGER', 'HIRING_MANAGER')" th:href="@{/{cvLink}(cvLink=${applicant.attachedUri})}" target="_blank" class="btn btn-warning">
-                                            <i class="fa-solid fa-eye"></i>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>
                                         </a>
-                                        <form sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:action="@{/applicant/delete(id=${applicant.id})}" method="post" class="d-inline-block">
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fa-regular fa-trash-can"></i>
-                                            </button>
-                                        </form>
+                                    </div>
+                                    <div>
+                                        <label class="text-primary">New</label>
                                     </div>
                                 </div>
                                 
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
-                                    <div class="col-sm-6 col-md-3 mb-3">
-                                        <h6>Vacancy</h6>
-                                        <p class="text-muted" th:text="${applicant.vacancy.code}"></p>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 mb-3">
-                                        <h6>Position</h6>
-                                        <p class="text-muted" th:text="${applicant.requirePosition.position.name + (applicant.requirePosition.foc ? ' (FOC)' : '')}"></p>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 mb-3">
-                                        <h6>Department</h6>
-                                        <p class="text-muted" th:text="${applicant.requirePosition.team.department.name}"></p>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 mb-3">
-                                        <h6>Team</h6>
-                                        <p class="text-muted" th:text="${applicant.requirePosition.team.name}">/p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                    </div>
+                  </div>                                                
                 </div>
             </div>
         </div>
