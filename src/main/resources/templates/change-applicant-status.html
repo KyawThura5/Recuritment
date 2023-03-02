@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Applicant Status</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+</head>
+<body>
+    <div th:replace="nav-bar :: navbar('applicants')"></div>
+    <main class="container py-3">
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-6 mx-auto">
+                <div class="card card-body shadow-lg">
+                    <div class="d-flex text-black align-items-center">
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <div class="row">
+                                <h6 class="col-12font-md fw-bold my-1">
+                                    [[${statusChangeHistory.applicant.name}]]
+                                </h6>
+
+                                <label class="col-12 font-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M181.3 32.4c17.4 2.9 29.2 19.4 26.3 36.8L197.8 128h95.1l11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3s29.2 19.4 26.3 36.8L357.8 128H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H347.1L325.8 320H384c17.7 0 32 14.3 32 32s-14.3 32-32 32H315.1l-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8l9.8-58.7H155.1l-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8L90.2 384H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h68.9l21.3-128H64c-17.7 0-32-14.3-32-32s14.3-32 32-32h68.9l11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3zM187.1 192L165.8 320h95.1l21.3-128H187.1z"/></svg>
+                                    [[${statusChangeHistory.applicant.code}]]
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <form th:action="@{/applicant/status/save}" class="row" th:object="${statusChangeHistory}" method="post">
+                        <input type="hidden" th:field="*{applicantId}">
+                        <div class="col form-group">
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" class="form-select" th:field="*{status}">
+                                <option
+								th:each="g:${T(team.ojt7.recruitment.model.entity.Applicant.Status).values()}"
+								th:value="${g}" th:text="${g.displayName}" >
+                            </option>
+                            </select>
+                        </div>
+                        <div class="col-form-group mt-2">
+                            <label for="remark" class="form-label">Remark</label>
+                            <textarea id="remark" class="form-control" th:field="*{remark}"></textarea>
+                        </div>
+                        <div class="col d-flex flex-row-reverse mt-3">
+                            <button type="submit" id="btnSubmit" class="btn btn-success">
+                                Save
+                            </button>
+                            <a th:href="@{/applicant/detail(id=${applicant.id})}" class="btn btn-secondary me-2">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card card-body shadow-lg mt-3">
+                    <div class="card-title font-md fw-bold">Status History</div>
+                    <ul class="list-group">
+                        <li class="list-group-item" th:each="history : ${applicant.statusChangeHistories}">
+                            Change status to [[${history.status.displayName}]] on [[${history.updatedOn}]].
+                        </li>
+                      </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+    let selectedStatus = $('#status').find(":selected").val();
+    let btnSubmit = $('#btnSubmit');
+    btnSubmit.addClass("disabled");
+    $('#status').on('change', function(event) {
+        let changeValue = this.value;
+        if (changeValue == selectedStatus) {
+            btnSubmit.addClass("disabled");
+        } else {
+            btnSubmit.removeClass("disabled");
+        }
+    });
+</script>
+</html>

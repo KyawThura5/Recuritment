@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.dto;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
+import team.ojt7.recruitment.model.entity.ApplicantStatusChangeHistory;
 import team.ojt7.recruitment.model.entity.RequirePosition;
 
 public class ApplicantDto {
@@ -30,7 +32,7 @@ public class ApplicantDto {
 	@Pattern(regexp = "^(.+)@(.+)$", message = "{invalid.email}")
 	private String email;
 
-	private Status status;
+	private Status status = Status.NEW;
 
 	private String address;
 	@NotBlank(message = "NotBlank.applicant.experience")
@@ -58,7 +60,9 @@ public class ApplicantDto {
 
 	private boolean isDeleted;
 
-	private List<InterviewDto> interviews;
+	private List<ApplicantStatusChangeHistoryDto> statusChangeHistories = new ArrayList<>();
+
+	private List<InterviewDto> interviews = new ArrayList<>();
 
 	public boolean isDeleted() {
 		return isDeleted;
@@ -212,6 +216,14 @@ public class ApplicantDto {
 		this.requirePosition = requirePosition;
 	}
 
+	public List<ApplicantStatusChangeHistoryDto> getStatusChangeHistories() {
+		return statusChangeHistories;
+	}
+
+	public void setStatusChangeHistories(List<ApplicantStatusChangeHistoryDto> statusChangeHistories) {
+		this.statusChangeHistories = statusChangeHistories;
+	}
+
 	public static ApplicantDto of(Applicant applicant) {
 		if (applicant == null) {
 			return null;
@@ -243,6 +255,19 @@ public class ApplicantDto {
 			requirePositionDto.setTeam(TeamDto.of(requirePosition.getTeam()));
 			requirePositionDto.setVacancy(VacancyDto.of(requirePosition.getVacancy()));
 			dto.setRequirePosition(requirePositionDto);
+		}
+		
+		if (applicant.getStatusChangeHistories() != null) {
+			for (ApplicantStatusChangeHistory asch : applicant.getStatusChangeHistories()) {
+				ApplicantStatusChangeHistoryDto aschDto = new ApplicantStatusChangeHistoryDto();
+				aschDto.setId(asch.getId());
+				aschDto.setStatus(asch.getStatus());
+				aschDto.setApplicant(dto);
+				aschDto.setRemark(asch.getRemark());
+				aschDto.setUpdatedOn(asch.getUpdatedOn());
+				aschDto.setUpdatedBy(UserDto.of(asch.getUpdatedBy()));
+				dto.statusChangeHistories.add(aschDto);
+			}
 		}
 
 		return dto;
@@ -281,6 +306,20 @@ public class ApplicantDto {
 			requirePosition.setVacancy(VacancyDto.parse(requirePositionDto.getVacancy()));
 			applicant.setRequirePosition(requirePosition);
 		}
+		
+		if (dto.getStatusChangeHistories() != null) {
+			for (ApplicantStatusChangeHistoryDto aschDto : dto.getStatusChangeHistories()) {
+				ApplicantStatusChangeHistory asch = new ApplicantStatusChangeHistory();
+				asch.setId(aschDto.getId());
+				asch.setStatus(aschDto.getStatus());
+				asch.setApplicant(applicant);
+				asch.setRemark(aschDto.getRemark());
+				asch.setUpdatedOn(aschDto.getUpdatedOn());
+				asch.setUpdatedBy(UserDto.parse(aschDto.getUpdatedBy()));
+				applicant.getStatusChangeHistories().add(asch);
+			}
+		}
+		
 		return applicant;
 
 	}

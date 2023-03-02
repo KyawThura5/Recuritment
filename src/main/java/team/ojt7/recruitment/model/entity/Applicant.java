@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,8 +54,10 @@ public class Applicant implements Serializable {
 	private String attachedUri;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "status", columnDefinition = "VARCHAR(40) DEFAULT 'NEW'")
 	private Status status;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "applicant")
+	private List<ApplicantStatusChangeHistory> statusChangeHistories = new ArrayList<>();
 
 	@ManyToOne()
 	@JoinColumn(name = "recruitment_resource_id")
@@ -78,7 +81,7 @@ public class Applicant implements Serializable {
 	private boolean isDeleted;
 
 	@OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
-	private List<Interview> interviews;
+	private List<Interview> interviews = new ArrayList<>();
 
 	public enum Status {
 		NEW("New", 1), UNQULIFIED("Unqulified", 2), QULIFIED("Qulified", 3), JOB_OFFERED("Job Offered", 4),
@@ -188,6 +191,14 @@ public class Applicant implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public List<ApplicantStatusChangeHistory> getStatusChangeHistories() {
+		return statusChangeHistories;
+	}
+
+	public void setStatusChangeHistories(List<ApplicantStatusChangeHistory> statusChangeHistories) {
+		this.statusChangeHistories = statusChangeHistories;
 	}
 
 	public String getAttachedUri() {

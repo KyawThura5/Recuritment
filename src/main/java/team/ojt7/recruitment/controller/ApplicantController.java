@@ -17,6 +17,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
+import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
@@ -153,6 +155,37 @@ public class ApplicantController {
 		model.put("applicantSearch", applicantSearch);
 		model.put("applicantPage", applicantPage);
 		return "applicants";
+	}
+	
+	@GetMapping("/applicant/detail")
+	public String showApplicantDetail(
+			Long id,
+			ModelMap model
+			) {
+		ApplicantDto applicant = applicantService.findById(id).orElse(null);
+		model.put("applicant", applicant);
+		return "applicant-detail";
+	}
+	
+	@GetMapping("/applicant/status/change")
+	public String changeApplicantStatus(
+			Long id,
+			ModelMap model
+			) {
+		ApplicantDto applicantDto = applicantService.findById(id).get();
+		ApplicantStatusChangeHistoryDto aschDto = applicantService.getCurrentStatus(id);
+		model.put("statusChangeHistory", aschDto);
+		model.put("applicant", applicantDto);
+		return "change-applicant-status";
+	}
+	
+	@PostMapping("/applicant/status/save")
+	public String saveApplicateStatus(
+			@ModelAttribute("statusChangeHistory")
+			ApplicantStatusChangeHistoryDto statusChangeHistory
+			) {
+		applicantService.updateStatus(statusChangeHistory);
+		return "redirect:/applicant/detail?id=" + statusChangeHistory.getApplicantId();
 	}
 
 }

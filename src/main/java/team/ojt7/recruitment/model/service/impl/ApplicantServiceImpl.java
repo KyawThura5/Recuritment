@@ -19,7 +19,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
+import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.ApplicantStatusChangeHistory;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.service.ApplicantService;
@@ -117,6 +119,26 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Page<ApplicantDto> page = new PageImpl<ApplicantDto>(ApplicantDto.ofList(applicants.getContent()), applicantsPageable, applicants.getTotalElements());
 		
 		return page;
+	}
+
+	@Override
+	public void updateStatus(ApplicantStatusChangeHistoryDto aschDto) {
+		Applicant applicant = applicantRepo.findById(aschDto.getApplicantId()).get();
+		applicant.setStatus(aschDto.getStatus());
+		ApplicantStatusChangeHistory asch = ApplicantStatusChangeHistoryDto.parse(aschDto);
+		asch.setApplicant(applicant);
+		applicant.getStatusChangeHistories().add(asch);
+		applicantRepo.save(applicant);
+	}
+
+	@Override
+	public ApplicantStatusChangeHistoryDto getCurrentStatus(Long applicantId) {
+		Applicant applicant = applicantRepo.findById(applicantId).get();
+		ApplicantStatusChangeHistoryDto dto = new ApplicantStatusChangeHistoryDto();
+		dto.setStatus(applicant.getStatus());
+		dto.setApplicant(ApplicantDto.of(applicant));
+		dto.setApplicantId(applicantId);
+		return dto;
 	}
 
 }
