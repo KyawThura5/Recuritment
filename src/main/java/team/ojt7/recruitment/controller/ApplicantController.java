@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +37,8 @@ import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.User;
+import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
@@ -45,7 +46,6 @@ import team.ojt7.recruitment.model.service.RequiredPositionService;
 import team.ojt7.recruitment.model.service.VacancyService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
-import team.ojt7.recruitment.model.service.impl.ServerFileStorgeService;
 
 @Controller
 @MultipartConfig(maxFileSize = 5000000)
@@ -75,9 +75,6 @@ public class ApplicantController {
 	@Autowired
 	@Qualifier("RecruitmentResource")
 	private RecruitmentResourceService recruitmentResourceService;
-	
-	@Autowired
-	private ServerFileStorgeService serverFileStorgeService;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -176,7 +173,6 @@ public class ApplicantController {
 			String serverPath = session.getServletContext().getRealPath("/");
 			File file = new File(serverPath + java.io.File.separator + url);
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
-			boolean exists = file.exists();
 			FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException e) {
@@ -207,22 +203,32 @@ public class ApplicantController {
 	@GetMapping("/applicant/status/change")
 	public String changeApplicantStatus(
 			Long id,
-			ModelMap model
+			String context,
+			ModelMap model,
+			HttpSession session
 			) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
 		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
+		boolean updateable = loginUser.getRole() == Role.GENERAL_MANAGER || (aschDto.getStatus().getStep() >= 3);
+		String contextPage = "applicants".equals(context) ? "/applicant/search" : "/applicant/detail?id=" + id;
+		
 		model.put("statusChangeHistory", aschDto);
 		model.put("statusChangeHistories", aschList);
+		model.put("contextPage", contextPage);
+		model.put("updateable", updateable);
 		return "change-applicant-status";
 	}
 	
 	@PostMapping("/applicant/status/save")
 	public String saveApplicateStatus(
 			@ModelAttribute("statusChangeHistory")
-			ApplicantStatusChangeHistoryDto statusChangeHistory
+			ApplicantStatusChangeHistoryDto statusChangeHistory,
+			@RequestParam
+			String contextPage
 			) {
 		applicantStatusChangeHistoryService.save(statusChangeHistory);
-		return "redirect:/applicant/detail?id=" + statusChangeHistory.getApplicantId();
+		return "redirect:%s".formatted(contextPage);
 	}
 
 }
