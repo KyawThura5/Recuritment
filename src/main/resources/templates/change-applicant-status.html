@@ -55,7 +55,7 @@
                             <button type="submit" id="btnSubmit" class="btn btn-success">
                                 Save
                             </button>
-                            <a th:href="@{/applicant/detail(id=${applicant.id})}" class="btn btn-secondary me-2">
+                            <a th:href="@{/applicant/detail(id=${statusChangeHistory.applicant.id})}" class="btn btn-secondary me-2">
                                 Cancel
                             </a>
                         </div>
@@ -65,8 +65,26 @@
                 <div class="card card-body shadow-lg mt-3">
                     <div class="card-title font-md fw-bold">Status History</div>
                     <ul class="list-group">
-                        <li class="list-group-item" th:each="history : ${applicant.statusChangeHistories}">
-                            Change status to [[${history.status.displayName}]] on [[${history.updatedOn}]].
+                        <li class="row list-group-item" th:each="history : ${statusChangeHistories}">
+                            <div class="col-12">
+                                [[${history.updatedOn}]]
+                            </div>
+                            <div class="col-12">
+                                <label class="fw-bold">
+                                    Status : 
+                                </label>
+                                [[${history.status.displayName}]]
+                            </div>
+                            <div class="col-12">
+                                <label class="fw-bold">
+                                    Updated By : 
+                                </label>
+                                [[${history.updatedBy.name}]]
+                            </div>
+                            <div th:if="${history.remark != null && !history.remark.blank}" class="col-12">
+                                <label class="fw-bold d-block">Remark</label>
+                                <label>[[${history.remark}]]</label>
+                            </div>
                         </li>
                       </ul>
                 </div>

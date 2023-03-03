@@ -31,6 +31,7 @@ import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.service.ApplicantService;
+import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
 import team.ojt7.recruitment.model.service.RequiredPositionService;
 import team.ojt7.recruitment.model.service.VacancyService;
@@ -49,6 +50,9 @@ public class ApplicantController {
 	
 	@Autowired
 	private VacancyService vacancyService;
+	
+	@Autowired
+	private ApplicantStatusChangeHistoryService applicantStatusChangeHistoryService;
 		
 	@Autowired
 	private Formatter<RecruitmentResourceDto> recruitmentResourceDtoFormatter;
@@ -172,10 +176,10 @@ public class ApplicantController {
 			Long id,
 			ModelMap model
 			) {
-		ApplicantDto applicantDto = applicantService.findById(id).get();
-		ApplicantStatusChangeHistoryDto aschDto = applicantService.getCurrentStatus(id);
+		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
+		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
 		model.put("statusChangeHistory", aschDto);
-		model.put("applicant", applicantDto);
+		model.put("statusChangeHistories", aschList);
 		return "change-applicant-status";
 	}
 	
@@ -184,7 +188,7 @@ public class ApplicantController {
 			@ModelAttribute("statusChangeHistory")
 			ApplicantStatusChangeHistoryDto statusChangeHistory
 			) {
-		applicantService.updateStatus(statusChangeHistory);
+		applicantStatusChangeHistoryService.save(statusChangeHistory);
 		return "redirect:/applicant/detail?id=" + statusChangeHistory.getApplicantId();
 	}
 
