@@ -22,7 +22,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 <h2 class="fs-4 fw-bold"></h2>
             </div>
         </div>
-		<form action="#" th:action="@{/interview/save}" class="mt-2" th:object="${interview}" method="post">
+		<form action="#" th:action="@{/interviewname/save}" class="mt-2" th:object="${interview}" method="post">
             <input type="hidden" id="interviewId" th:field="*{id}">
 			<input type="hidden" th:field="*{deleted}">
 				
