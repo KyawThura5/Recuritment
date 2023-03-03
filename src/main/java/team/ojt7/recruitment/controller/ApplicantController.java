@@ -1,9 +1,14 @@
 package team.ojt7.recruitment.controller;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,9 +24,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
@@ -37,6 +45,7 @@ import team.ojt7.recruitment.model.service.RequiredPositionService;
 import team.ojt7.recruitment.model.service.VacancyService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
+import team.ojt7.recruitment.model.service.impl.ServerFileStorgeService;
 
 @Controller
 @MultipartConfig(maxFileSize = 5000000)
@@ -66,6 +75,9 @@ public class ApplicantController {
 	@Autowired
 	@Qualifier("RecruitmentResource")
 	private RecruitmentResourceService recruitmentResourceService;
+	
+	@Autowired
+	private ServerFileStorgeService serverFileStorgeService;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -149,6 +161,27 @@ public class ApplicantController {
 	public String deleteApplicant(@RequestParam("id")Long id) {
 		applicantService.deleteById(id);
 		return "redirect:/applicant/search";
+	}
+	
+	@GetMapping("/api/applicant/cv/download")
+	@ResponseBody
+	public void downloadCv(
+			@RequestParam
+			String url,
+			HttpServletResponse response,
+			HttpSession session
+			) {
+		try {
+			
+			String serverPath = session.getServletContext().getRealPath("/");
+			File file = new File(serverPath + java.io.File.separator + url);
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+			boolean exists = file.exists();
+			FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@RequestMapping(value = "/applicant/search", method = RequestMethod.GET)

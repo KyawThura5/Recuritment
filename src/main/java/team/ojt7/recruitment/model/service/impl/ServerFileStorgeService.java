@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -34,6 +35,12 @@ public class ServerFileStorgeService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void write(String path, OutputStream out) throws IOException {
+		String serverPath = session.getServletContext().getRealPath("/");
+		Path filePath = Path.of(serverPath, path);
+		Files.copy(filePath, out);
 	}
 	
 	public void delete(String path) {
