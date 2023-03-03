@@ -40,6 +40,26 @@ public class User implements Serializable {
 	
 	@Column(name = "is_deleted", columnDefinition = "boolean default false")
 	private boolean isDeleted;
+	
+	@Enumerated(EnumType.STRING)
+	private Status status;
+	
+	public enum Status{
+		
+		ACTIVE("Active"),
+		INACTIVE("Inactive");
+		
+		private String displayName;
+		
+		Status(String displayName) {
+			
+			this.displayName = displayName;
+			// TODO Auto-generated constructor stub
+		}
+		public String getDisplayName() {
+			return displayName;
+		}
+	}
 
 	public enum Role {
 		ADMIN("Admin"),

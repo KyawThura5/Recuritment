@@ -33,6 +33,17 @@ public class DepartmentController {
 		model.put("departmentSearch", departmentSearch);
 		return "departments";
 	}
+	@GetMapping("/department/search/content")
+	public String searchDepartmentContents(
+			@ModelAttribute("departmentSearch")
+			DepartmentSearch departmentSearch,
+			ModelMap model) {
+		Page<DepartmentDto> page = departmentService.search(departmentSearch);
+		model.put("departmentPage", page);
+		model.put("departmentSearch", departmentSearch);
+		return "departments-content";
+	}
+
 
 	@GetMapping("/department/edit")
 	public String editDepartment(
