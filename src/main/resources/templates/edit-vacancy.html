@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Edit Vacancy</title>
-<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resources/js/edit-vacancy.js}"></script>
-<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+	<meta charset="ISO-8859-1">
+	<title>Edit Vacancy</title>
+	<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/dselect.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/edit-vacancy.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
+	<link rel="stylesheet" th:href="@{/resources/css/dselect.css}" />
 </head>
 <body>
 	<div th:replace="nav-bar :: navbar('vacancies')"></div>
@@ -48,8 +50,8 @@
 				</div>
 				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-3">
 					<div class="form-group">
-						<label for="" class="form-label">Department</label>
-						<select class="form-select" id="department" th:field="*{department}">
+						<label for="department" class="form-label">Department</label>
+						<select class="form-select select-search" id="department" th:field="*{department}">
 							<option value="" th:attrappend="disabled=${vacancy.id != null ? 'disabled' : ''}">-- select a department --</option>
 							<option th:each="dept: ${departments}" th:text="${dept.name}" th:value="${dept.id}" th:attrappend="disabled=${vacancy.id != null && vacancy.department != null && vacancy.department.id != dept.id ? 'disabled' : ''}"></option>
 						</select>
@@ -93,10 +95,10 @@
 			</div>
 
 			<div id="positionWrapper">
-				<div class="row mt-3" th:each="rPosition, rPositionStat : *{requirePositions}">
+				<div class="row mt-3 animated fadeInUp" th:each="rPosition, rPositionStat : *{requirePositions}">
 					<input type="hidden" th:field="*{requirePositions[__${rPositionStat.index}__].id}">
 					<div class="offset-sm-1 col-sm-2 offset-md-1 col-md-4">
-						<select class="form-select" th:field="*{requirePositions[__${rPositionStat.index}__].position}">
+						<select class="form-select select-search" th:field="*{requirePositions[__${rPositionStat.index}__].position}">
 							<option value="">-- select a position --</option>
 							<option th:each="position : ${positions}" th:text="${position.name}" th:value="${position.id}"></option>
 						</select>
@@ -114,7 +116,7 @@
 					</div>
 					
 					<div class="offset-sm-1 col-sm-3 offset-md-0 col-md-3 team-select-wrapper">
-						<select class="form-select"  th:field="*{requirePositions[__${rPositionStat.index}__].team}">
+						<select class="form-select select-search"  th:field="*{requirePositions[__${rPositionStat.index}__].team}">
 							<option value="">-- select a team --</option>
 							<th:block th:if="${vacancy.department != null}">
 								<option th:each="team: *{department.teams}" th:text="${team.name}" th:value="${team.id}"></option>
@@ -134,11 +136,9 @@
 			</div>
 
 			<div class="row mt-3">
-				<div class="offset-sm-1 col-sm-10 offset-md-1 col-md-10">
-					<span class="btn btn-warning form-control" id="btnAddNewPosition">
-						<i class="fa-solid fa-plus"></i>
-					</span>
-				</div>
+				<span class="col-10 mx-auto btn btn-warning" id="btnAddNewPosition">
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
+				</span>
 			</div>
 
 			<div class="row mt-4">

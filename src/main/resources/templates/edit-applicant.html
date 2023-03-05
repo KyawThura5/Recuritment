@@ -7,11 +7,12 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/dselect.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/edit-applicant.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-    <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/dselect.css}" />
 </head>
 <body>
     <div th:replace="nav-bar :: navbar('applicants')"></div>
@@ -46,16 +47,16 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 col-md-6 form-group  my-2">
-                        <label for="" class="form-label">Recruitment Resource</label>
-                        <select class="form-select" th:field="*{recruitmentResource}">
+                        <label for="recruitmentResource" class="form-label">Recruitment Resource</label>
+                        <select id="recruitmentResource" class="form-select select-search" th:field="*{recruitmentResource}">
                             <option value="">-- select a resource --</option>
                             <option th:each="rr : ${recruitmentResources}" th:text="${rr.name}" th:value="${rr.id}"></option>
                         </select>
                         <label th:if="${#fields.hasErrors('recruitmentResource')}" th:errors="*{recruitmentResource}" th:errorclass="text-danger"></label>
                     </div>
                     <div class="col-12 col-md-6 form-group my-2">
-                        <label for="" class="form-label">Vacancy</label>
-                        <select class="form-select" id="vacancy" th:field="*{vacancy}">
+                        <label for="vacancy" class="form-label">Vacancy</label>
+                        <select class="form-select select-search" id="vacancy" th:field="*{vacancy}">
 							<option value="">-- select a Vacancy --</option>
 							<option th:each="va : ${vacancy}" th:text="${va.code}" th:value="${va.id}"></option>
                         </select>

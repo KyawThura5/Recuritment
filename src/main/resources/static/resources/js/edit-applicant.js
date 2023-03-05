@@ -2,6 +2,12 @@ $(document).ready(function () {
 	$("#vacancy").change(function (event){
 		ajaxQuerypositionByVacancy();
 	});
+	
+	$(".select-search").each(function(i, t) {
+		dselect(t, {
+			search: true
+		});
+	});
 });
 
 const onCvFileChange = () => {

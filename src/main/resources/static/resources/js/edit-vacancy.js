@@ -10,7 +10,18 @@ $(document).ready(function () {
 
     $("#btnAddNewPosition").click(addNewPositionEntry);
     listenRemovePositionEntry();
+
+    addSelectSearch();
+    
 });
+
+const addSelectSearch = () => {
+    $('.select-search').each(function(i, t) {
+        dselect(t, {
+            search: true
+        });
+    });
+}
 
 const addNewPositionEntry = () => {
     let requirePositionsErrorMessage = $("#requirePositionsErrorMessage");
@@ -19,11 +30,17 @@ const addNewPositionEntry = () => {
     let index = positionWrapper.children().length;
     let positionOptions = $("#positionSelectorWrapper select").html();
 	let teamOptions = $("#teamSelectorWrapper select").html();
+    let positoinSelect = document.createElement("select");
+    positoinSelect.setAttribute("name", `requirePositions[${index}].position`);
+    positoinSelect.setAttribute("id", `requirePositions${index}.position`);
+    positoinSelect.classList.add("form-select", "select-search");
+    positoinSelect.innerHTML = positionOptions;
+    console.log(positoinSelect);
     let row = `
         <div class="row mt-3">
             <input type="hidden" id="requirePositions${index}.id" name="requirePositions[${index}].id" value="">
             <div class="offset-sm-1 col-sm-2 offset-md-1 col-md-4">
-                <select class="form-select" id="requirePositions${index}.position" name="requirePositions[${index}].position">
+                <select class="form-select select-search" id="requirePositions${index}.position" name="requirePositions[${index}].position">
                     ${positionOptions}
                 </select>
             </div>
@@ -38,7 +55,7 @@ const addNewPositionEntry = () => {
                 <input type="text" class="form-control" id="requirePositions${index}.count" name="requirePositions[${index}].count" value="1">
             </div>
             <div class="offset-sm-1 col-sm-3 offset-md-0 col-md-3 team-select-wrapper">
-                <select class="form-select" id="requirePositions${index}.team" name="requirePositions[${index}].team">
+                <select class="form-select select-search" id="requirePositions${index}.team" name="requirePositions[${index}].team">
                     ${teamOptions}
                 </select>
             </div>
@@ -52,10 +69,12 @@ const addNewPositionEntry = () => {
     listenRemovePositionEntry();
 }
 
+
 const listenRemovePositionEntry = () => {
     let btnRemoves = $("#positionWrapper .btnPositionRemove");
     btnRemoves.each(function(i, event) {
         let entry = $(this).parent().parent();
+        
         $(this).click(function() {
             let idInput = document.getElementById("requirePositions" + i + ".id");
             idInput.value = -1;
