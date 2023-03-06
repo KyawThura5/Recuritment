@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.DepartmentSearch;
+import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Department;
 
@@ -15,6 +16,8 @@ public interface DepartmentService {
 	List<DepartmentDto> findAllByIsDeleted(boolean isDelete);
 	
 	List<DepartmentDto> findAllForVacancy(VacancyDto vacancy);
+	
+	List<DepartmentDto> findAllForTeam(TeamDto team);
 
 	List<DepartmentDto> search(String keyword);
 	

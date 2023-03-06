@@ -31,19 +31,19 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	@Query(
 		value = """
 				SELECT v FROM Vacancy v where code LIKE :keyword 
-				AND (:dateFrom is null OR createdDate >= :dateFrom) 
-				AND (:dateTo is null OR createdDate <= :dateTo) 
+				AND (:dateFrom is null OR createdDateTime >= :dateFrom) 
+				AND (:dateTo is null OR createdDateTime <= :dateTo) 
 				AND ((:#{#status.toString()} = 'EXPIRED' AND dueDate < CURDATE() AND status = 'OPENING') OR (:#{#status.toString()} = 'OPENING' AND dueDate >= CURDATE() AND status = 'OPENING') OR (:#{#status.toString()} = 'CLOSED' AND status = 'CLOSED'))
 				AND isDeleted = false
-				ORDER BY createdDate desc
+				ORDER BY createdDateTime desc
 				""",
 		countQuery = """
 				SELECT COUNT(v) FROM Vacancy v where code LIKE :keyword
-				AND (:dateFrom is null OR createdDate >= :dateFrom)
-				AND (:dateTo is null OR createdDate <= :dateTo)
+				AND (:dateFrom is null OR createdDateTime >= :dateFrom)
+				AND (:dateTo is null OR createdDateTime <= :dateTo)
 				AND ((:#{#status.toString()} = 'EXPIRED' AND dueDate < CURDATE() AND status = 'OPENING') OR (:#{#status.toString()} = 'OPENING' AND dueDate >= CURDATE() AND status = 'OPENING') OR (:#{#status.toString()} = 'CLOSED' AND status = 'CLOSED'))
 				AND isDeleted = false
-				ORDER BY createdDate desc
+				ORDER BY createdDateTime desc
 				"""
 	)
 	Page<Vacancy> search(
@@ -57,17 +57,17 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	@Query(
 			value = """
 					SELECT v FROM Vacancy v where code LIKE :keyword 
-					AND (:dateFrom is null OR createdDate >= :dateFrom) 
-					AND (:dateTo is null OR createdDate <= :dateTo)
+					AND (:dateFrom is null OR createdDateTime >= :dateFrom) 
+					AND (:dateTo is null OR createdDateTime <= :dateTo)
 					AND isDeleted = false
-					ORDER BY createdDate desc
+					ORDER BY createdDateTime desc
 					""",
 			countQuery = """
 					SELECT COUNT(v) FROM Vacancy v where code LIKE :keyword
-					AND (:dateFrom is null OR createdDate >= :dateFrom)
-					AND (:dateTo is null OR createdDate <= :dateTo)
+					AND (:dateFrom is null OR createdDateTime >= :dateFrom)
+					AND (:dateTo is null OR createdDateTime <= :dateTo)
 					AND isDeleted = false
-					ORDER BY createdDate desc
+					ORDER BY createdDateTime desc
 					"""
 		)
 		Page<Vacancy> search(

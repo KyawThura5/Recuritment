@@ -52,7 +52,7 @@ public class RequirePositionDto {
 			vacancyDto.setStatus(vacancy.getStatus());
 			vacancyDto.setComment(vacancy.getComment());
 			vacancyDto.setDeleted(vacancy.isDeleted());
-			vacancyDto.setCreatedDate(vacancy.getCreatedDate());
+			vacancyDto.setCreatedDateTime(vacancy.getCreatedDateTime());
 			vacancyDto.setDepartment(DepartmentDto.of(vacancy.getDepartment()));
 			vacancyDto.setCreatedUser(UserDto.of(vacancy.getCreatedUser()));
 			dto.setVacancy(vacancyDto);
@@ -84,7 +84,7 @@ public class RequirePositionDto {
 					vacancyDto.setCode(vacancy.getCode());
 					vacancyDto.setDueDate(vacancy.getDueDate());
 					vacancyDto.setStatus(vacancy.getStatus());
-					vacancyDto.setCreatedDate(vacancy.getCreatedDate());
+					vacancyDto.setCreatedDateTime(vacancy.getCreatedDateTime());
 					vacancyDto.setCreatedUser(UserDto.of(vacancy.getCreatedUser()));
 					vacancyDto.setDeleted(vacancy.isDeleted());
 					vacancyDto.setComment(vacancy.getComment());
@@ -124,7 +124,7 @@ public class RequirePositionDto {
 			vacancy.setStatus(vacancyDto.getStatus());
 			vacancy.setComment(vacancyDto.getComment());
 			vacancy.setDeleted(vacancyDto.isDeleted());
-			vacancy.setCreatedDate(vacancyDto.getCreatedDate());
+			vacancy.setCreatedDateTime(vacancyDto.getCreatedDateTime());
 			vacancy.setDepartment(DepartmentDto.parse(vacancyDto.getDepartment()));
 			vacancy.setCreatedUser(UserDto.parse(vacancyDto.getCreatedUser()));
 			entity.setVacancy(vacancy);
@@ -157,7 +157,7 @@ public class RequirePositionDto {
 					vacancy.setCode(vacancyDto.getCode());
 					vacancy.setDueDate(vacancyDto.getDueDate());
 					vacancy.setStatus(vacancyDto.getStatus());
-					vacancy.setCreatedDate(vacancyDto.getCreatedDate());
+					vacancy.setCreatedDateTime(vacancyDto.getCreatedDateTime());
 					vacancy.setCreatedUser(UserDto.parse(vacancyDto.getCreatedUser()));
 					vacancy.setDeleted(vacancyDto.isDeleted());
 					vacancy.setComment(vacancyDto.getComment());
