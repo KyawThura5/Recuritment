@@ -16,7 +16,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <body>
     <div th:replace="nav-bar :: navbar('resources')"></div>
     <main class="container p-3">
-        <h2 class="fs-5 fw-bold mb-3">External Recruitment Resources</h2>
+        <h2 class="font-lg fw-bold mb-3">External Recruitment Resources</h2>
         <form id="searchForm" class="row" th:action="@{/recruitmentresource/external/search}" th:object="${recruitmentResourceSearch}">
             <div class="col col-md-auto">
                 <div class="input-group">
@@ -52,8 +52,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 		</div>
 
         <div class="row mt-3">
-            <div class="col-12 my-3" th:each="recru : ${recruitmentResourcePage.content}">
-                <div class="card shadow-sm animated fadeInUp" style="border-radius: 15px;">
+            <div class="col-12 col-lg-6 my-3" th:each="recru : ${recruitmentResourcePage.content}">
+                <div class="card shadow-lg animated fadeInUp">
                     <div class="card-body p-4">
                         <div class="d-flex">
                             <div class="flex-grow-1">
@@ -106,21 +106,21 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         <hr class="my-4">
 
                         <div class="row pt-1">
-                            <div class="col-12 col-md-6 col-xl-3">
+                            <div class="col-6">
                               <h6>PIC</h6>
-                              <p class="text-muted">[[${recru.pic}]]</p>
+                              <p class="text-muted font-sm">[[${recru.pic}]]</p>
                             </div>
-                            <div class="col-12 col-md-6 col-xl-3">
+                            <div class="col-6">
                               <h6>Contact Person</h6>
-                              <p class="text-muted">[[${recru.contactPerson}]]</p>
+                              <p class="text-muted font-sm">[[${recru.contactPerson}]]</p>
                             </div>
-                            <div class="col-12 col-md-6 col-xl-3">
+                            <div class="col-6">
                                 <h6>Email</h6>
-                                <p class="text-muted">[[${recru.email}]]</p>
+                                <p class="text-muted font-sm">[[${recru.email}]]</p>
                               </div>
-                              <div class="col-12 col-md-6 col-xl-3">
+                              <div class="col-6">
                                 <h6>Phone</h6>
-                                <p class="text-muted">[[${recru.phone}]]</p>
+                                <p class="text-muted font-sm">[[${recru.phone}]]</p>
                               </div>
                           </div>
                       
