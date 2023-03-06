@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interviews</title>
+    <title th:text="${interview.id == null ? 'Add New Interview' : 'Edit Interview'}"></title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
@@ -17,21 +18,23 @@
             <div class="card shadow-lg offset-sm-1 offset-lg-3 col-sm-10 col-lg-6">
                 <div class="card-body">
                     <div class="card-title font-lg fw-bold">Create Interview</div>
-                    <form action="" class="row">
+                    <form th:action="@{/interview/save}" class="row" method="post" th:object="${interview}" enctype="multipart/form-data">
                         <div class="col-12 form-group my-2">
                             <label for="code" class="form-label">Code</label>
-                            <input id="code" type="text" class="form-control">
+                            <input id="code" type="text" class="form-control" th:field="*{code}">
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="interviewName" class="form-label">Interview Name</label>
-                            <select name="" id="interviewName" class="form-select">
-                                
-                            </select>
+                            <select class="form-select" th:field="*{interviewName}">
+                              <option value="">-- select interview --</option>
+                            <option th:each="in : ${interviewNames}" th:text="${in.name}" th:value="${in.id}"></option>
+                        </select>
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="applicant" class="form-label">Applicant</label>
-                            <select name="" id="applicant" class="form-select">
-                                
+                            <select th:field="*{applicant}" class="form-select">
+                                <option value="">-- select applicant --</option>
+                            <option th:each="ap : ${applicants}" th:text="${ap.name} +' ('+ ${ap.code}+')'"  th:value="${ap.id}"></option>
                             </select>
                         </div>
                         <div class="col-12 col-md-6 form-group my-2">

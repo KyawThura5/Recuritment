@@ -14,7 +14,10 @@
     <div th:replace="nav-bar :: navbar('applicants')"></div>
     <div class="container-fluid container-lg py-3">
         <div class="row">
-            <div class="col-12 col-xl-8 mx-auto my-3">
+            <h2 class="col-12 col-xl-8 mx-auto fs-5 fw-bold">Applicant Detail</h2>
+        </div>
+        <div class="row">
+            <div class="col-12 col-xl-8 mx-auto my-md-3">
                 <div class="card shadow-lg" style="border-radius: 0.5em;">
                     <div class="card-body">
                         <div class="d-flex text-black align-items-center">
@@ -99,8 +102,8 @@
                                 </label>
                                 
                                 <label class="col-12 my-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512z"/></svg>
-                                    <span class="ms-2 font-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/></svg>
+                                    <span class="ms-2 badge rounded-pill"  th:classappend="${applicant.statusColorClass}">
                                         [[${applicant.status.displayName}]]
                                     </span>
                                     <a th:href="@{/applicant/status/change(id=${applicant.id})}" class="btn btn-sm btn-outline-success ms-2">
@@ -110,41 +113,47 @@
                             </div>
                             
                             <div class="col-12 mt-2">
+                                
                                 <p>
-                                    <a class="btn btn-sm btn-outline-secondary text-black d-block" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <a class="btn btn-sm btn-primary d-block" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                       More Details
                                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 256a56 56 0 1 1 112 0A56 56 0 1 1 0 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"/></svg>
                                     </a>
-                                  </p>
-                                  <div class="collapse" id="collapseExample">
+                                </p>
+                                <div class="collapse" id="collapseExample">
                                     <div class="row">
                                         <label class="col-12 my-1">
                                             <div class="font-md fw-bold">Education</div>
                                             <span class="ms-2 font-sm">
-                                                [[${applicant.education}]]
+                                                [[${applicant.education == null || applicant.education.blank ? '-' : applicant.education}]]
                                             </span>
                                         </label>
                                         <label class="col-12 my-1">
                                             <div class="font-md fw-bold">Skill</div>
                                             <span class="ms-2 font-sm">
-                                                [[${applicant.skill}]]
+                                                [[${applicant.skill == null || applicant.skill.blank ? '-' : applicant.skill}]]
                                             </span>
                                         </label>
                                         <label class="col-12 my-1">
                                             <div class="font-md fw-bold">Experience</div>
                                             <span class="ms-2 font-sm">
-                                                [[${applicant.experience}]]
+                                                [[${applicant.experience == null || applicant.experience.blank ? '-' : applicant.experience}]]
                                             </span>
                                         </label>
                                         <label class="col-12 my-1">
                                             <div class="font-md fw-bold">Address</div>
                                             <span class="ms-2 font-sm">
-                                                [[${applicant.address}]]
+                                                [[${applicant.address == null || applicant.address.blank ? '-' : applicant.address}]]
                                             </span>
                                         </label>
                                     </div>
                                     
-                                  </div>
+                                </div>
+                                <div>
+                                    <a th:href="@{/applicant/search}" class="btn btn-sm btn-secondary d-block">
+                                        Back
+                                    </a>
+                                </div>
                             </div>
                         </div>
                   </div>                                                

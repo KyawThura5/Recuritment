@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
         	.antMatchers("/user/**").hasAuthority("ADMIN")
-            .antMatchers("/department/search").authenticated()
+            .antMatchers("/department/search/**").authenticated()
             .antMatchers("/department/**").hasAuthority("ADMIN")
             .antMatchers("/position/search").authenticated()
             .antMatchers("/position/**").hasAnyAuthority("ADMIN", "DEPARTMENT_HEAD")
@@ -57,8 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/vacancy/search").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
             .antMatchers("/vacancy/**").hasAuthority("DEPARTMENT_HEAD")
             .antMatchers("/applicant/search").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
-            .antMatchers("/applicant/**").hasAuthority("HIRING_MANAGER")
+            .antMatchers("/applicant/**").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
             .antMatchers("/login", "/resources/**").permitAll()
+            .antMatchers("/api/**").permitAll()
             .antMatchers("/", "/profile/**").authenticated();
 
         http.formLogin()

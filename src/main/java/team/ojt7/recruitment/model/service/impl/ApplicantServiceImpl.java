@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.service.impl;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,7 +20,13 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
+import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.entity.Applicant;
+<<<<<<< HEAD
+import team.ojt7.recruitment.model.entity.Position;
+=======
+import team.ojt7.recruitment.model.entity.Applicant.Status;
+>>>>>>> 536131f51695f07001d3b75f4f88ba37e9ea45e8
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.service.ApplicantService;
@@ -81,6 +88,12 @@ public class ApplicantServiceImpl implements ApplicantService{
 		
 		return ApplicantDto.of(savedApplicant);
 	}
+	
+	@Override
+	public List<ApplicantDto> findAll() {
+		List<Applicant> applicants = applicantRepo.findAll();
+		return ApplicantDto.ofList(applicants);
+	}
 
 	@Override
 	public boolean deleteById(Long id) {
@@ -110,9 +123,18 @@ public class ApplicantServiceImpl implements ApplicantService{
 	@Override
 	public Page<ApplicantDto> search(ApplicantSearch applicantSearch) {
 		String keyword = applicantSearch.getKeyword() == null ? "%%" : "%" + applicantSearch.getKeyword() + "%";
+		Status status = applicantSearch.getStatus();
 		LocalDateTime dateFrom = applicantSearch.getDateFrom() == null ? null : LocalDateTime.of(applicantSearch.getDateFrom(), LocalTime.of(0, 0));
 		LocalDateTime dateTo = applicantSearch.getDateTo() == null ? null : LocalDateTime.of(applicantSearch.getDateTo(), LocalTime.of(23, 59));
-		Page<Applicant> applicants =  applicantRepo.search(keyword, dateFrom, dateTo, PageRequest.of(applicantSearch.getPage() - 1, applicantSearch.getSize())); 
+		Page<Applicant> applicants =  applicantRepo.search(
+				keyword,
+				status,
+				dateFrom,
+				dateTo,
+				PageRequest.of(
+						applicantSearch.getPage() - 1,
+						applicantSearch.getSize())
+				); 
 		Pageable applicantsPageable = applicants.getPageable();
 		Page<ApplicantDto> page = new PageImpl<ApplicantDto>(ApplicantDto.ofList(applicants.getContent()), applicantsPageable, applicants.getTotalElements());
 		

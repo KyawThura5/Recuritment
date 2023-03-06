@@ -111,6 +111,19 @@ public class ApplicantDto {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
+	public String getStatusColorClass() {
+		return switch(status) {
+		case NEW -> "bg-primary";
+		case UNQULIFIED -> "bg-secondary";
+		case QULIFIED -> "bg-info text-dark";
+		case REJECTED -> "bg-danger";
+		case JOB_OFFERED -> "bg-warning text-dark";
+		case DID_NOT_JOINED -> "bg-dark";
+		case HIRED -> "bg-success";
+		default -> null;
+		};
+	}
 
 	public String getEmail() {
 		return email;

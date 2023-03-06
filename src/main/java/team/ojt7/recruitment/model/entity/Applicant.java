@@ -85,7 +85,7 @@ public class Applicant implements Serializable {
 
 	public enum Status {
 		NEW("New", 1), UNQULIFIED("Unqulified", 2), QULIFIED("Qulified", 3), JOB_OFFERED("Job Offered", 4),
-		REJECTED("Rejected", 5), DIT_NOT_JOINED("Did not joined", 6), HIRED("Hired", 7);
+		REJECTED("Rejected", 5), DID_NOT_JOINED("Did not joined", 6), HIRED("Hired", 7);
 
 		private String displayName;
 		private int step;
