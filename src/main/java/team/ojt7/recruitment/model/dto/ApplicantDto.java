@@ -35,11 +35,8 @@ public class ApplicantDto {
 	private Status status = Status.NEW;
 
 	private String address;
-	@NotBlank(message = "NotBlank.applicant.experience")
 	private String experience;
-	@NotBlank(message = "NotBlank.applicant.education")
 	private String education;
-	@NotBlank(message = "NotBlank.applicant.skill")
 	private String skill;
 //	@NotBlank(message = "NotBlank.applicant.attachedUri")
 	private String attachedUri;

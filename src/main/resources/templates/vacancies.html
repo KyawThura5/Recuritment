@@ -18,7 +18,7 @@
     <main class="container-fluid container-lg py-3">
         <h2 class="fs-5 fw-bold mb-3">Vacancies</h2>
         <form id="searchForm" class="row" th:action="@{/vacancy/search}" th:object="${vacancySearch}">
-            <div class="col-auto">
+            <div class="col col-sm-auto">
                 <div class="input-group">
                     <input th:field="*{keyword}" type="text" class="form-control" placeholder="Search">
                     <a th:href="@{'/vacancy/search?' + 'size=' + ${vacancySearch.size}}" class="input-group-text">
@@ -115,7 +115,7 @@
                                 </div>
                             </div>
 
-                            <div class="dropdown">
+                            <div sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD')" class="dropdown">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                                     <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                                 </svg>
@@ -149,7 +149,7 @@
                                         <th>Post</th>
                                         <th>Team</th>
                                         <th>Applied</th>
-                                        <th>Actions</th>
+                                        <th class="fit">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -158,7 +158,7 @@
                                         <td>[[${requirePosition.count}]]</td>
                                         <td>[[${requirePosition.team.name}]]</td>
                                         <td>[[${requirePosition.applicants.size()}]]</td>
-                                        <td>
+                                        <td class="fit">
                                             <a th:href="@{/applicant/vacancy/add(id=${requirePosition.id},vacancyId=${vacancy.id})}" class="btn btn-warning">
 												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
 													<path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>

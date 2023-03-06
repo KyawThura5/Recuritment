@@ -109,3 +109,9 @@ a {
 .modal-confirm {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}

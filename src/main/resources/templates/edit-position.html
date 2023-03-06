@@ -7,6 +7,7 @@
     <title>[[${position.id == null ? 'Add New Position' : 'Edit Position'}]]</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
     <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
@@ -16,12 +17,12 @@
     <div class="container p-3">
         <div class="row">
             <div class="card shadow-lg col-12 col-lg-6 mx-auto">
-                <form th:action="@{/position/save}" class="card-body row" th:object="${position}" method="post">
+                <form id="positionForm" th:action="@{/position/save}" class="card-body row" th:object="${position}" method="post">
                     <h2 class="card-title fs-5 fw-bold col-12">[[${position.id == null ? 'Add New Position' : 'Edit Position'}]]</h2>
                     <input type="hidden" th:field="*{id}">
                     <div class="form-group col-12 my-2">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" th:field="*{name}">
+                        <input id="name" type="text" class="form-control" th:field="*{name}">
                         <label th:if="${#fields.hasErrors('name')}"  th:text="${#fields.errors('name')[__0__]}" class="text-danger"></label>
                     </div>
                     <div class="col-12 d-flex flex-row-reverse mt-3">
@@ -44,4 +45,54 @@
         </div>
     </div>
 </body>
+<script>
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        }
+        
+    };
+
+
+    var form = document.getElementById("positionForm");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger");
+
+        if (validation) {
+            checkValidation(nameError, "nameError", "name", validation.name);
+        } else {
+            form.submit();
+        }
+        
+    });
+
+    const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
+        if (validation) {
+            let input = document.getElementById(inputId);
+            if (!document.getElementById(errorLabelId)) {
+                input.parentNode.insertBefore(errorLabel, input.nextSibling);
+            }
+            document.getElementById(errorLabelId).innerText = validation[0];
+        } else {
+            removeIfExists(errorLabelId);
+        }
+    }
+
+    const removeIfExists = (id) => {
+        let element = document.getElementById(id);
+        if (element) {
+            element.parentNode.removeChild(element);
+        }
+    }
+</script>
 </html>

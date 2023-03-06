@@ -5,77 +5,156 @@
 <title>Edit Profile</title>
 <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
 <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
 </head>
 <body>
     <div th:replace="nav-bar :: navbar('profile')"></div>
 
-    <div class="container-fluid mt-2 py-3">
+    <div class="container mt-2 py-3">
+
         <div class="row">
-            <div class="offset-sm-1 col-sm-10 col-md-8 offset-md-2">
-                <h2 class="fs-4 fw-bold">Edit Profile</h2>
+            <div class="col-12 col-md-10 col-lg-8 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h2 class="font-lg fw-bold">Edit Your Profile</h2>
+                        </div>
+                        <form id="profileForm" th:action="@{/profile/save}" class="row mt-3" th:object="${user}" method="post">
+                            <input type="hidden" th:field="*{id}">
+                            <input type="hidden" th:field="*{code}">
+                            <input type="hidden" th:field="*{role}">
+                            <input type="hidden" th:field="*{password}">
+                            <input type="hidden" th:field="*{confirmPassword}">
+                            <input type="hidden" th:field="*{deleted}">
+
+                            <div class="col-12 col-lg-6 form-group">
+                                <label for="name" class="form-label">Name</label>
+                                <input id="name" type="text" class="form-control" th:field="*{name}">
+                                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></label>
+                            </div>
+
+                            <div class="col-12 col-lg-6 form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input id="email" type="text" class="form-control" th:field="*{email}">
+                                <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></label>
+                            </div>
+
+                            <div class="col-12 col-lg-6 form-group">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input id="phone" type="text" class="form-control" th:field="*{phone}">
+                                <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red;"></label>
+                            </div>
+
+                            <div class="col-12 col-lg-6 form-group">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select id="gender" class="form-select" th:field="*{gender}">
+                                    <option value="">-- select gender --</option>
+                                    <option
+                                        th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
+                                        th:value="${g}" th:text="${g.displayName}" 
+                                    >
+                                    </option>
+                                </select> 
+                                <label th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" style="color: red;"></label>
+                            </div>
+
+                            <div class="col-12 d-flex flex-row-reverse mt-3">
+                                <button type="submit" class="btn btn-success ms-2">Save</button>
+                                <a th:href="@{/profile}" class="btn btn-secondary">Cancel</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <form th:action="@{/profile/save}" class="mt-2" th:object="${user}" method="post">
-
-            <input type="hidden" th:field="*{id}">
-            <input type="hidden" th:field="*{code}">
-            <input type="hidden" th:field="*{role}">
-            <input type="hidden" th:field="*{password}">
-            <input type="hidden" th:field="*{confirmPassword}">
-            <label th:if="${#fields.hasErrors('*')}" th:errors="*" style="color: red;"></label>
-
-            <div class="row">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="" class="form-label">Name</label>
-                        <input type="text" class="form-control" th:field="*{name}">
-                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></label>
-                    </div>
-                </div>
-                <div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-                    <div class="form-group">
-                        <label for="" class="form-label">Email</label>
-                        <input type="text" class="form-control" th:field="*{email}">
-                        <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-4">
-                    <div class="form-group">
-                        <label for="" class="form-label">Phone</label>
-                        <input type="text" class="form-control" th:field="*{phone}">
-                        <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red;"></label>
-                    </div>
-                </div>
-                <div class="offset-sm-1 col-sm-10 col-md-4 offset-md-0">
-                    <div class="form-group">
-                        <label for="" class="form-label">Gender</label>
-                        <select class="form-select" th:field="*{gender}">
-							<option
-								th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
-								th:value="${g}" th:text="${g.displayName}" 
-							>
-							</option>
-						</select> 
-                        <label th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" style="color: red;"></label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 d-flex flex-row-reverse">
-                    <button type="submit" class="btn btn-success ms-1">Save</button>
-                    <a th:href="@{/profile}" class="btn btn-secondary">Cancel</a>
-                </div>
-            </div>
-        </form>
     </div>
 
 </body>
+<script>
+
+	var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+		email : {
+			presence : {message : "^Enter email"},
+            email : {message : "^Enter valid email"}
+		},
+		phone : {
+			presence : {message : "^Enter phone number"},
+            format : {
+                pattern : /^\d+$/,
+                message : "^Enter valid phone number"
+            },
+            length : {
+                minimum : 6,
+                maximum : 16,
+                message : "^Phone number must be between 6 ant 16 digits"
+            }
+		},
+        gender : {
+            presence : {message : "^Select gender"}
+        }
+        
+    };
+
+	var form = document.getElementById("profileForm");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger");
+
+        let emailError = document.createElement("label");
+        emailError.id = "emailError";
+        emailError.classList.add("text-danger");
+
+        let phoneError = document.createElement("label");
+        phoneError.id = "phoneError";
+        phoneError.classList.add("text-danger");
+
+        let genderError = document.createElement("label");
+        genderError.id = "genderError";
+        genderError.classList.add("text-danger");
+
+        if (validation) {
+            checkValidation(nameError, "nameError", "name", validation.name);
+            checkValidation(emailError, "emailError", "email", validation.email);
+            checkValidation(phoneError, "phoneError", "phone", validation.phone);
+            checkValidation(genderError, "genderError", "gender", validation.gender);
+        } else {
+            form.submit();
+        }
+        
+    });
+
+	const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
+        if (validation) {
+            let input = document.getElementById(inputId);
+            if (!document.getElementById(errorLabelId)) {
+                input.parentNode.insertBefore(errorLabel, input.nextSibling);
+            }
+            document.getElementById(errorLabelId).innerText = validation[0];
+        } else {
+            removeIfExists(errorLabelId);
+        }
+    }
+
+    const removeIfExists = (id) => {
+        let element = document.getElementById(id);
+        if (element) {
+            element.parentNode.removeChild(element);
+        }
+    }
+</script>
 </html>

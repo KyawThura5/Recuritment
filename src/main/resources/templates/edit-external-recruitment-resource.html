@@ -7,6 +7,7 @@
     <title>[[${recruitmentResource.id == null ? 'Add New External Recruitment Resource' : 'Edit External Recruitment Resource'}]]</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 </head>
@@ -15,17 +16,17 @@
     <div class="container p-3">
         <div class="row">
             <div class="card shadow-lg col-12 col-lg-8 mx-auto">
-                <form th:action="@{/recruitmentresource/external/save}" class="card-body row" th:object="${recruitmentResource}" method="post">
+                <form id="recruitmentResourceForm" th:action="@{/recruitmentresource/external/save}" class="card-body row" th:object="${recruitmentResource}" method="post">
                     <h2 class="card-title fs-5 fw-bold col-12">[[${recruitmentResource.id == null ? 'Add New External Recruitment Resource' : 'Edit External Recruitment Resource'}]]</h2>
                     <input type="hidden" th:field="*{id}">
                     <div class="form-group col-12 col-xl-6 my-2">
                         <label for="code" class="form-label">Code</label>
-                        <input type="text" class="form-control" th:field="*{code}">
+                        <input id="code" type="text" class="form-control" th:field="*{code}">
                         <label th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}" class="text-danger"></label>
                     </div>
                     <div class="form-group col-12 col-xl-6 my-2">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" th:field="*{name}">
+                        <input id="name" type="text" class="form-control" th:field="*{name}">
                         <label th:if="${#fields.hasErrors('name')}"  th:text="${#fields.errors('name')[__0__]}" class="text-danger"></label>
                     </div>
                     <div class="form-group col-12 col-xl-6 my-2">
@@ -81,4 +82,138 @@
         </div>
     </div>
 </body>
+<script>
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        code: {
+            presence: {message : "^Enter code"},
+            format : {
+                pattern : /^\S*$/,
+                message : "^Code cannot contain space"
+            },
+            length: {
+                maximum: 30,
+                message: "^Name must be maximum 30 characters"
+            }
+        },
+        pic : {
+            presence : {message : "^Enter PIC name"},
+            length : {
+                maximum : 50,
+                message  : "^PIC name must be maximum 50 characters"
+            }
+        },
+        contactPerson : {
+            presence : {message : "^Enter contact person name"},
+            length : {
+                maximum : 50,
+                message  : "^Contact person name must be maximum 50 characters"
+            }
+        },
+        phone : {
+            presence : {message : "^Enter phone number"},
+            format : {
+                pattern : /^\d+$/,
+                message : "^Enter valid phone number"
+            },
+            length : {
+                minimum : 6,
+                maximum : 16,
+                message : "^Phone number must be between 6 ant 16 digits"
+            }
+        },
+        email : {
+            presence : {message : "^Enter email"},
+            email : {message : "^Enter valid email"}
+        },
+        type : {
+            presence : {message : "^Select type"}
+        },
+        websiteLink : {
+            format : {
+                pattern : /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})|[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                message : "^Enter valid url"
+            }
+        }
+        
+    };
+
+    var form = document.getElementById("recruitmentResourceForm");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        
+        let codeError = document.createElement("label");
+        codeError.id = "codeError";
+        codeError.classList.add("text-danger");
+
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger");
+
+        let picError = document.createElement("label");
+        picError.id = "picError";
+        picError.classList.add("text-danger");
+
+        let contactPersonError = document.createElement("label");
+        contactPersonError.id = "contactPersonError";
+        contactPersonError.classList.add("text-danger");
+
+        let phoneError = document.createElement("label");
+        phoneError.id = "phoneError";
+        phoneError.classList.add("text-danger");
+
+        let emailError = document.createElement("label");
+        emailError.id = "emailError";
+        emailError.classList.add("text-danger");
+
+        let typeError = document.createElement("label");
+        typeError.id = "typeError";
+        typeError.classList.add("text-danger");
+
+        let websiteLinkError = document.createElement("label");
+        websiteLinkError.id = "websiteLinkError";
+        websiteLinkError.classList.add("text-danger");
+
+        if (validation) {
+            checkValidation(codeError, "codeError", "code", validation.code);
+            checkValidation(nameError, "nameError", "name", validation.name);
+            checkValidation(picError, "picError", "pic", validation.pic);
+            checkValidation(contactPersonError, "contactPersonError", "contactPerson", validation.contactPerson);
+            checkValidation(phoneError, "phoneError", "phone", validation.phone);
+            checkValidation(emailError, "emailError", "email", validation.email);
+            checkValidation(typeError, "typeError", "type", validation.type);
+            checkValidation(websiteLinkError, "websiteLinkError", "websiteLink", validation.websiteLink);
+        } else {
+            form.submit();
+        }
+        
+    });
+
+    const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
+        if (validation) {
+            let input = document.getElementById(inputId);
+            if (!document.getElementById(errorLabelId)) {
+                input.parentNode.insertBefore(errorLabel, input.nextSibling);
+            }
+            document.getElementById(errorLabelId).innerText = validation[0];
+        } else {
+            removeIfExists(errorLabelId);
+        }
+    }
+
+    const removeIfExists = (id) => {
+        let element = document.getElementById(id);
+        if (element) {
+            element.parentNode.removeChild(element);
+        }
+    }
+</script>
 </html>
