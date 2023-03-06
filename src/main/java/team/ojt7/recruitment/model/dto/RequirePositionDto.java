@@ -75,6 +75,7 @@ public class RequirePositionDto {
 				applicantDto.setRecruitmentResource(RecruitmentResourceDto.of(applicant.getRecruitmentResource()));
 				applicantDto.setCreatedDate(applicant.getCreatedDate());
 				applicantDto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
+				applicantDto.setDeleted(applicant.isDeleted());
 				
 				if (applicant.getVacancy() != null) {
 					Vacancy vacancy = applicant.getVacancy();
@@ -147,6 +148,7 @@ public class RequirePositionDto {
 				applicant.setCreatedDate(appDto.getCreatedDate());
 				applicant.setCreatedUser(UserDto.parse(appDto.getCreatedUser()));
 				applicant.setVacancy(VacancyDto.parse(appDto.getVacancy()));
+				applicant.setDeleted(appDto.isDeleted());
 				
 				if (appDto.getVacancy() != null) {
 					VacancyDto vacancyDto = appDto.getVacancy();
@@ -232,6 +234,10 @@ public class RequirePositionDto {
 
 	public void setApplicants(List<ApplicantDto> applicants) {
 		this.applicants = applicants;
+	}
+	
+	public List<ApplicantDto> getActiveApplicants() {
+		return applicants.stream().filter(a -> !a.isDeleted()).toList();
 	}
 
 	@Override
