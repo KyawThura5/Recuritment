@@ -85,7 +85,8 @@ public class UserController {
 		if (!bs.hasErrors()) {
 			try {
 				User user = UserDto.parse(dto);
-				userService.save(user);
+					userService.save(user);	
+				
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
@@ -96,6 +97,7 @@ public class UserController {
 		if(bs.hasErrors()) {
 			return dto.getId() == null ? "adduser" : "edituser";
 		}
+		
 		
 		return "redirect:/user/search";
 	}

@@ -36,6 +36,16 @@
                     </option>
                 </select>
             </div>
+             <div class="col-10 col-md-auto mt-3 mt-md-0">
+                <select class="form-select" th:field="*{status}" onchange="changePageSize()">
+                    <option value="">All</option>
+					<option
+						th:each="status : ${T(team.ojt7.recruitment.model.entity.User.Status).values()}"
+						th:text="${status.displayName}"
+                        th:value="${status}">
+                    </option>
+                </select>
+            </div>
 
             <div class="col-2 col-md-auto mt-3 mt-md-0">
                 <a th:href="@{/user/add}" class="btn btn-success form-control">
@@ -101,6 +111,12 @@
                                           </svg>
                                         <span class="ms-3 ms-md-1 ms-xl-0">[[${user.email}]]</span>
                                     </label>
+                                   <label class="col-12 col-md-6 col-xl-4  my-1 my-xl-0" >
+                                   
+                                 		 <span class="ms-3 ms-md-1 ms-xl-0">[[${user.status.displayName}]]</span>
+                                   
+                                   </label>
+                                   
                                     
                                 </div>
                             </div>

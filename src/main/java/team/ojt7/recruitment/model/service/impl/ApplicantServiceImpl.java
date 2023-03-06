@@ -17,15 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
-
 import team.ojt7.recruitment.model.entity.Applicant;
-
-
 import team.ojt7.recruitment.model.entity.Applicant.Status;
-
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.service.ApplicantService;
