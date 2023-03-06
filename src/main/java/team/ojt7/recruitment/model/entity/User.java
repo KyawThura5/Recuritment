@@ -54,7 +54,6 @@ public class User implements Serializable {
 		Status(String displayName) {
 			
 			this.displayName = displayName;
-			// TODO Auto-generated constructor stub
 		}
 		public String getDisplayName() {
 			return displayName;
@@ -149,6 +148,16 @@ public class User implements Serializable {
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+	
+	
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	@Override

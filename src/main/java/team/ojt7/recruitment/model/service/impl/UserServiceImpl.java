@@ -18,6 +18,7 @@ import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.dto.UserSearch;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
+import team.ojt7.recruitment.model.entity.User.Status;
 import team.ojt7.recruitment.model.repo.UserRepo;
 import team.ojt7.recruitment.model.service.UserService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
@@ -38,9 +39,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public List<UserDto> search(String keyword, Role role) {
+	public List<UserDto> search(String keyword, Role role,Status status) {
 		keyword = keyword == null ? "%%" : "%" + keyword + "%";
-		List<User> users=userRepo.search(keyword, role);
+		List<User> users=userRepo.search(keyword, role,status);
 		return UserDto.ofList(users);
 	}
 
@@ -126,9 +127,10 @@ public class UserServiceImpl implements UserService {
 	public Page<UserDto> search(UserSearch userSearch) {
 		String keyword  = userSearch.getKeyword() == null ? "%%" : "%" + userSearch.getKeyword() + "%";
 		Role role = userSearch.getRole();
+		Status status = userSearch.getStatus();
 		Pageable pageable = PageRequest.of(userSearch.getPage() - 1, userSearch.getSize());
 		
-		Page<User> userPage = userRepo.search(keyword, role, pageable);
+		Page<User> userPage = userRepo.search(keyword, role,status, pageable);
 		
 		Page<UserDto> userDtoPage = new PageImpl<>(UserDto.ofList(userPage.getContent()), pageable, userPage.getTotalElements());
 		
