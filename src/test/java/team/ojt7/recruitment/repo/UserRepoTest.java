@@ -15,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
+import team.ojt7.recruitment.model.entity.User.Status;
 import team.ojt7.recruitment.model.repo.UserRepo;
 
 @SpringBootTest
@@ -44,8 +45,8 @@ public class UserRepoTest {
 			"aungko,,0", "aung kyaw,,0", "nyein,,0"
 		}
 	)
-	public void testSearchByKeywordAndRole(String keyword, Role role, int count) {
-		List<User> users = userRepo.search("%" + keyword + "%", role);
+	public void testSearchByKeywordAndRole(String keyword, Role role,Status status, int count) {
+		List<User> users = userRepo.search("%" + keyword + "%", role,status);
 		assertEquals(count, users.size());
 	}
 	
