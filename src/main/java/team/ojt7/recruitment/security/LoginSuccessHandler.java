@@ -33,7 +33,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		HttpSession session = (HttpSession) request.getSession(true);
 		User user = userRepo.findOneByCode(request.getParameter("employeeCode")).get();
-		session.setAttribute("loginUser", user);
+
+			session.setAttribute("loginUser", user);	
+
+		
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority(user.getRole().name()));

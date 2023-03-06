@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
-
+	
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
             .passwordEncoder(passwordEncoder())
             .dataSource(dataSource)
-            .usersByUsernameQuery("SELECT `code`, `password`, if(`is_deleted` = 0, true, false) FROM `user` WHERE `code` = ?")
+            .usersByUsernameQuery("SELECT `code`, `password`,if(`is_deleted` = 0, true, false) FROM `user` WHERE `code` = ? and `status`='ACTIVE'")
             .authoritiesByUsernameQuery("SELECT `code`, `role` FROM `user` WHERE `code` = ?");
     }
 
@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .usernameParameter("employeeCode")
             .passwordParameter("password")
             .successHandler(loginSuccessHandler);
+        
 
         http.logout()
             .logoutUrl("/logout")

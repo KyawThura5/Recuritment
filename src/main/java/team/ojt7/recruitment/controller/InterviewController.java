@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
+import team.ojt7.recruitment.model.service.ApplicantService;
+import team.ojt7.recruitment.model.service.InterviewNameService;
 import team.ojt7.recruitment.model.service.InterviewService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
@@ -21,6 +23,10 @@ public class InterviewController {
 	
 	@Autowired
 	private InterviewService interviewService;
+	@Autowired
+	private InterviewNameService interviewNameService;
+	@Autowired
+	private ApplicantService applicantService;
 	
 	@GetMapping("/interview/search")
 	public String searchInterviews(@ModelAttribute("interviewSearch")
@@ -38,8 +44,10 @@ public class InterviewController {
 			Long id,
 			ModelMap model
 			)  {
-		InterviewDto interviewDto = interviewService.findById(id).orElse(new InterviewDto());
+		InterviewDto interviewDto = interviewService.findById(id).orElse(interviewService.generateNewWithCode());
 		model.put("interview", interviewDto);
+		model.put("interviewNames",interviewNameService.findAll());
+		model.put("applicants", applicantService.findAll());
 		String title = interviewDto.getId() == null ? "Add New Interview" : "Edit Interview";
 		model.put("title", title);
 		

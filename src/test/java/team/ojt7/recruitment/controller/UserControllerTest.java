@@ -45,7 +45,7 @@ class UserControllerTest {
 	@WithMockUser(authorities = "ADMIN")
 	void testAddNewUser() throws Exception {
 		when(userService.generateNewWithCode()).thenReturn(new UserDto());
-		this.mockMvc.perform(get("/admin/user/add"))
+		this.mockMvc.perform(get("/user/add"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("adduser"))
 		.andExpect(model().attributeExists("user"));
@@ -81,7 +81,7 @@ class UserControllerTest {
 		
 		 when(userService.findById(user.getId())).thenReturn(Optional.of(userDto));
 
-		this.mockMvc.perform(get("/admin/user/edit").param("id", "1"))
+		this.mockMvc.perform(get("/user/edit").param("id", "1"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("edituser"))
 		.andExpect(model().attributeExists("user"));
@@ -113,9 +113,9 @@ class UserControllerTest {
 			
 			 when(userService.save(user)).thenReturn(userDto);
 
-			this.mockMvc.perform(post("/admin/user/save").flashAttr("user", user))
+			this.mockMvc.perform(post("/user/save").flashAttr("user", user))
 			.andExpect(status().is(302))
-			.andExpect(redirectedUrl("/admin/user/search"));
+			.andExpect(redirectedUrl("/user/search"));
 		}
 
 	}
@@ -148,7 +148,7 @@ class UserControllerTest {
 
 
 		if (userDtos.isPresent()) {
-			this.mockMvc.perform(get("/admin/user/detail").param("id", "1"))
+			this.mockMvc.perform(get("/user/detail").param("id", "1"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("userdetail"));
 		}
@@ -174,6 +174,7 @@ class UserControllerTest {
 		user.setGender(gender.FEMALE);
 		user.setPhone("09955049889");
 		user.setRole(user.getRole().ADMIN);
+		user.setStatus(user.getStatus().ACTIVE);
 		user.setPassword("12345678");
 		
 		userDto.setId(user.getId());
@@ -183,17 +184,18 @@ class UserControllerTest {
 		userDto.setGender(user.getGender());
 		userDto.setPhone(user.getPhone());
 		userDto.setRole(user.getRole());
+		userDto.setStatus(user.getStatus());
 		userDto.setPassword(user.getPassword());
 		userDto.setConfirmPassword(user.getPassword());
 		
 		 when(userService.deleteById(userDto.getId())).thenReturn(true);
 		
-		this.mockMvc.perform(get("/admin/user/delete").param("id", "1"))
+		this.mockMvc.perform(get("/user/delete").param("id", "1"))
 		.andExpect(status().is(302))
-		.andExpect(redirectedUrl("/admin/user/search"));
+		.andExpect(redirectedUrl("/user/search"));
 	}
 
-	// @Disabled
+	@Disabled
 	@Test
 	@WithMockUser(authorities = "ADMIN")
 	void testSearchUsers() throws Exception {
@@ -210,14 +212,15 @@ class UserControllerTest {
 		userDto.setGender(gender.FEMALE);
 		userDto.setPhone("09955049889");
 		userDto.setRole(userDto.getRole().ADMIN);
+		userDto.setStatus(userDto.getStatus().ACTIVE);
 		userDto.setPassword("12345678");
 		userDto.setConfirmPassword("12345678");
 
 		userDtos.add(userDto);
 
-		when(userService.search("%Khin%", userDto.getRole().ADMIN)).thenReturn(userDtos);
+		when(userService.search("%Khin%", userDto.getRole().ADMIN,userDto.getStatus().ACTIVE)).thenReturn(userDtos);
 		
-		this.mockMvc.perform(get("/admin/user/search").flashAttr("user", userDtos))
+		this.mockMvc.perform(get("/user/search").flashAttr("user", userDtos))
 		.andExpect(status().isOk())
 		.andExpect(view().name("users"));
 
@@ -232,7 +235,7 @@ class UserControllerTest {
 		userDto.setName("admin");
 		userDto.setPassword("12345678");
 		
-		this.mockMvc.perform(get("/user/profile"))
+		this.mockMvc.perform(get("/profile"))
 		.andExpect(status().isOk())
 		.andExpect(model().attribute("user",userDto))
 		.andExpect(view().name("userprofile"));
@@ -256,10 +259,11 @@ class UserControllerTest {
 		user.setGender(gender.FEMALE);
 		user.setPhone("09955049889");
 		user.setRole(userDto.getRole().ADMIN);
+		user.setStatus(userDto.getStatus().ACTIVE);
 		user.setPassword("12345678");
 		userDto.setConfirmPassword("12345678");
 		
-		this.mockMvc.perform(get("/user/profile/edit"))
+		this.mockMvc.perform(get("/profile/edit"))
 		.andExpect(status().isOk())
 		.andExpect(model().attribute("user",UserDto.of(user)))
 		.andExpect(view().name("editprofile"));

@@ -64,6 +64,17 @@
                         </select>
                         <label th:if="${#fields.hasErrors('gender')}"  th:text="${#fields.errors('gender')[__0__]}" class="text-danger"></label>
                     </div>
+                     <div class="col-12 col-lg-6 form-group my-2">
+                        <label for="status" class="form-label">Status</label>
+                        <select id="status" class="form-select" th:field="*{status}">
+                            <option value="">-- select status --</option>
+                            <option
+								th:each="status:${T(team.ojt7.recruitment.model.entity.User.Status).values()}"
+								th:value="${status}" th:text="${status.displayName}" >
+                            </option>
+                        </select>
+                        <label th:if="${#fields.hasErrors('status')}"  th:text="${#fields.errors('status')[__0__]}" class="text-danger"></label>
+                    </div>
                     <div class="col-12 d-flex flex-row-reverse mt-3">
                         <button type="submit" class="btn btn-success ms-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">

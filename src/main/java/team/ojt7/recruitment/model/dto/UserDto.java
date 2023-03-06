@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 import team.ojt7.recruitment.model.entity.Gender;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
+import team.ojt7.recruitment.model.entity.User.Status;
 
 public class UserDto {
 	
@@ -47,6 +48,17 @@ public class UserDto {
 	@Pattern(regexp="\\S+",message="{invalid.confirmPassword}")
 	private String confirmPassword;
 	
+	@NotNull(message="NotNull.user.status")
+	private Status status;
+	
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
@@ -68,6 +80,7 @@ public class UserDto {
 		userDto.setName(user.getName());
 		userDto.setRole(user.getRole());
 		userDto.setGender(user.getGender());
+		userDto.setStatus(user.getStatus());
 		userDto.setEmail(user.getEmail());
 		userDto.setPhone(user.getPhone());
 		userDto.setDeleted(user.isDeleted());
@@ -90,6 +103,7 @@ public class UserDto {
 		user.setName(dto.getName());
 		user.setRole(dto.getRole());
 		user.setGender(dto.getGender());
+		user.setStatus(dto.getStatus());
 		user.setEmail(dto.getEmail());
 		user.setPhone(dto.getPhone());
 		user.setDeleted(dto.isDeleted());
@@ -175,7 +189,7 @@ public class UserDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, email, gender, id, isDeleted, name, password, phone, role);
+		return Objects.hash(code, confirmPassword, email, gender, id, isDeleted, name, password, phone, role, status);
 	}
 
 	@Override
@@ -187,10 +201,14 @@ public class UserDto {
 		if (getClass() != obj.getClass())
 			return false;
 		UserDto other = (UserDto) obj;
-		return Objects.equals(code, other.code) && Objects.equals(email, other.email) && gender == other.gender
-				&& Objects.equals(id, other.id) && isDeleted == other.isDeleted && Objects.equals(name, other.name)
-				&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone) && role == other.role;
+		return Objects.equals(code, other.code) && Objects.equals(confirmPassword, other.confirmPassword)
+				&& Objects.equals(email, other.email) && gender == other.gender && Objects.equals(id, other.id)
+				&& isDeleted == other.isDeleted && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone) && role == other.role
+				&& status == other.status;
 	}
+
+	
 
 	
 

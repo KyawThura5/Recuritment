@@ -3,6 +3,7 @@ package team.ojt7.recruitment.model.dto;
 import java.util.Objects;
 
 import team.ojt7.recruitment.model.entity.User.Role;
+import team.ojt7.recruitment.model.entity.User.Status;
 
 public class UserSearch {
 
@@ -11,6 +12,7 @@ public class UserSearch {
 	
 	private String keyword;
 	private Role role;
+	private Status status;
 	private Integer page;
 	private Integer size;
 
@@ -24,6 +26,16 @@ public class UserSearch {
 
 	public Role getRole() {
 		return role;
+	}
+	
+	
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public void setRole(Role role) {
