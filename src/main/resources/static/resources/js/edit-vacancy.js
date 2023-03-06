@@ -36,6 +36,42 @@ const addNewPositionEntry = () => {
     positoinSelect.classList.add("form-select", "select-search");
     positoinSelect.innerHTML = positionOptions;
     console.log(positoinSelect);
+    let tempRow = `
+        <div class="row mt-3">
+            <div class="col">
+                <div class="row">
+                <input type="hidden" id="requirePositions${index}.id" name="requirePositions[${index}].id" value="">
+                    <div class="col-12 col-md-8 col-lg-5 col-xl-5 my-2">
+                        <select class="form-select select-search" id="requirePositions${index}.position" name="requirePositions[${index}].position">
+                            ${positionOptions}
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2 col-xl-1 my-2">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="requirePositions${index}.foc" name="requirePositions[${index}].foc" value="true" />
+                            <input type="hidden" name="_requirePositions[${index}].foc" value="on"/>
+                            <label class="form-check-label" for="requirePositions${index}.foc">FOC</label>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-1 col-xl-1 order-md-3 my-2">
+                        <input type="text" class="form-control" id="requirePositions${index}.count" name="requirePositions[${index}].count" value="1">
+                    </div>
+                    
+                    <div class="col-12 col-md-8 col-lg-4 col-xl-5 my-2 team-select-wrapper">
+                        <select class="form-select select-search" id="requirePositions${index}.team" name="requirePositions[${index}].team">
+                            ${teamOptions}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto my-2">
+                <span class="btn btn-danger btnPositionRemove">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM184 232H328c13.3 0 24 10.7 24 24s-10.7 24-24 24H184c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg>
+                </span>
+            </div>
+            
+        </div>
+    `;
     let row = `
         <div class="row mt-3">
             <input type="hidden" id="requirePositions${index}.id" name="requirePositions[${index}].id" value="">
@@ -65,7 +101,7 @@ const addNewPositionEntry = () => {
         </div>
     `;
 
-    positionWrapper.append(row);
+    positionWrapper.append(tempRow);
     listenRemovePositionEntry();
 }
 

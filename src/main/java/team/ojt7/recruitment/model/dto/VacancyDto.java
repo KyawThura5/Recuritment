@@ -23,7 +23,7 @@ public class VacancyDto {
 	@NotNull(message = "{notNull.vacancy.department}")
 	private DepartmentDto department;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime createdDateTime;
 
 	@NotNull(message = "{notNull.vacancy.dueDate}")

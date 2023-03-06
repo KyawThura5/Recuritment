@@ -16,141 +16,127 @@
 <body>
 	<div th:replace="nav-bar :: navbar('vacancies')"></div>
 
-	<div class="container-fluid mt-2 py-3">
+	<div class="container mt-2 py-3">
+
 		<div class="row">
-			<div class="offset-sm-1 col-sm-10 col-md-10 offset-md-1">
+			<div class="col-12">
 				<h2 class="fs-4 fw-bold">Edit Vacancy</h2>
+
 			</div>
-		</div>
-		<form id="vacancyForm" th:action="@{/vacancy/save}" th:object="${vacancy}"
-			method="post" class="mt-2">
+			<form id="vacancyForm" th:action="@{/vacancy/save}" th:object="${vacancy}" method="post" class="row mt-2">
+				<input type="hidden" th:field="*{id}">
+				<input type="hidden" th:field="*{createdDateTime}">
+				<input type="hidden" th:field="*{createdUser}">
 
-			<input type="hidden" th:field="*{id}">
-			<input type="hidden" th:field="*{createdDateTime}">
-			<input type="hidden" th:field="*{createdUser}">
-
-			<div id="positionSelectorWrapper" class="d-none">
-				<select class="form-select">
-					<option value="">-- select a position --</option>
-					<option th:each="position : ${positions}" th:text="${position.name}" th:value="${position.id}"></option>
-				</select>
-			</div>
-
-			<div id="teamSelectorWrapper" class="d-none">
-				<select class="form-select">
-				</select>
-			</div>
-
-			<div class="row">
-				<div class="offset-sm-1 col-sm-10 offset-md-1 col-md-3">
-					<div class="form-group">
-						<label for="code" class="form-label">Code</label>
-						<input id="code" type="text" class="form-control" th:field="*{code}">
-						<label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" th:errorclass="text-danger"></label>
-					</div>
+				<div id="positionSelectorWrapper" class="d-none">
+					<select class="form-select">
+						<option value="">-- select a position --</option>
+						<option th:each="position : ${positions}" th:text="${position.name}" th:value="${position.id}"></option>
+					</select>
 				</div>
-				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-3">
-					<div class="form-group">
-						<label for="department" class="form-label">Department</label>
-						<select class="form-select select-search" id="department" th:field="*{department}">
-							<option value="" th:attrappend="disabled=${vacancy.id != null ? 'disabled' : ''}">-- select a department --</option>
-							<option th:each="dept: ${departments}" th:text="${dept.name}" th:value="${dept.id}" th:attrappend="disabled=${vacancy.id != null && vacancy.department != null && vacancy.department.id != dept.id ? 'disabled' : ''}"></option>
-						</select>
-						<div id="departmentHelp"></div>
-						<label th:if="${#fields.hasErrors('department')}" th:errors="*{department}" th:errorclass="text-danger"></label>
-					</div>
+	
+				<div id="teamSelectorWrapper" class="d-none">
+					<select class="form-select">
+					</select>
 				</div>
-				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-2">
-					<div class="form-group">
-						<label for="dueDate" class="form-label">Due Date</label>
-						<input id="dueDate" type="date" class="form-control" th:field="*{dueDate}">
-						<label th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" th:errorclass="text-danger"></label>
-					</div>
-				</div>
-				<div class="offset-sm-1 col-sm-10 offset-md-0 col-md-2">
-					<div class="form-group">
-						<label for="status" class="form-label">Status</label>
-						<select id="status" class="form-select" th:field="*{status}">
-							<option value="">-- select a status --</option>
-							<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING}"></option>
-							<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED}"></option>
-						</select>
-						<label th:if="${#fields.hasErrors('status')}" th:errors="*{status}" th:errorclass="text-danger"></label>
-					</div>
-				</div>
-			</div>
 
-			<div class="row mt-3">
-				<div class="offset-sm-1 col-sm-10 offset-md-1 col-md-10">
-					<div class="form-group">
-						<label for="" class="form-label">Comment</label>
-						<textarea class="form-control" th:field="*{comment}"></textarea>
-						<label th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" th:errorclass="text-danger"></label>
-					</div>
+				<div class="col-12 col-md-6 col-xl-3 my-2 form-group">
+					<label for="code" class="form-label">Code</label>
+					<input id="code" type="text" class="form-control" th:field="*{code}">
+					<label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" th:errorclass="text-danger"></label>
 				</div>
-			</div>
 
-			<div class="row mt-3">
-				<div class="offset-sm-1 col-sm-10 offset-md-1 col-md-10">
-					<h3 class="fs-5 fw-bold">Positions</h3>
+				<div class="col-12 col-md-6 col-xl-3 my-2 form-group">
+					<label for="department" class="form-label">Department</label>
+					<select class="form-select select-search" id="department" th:field="*{department}">
+						<option value="" th:attrappend="disabled=${vacancy.id != null ? 'disabled' : ''}">-- select a department --</option>
+						<option th:each="dept: ${departments}" th:text="${dept.name}" th:value="${dept.id}" th:attrappend="disabled=${vacancy.id != null && vacancy.department != null && vacancy.department.id != dept.id ? 'disabled' : ''}"></option>
+					</select>
+					<div id="departmentHelp"></div>
+					<label th:if="${#fields.hasErrors('department')}" th:errors="*{department}" th:errorclass="text-danger"></label>
 				</div>
-			</div>
 
-			<div id="positionWrapper">
-				<div class="row mt-3" th:each="rPosition, rPositionStat : *{requirePositions}">
-					<input type="hidden" th:field="*{requirePositions[__${rPositionStat.index}__].id}">
-					<div class="offset-sm-1 col-sm-2 offset-md-1 col-md-4">
-						<select class="form-select" th:field="*{requirePositions[__${rPositionStat.index}__].position}">
-							<option value="">-- select a position --</option>
-							<option th:each="position : ${positions}" th:text="${position.name}" th:value="${position.id}"></option>
-						</select>
-						<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].position')}" th:errors="*{requirePositions[__${rPositionStat.index}__].position}" th:errorclass="text-danger"></label>
-					</div>
-					<div class="offset-sm-1 col-sm-1 offset-md-0 col-md-1">
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" th:field="*{requirePositions[__${rPositionStat.index}__].foc}" role="switch" />
-							<label class="form-check-label" th:for="*{requirePositions[__${rPositionStat.index}__].foc}">FOC</label>
+				<div class="col-12 col-md-6 col-xl-3 my-2 form-group">
+					<label for="dueDate" class="form-label">Due Date</label>
+					<input id="dueDate" type="date" class="form-control" th:field="*{dueDate}">
+					<label th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" th:errorclass="text-danger"></label>
+				</div>
+
+				<div class="col-12 col-md-6 col-xl-3 my-2 form-group">
+					<label for="status" class="form-label">Status</label>
+					<select id="status" class="form-select" th:field="*{status}">
+						<option value="">-- select a status --</option>
+						<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING}"></option>
+						<option th:text="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED.displayName}" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).CLOSED}"></option>
+					</select>
+					<label th:if="${#fields.hasErrors('status')}" th:errors="*{status}" th:errorclass="text-danger"></label>
+				</div>
+
+				<div class="col-12 form-group my-2">
+					<label for="" class="form-label">Comment</label>
+					<textarea class="form-control" th:field="*{comment}"></textarea>
+					<label th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" th:errorclass="text-danger"></label>
+				</div>
+
+				<div class="col-12">
+					<h2 class="font-lg fw-bold mt-3">Positions</h2>
+					<div id="positionWrapper">
+						<div class="row mt-3" th:each="rPosition, rPositionStat : *{requirePositions}">
+							<div class="col">
+								<div class="row">
+									<input type="hidden" th:field="*{requirePositions[__${rPositionStat.index}__].id}">
+									<div class="col-12 col-md-8 col-lg-5 col-xl-5 my-2">
+										<select class="form-select" th:field="*{requirePositions[__${rPositionStat.index}__].position}">
+											<option value="">-- select a position --</option>
+											<option th:each="position : ${positions}" th:text="${position.name}" th:value="${position.id}"></option>
+										</select>
+										<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].position')}" th:errors="*{requirePositions[__${rPositionStat.index}__].position}" th:errorclass="text-danger"></label>
+									</div>
+									<div class="col-6 col-md-4 col-lg-2 col-xl-1 my-2">
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox" th:field="*{requirePositions[__${rPositionStat.index}__].foc}" role="switch" />
+											<label class="form-check-label" th:for="*{requirePositions[__${rPositionStat.index}__].foc}">FOC</label>
+										</div>
+									</div>
+									<div class="col-6 col-md-4 col-lg-1 col-xl-1 order-md-3 my-2">
+										<input type="text" class="form-control"  th:field="*{requirePositions[__${rPositionStat.index}__].count}">
+										<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].count')}" th:errors="*{requirePositions[__${rPositionStat.index}__].count}" th:errorclass="text-danger"></label>
+									</div>
+									
+									<div class="col-12 col-md-8 col-lg-4 col-xl-5 my-2 team-select-wrapper">
+										<select class="form-select"  th:field="*{requirePositions[__${rPositionStat.index}__].team}">
+											<option value="">-- select a team --</option>
+											<th:block th:if="${vacancy.department != null}">
+												<option th:each="team: *{department.teams}" th:text="${team.name}" th:value="${team.id}"></option>
+											</th:block>
+										</select>
+										<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].team')}" th:errors="*{requirePositions[__${rPositionStat.index}__].team}" th:errorclass="text-danger"></label>
+									</div>
+								</div>
+							</div>
+							<div class="col-auto my-2">
+								<span class="btn btn-danger btnPositionRemove" th:classappend="${rPosition.applicants.empty ? '' : 'disabled'}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM184 232H328c13.3 0 24 10.7 24 24s-10.7 24-24 24H184c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg>
+								</span>
+							</div>
 						</div>
 					</div>
-					<div class="offset-sm-1 col-sm-1 offset-md-0 col-md-1">
-						<input type="text" class="form-control"  th:field="*{requirePositions[__${rPositionStat.index}__].count}">
-						<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].count')}" th:errors="*{requirePositions[__${rPositionStat.index}__].count}" th:errorclass="text-danger"></label>
-					</div>
-					
-					<div class="offset-sm-1 col-sm-3 offset-md-0 col-md-3 team-select-wrapper">
-						<select class="form-select"  th:field="*{requirePositions[__${rPositionStat.index}__].team}">
-							<option value="">-- select a team --</option>
-							<th:block th:if="${vacancy.department != null}">
-								<option th:each="team: *{department.teams}" th:text="${team.name}" th:value="${team.id}"></option>
-							</th:block>
-						</select>
-						<label th:if="${#fields.hasErrors('requirePositions[' + rPositionStat.index + '].team')}" th:errors="*{requirePositions[__${rPositionStat.index}__].team}" th:errorclass="text-danger"></label>
-					</div>
-					<div class="offset-sm-1 col-sm-3 offset-md-0 col-md-2">
-						<span class="btn btn-danger btnPositionRemove">Remove</span>
-					</div>
 				</div>
-			</div>
-			<div id="requirePositionsErrorMessage" class="row mt-1">
-				<div  class="offset-sm-1 col-sm-10 offset-md-1 col-md-10">
-					<label th:if="${#fields.hasErrors('requirePositions')}" th:errors="*{requirePositions}" th:errorclass="text-danger"></label>
+
+				<div class="col-12 mt-3">
+					<span class="col-12 mx-auto btn btn-warning" id="btnAddNewPosition">
+						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
+					</span>
 				</div>
-			</div>
 
-			<div class="row mt-3">
-				<span class="col-10 mx-auto btn btn-warning" id="btnAddNewPosition">
-					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
-				</span>
-			</div>
-
-			<div class="row mt-4">
-				<div
-					class="offset-sm-1 col-sm-10 offset-md-1 col-md-10 d-flex flex-row-reverse">
+				<div class="col-12 mt-5 d-flex flex-row-reverse">
 					<button type="submit" class="btn btn-success ms-1">Save</button>
 					<a th:href="@{/vacancy/search}" class="btn btn-secondary ms-1">Cancel</a>
 				</div>
-			</div>
-		</form>
+
+			</form>
+		</div>
+		
 	</div>
 
 </body>
