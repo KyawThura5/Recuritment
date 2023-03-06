@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.service.impl;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,7 +20,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
+import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.Position;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.service.ApplicantService;
@@ -80,6 +83,12 @@ public class ApplicantServiceImpl implements ApplicantService{
 		}
 		
 		return ApplicantDto.of(savedApplicant);
+	}
+	
+	@Override
+	public List<ApplicantDto> findAll() {
+		List<Applicant> applicants = applicantRepo.findAll();
+		return ApplicantDto.ofList(applicants);
 	}
 
 	@Override

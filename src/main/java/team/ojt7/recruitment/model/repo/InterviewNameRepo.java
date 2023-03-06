@@ -14,7 +14,7 @@ import team.ojt7.recruitment.model.entity.InterviewName;
 @Repository
 public interface InterviewNameRepo extends JpaRepository<InterviewName, Long>{
 	
-	List<InterviewName> findAllByIsDeleted(boolean isDeleted);
+	List<InterviewName> findAllByIsDeleted(Boolean isDeleted);
 	//@Query("SELECT int FROM Interview int WHERE (name LIKE :keyword) AND (is_deleted = false)")
 	InterviewName findByNameAndIsDeleted(String name, boolean isDeleted);
 	

@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
@@ -28,6 +29,7 @@ public class InterviewServiceImpl implements InterviewService {
 	
 	@Autowired
 	private InterviewCodeGenerator interviewCodeGenerator;
+	
 	
 	@Override
 	public Page<InterviewDto> search(InterviewSearch search) {
