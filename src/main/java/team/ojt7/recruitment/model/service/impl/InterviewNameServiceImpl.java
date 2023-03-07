@@ -24,7 +24,7 @@ public class InterviewNameServiceImpl implements InterviewNameService{
 	@Override
 	public List<InterviewNameDto> findAllByIsDeleted(boolean isDelete) {
 		// TODO Auto-generated method stub
-		return InterviewNameDto.ofList(interviewNameRepo.findAllByIsDeleted(true));
+		return InterviewNameDto.ofList(interviewNameRepo.findAllByIsDeleted(false));
 	}
 
 	@Override
