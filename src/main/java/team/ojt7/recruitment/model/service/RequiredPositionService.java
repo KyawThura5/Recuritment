@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
+import team.ojt7.recruitment.model.dto.RequirePositionDetailSearch;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
 
 public interface RequiredPositionService {
 	List<RequirePositionDto> findAllByApplicant(ApplicantDto applicant);
 	
 	Optional<RequirePositionDto> findById(Long id);
+	
+	Optional<RequirePositionDto> findDetail(RequirePositionDetailSearch search);
 }

@@ -66,6 +66,20 @@ a {
 	border-color: #2d5175;
 }
 
+.btn-outline-orange {
+	background-color: white;
+	color: orange;
+	border-color: orange;
+}
+
+.btn-outline-orange:hover {
+	background-color: orange;
+}
+
+.bg-orangered {
+	background-color: orangered;
+}
+
 .font-xs {
   font-size: 0.8em;
 }

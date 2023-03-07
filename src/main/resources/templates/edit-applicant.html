@@ -25,7 +25,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         <h2 class="col fs-5 fw-bold" th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></h2>
                     </div>
                     <input type="hidden" th:field="*{id}">
-                    <input type="hidden" class="form-control" th:field="*{attachedUri}">
+                    <input type="hidden" th:field="*{attachedUri}">
+                    <input type="hidden" name="contextPage" th:value="${contextPage}">
                     
                     <div class="row">
                         <div class="col-12 col-md-6 form-group my-2">
@@ -107,7 +108,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         </div>
                         <div class="col-12 mt-3 d-flex flex-row-reverse">
                             <button type="submit" class="btn btn-success ms-1">Save</button>
-                            <a th:href="@{/applicant/search}" class="btn btn-secondary ms-1">Cancel</a>
+                            <a th:href="@{${contextPage}}" class="btn btn-secondary ms-1">Cancel</a>
                         </div>
                     </div>
                 </div>
