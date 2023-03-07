@@ -80,6 +80,14 @@ a {
 	background-color: orangered;
 }
 
+.bg-darkgoldenrod {
+	background-color: darkgoldenrod;
+}
+
+.bg-khaki {
+	background-color: khaki;
+}
+
 .font-xs {
   font-size: 0.8em;
 }
