@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,20 +63,20 @@ class VacancyControllerTest {
 		Vacancy vacancy=new Vacancy();
 		vacancy.setId(1L);
 		vacancy.setCode("DAT_VACANCY_001");
-		vacancy.setCreatedDate(LocalDate.now());
+		vacancy.setCreatedDateTime(LocalDateTime.now());
 		vacancy.setDueDate(LocalDate.now());
 		vacancy.setStatus(Status.OPENING);
 		vacancy.setComment("Applying for junior");
 		vacancy.setDeleted(false);
 		vacancyDto.setId(vacancy.getId());
 		vacancyDto.setCode(vacancy.getCode());
-		vacancyDto.setCreatedDate(vacancy.getCreatedDate());
+		vacancyDto.setCreatedDateTime(vacancy.getCreatedDateTime());
 		vacancyDto.setDueDate(vacancy.getDueDate());
 		vacancyDto.setStatus(vacancy.getStatus());
 		vacancyDto.setDeleted(false);
 		//Long id=vacancyDto.getId();
 		when(vacancyTestService.findById(1L)).thenReturn(Optional.of(vacancyDto));
-		this.mockMvc.perform(get("/dh/test/vacancy/edit").param("id", "1"))
+		this.mockMvc.perform(get("/vacancy/edit").param("id", "1"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("edit-vacancy"));
 		
@@ -114,7 +115,7 @@ class VacancyControllerTest {
 //		
 //		positions.add(requirePosition);
 		
-		LocalDate dateTime=LocalDate.now();
+		LocalDateTime dateTime=LocalDateTime.now();
 		LocalDate dueDate=LocalDate.of(2023, 04, 22);
 		
 		VacancyDto vacancy = new VacancyDto();
@@ -122,14 +123,14 @@ class VacancyControllerTest {
 		vacancy.setCode("1");
 		vacancy.setStatus(Status.OPENING);
 		//vacancy.setDepartment(department);
-		vacancy.setCreatedDate(dateTime);
+		vacancy.setCreatedDateTime(dateTime);
 		vacancy.setDueDate(dueDate);
 		vacancy.setDeleted(false);
 				
 		 when(vacancyTestService.save(VacancyDto.parse(vacancy))).thenReturn(vacancy);
-			this.mockMvc.perform(post("/dh/test/vacancy/save").flashAttr("vacancySearch",VacancyDto.parse(vacancy)))
+			this.mockMvc.perform(post("/vacancy/save").flashAttr("vacancySearch",VacancyDto.parse(vacancy)))
 			.andExpect(status().is(302))
-			.andExpect(redirectedUrl("/manager/test/vacancy/search"));
+			.andExpect(redirectedUrl("/vacancy/search"));
 		
 	}
    @Disabled
@@ -166,7 +167,7 @@ class VacancyControllerTest {
 		
 		positions.add(requirePosition);
 		
-		LocalDate dateTime=LocalDate.now();
+		LocalDateTime dateTime=LocalDateTime.now();
 		LocalDate dueDate=LocalDate.of(2023, 04, 22);
 		
 		Vacancy vacancy = new Vacancy();
@@ -176,14 +177,14 @@ class VacancyControllerTest {
 		vacancy.setRequirePositions(positions);
 		vacancy.setDepartment(department);
 		vacancy.setCreatedUser(createdUser);
-		vacancy.setCreatedDate(dateTime);
+		vacancy.setCreatedDateTime(dateTime);
 		vacancy.setDueDate(dueDate);
 		vacancy.setDeleted(false);
 				
 		
 		vacancySearch.setKeyword("%1%");
 		vacancySearch.setStatus(Status.OPENING);
-		vacancySearch.setDateFrom(LocalDate.now());
+		vacancySearch.setDateFrom(LocalDateTime.now());
 		vacancySearch.setDateTo(LocalDate.of(2023, 04, 22));
 		
 		
@@ -191,7 +192,7 @@ class VacancyControllerTest {
 		Page<VacancyDto> vacancies = vacancyTestService.search(vacancySearch); 
 		
 		//when(vacancyTestService.search(vacancySearch)).thenReturn(departmentDtos);
-		this.mockMvc.perform(get("/manager/test/vacancy/search").flashAttr("vacancySearch", vacancies))
+		this.mockMvc.perform(get("/vacancy/search").flashAttr("vacancySearch", vacancies))
 		.andExpect(status().isOk())
 		.andExpect(view().name("vacancies"));
 	
@@ -201,9 +202,9 @@ class VacancyControllerTest {
 	@WithMockUser(authorities = "DEPARTMENT_HEAD")
 	void testDeleteVacancyById() throws Exception {
 		when(vacancyTestService.deleteById(1L)).thenReturn(true);
-		this.mockMvc.perform(post("/dh/test/vacancy/delete").param("id", "1"))
+		this.mockMvc.perform(post("/vacancy/delete").param("id", "1"))
 		.andExpect(status().is(302))
-		.andExpect(redirectedUrl("/manager/test/vacancy/search"));
+		.andExpect(redirectedUrl("/vacancy/search"));
 	}
 
 }

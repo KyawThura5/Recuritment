@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +77,7 @@ class VacancyServiceImplTest {
 		
 		positions.add(requirePosition);
 		
-		LocalDate dateTime=LocalDate.now();
+		LocalDateTime dateTime=LocalDateTime.now();
 		LocalDate dueDate=LocalDate.of(2023, 04, 22);
 		
 		Vacancy vacancy = new Vacancy();
@@ -86,14 +87,14 @@ class VacancyServiceImplTest {
 		vacancy.setRequirePositions(positions);
 		vacancy.setDepartment(department);
 		vacancy.setCreatedUser(createdUser);
-		vacancy.setCreatedDate(dateTime);
+		vacancy.setCreatedDateTime(dateTime);
 		vacancy.setDueDate(dueDate);
 		vacancy.setDeleted(false);
 				
 		
 		vacancySearch.setKeyword(vacancy.getCode());
 		vacancySearch.setStatus(vacancy.getStatus());
-		vacancySearch.setDateFrom(vacancy.getCreatedDate());
+		vacancySearch.setDateFrom(vacancy.getCreatedDateTime());
 		vacancySearch.setDateTo(vacancy.getDueDate());
 		
 		
@@ -133,7 +134,7 @@ class VacancyServiceImplTest {
 		
 		positions.add(requirePosition);
 		
-		LocalDate dateTime=LocalDate.now();
+		LocalDateTime dateTime=LocalDateTime.now();
 		LocalDate dueDate=LocalDate.of(2023, 04, 22);
 		
 		Vacancy vacancy = new Vacancy();
@@ -143,7 +144,7 @@ class VacancyServiceImplTest {
 		vacancy.setRequirePositions(positions);
 		vacancy.setDepartment(department);
 		vacancy.setCreatedUser(createdUser);
-		vacancy.setCreatedDate(dateTime);
+		vacancy.setCreatedDateTime(dateTime);
 		vacancy.setDueDate(dueDate);
 		vacancy.setDeleted(false);
 		
