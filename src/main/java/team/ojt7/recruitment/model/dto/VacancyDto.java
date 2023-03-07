@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +23,8 @@ public class VacancyDto {
 	@NotNull(message = "{notNull.vacancy.department}")
 	private DepartmentDto department;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate createdDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	private LocalDateTime createdDateTime;
 
 	@NotNull(message = "{notNull.vacancy.dueDate}")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -47,7 +48,7 @@ public class VacancyDto {
 		dto.setId(entity.getId());
 		dto.setCode(entity.getCode());
 		dto.setDueDate(entity.getDueDate());
-		dto.setCreatedDate(entity.getCreatedDate());
+		dto.setCreatedDateTime(entity.getCreatedDateTime());
 		dto.setDepartment(DepartmentDto.of(entity.getDepartment()));
 		dto.setStatus(entity.getStatus());
 		dto.setComment(entity.getComment());
@@ -70,7 +71,7 @@ public class VacancyDto {
 		entity.setId(dto.getId());
 		entity.setCode(dto.getCode());
 		entity.setDueDate(dto.getDueDate());
-		entity.setCreatedDate(dto.getCreatedDate());
+		entity.setCreatedDateTime(dto.getCreatedDateTime());
 		entity.setDepartment(DepartmentDto.parse(dto.getDepartment()));
 		entity.setStatus(dto.getStatus());
 		entity.setComment(dto.getComment());
@@ -108,12 +109,12 @@ public class VacancyDto {
 		this.department = department;
 	}
 
-	public LocalDate getCreatedDate() {
-		return createdDate;
+	public LocalDateTime getCreatedDateTime() {
+		return createdDateTime;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
+	public void setCreatedDateTime(LocalDateTime createdDateTime) {
+		this.createdDateTime = createdDateTime;
 	}
 
 	public LocalDate getDueDate() {
@@ -170,7 +171,7 @@ public class VacancyDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, createdUser, deleted, department, dueDate, id, requirePositions,
+		return Objects.hash(code, comment, createdDateTime, createdUser, deleted, department, dueDate, id, requirePositions,
 				status);
 	}
 
@@ -184,7 +185,7 @@ public class VacancyDto {
 			return false;
 		VacancyDto other = (VacancyDto) obj;
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
-				&& Objects.equals(createdDate, other.createdDate) && Objects.equals(createdUser, other.createdUser)
+				&& Objects.equals(createdDateTime, other.createdDateTime) && Objects.equals(createdUser, other.createdUser)
 				&& deleted == other.deleted && Objects.equals(department, other.department)
 				&& Objects.equals(dueDate, other.dueDate) && Objects.equals(id, other.id)
 				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;

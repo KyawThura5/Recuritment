@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.DepartmentSearch;
+import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.repo.DepartmentRepo;
@@ -103,6 +104,19 @@ public class DepartmentServiceImpl implements DepartmentService {
 		
 		Page<DepartmentDto> departmentDtoPage = new PageImpl<>(DepartmentDto.ofList(departmentPage.getContent()), pageable, departmentPage.getTotalElements());
 		return departmentDtoPage;
+	}
+
+	@Override
+	public List<DepartmentDto> findAllForTeam(TeamDto team) {
+		List<Department> departments = departmentRepo.findAllByIsDeleted(false);
+		List<DepartmentDto> departmentDtos = new ArrayList<>(DepartmentDto.ofList(departments));
+		DepartmentDto department = team.getDepartment();
+		if (department != null) {
+			if (!departmentDtos.contains(department)) {
+				departmentDtos.add(department);
+			}
+		}
+		return departmentDtos;
 	}
 
 }

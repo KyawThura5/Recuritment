@@ -7,107 +7,280 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/dselect.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/edit-applicant.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-    <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/dselect.css}" />
 </head>
 <body>
     <div th:replace="nav-bar :: navbar('applicants')"></div>
     <div class="container-md-fluid container-lg mt-2 py-3">
-        <form th:action="@{/applicant/save}" class="row" method="post" th:object="${applicant}" enctype="multipart/form-data">
-            <div class="offset-0 offset-md-2 col-12 col-md-8">
-                <div class="row">
-                    <h2 class="col fs-5 fw-bold" th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></h2>
-                </div>
-                <input type="hidden" th:field="*{id}">
-                <input type="hidden" class="form-control" th:field="*{attachedUri}">
-                
-                <div class="row">
-                    <div class="col-12 col-md-6 form-group my-2">
-                        <label for="" class="form-label">Code</label>
-                        <input type="text" class="form-control" th:field="*{code}">
-                        <label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" th:errorclass="text-danger"></label>
+        <form id="applicantForm" th:action="@{/applicant/save}" class="row" method="post" th:object="${applicant}" enctype="multipart/form-data">
+            <div class="offset-0 offset-md-2 col-12 col-md-8 card shadow-lg">
+                <div class="card-body">
+                    <div class="row">
+                        <h2 class="col fs-5 fw-bold" th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></h2>
                     </div>
-                    <div class="col-12 col-md-6 form-group my-2">
-                        <label for="" class="form-label">Name</label>
-                        <input type="text" class="form-control" th:field="*{name}">
-                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 col-md-6 form-group  my-2">
-                        <label for="" class="form-label">Phone</label>
-                        <input type="text" class="form-control"  th:field="*{phone}">
-                        <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 col-md-6 form-group my-2">
-                        <label for="" class="form-label">Email</label>
-                        <input type="text" class="form-control" th:field="*{email}">
-                        <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 col-md-6 form-group  my-2">
-                        <label for="" class="form-label">Recruitment Resource</label>
-                        <select class="form-select" th:field="*{recruitmentResource}">
-                            <option value="">-- select a resource --</option>
-                            <option th:each="rr : ${recruitmentResources}" th:text="${rr.name}" th:value="${rr.id}"></option>
-                        </select>
-                        <label th:if="${#fields.hasErrors('recruitmentResource')}" th:errors="*{recruitmentResource}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 col-md-6 form-group my-2">
-                        <label for="" class="form-label">Vacancy</label>
-                        <select class="form-select" id="vacancy" th:field="*{vacancy}">
-							<option value="">-- select a Vacancy --</option>
-							<option th:each="va : ${vacancy}" th:text="${va.code}" th:value="${va.id}"></option>
-                        </select>
-                        <label th:if="${#fields.hasErrors('vacancy')}" th:errors="*{vacancy}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 form-group  my-2 ">
-                        <label for="" class="form-label">Position</label>
-                       
-                        <select id="position-select-wrapper" class="form-select" th:field="*{requirePosition}">
-                            <option value="">-- select a positoin --</option>
-                            <option th:each="requirePosition:${requirePositions}" th:text="${requirePosition.position.name}" th:value="${requirePosition.id}"></option>
-                        </select>
-                        
-                        <label th:if="${#fields.hasErrors('requirePosition')}" th:errors="*{requirePosition}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 form-group my-2">
-                        <label for="" class="form-label">CV</label>
-                        <div class="input-group">
-                            <label class="input-group-text" for="cvFileInput">Choose File</label>
-                            <input id="attachedFileNameInput" type="hidden" th:value="*{attachedFileName}">
-                            <input id="cvFileNameInput" type="text" class="form-control bg-white" th:value="*{attachedFileName}" disabled="disabled">
-                            <input id="cvFileInput" class="d-none" name="attachedFile" type="file" accept=".pdf,.docx" onchange="onCvFileChange()">
-                        </div>
-                        <label th:if="${#fields.hasErrors('attachedUri')}" th:errors="*{attachedUri}" th:errorclass="text-danger"></label>
-                    </div>
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" class="form-control" th:field="*{attachedUri}">
                     
-                    <div class="col-12 form-group my-2">
-                        <label for="" class="form-label">Education</label>
-                        <input type="text" class="form-control" th:field="*{education}">
-                        <label th:if="${#fields.hasErrors('education')}" th:errors="*{education}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 form-group my-2">
-                        <label for="" class="form-label">Experience</label>
-                        <textarea class="form-control" th:field="*{experience}"></textarea>
-                        <label th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 form-group my-2">
-                        <label for="" class="form-label">Skills</label>
-                        <textarea class="form-control" th:field="*{skill}"></textarea>
-                        <label th:if="${#fields.hasErrors('skill')}" th:errors="*{skill}" th:errorclass="text-danger"></label>
-                    </div>
-                    <div class="col-12 form-group my-2">
-                        <label for="" class="form-label">Address</label>
-                        <textarea class="form-control" th:field="*{address}"></textarea>
-                    </div>
-                    <div class="col-12 mt-3 d-flex flex-row-reverse">
-                        <button type="submit" class="btn btn-success ms-1">Save</button>
-                        <a th:href="@{/applicant/search}" class="btn btn-secondary ms-1">Cancel</a>
+                    <div class="row">
+                        <div class="col-12 col-md-6 form-group my-2">
+                            <label for="code" class="form-label">Code</label>
+                            <input id="code" type="text" class="form-control" th:field="*{code}">
+                            <label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 col-md-6 form-group my-2">
+                            <label for="name" class="form-label">Name</label>
+                            <input id="name" type="text" class="form-control" th:field="*{name}">
+                            <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 col-md-6 form-group  my-2">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input id="phone" type="text" class="form-control"  th:field="*{phone}">
+                            <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 col-md-6 form-group my-2">
+                            <label for="email" class="form-label">Email</label>
+                            <input id="email" type="text" class="form-control" th:field="*{email}">
+                            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 col-md-6 form-group  my-2">
+                            <label for="recruitmentResource" class="form-label">Recruitment Resource</label>
+                            <select id="recruitmentResource" class="form-select select-search" th:field="*{recruitmentResource}">
+                                <option value="">-- select a resource --</option>
+                                <option th:each="rr : ${recruitmentResources}" th:text="${rr.name}" th:value="${rr.id}"></option>
+                            </select>
+                            <div id="recruitmentResourceHelp"></div>
+                            <label th:if="${#fields.hasErrors('recruitmentResource')}" th:errors="*{recruitmentResource}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 col-md-6 form-group my-2">
+                            <label for="vacancy" class="form-label">Vacancy</label>
+                            <select class="form-select select-search" id="vacancy" th:field="*{vacancy}">
+                                <option value="">-- select a Vacancy --</option>
+                                <option th:each="va : ${vacancy}" th:text="${va.code}" th:value="${va.id}"></option>
+                            </select>
+                            <div id="vacancyHelp"></div>
+                            <label th:if="${#fields.hasErrors('vacancy')}" th:errors="*{vacancy}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 form-group  my-2 ">
+                            <label for="position" class="form-label">Position</label>
+                            <select id="position" class="form-select" th:field="*{requirePosition}">
+                                <option value="">-- select a positoin --</option>
+                                <option th:each="requirePosition:${requirePositions}" th:text="${requirePosition.position.name}" th:value="${requirePosition.id}"></option>
+                            </select>
+                            
+                            <label th:if="${#fields.hasErrors('requirePosition')}" th:errors="*{requirePosition}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 form-group my-2">
+                            <label for="cv" class="form-label">CV</label>
+                            <div id="cv" class="input-group">
+                                <label class="input-group-text" for="cvFileInput">Choose File</label>
+                                <input id="attachedFileNameInput" type="hidden" th:value="*{attachedFileName}">
+                                <input id="cvFileNameInput" type="text" class="form-control bg-white" name="attachedFileName" th:value="*{attachedFileName}" disabled="disabled">
+                                <input id="cvFileInput" class="d-none" name="attachedFile" type="file" accept=".pdf,.docx" onchange="onCvFileChange()">
+                            </div>
+                            <label th:if="${#fields.hasErrors('attachedUri')}" th:errors="*{attachedUri}" th:errorclass="text-danger"></label>
+                        </div>
+                        
+                        <div class="col-12 form-group my-2">
+                            <label for="education" class="form-label">Education</label>
+                            <input id="education" type="text" class="form-control" th:field="*{education}">
+                            <label th:if="${#fields.hasErrors('education')}" th:errors="*{education}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 form-group my-2">
+                            <label for="experience" class="form-label">Experience</label>
+                            <textarea id="experience" class="form-control" th:field="*{experience}"></textarea>
+                            <label th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 form-group my-2">
+                            <label for="skill" class="form-label">Skills</label>
+                            <textarea id="skill" class="form-control" th:field="*{skill}"></textarea>
+                            <label th:if="${#fields.hasErrors('skill')}" th:errors="*{skill}" th:errorclass="text-danger"></label>
+                        </div>
+                        <div class="col-12 form-group my-2">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea id="address" class="form-control" th:field="*{address}"></textarea>
+                        </div>
+                        <div class="col-12 mt-3 d-flex flex-row-reverse">
+                            <button type="submit" class="btn btn-success ms-1">Save</button>
+                            <a th:href="@{/applicant/search}" class="btn btn-secondary ms-1">Cancel</a>
+                        </div>
                     </div>
                 </div>
+                
             </div>
         </form>
     </div>
 </body>
+<script>
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        code: {
+            presence: {message : "^Enter code"},
+            format : {
+                pattern : /^\S*$/,
+                message : "^Code cannot contain space"
+            },
+            length: {
+                maximum: 30,
+                message: "^Name must be maximum 30 characters"
+            }
+        },
+        phone : {
+            presence : {message : "^Enter phone number"},
+            format : {
+                pattern : /^\d+$/,
+                message : "^Enter valid phone number"
+            },
+            length : {
+                minimum : 6,
+                maximum : 16,
+                message : "^Phone number must be between 6 ant 16 digits"
+            }
+        },
+        email : {
+            presence : {message : "^Enter email"},
+            email : {message : "^Enter valid email"}
+        },
+        recruitmentResource : {
+            presence : {message : "^Select source"},
+        },
+        vacancy : {
+            presence : {message : "^Select vacancy"},
+        },
+        requirePosition : {
+            presence : {message : "^Select position"},
+        },
+        attachedFileName : {
+            presence  : {message : "^Choose cv file"}
+        },
+        education : {
+            length : {
+                maximum : 225,
+                message : "^Length cannot be exceed 225 characters"
+            }
+        },
+        experience : {
+            length : {
+                maximum : 225,
+                message : "^Length cannot be exceed 225 characters"
+            }
+        },
+        skill : {
+            length : {
+                maximum : 225,
+                message : "^Length cannot be exceed 225 characters"
+            }
+        },
+        address : {
+            length : {
+                maximum : 225,
+                message : "^Length cannot be exceed 225 characters"
+            }
+        }
+        
+    };
+
+    var form = document.getElementById("applicantForm");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        
+        let codeError = document.createElement("label");
+        codeError.id = "codeError";
+        codeError.classList.add("text-danger");
+
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger");
+
+        let phoneError = document.createElement("label");
+        phoneError.id = "phoneError";
+        phoneError.classList.add("text-danger");
+
+        let emailError = document.createElement("label");
+        emailError.id = "emailError";
+        emailError.classList.add("text-danger");
+
+        let recruitmentResourceError = document.createElement("label");
+        recruitmentResourceError.id = "recruitmentResourceError";
+        recruitmentResourceError.classList.add("text-danger");
+
+        let vacancyError = document.createElement("label");
+        vacancyError.id = "vacancyError";
+        vacancyError.classList.add("text-danger");
+
+        let requirePositionError = document.createElement("label");
+        requirePositionError.id = "requirePositionError";
+        requirePositionError.classList.add("text-danger");
+
+        let attachedFileNameError = document.createElement("label");
+        attachedFileNameError.id = "attachedFileNameError";
+        attachedFileNameError.classList.add("text-danger");
+
+        let educationError = document.createElement("label");
+        educationError.id = "educationError";
+        educationError.classList.add("text-danger");
+
+        let experienceError = document.createElement("label");
+        experienceError.id = "experienceError";
+        experienceError.classList.add("text-danger");
+
+        let skillError = document.createElement("label");
+        skillError.id = "skillError";
+        skillError.classList.add("text-danger");
+
+        let addressError = document.createElement("label");
+        addressError.id = "addressError";
+        addressError.classList.add("text-danger");
+
+        if (validation) {
+            checkValidation(codeError, "codeError", "code", validation.code);
+            checkValidation(nameError, "nameError", "name", validation.name);
+            checkValidation(phoneError, "phoneError", "phone", validation.phone);
+            checkValidation(emailError, "emailError", "email", validation.email);
+            checkValidation(recruitmentResourceError, "recruitmentResourceError", "recruitmentResourceHelp", validation.recruitmentResource);
+            checkValidation(vacancyError, "vacancyError", "vacancyHelp", validation.vacancy);
+            checkValidation(requirePositionError, "requirePositionError", "position", validation.requirePosition);
+            checkValidation(attachedFileNameError, "attachedFileNameError", "cv", validation.attachedFileName);
+            checkValidation(educationError, "educationError", "education", validation.education);
+            checkValidation(experienceError, "experienceError", "experience", validation.experience);
+            checkValidation(skillError, "skillError", "skill", validation.skill);
+            checkValidation(addressError, "addressError", "address", validation.address);
+        } else {
+            form.submit();
+        }
+        
+    });
+
+    const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
+        if (validation) {
+            let input = document.getElementById(inputId);
+            if (!document.getElementById(errorLabelId)) {
+                input.parentNode.insertBefore(errorLabel, input.nextSibling);
+            }
+            document.getElementById(errorLabelId).innerText = validation[0];
+        } else {
+            removeIfExists(errorLabelId);
+        }
+    }
+
+    const removeIfExists = (id) => {
+        let element = document.getElementById(id);
+        if (element) {
+            element.parentNode.removeChild(element);
+        }
+    }
+</script>
 </html>

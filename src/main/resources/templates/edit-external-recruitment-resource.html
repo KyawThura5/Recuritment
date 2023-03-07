@@ -7,6 +7,7 @@
     <title>[[${recruitmentResource.id == null ? 'Add New External Recruitment Resource' : 'Edit External Recruitment Resource'}]]</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 </head>
@@ -15,17 +16,17 @@
     <div class="container p-3">
         <div class="row">
             <div class="card shadow-lg col-12 col-lg-8 mx-auto">
-                <form th:action="@{/recruitmentresource/external/save}" class="card-body row" th:object="${recruitmentResource}" method="post">
-                    <h2 class="card-title fs-5 fw-bold col-12">[[${recruitmentResource.id == null ? 'Add New External Recruitment Resource' : 'Edit External Recruitment Resource'}]]</h2>
+                <form id="recruitmentResourceForm" th:action="@{/recruitmentresource/external/save}" class="card-body row" th:object="${recruitmentResource}" method="post">
+                    <h2 class="card-title font-lg fw-bold col-12">[[${recruitmentResource.id == null ? 'Add New External Recruitment Resource' : 'Edit External Recruitment Resource'}]]</h2>
                     <input type="hidden" th:field="*{id}">
                     <div class="form-group col-12 col-xl-6 my-2">
                         <label for="code" class="form-label">Code</label>
-                        <input type="text" class="form-control" th:field="*{code}">
+                        <input id="code" type="text" class="form-control" th:field="*{code}">
                         <label th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}" class="text-danger"></label>
                     </div>
                     <div class="form-group col-12 col-xl-6 my-2">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" th:field="*{name}">
+                        <input id="name" type="text" class="form-control" th:field="*{name}">
                         <label th:if="${#fields.hasErrors('name')}"  th:text="${#fields.errors('name')[__0__]}" class="text-danger"></label>
                     </div>
                     <div class="form-group col-12 col-xl-6 my-2">
@@ -69,10 +70,7 @@
                             Save
                         </button>
 					    <a th:href="@{/recruitmentresource/external/search}" class="btn btn-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                              </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg>
                             Cancel
                         </a>
                     </div>
@@ -81,4 +79,138 @@
         </div>
     </div>
 </body>
+<script>
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        code: {
+            presence: {message : "^Enter code"},
+            format : {
+                pattern : /^\S*$/,
+                message : "^Code cannot contain space"
+            },
+            length: {
+                maximum: 30,
+                message: "^Name must be maximum 30 characters"
+            }
+        },
+        pic : {
+            presence : {message : "^Enter PIC name"},
+            length : {
+                maximum : 50,
+                message  : "^PIC name must be maximum 50 characters"
+            }
+        },
+        contactPerson : {
+            presence : {message : "^Enter contact person name"},
+            length : {
+                maximum : 50,
+                message  : "^Contact person name must be maximum 50 characters"
+            }
+        },
+        phone : {
+            presence : {message : "^Enter phone number"},
+            format : {
+                pattern : /^\d+$/,
+                message : "^Enter valid phone number"
+            },
+            length : {
+                minimum : 6,
+                maximum : 16,
+                message : "^Phone number must be between 6 ant 16 digits"
+            }
+        },
+        email : {
+            presence : {message : "^Enter email"},
+            email : {message : "^Enter valid email"}
+        },
+        type : {
+            presence : {message : "^Select type"}
+        },
+        websiteLink : {
+            format : {
+                pattern : /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})|[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                message : "^Enter valid url"
+            }
+        }
+        
+    };
+
+    var form = document.getElementById("recruitmentResourceForm");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        
+        let codeError = document.createElement("label");
+        codeError.id = "codeError";
+        codeError.classList.add("text-danger");
+
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger");
+
+        let picError = document.createElement("label");
+        picError.id = "picError";
+        picError.classList.add("text-danger");
+
+        let contactPersonError = document.createElement("label");
+        contactPersonError.id = "contactPersonError";
+        contactPersonError.classList.add("text-danger");
+
+        let phoneError = document.createElement("label");
+        phoneError.id = "phoneError";
+        phoneError.classList.add("text-danger");
+
+        let emailError = document.createElement("label");
+        emailError.id = "emailError";
+        emailError.classList.add("text-danger");
+
+        let typeError = document.createElement("label");
+        typeError.id = "typeError";
+        typeError.classList.add("text-danger");
+
+        let websiteLinkError = document.createElement("label");
+        websiteLinkError.id = "websiteLinkError";
+        websiteLinkError.classList.add("text-danger");
+
+        if (validation) {
+            checkValidation(codeError, "codeError", "code", validation.code);
+            checkValidation(nameError, "nameError", "name", validation.name);
+            checkValidation(picError, "picError", "pic", validation.pic);
+            checkValidation(contactPersonError, "contactPersonError", "contactPerson", validation.contactPerson);
+            checkValidation(phoneError, "phoneError", "phone", validation.phone);
+            checkValidation(emailError, "emailError", "email", validation.email);
+            checkValidation(typeError, "typeError", "type", validation.type);
+            checkValidation(websiteLinkError, "websiteLinkError", "websiteLink", validation.websiteLink);
+        } else {
+            form.submit();
+        }
+        
+    });
+
+    const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
+        if (validation) {
+            let input = document.getElementById(inputId);
+            if (!document.getElementById(errorLabelId)) {
+                input.parentNode.insertBefore(errorLabel, input.nextSibling);
+            }
+            document.getElementById(errorLabelId).innerText = validation[0];
+        } else {
+            removeIfExists(errorLabelId);
+        }
+    }
+
+    const removeIfExists = (id) => {
+        let element = document.getElementById(id);
+        if (element) {
+            element.parentNode.removeChild(element);
+        }
+    }
+</script>
 </html>

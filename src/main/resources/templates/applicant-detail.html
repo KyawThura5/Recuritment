@@ -14,13 +14,10 @@
     <div th:replace="nav-bar :: navbar('applicants')"></div>
     <div class="container-fluid container-lg py-3">
         <div class="row">
-            <h2 class="col-12 col-xl-8 mx-auto fs-5 fw-bold">Applicant Detail</h2>
-        </div>
-        <div class="row">
             <div class="col-12 col-xl-8 mx-auto my-md-3">
                 <div class="card shadow-lg" style="border-radius: 0.5em;">
                     <div class="card-body">
-                        <div class="d-flex text-black align-items-center">
+                        <div class="card-title d-flex text-black align-items-center">
                             <div class="flex-shrink-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -150,7 +147,7 @@
                                     
                                 </div>
                                 <div>
-                                    <a th:href="@{/applicant/search}" class="btn btn-sm btn-secondary d-block">
+                                    <a th:href="@{/applicant/search}" class="btn btn-sm btn-outline-secondary d-block">
                                         Back
                                     </a>
                                 </div>

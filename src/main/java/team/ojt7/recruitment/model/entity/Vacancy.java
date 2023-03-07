@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,8 +37,8 @@ public class Vacancy implements Serializable {
 	@JoinColumn(name = "department_id")
 	private Department department;
 
-	@Column(name = "created_date", nullable = false, updatable = false, insertable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private LocalDate createdDate;
+	@Column(name = "created_date_time", nullable = false, updatable = false, insertable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private LocalDateTime createdDateTime;
 
 	@Column(name = "due_date", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDate dueDate;
@@ -97,12 +98,12 @@ public class Vacancy implements Serializable {
 		this.department = department;
 	}
 
-	public LocalDate getCreatedDate() {
-		return createdDate;
+	public LocalDateTime getCreatedDateTime() {
+		return createdDateTime;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
+	public void setCreatedDateTime(LocalDateTime createdDateTime) {
+		this.createdDateTime = createdDateTime;
 	}
 
 	public boolean isDeleted() {
@@ -155,7 +156,7 @@ public class Vacancy implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, comment, createdDate, createdUser, department, dueDate, id, isDeleted,
+		return Objects.hash(code, comment, createdDateTime, createdUser, department, dueDate, id, isDeleted,
 				requirePositions, status);
 	}
 
@@ -169,7 +170,7 @@ public class Vacancy implements Serializable {
 			return false;
 		Vacancy other = (Vacancy) obj;
 		return Objects.equals(code, other.code) && Objects.equals(comment, other.comment)
-				&& Objects.equals(createdDate, other.createdDate) && Objects.equals(createdUser, other.createdUser)
+				&& Objects.equals(createdDateTime, other.createdDateTime) && Objects.equals(createdUser, other.createdUser)
 				&& Objects.equals(department, other.department) && Objects.equals(dueDate, other.dueDate)
 				&& Objects.equals(id, other.id) && isDeleted == other.isDeleted
 				&& Objects.equals(requirePositions, other.requirePositions) && status == other.status;

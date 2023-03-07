@@ -2,6 +2,12 @@ $(document).ready(function () {
 	$("#vacancy").change(function (event){
 		ajaxQuerypositionByVacancy();
 	});
+	
+	$(".select-search").each(function(i, t) {
+		dselect(t, {
+			search: true
+		});
+	});
 });
 
 const onCvFileChange = () => {
@@ -37,7 +43,7 @@ const ajaxQuerypositionByVacancy = () => {
 				options += `<option value=${position.id}>${position.position.name}/${position.team.name}/${position.team.department.name}</option>`;			
 			}
 					
-			let positionSelectWrapper = $("#position-select-wrapper");
+			let positionSelectWrapper = $("#position");
 			positionSelectWrapper.html(`
                 <option value=''>-- select a team --</option>
                 ${options}`);

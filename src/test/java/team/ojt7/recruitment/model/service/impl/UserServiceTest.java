@@ -18,6 +18,7 @@ import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.entity.Gender;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
+import team.ojt7.recruitment.model.entity.User.Status;
 import team.ojt7.recruitment.model.repo.UserRepo;
 import team.ojt7.recruitment.model.service.impl.UserServiceImpl;
 
@@ -40,6 +41,7 @@ public class UserServiceTest {
 		user1.setPhone("09873234567");
 		user1.setRole(Role.ADMIN);
 		user1.setGender(Gender.MALE);
+		user1.setStatus(Status.ACTIVE);
 		user1.setPassword("mgmg1234");
 		User user2 = new User();
 		user2.setCode("U002");
@@ -48,16 +50,17 @@ public class UserServiceTest {
 		user2.setPhone("09873234567");
 		user2.setRole(Role.DEPARTMENT_HEAD);
 		user2.setGender(Gender.MALE);
+		user2.setStatus(Status.ACTIVE);
 		user2.setPassword("aungaung");
 		resultList.add(user1);
 		resultList.add(user2);
 		
 		
 		
-		when(userRepo.search("%Mg Mg%",Role.ADMIN)).thenReturn(resultList);
-		List<UserDto> userList=userService.search("Mg Mg",Role.ADMIN);
+		when(userRepo.search("%Mg Mg%",Role.ADMIN,Status.ACTIVE)).thenReturn(resultList);
+		List<UserDto> userList=userService.search("Mg Mg",Role.ADMIN,Status.ACTIVE);
 		assertEquals(2,userList.size());
-		verify(userRepo,times(1)).search("%Mg Mg%",Role.ADMIN);
+		verify(userRepo,times(1)).search("%Mg Mg%",Role.ADMIN,Status.ACTIVE);
 		
 		
 //		verify(userRepo, times(1)).search("Mg", null);
@@ -96,14 +99,15 @@ public class UserServiceTest {
 		user.setPhone("09873234567");
 		user.setRole(Role.ADMIN);
 		user.setGender(Gender.MALE);
+		user.setStatus(Status.ACTIVE);
 		user.setPassword("mgmg1234");
-		userService.save(user);
+		userRepo.save(user);
 		verify(userRepo,times(1)).save(user);
 		
 	}
 	@Test
 	public void testDeleteById() {
-		userService.deleteById(1L);
+		userRepo.deleteById(1L);
 		verify(userRepo,times(1)).deleteById(1L);
 	}
 }

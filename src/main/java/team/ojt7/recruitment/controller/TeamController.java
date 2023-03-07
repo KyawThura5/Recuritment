@@ -61,8 +61,9 @@ public class TeamController {
 
 	@GetMapping("/team/edit")
 	public String editTeam(@RequestParam(required = false) Long id, ModelMap model) {
-		List<DepartmentDto> departmentDtos = departmentService.findAll();
+		
 		TeamDto teamDto = teamService.findById(id).orElse(new TeamDto());
+		List<DepartmentDto> departmentDtos = departmentService.findAllForTeam(teamDto);
 		model.put("team", teamDto);
 		model.put("departmentList", departmentDtos);
 		String title = teamDto.getId() == null ? "Add New Team" : "Edit Team";

@@ -7,6 +7,7 @@
     <title>Document</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 </head>
@@ -14,8 +15,8 @@
     <div th:replace="nav-bar :: navbar('users')"></div>
     <main class="container p-4">
         <div class="row">
-            <div class="card shadow-lg p-4 offset-md-1 offset-xl-2 col-12 col-md-10 col-xl-8">
-                <form th:action="@{/user/save}" method="post" class="row card-body" th:object="${user}">
+            <div class="card shadow-lg offset-md-1 offset-xl-2 col-12 col-md-10 col-xl-8">
+                <form id="userForm" th:action="@{/user/save}" method="post" class="row card-body" th:object="${user}">
                     <div class="card-title col-12 fs-5 fw-bold">
                         Edit User
                     </div>
@@ -53,10 +54,10 @@
                         </select>
                         <label th:if="${#fields.hasErrors('role')}"  th:text="${#fields.errors('role')[__0__]}" class="text-danger"></label>
                     </div>
-                    <div class="col-12 col-lg-6 form-group my-2">
+                    <div class="col-12 col-lg-3 form-group my-2">
                         <label for="gender" class="form-label">Gender</label>
                         <select id="gender" class="form-select" th:field="*{gender}">
-                            <option value="">-- select gender --</option>
+                            <option value="">-- gender --</option>
                             <option
 								th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
 								th:value="${g}" th:text="${g.displayName}" >
@@ -64,10 +65,10 @@
                         </select>
                         <label th:if="${#fields.hasErrors('gender')}"  th:text="${#fields.errors('gender')[__0__]}" class="text-danger"></label>
                     </div>
-                     <div class="col-12 col-lg-6 form-group my-2">
+                     <div class="col-12 col-lg-3 form-group my-2">
                         <label for="status" class="form-label">Status</label>
                         <select id="status" class="form-select" th:field="*{status}">
-                            <option value="">-- select status --</option>
+                            <option value="">-- status --</option>
                             <option
 								th:each="status:${T(team.ojt7.recruitment.model.entity.User.Status).values()}"
 								th:value="${status}" th:text="${status.displayName}" >
@@ -96,4 +97,119 @@
         
     </main>
 </body>
+<script>
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        code: {
+            presence: {message : "^Enter code"},
+            format : {
+                pattern : /^\S*$/,
+                message : "^Code cannot contain space"
+            },
+            length: {
+                maximum: 30,
+                message: "^Name must be maximum 30 characters"
+            }
+        },
+        phone : {
+            presence : {message : "^Enter phone number"},
+            format : {
+                pattern : /^\d+$/,
+                message : "^Enter valid phone number"
+            },
+            length : {
+                minimum : 6,
+                maximum : 16,
+                message : "^Phone number must be between 6 ant 16 digits"
+            }
+        },
+        email : {
+            presence : {message : "^Enter email"},
+            email : {message : "^Enter valid email"}
+        },
+        role : {
+            presence : {message : "^Select role"}
+        },
+        gender : {
+            presence : {message : "^Select gender"}
+        },
+        status : {
+            presence : {message : "^Select status"}
+        }
+        
+    };
+
+    var form = document.getElementById("userForm");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        
+        let codeError = document.createElement("label");
+        codeError.id = "codeError";
+        codeError.classList.add("text-danger");
+
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger");
+
+        let phoneError = document.createElement("label");
+        phoneError.id = "phoneError";
+        phoneError.classList.add("text-danger");
+
+        let emailError = document.createElement("label");
+        emailError.id = "emailError";
+        emailError.classList.add("text-danger");
+
+        let roleError = document.createElement("label");
+        roleError.id = "roleError";
+        roleError.classList.add("text-danger");
+
+        let genderError = document.createElement("label");
+        genderError.id = "genderError";
+        genderError.classList.add("text-danger");
+
+        let statusError = document.createElement("label");
+        statusError.id = "statusError";
+        statusError.classList.add("text-danger");
+
+        if (validation) {
+            checkValidation(codeError, "codeError", "code", validation.code);
+            checkValidation(nameError, "nameError", "name", validation.name);
+            checkValidation(phoneError, "phoneError", "phone", validation.phone);
+            checkValidation(emailError, "emailError", "email", validation.email);
+            checkValidation(roleError, "roleError", "role", validation.role);
+            checkValidation(genderError, "genderError", "gender", validation.gender);
+            checkValidation(statusError, "statusError", "status", validation.status);
+        } else {
+            form.submit();
+        }
+        
+    });
+
+    const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
+        if (validation) {
+            let input = document.getElementById(inputId);
+            if (!document.getElementById(errorLabelId)) {
+                input.parentNode.insertBefore(errorLabel, input.nextSibling);
+            }
+            document.getElementById(errorLabelId).innerText = validation[0];
+        } else {
+            removeIfExists(errorLabelId);
+        }
+    }
+
+    const removeIfExists = (id) => {
+        let element = document.getElementById(id);
+        if (element) {
+            element.parentNode.removeChild(element);
+        }
+    }
+</script>
 </html>
