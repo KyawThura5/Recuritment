@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +17,7 @@ public class VacancySearch {
 	private Status status;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dateFrom;
+	private LocalDateTime dateFrom;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateTo;
@@ -39,11 +40,11 @@ public class VacancySearch {
 		this.status = status;
 	}
 
-	public LocalDate getDateFrom() {
+	public LocalDateTime getDateFrom() {
 		return dateFrom;
 	}
 
-	public void setDateFrom(LocalDate dateFrom) {
+	public void setDateFrom(LocalDateTime dateFrom) {
 		this.dateFrom = dateFrom;
 	}
 
