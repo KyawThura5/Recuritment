@@ -17,11 +17,16 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         <div class="row">
             <div class="card shadow-lg offset-sm-1 offset-lg-3 col-sm-10 col-lg-6">
                 <div class="card-body">
-                    <div class="card-title font-lg fw-bold">Create Interview</div>
-                    <form th:action="@{/interview/save}" class="row" method="post" th:object="${interview}" enctype="multipart/form-data">
+                    <div class="card-title font-lg fw-bold">[[${title}]]</div>
+                    <form th:action="@{/interview/save}" class="row" method="post" th:object="${interview}">
+                        
+                        
+                	<input type="hidden" th:field="*{id}">
+                        
+                        
                         <div class="col-12 form-group my-2">
                             <label for="code" class="form-label">Code</label>
-                            <input id="code" type="text" class="form-control" th:field="*{code}">
+                            <input id="code" type="text" class="form-control" th:field="*{code}" >
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="interviewName" class="form-label">Interview Name</label>
@@ -33,17 +38,17 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         <div class="col-12 form-group my-2">
                             <label for="applicant" class="form-label">Applicant</label>
                             <select th:field="*{applicant}" class="form-select">
-                                <option value="">-- select applicant --</option>
-                            <option th:each="ap : ${applicants}" th:text="${ap.name} +' ('+ ${ap.code}+')'"  th:value="${ap.id}"></option>
+                             <option value="" th:attrappend="disabled=${interview.id != null ? 'disabled' : ''}">-- select applicant --</option>
+                            <option th:each="ap : ${applicants}" th:text="${ap.name} +' ('+ ${ap.code}+')'"  th:value="${ap.id}"  th:attrappend="disabled=${interview.id != null && interview.applicant != null && interview.applicant.id != ap.id ? 'disabled' : ''}"></option>
                             </select>
                         </div>
                         <div class="col-12 col-md-6 form-group my-2">
                             <label for="date" class="form-label">Date</label>
-                            <input id="date" type="date" class="form-control">
+                            <input id="date" th:field="*{localDate}" type="date" class="form-control">
                         </div>
                         <div class="col-12 col-md-6 form-group my-2">
                             <label for="time" class="form-label">Time</label>
-                            <input id="time" type="time" class="form-control">
+                            <input id="time" th:field="*{localTime}" type="time" class="form-control">
                         </div>
                         <div class="col-12 d-flex flex-row-reverse mt-3">
                             <button type="submit" class="btn btn-success ms-1">

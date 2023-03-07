@@ -67,7 +67,7 @@ public class InterviewNameController {
 	}
 
 	@PostMapping("/interviewname/delete")
-	public String deleteInterview(@RequestParam("id") Long id) {
+	public String deleteInterview(@RequestParam("id")Long id) {
 		interviewService.deleteById(id);
 		
 		return "redirect:/interviewname/search";
