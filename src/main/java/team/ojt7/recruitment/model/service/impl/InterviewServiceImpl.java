@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -37,8 +38,9 @@ public class InterviewServiceImpl implements InterviewService {
 		
 		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize());
 		InterviewName interviewName = InterviewNameDto.parse(search.getInterviewName());
-		
-		Page<Interview> interviews =interviewRepo.search(keyword, search.getDateForm(), search.getDateTo(),search.getStatus(), pageable); 
+		LocalDateTime dateFrom=search.getDateFrom()==null ? null : search.getDateFrom().atStartOfDay();
+		LocalDateTime dateTo=search.getDateTo()==null ? null : search.getDateTo().plusDays(1).atStartOfDay();
+		Page<Interview> interviews =interviewRepo.search(keyword,dateFrom,dateTo,search.getStatus(), pageable); 
 		Pageable interviewsPageable = interviews.getPageable();
 		Page<InterviewDto> page = new PageImpl<InterviewDto>(InterviewDto.ofList(interviews.getContent()), interviewsPageable, interviews.getTotalElements());
 		return page;	

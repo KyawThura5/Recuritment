@@ -2,6 +2,8 @@ package team.ojt7.recruitment.model.dto;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import team.ojt7.recruitment.model.entity.Interview.Status;
 
 public class InterviewSearch {
@@ -9,7 +11,9 @@ public class InterviewSearch {
 	private static final int DEFAULT_SIZE = 10;
 
 	private String keyword;
-	private LocalDate dateForm;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dateFrom;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateTo;
 	private Status status;
 	private InterviewNameDto interviewName;
@@ -25,12 +29,12 @@ public class InterviewSearch {
 		this.keyword = keyword;
 	}
 
-	public LocalDate getDateForm() {
-		return dateForm;
+	public LocalDate getDateFrom() {
+		return dateFrom;
 	}
 
-	public void setDateForm(LocalDate dateForm) {
-		this.dateForm = dateForm;
+	public void setDateFrom(LocalDate dateFrom) {
+		this.dateFrom = dateFrom;
 	}
 
 	public LocalDate getDateTo() {

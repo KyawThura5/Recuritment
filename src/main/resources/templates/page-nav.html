@@ -58,5 +58,12 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         [[${label}]]
     </a>
 	
+	<a th:fragment="interview(pageNum, label, tooltip)" class="page-link"
+        th:href="@{'/interview/search?' + ${interviewSearch.keyword!=null && interviewSearch.keyword!=''? 'keyword=' + interviewSearch.keyword + '&' : ''} + 'page=' + ${pageNum} + '&size=' + ${interviewSearch.size} + ${interviewSearch.dateFrom != null && interviewSearch.dateFrom != '' ? '&dateFrom=' + interviewSearch.dateFrom : ''} + ${interviewSearch.dateTo != null && interviewSearch.dateTo != '' ? '&dateTo=' + interviewSearch.dateTo : ''}}"
+        th:title="${tooltip}" rel="tooltip">
+        [[${label}]]
+    </a>
+	
+	
 </body>
 </html>
