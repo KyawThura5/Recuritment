@@ -99,9 +99,9 @@ class VacancyServiceImplTest {
 		
 		
 		
-		Page<Vacancy> vacancies = vacancyTestRepo.search("%1%", Status.OPENING, LocalDate.now(), LocalDate.of(2023, 04, 22), PageRequest.of(1,10)); 
+		Page<Vacancy> vacancies = vacancyTestRepo.search("%1%", Status.OPENING, LocalDateTime.now(), LocalDate.of(2023, 04, 22), PageRequest.of(1,10)); 
 		
-		when(vacancyTestRepo.search("%1%", Status.OPENING, LocalDate.now(), LocalDate.of(2023, 04, 22),PageRequest.of(1,10))).thenReturn(vacancies);
+		when(vacancyTestRepo.search("%1%", Status.OPENING, LocalDateTime.now(), LocalDate.of(2023, 04, 22),PageRequest.of(1,10))).thenReturn(vacancies);
 		assertThat(vacancies);		
 	}
 
