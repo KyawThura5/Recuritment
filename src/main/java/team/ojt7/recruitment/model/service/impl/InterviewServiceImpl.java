@@ -17,6 +17,7 @@ import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
 import team.ojt7.recruitment.model.entity.Interview;
+import team.ojt7.recruitment.model.entity.Interview.Status;
 import team.ojt7.recruitment.model.entity.InterviewName;
 import team.ojt7.recruitment.model.repo.InterviewRepo;
 import team.ojt7.recruitment.model.service.InterviewService;
@@ -77,9 +78,17 @@ public class InterviewServiceImpl implements InterviewService {
 		Interview interview=interviewRepo.findById(id).orElse(null);
 		return Optional.ofNullable(InterviewDto.of(interview));
 	}
-	
-	
-	
-	
 
+	@Override
+	public Optional<InterviewDto> findByIdStatus(Long id, Status status, String comment) {
+		if (id == null) {
+			return Optional.ofNullable(null);
+		}
+		Interview interview=interviewRepo.findById(id).orElse(null);
+		interview.setStatus(status);
+		interview.setComment(comment);
+		return Optional.ofNullable(InterviewDto.of(interview));
+	}
+
+	
 }

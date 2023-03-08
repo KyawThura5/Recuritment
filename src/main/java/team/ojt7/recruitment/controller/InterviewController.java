@@ -18,6 +18,7 @@ import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
+import team.ojt7.recruitment.model.entity.Interview.Status;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.InterviewNameService;
 import team.ojt7.recruitment.model.service.InterviewService;
@@ -101,5 +102,13 @@ public class InterviewController {
 		
 		interviewService.deleteById(id);
 		return "redirect:/interview/search";
+	}
+	
+	@PostMapping("/interview/status/save")
+	public String statuschange(@RequestParam("id")Long id,@RequestParam("status")Status status,@RequestParam("comment")String comment ) {
+		InterviewDto dto=interviewService.findByIdStatus(id,status,comment).get();		
+		interviewService.save(InterviewDto.parse(dto));		
+		return "redirect:/interview/search";
+		
 	}
 }
