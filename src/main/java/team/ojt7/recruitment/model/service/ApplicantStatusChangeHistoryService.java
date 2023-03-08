@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.service;
 
 import java.util.List;
 
+import team.ojt7.recruitment.model.dto.ApplicantStatusChangeDto;
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 
 public interface ApplicantStatusChangeHistoryService {
@@ -10,5 +11,5 @@ public interface ApplicantStatusChangeHistoryService {
 	
 	public List<ApplicantStatusChangeHistoryDto> findAllByApplicantId(Long applicantId);
 
-	ApplicantStatusChangeHistoryDto getCurrentStatus(Long applicantId);
+	ApplicantStatusChangeDto getCurrentStatus(Long applicantId);
 }
