@@ -84,7 +84,7 @@ public class ApplicantController {
 	}
 
 	@RequestMapping(value = "/applicant/edit", method = RequestMethod.GET)
-			public String addNewApplicant(@RequestParam(required = false)
+			public String editApplicant(@RequestParam(required = false)
 			Long id,
 			ModelMap model) {
 		ApplicantDto applicantDto = applicantService.findById(id).orElse(applicantService.generateNewWithCode());
@@ -92,8 +92,12 @@ public class ApplicantController {
 		if (applicantDto.getVacancy() != null) {
 			model.put("requirePositions", applicantDto.getVacancy().getRequirePositions());
 		}
+		
+		String contextPage = "/applicant/search";
+		
 		model.put("vacancy",vacancyList);
 		model.put("applicant", applicantDto);
+		model.put("contextPage", contextPage);
 		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 		return "edit-applicant";
 	}
@@ -102,22 +106,51 @@ public class ApplicantController {
 	public String addNewApplicantForRequirePosition(
 			@RequestParam
 			Long id,
-			@RequestParam
-			Long vacancyId,
 			ModelMap model
 			) {
 		ApplicantDto applicantDto = applicantService.generateNewWithCode();
 		List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
 		RequirePositionDto requirePositionDto = requriedPositionService.findById(id).orElse(null);
-		VacancyDto vacancy = vacancyService.findById(vacancyId).get();
 		applicantDto.setRequirePosition(requirePositionDto);
-		applicantDto.setVacancy(vacancy);
+		applicantDto.setVacancy(requirePositionDto.getVacancy());
+		
+		String contextPage = "/vacancy/search";
+		
 		model.put("vacancy",vacancyList);
-		model.put("requirePositions", vacancy.getRequirePositions());
+		model.put("requirePositions", requirePositionDto.getVacancy().getRequirePositions());
 		model.put("applicant", applicantDto);
+		model.put("contextPage", contextPage);
 		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 		return "edit-applicant";
 	}
+	
+	@RequestMapping(value = "/applicant/requirePosition/detail/edit", method = RequestMethod.GET)
+	public String editApplicantFromRequirePositionDetail (@RequestParam(required = false)
+			Long id,
+			Long requirePositionId,
+			ModelMap model) {
+		RequirePositionDto requirePositionDto = requriedPositionService.findById(requirePositionId).orElse(null);
+		ApplicantDto newApplicantDto = applicantService.generateNewWithCode();
+		newApplicantDto.setVacancy(requirePositionDto.getVacancy());
+		newApplicantDto.setRequirePosition(requirePositionDto);
+		
+		ApplicantDto applicantDto = applicantService.findById(id).orElse(newApplicantDto);
+		List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
+		
+		
+		if (applicantDto.getVacancy() != null) {
+			model.put("requirePositions", applicantDto.getVacancy().getRequirePositions());
+		}
+		
+		String contextPage = "/requirePosition/detail?id=%d".formatted(requirePositionId);
+		
+		model.put("vacancy",vacancyList);
+		model.put("applicant", applicantDto);
+		model.put("contextPage", contextPage);
+		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
+		return "edit-applicant";
+	}
+	
 
 	@RequestMapping(value="/applicant/save",method=RequestMethod.POST)
 	public String saveApplicant(
@@ -127,6 +160,8 @@ public class ApplicantController {
 			BindingResult bindingResult,
 			@RequestParam(required = false)
 			CommonsMultipartFile attachedFile,
+			@RequestParam
+			String contextPage,
 			ModelMap model) {
 		
 		if (!bindingResult.hasErrors()) {
@@ -150,7 +185,7 @@ public class ApplicantController {
 			return "edit-applicant";
 		}
 		
-		return "redirect:/applicant/search";
+		return "redirect:%s".formatted(contextPage);
 		
 	}
 
@@ -196,14 +231,28 @@ public class ApplicantController {
 			ModelMap model
 			) {
 		ApplicantDto applicant = applicantService.findById(id).orElse(null);
+		String contextPage = "/applicant/search";
 		model.put("applicant", applicant);
+		model.put("contextPage", contextPage);
+		return "applicant-detail";
+	}
+	
+	@GetMapping("/applicant/requirePosition/detail")
+	public String showApplicantDetailFromRequirePositionDetail (
+			Long id,
+			Long requirePositionId,
+			ModelMap model
+			) {
+		ApplicantDto applicant = applicantService.findById(id).orElse(null);
+		String contextPage = "/requirePosition/detail?id=" + requirePositionId;
+		model.put("applicant", applicant);
+		model.put("contextPage", contextPage);
 		return "applicant-detail";
 	}
 	
 	@GetMapping("/applicant/status/change")
 	public String changeApplicantStatus(
 			Long id,
-			String context,
 			ModelMap model,
 			HttpSession session
 			) {
@@ -211,7 +260,46 @@ public class ApplicantController {
 		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
 		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
 		boolean updateable = loginUser.getRole() == Role.GENERAL_MANAGER || (aschDto.getStatus().getStep() >= 3);
-		String contextPage = "applicants".equals(context) ? "/applicant/search" : "/applicant/detail?id=" + id;
+		String contextPage = "/applicant/search";
+		
+		model.put("statusChangeHistory", aschDto);
+		model.put("statusChangeHistories", aschList);
+		model.put("contextPage", contextPage);
+		model.put("updateable", updateable);
+		return "change-applicant-status";
+	}
+	
+	@GetMapping("/applicant/detail/status/change")
+	public String changeApplicantStatusFromApplicantDetail (
+			Long id,
+			ModelMap model,
+			HttpSession session
+			) {
+		User loginUser = (User) session.getAttribute("loginUser");
+		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
+		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
+		boolean updateable = loginUser.getRole() == Role.GENERAL_MANAGER || (aschDto.getStatus().getStep() >= 3);
+		String contextPage = "/applicant/detail?id=" + id;
+		
+		model.put("statusChangeHistory", aschDto);
+		model.put("statusChangeHistories", aschList);
+		model.put("contextPage", contextPage);
+		model.put("updateable", updateable);
+		return "change-applicant-status";
+	}
+	
+	@GetMapping("/applicant/requirePositionDetail/status/change")
+	public String changeApplicantStatusFromRequirePositionDetail (
+			Long id,
+			Long requirePositionId,
+			ModelMap model,
+			HttpSession session
+			) {
+		User loginUser = (User) session.getAttribute("loginUser");
+		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
+		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
+		boolean updateable = loginUser.getRole() == Role.GENERAL_MANAGER || (aschDto.getStatus().getStep() >= 3);
+		String contextPage = "/requirePosition/detail?id=" + requirePositionId + "#applicant" + id;
 		
 		model.put("statusChangeHistory", aschDto);
 		model.put("statusChangeHistories", aschList);

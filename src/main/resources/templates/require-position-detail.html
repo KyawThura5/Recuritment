@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
+</head>
+<body>
+    <div th:replace="nav-bar :: navbar('vacancies')"></div>
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-12 mx-auto">
+                <div class="card shadow">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-12 col-lg-auto">
+                                <div class="d-flex h-100">
+                                    <div class="flex-shrink-0 p-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="text-secondary" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M184 48H328c4.4 0 8 3.6 8 8V96H176V56c0-4.4 3.6-8 8-8zm-56 8V96H64C28.7 96 0 124.7 0 160v96H192 320 512V160c0-35.3-28.7-64-64-64H384V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zM512 288H320v32c0 17.7-14.3 32-32 32H224c-17.7 0-32-14.3-32-32V288H0V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V288z"/></svg>
+                                    </div>
+                                    <div class="flex-grow-1 ms-2">
+                                        <div class="font-md fw-bold">
+                                            [[${requirePosition.position.name}]]
+                                            <label th:if="${requirePosition.foc}" class="badge rounded-pill bg-darkgoldenrod">
+                                                FOC
+                                            </label>
+                                        </div>
+                                        <div class="font-sm">
+                                            [[${requirePosition.team.name}]]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg mt-2 mt-lg-0">
+                                <div class="row mx-1 rounded-3 p-2" style="background-color: #efefef;">
+                                    <div class="col text-center">
+                                        <p class="text-muted mb-1">Post</p>
+                                        <p class="font-lg fw-bold">[[${requirePosition.count}]]</p>
+                                    </div>
+                                    <div class="col text-center">
+                                        <p class="text-muted mb-1">Applied</p>
+                                        <p class="font-lg fw-bold">[[${requirePosition.activeApplicants.size()}]]</p>
+                                    </div>
+                                    <div class="col text-center">
+                                        <p class="text-muted mb-1">Hired</p>
+                                        <p class="font-lg fw-bold">[[${requirePosition.hiredCount}]]</p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                          
+                    </div>
+                </div>
+
+                <div class="card shadow mt-3">
+                    <div class="card-body">
+                        <form id="searchForm" th:action="@{/requirePosition/detail}" class="row" th:object="${requirePositionDetailSearch}">
+                            <input type="hidden" th:field="*{id}">
+                            <div class="col-12 col-md-auto my-2">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" th:field="*{keyword}" placeholder="Search" />
+                                    <a class="input-group-text" th:href="@{'/requirePosition/detail?id=' + ${requirePosition.id} + ${requirePositionDetailSearch.status != null ? '&status=' + requirePositionDetailSearch.status : ''}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
+                                            <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="col-auto my-2">
+                                <select class="form-select" th:field="*{status}" onchange="changePageSize()">
+                                    <option value="">All</option>
+                                    <option
+                                        th:each="g:${T(team.ojt7.recruitment.model.entity.Applicant.Status).values()}"
+                                        th:value="${g}" >
+                                        [[${g.displayName}]]
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-auto my-2">
+                                <a th:href="@{/vacancy/search}" class="btn btn-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+                                </a>
+                            </div>
+                            <div sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:if="${requirePosition.vacancy.status.name() != 'CLOSED'}" class="col-auto my-2">
+                                <a th:href="@{/applicant/requirePosition/detail/edit(requirePositionId=${requirePosition.id})}" class="btn btn-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                                </a>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-md-6 col-xl-4 my-2" th:each="applicant : ${requirePosition.activeApplicants}" th:id="${'applicant' + applicant.id}">
+                        <div class="card shadow animated fadeInUp" style="border-radius: 0.5em;">
+                            <div class="card-body">
+                                <div class="d-flex text-black align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-circle text-secondary" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <div class="row">
+                                            <h6 class="col-12font-md fw-bold my-1">
+                                                [[${applicant.name}]]
+                                            </h6>
+        
+                                            <label class="col-12 font-xs">
+                                                [[${applicant.code}]]
+                                            </label>
+                                            <label class="col-12 font-xs">
+                                                [[${#temporals.format(applicant.createdDate,'yyyy-MM-dd HH:mm')}]]
+                                            </label>
+                                        </div>
+                                    </div>
+        
+                                    <div sec:authorize="hasAuthority('HIRING_MANAGER')" class="dropdown">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                        </svg>
+                                        <ul class="dropdown-menu shadow-lg animated fadeIn" aria-labelledby="dropdownMenu2">
+                                          <li>
+                                            <a class="dropdown-item" th:href="@{/applicant/requirePosition/detail/edit(id=${applicant.id},requirePositionId=${requirePosition.id})}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
+                                                Edit
+                                            </a>
+                                          </li>
+                                          <li>
+                                            <button class="dropdown-item" th:onclick="showDialog([[${applicant.id}]])">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                                Delete
+                                            </button>
+                                          </li>
+                                          
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+        
+                                <hr class="my-2">
+        
+                                <div class="row">
+                                    <label class="col-12 my-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                                          </svg>
+                                        <span class="ms-2 font-sm">
+                                            [[${applicant.email}]]
+                                        </span>
+                                    </label>
+                                    <label class="col-12 my-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                                          </svg>
+                                        <span class="ms-2 font-sm">
+                                            [[${applicant.phone}]]
+                                        </span>
+                                    </label>
+                                    <label class="col-12 my-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48V96H384V80c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H432c-26.5 0-48-21.5-48-48V160H192v16c0 1.7-.1 3.4-.3 5L272 288h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H272c-26.5 0-48-21.5-48-48V336c0-1.7 .1-3.4 .3-5L144 224H48c-26.5 0-48-21.5-48-48V80z"/></svg>
+                                        <span class="ms-2 font-sm">
+                                            [[${applicant.recruitmentResource.name}]]
+                                        </span>
+                                    </label>
+        
+                                    <div class="col-12 mt-2">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <a th:href="@{/{cvLink}(cvLink=${applicant.attachedUri})}" target="_blank" class="btn btn-sm btn-outline-orange">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+                                                </a>
+                                                <form class="d-inline-block" th:action="@{/api/applicant/cv/download}" method="get">
+                                                    <input type="hidden" name="url" th:value="${applicant.attachedUri}">
+                                                    <button class="btn btn-sm btn-outline-primary" type="submit">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>
+                                                    </button>
+                                                </form>
+                                                <a class="btn btn-sm btn-outline-secondary" th:href="@{/applicant/requirePosition/detail(id=${applicant.id},requirePositionId=${requirePosition.id})}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 288A144 144 0 1 0 256 0a144 144 0 1 0 0 288zm-94.7 32C72.2 320 0 392.2 0 481.3c0 17 13.8 30.7 30.7 30.7H481.3c17 0 30.7-13.8 30.7-30.7C512 392.2 439.8 320 350.7 320H161.3z"/></svg>
+                                                </a>
+                                                <a class="btn btn-sm btn-outline-success" th:href="@{/applicant/requirePositionDetail/status/change(id=${applicant.id},requirePositionId=${requirePosition.id})}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 0a128 128 0 1 1 0 256A128 128 0 1 1 224 0zM178.3 304h91.4c11.8 0 23.4 1.2 34.5 3.3c-2.1 18.5 7.4 35.6 21.8 44.8c-16.6 10.6-26.7 31.6-20 53.3c4 12.9 9.4 25.5 16.4 37.6s15.2 23.1 24.4 33c15.7 16.9 39.6 18.4 57.2 8.7v.9c0 9.2 2.7 18.5 7.9 26.3H29.7C13.3 512 0 498.7 0 482.3C0 383.8 79.8 304 178.3 304zM436 218.2c0-7 4.5-13.3 11.3-14.8c10.5-2.4 21.5-3.7 32.7-3.7s22.2 1.3 32.7 3.7c6.8 1.5 11.3 7.8 11.3 14.8v30.6c7.9 3.4 15.4 7.7 22.3 12.8l24.9-14.3c6.1-3.5 13.7-2.7 18.5 2.4c7.6 8.1 14.3 17.2 20.1 27.2s10.3 20.4 13.5 31c2.1 6.7-1.1 13.7-7.2 17.2l-25 14.4c.4 4 .7 8.1 .7 12.3s-.2 8.2-.7 12.3l25 14.4c6.1 3.5 9.2 10.5 7.2 17.2c-3.3 10.6-7.8 21-13.5 31s-12.5 19.1-20.1 27.2c-4.8 5.1-12.5 5.9-18.5 2.4l-24.9-14.3c-6.9 5.1-14.3 9.4-22.3 12.8l0 30.6c0 7-4.5 13.3-11.3 14.8c-10.5 2.4-21.5 3.7-32.7 3.7s-22.2-1.3-32.7-3.7c-6.8-1.5-11.3-7.8-11.3-14.8V454.8c-8-3.4-15.6-7.7-22.5-12.9l-24.7 14.3c-6.1 3.5-13.7 2.7-18.5-2.4c-7.6-8.1-14.3-17.2-20.1-27.2s-10.3-20.4-13.5-31c-2.1-6.7 1.1-13.7 7.2-17.2l24.8-14.3c-.4-4.1-.7-8.2-.7-12.4s.2-8.3 .7-12.4L343.8 325c-6.1-3.5-9.2-10.5-7.2-17.2c3.3-10.6 7.7-21 13.5-31s12.5-19.1 20.1-27.2c4.8-5.1 12.4-5.9 18.5-2.4l24.8 14.3c6.9-5.1 14.5-9.4 22.5-12.9V218.2zm92.1 133.5a48.1 48.1 0 1 0 -96.1 0 48.1 48.1 0 1 0 96.1 0z"/></svg>
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <label class="badge rounded-pill" th:classappend="${applicant.statusColorClass}">
+                                                    [[${applicant.status.displayName}]]
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>                                                
+                        </div>
+        
+                        <!-- Modal -->
+                        <div th:id="modal+${applicant.id}" class="modal modal-confirm">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content shadow-lg animated bounceIn">
+                                    <div class="modal-header p-2">
+                                        <div class="modal-title font-lg ">
+                                            Confirm
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label>
+                                            Are you sure to delete "<span th:text="${applicant.name}"></span>"?
+                                        </label>
+                                    </div>
+                                    <div class="model-footer text-center p-2">
+                                        <a class="btn btn-outline-secondary px-5" th:onclick="closeDialog([[${applicant.id}]])">No
+                                        </a>
+                                        <form th:action="@{/applicant/delete(id=${applicant.id})}" class="d-inline-block" method="post">
+                                            <button type="submit" class="btn btn-danger px-5">
+                                                Yes
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+	  
+    function changePageSize() {
+          $("#searchForm").submit();
+    }
+</script>
+</html>
