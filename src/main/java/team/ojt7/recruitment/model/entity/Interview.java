@@ -42,7 +42,7 @@ public class Interview implements Serializable {
 	private Applicant applicant;
 
 	public enum Status {
-		NOT_START_YET("Not-Start-Yet"),ON_HOLD("On-hold"), CANCELED("Canceled"), PASSED("Passed"), FAILED("Failed");
+		NOT_START_YET("Not Start Yet"),ON_HOLD("On-hold"), CANCELLED("Cancelled"), PASSED("Passed"), FAILED("Failed");
 
 		private String displayName;
 
