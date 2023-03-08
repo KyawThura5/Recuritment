@@ -22,8 +22,10 @@ public class RequirePositionController {
 			RequirePositionDetailSearch requirePositionDetailSearch,
 			ModelMap model
 			) {
+		RequirePositionDto primaryRequirePositionDto = requiredPositionService.findById(requirePositionDetailSearch.getId()).orElse(null);
 		RequirePositionDto requiePositionDto = requiredPositionService.findDetail(requirePositionDetailSearch).orElse(null);
-		model.put("requirePosition", requiePositionDto);
+		model.put("requirePosition", primaryRequirePositionDto);
+		model.put("applicants", requiePositionDto.getActiveApplicants());
 		return "require-position-detail";
 	}
 }

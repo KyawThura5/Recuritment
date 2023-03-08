@@ -57,8 +57,7 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 		RequirePositionDto requirePosition = findById(search.getId()).orElse(null);
 		List<ApplicantDto> applicantList = requirePosition.getApplicants().stream()
 				.filter(
-						a -> !a.isDeleted() &&
-							(search.getStatus() == null || a.getStatus() == search.getStatus()) &&
+						a -> (search.getStatus() == null || a.getStatus() == search.getStatus()) &&
 							(
 								a.getCode().toLowerCase().contains(keyword) ||
 								a.getName().toLowerCase().contains(keyword) ||

@@ -117,7 +117,7 @@ public class ApplicantDto {
 		case SELECTED -> "bg-orangered";
 		case REJECTED -> "bg-danger";
 		case JOB_OFFERED -> "bg-warning text-dark";
-		case DID_NOT_JOINED -> "bg-dark";
+		case DID_NOT_JOIN -> "bg-dark";
 		case HIRED -> "bg-success";
 		default -> null;
 		};
