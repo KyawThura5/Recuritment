@@ -170,6 +170,7 @@ public class UserController {
 			@Validated
 			@ModelAttribute("passwordForm")
 			AdminChangePasswordFormDto passwordForm,
+			RedirectAttributes redirect,
 			BindingResult bindingResult
 			) {
 		
@@ -178,6 +179,7 @@ public class UserController {
 		}
 		
 		userService.changePassword(passwordForm.getUserId(), passwordForm.getPassword());
+		redirect.addFlashAttribute("alert", new Alert("Successfully updated the password.", "notice-info"));
 		return "redirect:/user/search";
 	}
 	
