@@ -156,10 +156,10 @@ a {
     font-size: large;
 }
 .notice-success {
-    border-color: #80D651;
+    border-color: #50a323;
 }
 .notice-success label {
-    color: #80D651;
+    color: #50a323;
 }
 .notice-info {
     border-color: #45ABCD;

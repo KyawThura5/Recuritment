@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.TeamDto;
@@ -29,6 +31,8 @@ import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.PositionService;
 import team.ojt7.recruitment.model.service.VacancyService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 import team.ojt7.recruitment.model.validator.VacancyValidator;
 
 @Controller
@@ -95,9 +99,28 @@ public class VacancyController {
 			@ModelAttribute("vacancy")
 			VacancyDto vacancyDto,
 			BindingResult bindingResult,
+			RedirectAttributes redirect,
 			ModelMap model,
 			HttpSession session) {
 		User loginUser = (User) session.getAttribute("loginUser");
+		
+		if (!bindingResult.hasErrors()) {
+			try {
+				Vacancy vacancy = VacancyDto.parse(vacancyDto);
+				if (vacancy.getCreatedUser() == null) {
+					vacancy.setCreatedUser(loginUser);
+				}
+				vacancyTestService.save(vacancy);
+				String message = vacancyDto.getId() == null ? "Successfully created a new vacancy." : "Successfully updated the vacancy.";
+				String cssClass = vacancyDto.getId() == null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidField : e.getFields()) {
+					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+				}
+			}
+		}
+		
 		if (bindingResult.hasErrors()) {
 			List<DepartmentDto> departments = departmentService.findAllForVacancy(vacancyDto);
 			List<PositionDto> positions = positionService.findAllForVacancy(vacancyDto);
@@ -105,11 +128,7 @@ public class VacancyController {
 			model.put("positions", positions);
 			return "edit-vacancy";
 		}
-		Vacancy vacancy = VacancyDto.parse(vacancyDto);
-		if (vacancy.getCreatedUser() == null) {
-			vacancy.setCreatedUser(loginUser);
-		}
-		vacancyTestService.save(vacancy);
+		
 		return "redirect:/vacancy/search";
 	}
 	
@@ -125,8 +144,12 @@ public class VacancyController {
 	}
 	
 	@PostMapping("/vacancy/delete")
-	public String deleteVacancyById(@RequestParam Long id) {
+	public String deleteVacancyById(
+			@RequestParam
+			Long id,
+			RedirectAttributes redirect) {
 		vacancyTestService.deleteById(id);
+		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the vacancy", "notice-success"));
 		return "redirect:/vacancy/search";
 	}
 }

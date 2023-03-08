@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.dto.TeamSearch;
@@ -72,11 +74,20 @@ public class TeamController {
 	}
 
 	@PostMapping("/team/save")
-	public String saveTeam(@ModelAttribute("team")@Validated TeamDto dto, BindingResult bs, ModelMap model) {
+	public String saveTeam(
+			@ModelAttribute("team")
+			@Validated
+			TeamDto dto,
+			BindingResult bs,
+			RedirectAttributes redirect,
+			ModelMap model) {
 		
 		if (!bs.hasErrors()) {
 			try {
 				teamService.save(TeamDto.parse(dto));
+				String message = dto.getId() == null ? "Successfully created a new team." : "Successfully updated the team.";
+				String cssClass = dto.getId() == null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidFiled : e.getFields()) {
 					bs.rejectValue(invalidFiled.getField(), invalidFiled.getCode(), invalidFiled.getMessage());
@@ -96,9 +107,13 @@ public class TeamController {
 	}
 
 	@PostMapping("/team/delete")
-	public String deleteTeam(@RequestParam("id") Long id) {
+	public String deleteTeam(
+			@RequestParam("id")
+			Long id,
+			RedirectAttributes redirect) {
 
 		teamService.deleteById(id);
+		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the team.", "notice-success"));
 		return "redirect:/team/search";
 	}
 

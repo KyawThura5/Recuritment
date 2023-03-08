@@ -29,7 +29,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
@@ -162,12 +164,16 @@ public class ApplicantController {
 			CommonsMultipartFile attachedFile,
 			@RequestParam
 			String contextPage,
+			RedirectAttributes redirect,
 			ModelMap model) {
 		
 		if (!bindingResult.hasErrors()) {
 			try {
 				Applicant applicant = ApplicantDto.parse(applicantDto);
 				applicantService.save(applicant, attachedFile);
+				String message = applicantDto.getId() == null ? "Successfully created a new applicant." : "Successfully updated the applicant.";
+				String cssClass = applicantDto.getId() == null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
@@ -190,8 +196,12 @@ public class ApplicantController {
 	}
 
 	@RequestMapping(value = "/applicant/delete", method = RequestMethod.POST)
-	public String deleteApplicant(@RequestParam("id")Long id) {
+	public String deleteApplicant(
+			@RequestParam("id")
+			Long id,
+			RedirectAttributes redirect) {
 		applicantService.deleteById(id);
+		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the applicant.", "notice-success"));
 		return "redirect:/applicant/search";
 	}
 	
@@ -313,9 +323,11 @@ public class ApplicantController {
 			@ModelAttribute("statusChangeHistory")
 			ApplicantStatusChangeHistoryDto statusChangeHistory,
 			@RequestParam
-			String contextPage
+			String contextPage,
+			RedirectAttributes redirect
 			) {
 		applicantStatusChangeHistoryService.save(statusChangeHistory);
+		redirect.addFlashAttribute("alert", new Alert("Successfully changed the applicant's status.", "notice-success"));
 		return "redirect:%s".formatted(contextPage);
 	}
 

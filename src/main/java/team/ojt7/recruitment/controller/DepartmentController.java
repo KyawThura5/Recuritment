@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.DepartmentSearch;
 import team.ojt7.recruitment.model.service.DepartmentService;
@@ -59,11 +61,20 @@ public class DepartmentController {
 	}
 
 	@PostMapping("/department/save")
-	public String saveDepartment(@ModelAttribute("department") @Validated DepartmentDto dto,BindingResult bs,ModelMap model) {
+	public String saveDepartment(
+			@ModelAttribute("department")
+			@Validated
+			DepartmentDto dto,
+			BindingResult bs,
+			RedirectAttributes redirect,
+			ModelMap model) {
 		
 		if (!bs.hasErrors()) {
 			try {
 				departmentService.save(DepartmentDto.parse(dto));
+				String message = dto.getId() == null ? "Successfully created a new department." : "Successfully Updated the department";
+				String cssClass = dto.getId() == null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
@@ -81,9 +92,14 @@ public class DepartmentController {
 	}
 
 	@PostMapping("/department/delete")
-	public String deleteDepartment(@RequestParam("id") Long id) {
+	public String deleteDepartment(
+			@RequestParam("id")
+			Long id,
+			RedirectAttributes redirect
+			) {
 		
 		departmentService.deleteById(id);
+		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the department.", "notice-success"));
 		return "redirect:/department/search";
 	}
 }
