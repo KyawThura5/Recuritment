@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team.ojt7.recruitment.model.dto.AdminChangePasswordFormDto;
+import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.UserChangePasswordFormDto;
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.dto.UserSearch;
@@ -76,6 +78,7 @@ public class UserController {
 			@ModelAttribute("user")
 			UserDto dto,
 			BindingResult bs,
+			RedirectAttributes redirect,
 			ModelMap model) {
 		
 		if(!dto.getPassword().equals(dto.getConfirmPassword())) {
@@ -85,7 +88,11 @@ public class UserController {
 		if (!bs.hasErrors()) {
 			try {
 				User user = UserDto.parse(dto);
-					userService.save(user);	
+				userService.save(user);
+				String message = dto.getId() == null ? "Successfully create a new user." : "Successfully updated the user.";
+				String cssClass = dto.getId() == null ? "notice-success" : "notice-info";
+				Alert alert = new Alert(message, cssClass);
+				redirect.addFlashAttribute("alert", alert);
 				
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
@@ -115,9 +122,15 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = "/user/delete", method = RequestMethod.GET)
-	public String deleteUser(@RequestParam("id")Long id) {
+	@RequestMapping(value = "/user/delete", method = RequestMethod.POST)
+	public String deleteUser(
+			@RequestParam("id")
+			Long id,
+			RedirectAttributes redirect
+			) {
 		userService.deleteById(id);
+		Alert alert = new Alert("Successfully deleted the user.", "notice-success");
+		redirect.addFlashAttribute("alert", alert);
 		return "redirect:/user/search";
 	}
 
