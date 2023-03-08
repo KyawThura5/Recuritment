@@ -134,6 +134,17 @@ public class InterviewDto {
 		this.localTime = localTime;
 	}
 
+	public String getStatusColorClass() {
+		return switch(status) {
+		case NOT_START_YET-> "bg-primary text-white";
+		case CANCELLED -> "bg-info text-dark";
+		case ON_HOLD -> "bg-orangered";
+		case FAILED -> "bg-danger";
+		case PASSED -> "bg-success";
+		default -> null;
+		};
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(applicant, code, comment, id, interviewName, localDate, localTime, status);
