@@ -112,7 +112,7 @@ public class InterviewController {
 	}
 	
 	@PostMapping("/interview/status/save")
-	public String statuschange(@RequestParam("id")Long id,@RequestParam("status")Status status,@RequestParam("comment")String comment ) {
+	public String statuschange(@RequestParam("id")Long id,@RequestParam("status")Status status,@RequestParam("comment")String comment,ModelMap map) {
 		InterviewDto dto=interviewService.findByIdStatus(id,status,comment).get();		
 		interviewService.save(InterviewDto.parse(dto));		
 		return "redirect:/interview/search";
