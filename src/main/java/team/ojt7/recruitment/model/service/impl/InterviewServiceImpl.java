@@ -90,5 +90,17 @@ public class InterviewServiceImpl implements InterviewService {
 		return Optional.ofNullable(InterviewDto.of(interview));
 	}
 
+	@Override
+	public InterviewDto getCurrentStatus(Long id) {
+		
+		Interview interview=interviewRepo.findById(id).orElse(null);
+		
+		InterviewDto dto=new InterviewDto();
+		dto.setId(interview.getId());
+		dto.setStatus(interview.getStatus());
+		dto.setComment(interview.getComment());
+		return dto;
+	}
+
 	
 }

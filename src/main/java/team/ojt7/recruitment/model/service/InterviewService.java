@@ -22,4 +22,6 @@ public interface InterviewService {
 	Optional<InterviewDto> findById(Long id);
 
 	Optional<InterviewDto> findByIdStatus(Long id,Status status,String comment);
+
+	InterviewDto getCurrentStatus(Long id);
 }

@@ -20,14 +20,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <div th:id="editTeamModal" class="modal modal-confirm">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg animated slideInDown">
-                <div class="modal-header p-2">
-                    <div class="modal-title font-lg fw-bold">
-                        Edit Team
-                    </div>
-                </div>
                 <div class="modal-body">
                     <form id="teamForm" th:action="@{/team/save}" class="card-body row"  method="post">
-                        <h2 class="card-title fs-5 fw-bold col-12"></h2>
+                        <h2 id="editTeamModalTitle" class="card-title fs-5 fw-bold col-12"></h2>
                         <input type="hidden" name="id">
                         <input type="hidden" name="deleted" value="false">
                         <div class="form-group col-12 my-2">
@@ -275,6 +270,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                     let team = data.team;
                     let departmentList = data.departmentList;
                     let title = data.title;
+
+                    $("#editTeamModalTitle").text(title);
                     
                     let form = $("#teamForm");
                     form.find("input[name='id']").val(team.id);
