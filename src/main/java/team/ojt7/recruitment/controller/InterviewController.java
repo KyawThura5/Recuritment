@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.controller;
 
+import java.lang.ProcessBuilder.Redirect;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
@@ -13,11 +15,14 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
+import team.ojt7.recruitment.model.entity.Interview.Status;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.InterviewNameService;
 import team.ojt7.recruitment.model.service.InterviewService;
@@ -73,11 +78,14 @@ public class InterviewController {
 	}
 	
 	@PostMapping("/interview/save")
-	public String saveInterview(@ModelAttribute("interview") @Validated InterviewDto dto,BindingResult bs,ModelMap model) {
+	public String saveInterview(@ModelAttribute("interview") @Validated InterviewDto dto,BindingResult bs,ModelMap model,RedirectAttributes redirect) {
 		
 		if (!bs.hasErrors()) {
 			try {
-				interviewService.save(InterviewDto.parse(dto));		
+				interviewService.save(InterviewDto.parse(dto));
+				String message=dto.getId()==null ? "Successfully created a new interview!" : "Successfully update interview!";
+				String cssClass=dto.getId()==null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
@@ -97,9 +105,17 @@ public class InterviewController {
 
 	
 	@PostMapping("/interview/delete")
-	public String deleteInterview(@RequestParam("id") Long id) {
-		
+	public String deleteInterview(@RequestParam("id") Long id,RedirectAttributes redirect) {
 		interviewService.deleteById(id);
+		redirect.addFlashAttribute("alert",new Alert("Successfully delete the interview!","notice-success"));
 		return "redirect:/interview/search";
+	}
+	
+	@PostMapping("/interview/status/save")
+	public String statuschange(@RequestParam("id")Long id,@RequestParam("status")Status status,@RequestParam("comment")String comment ) {
+		InterviewDto dto=interviewService.findByIdStatus(id,status,comment).get();		
+		interviewService.save(InterviewDto.parse(dto));		
+		return "redirect:/interview/search";
+		
 	}
 }
