@@ -88,6 +88,10 @@ a {
 	background-color: khaki;
 }
 
+.bg-lightcyan {
+  background-color: lightcyan;
+}
+
 .font-xs {
   font-size: 0.8em;
 }
