@@ -90,7 +90,27 @@
             checkValidation(nameError, "nameError", "name", validation.name);
             checkValidation(departmentError, "departmentError", "departmentHelp", validation.department);
         } else {
-            form.submit();
+            $.ajax({
+                type:"POST",
+                url: "/team/validate",
+                data: $("#teamForm").serialize(),
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    console.log(data);
+                    console.log(Object.keys(data).length)
+                    if (Object.keys(data).length === 0) {
+                        form.submit();
+                    } else {
+                        console.log("has error");
+                    }
+                },
+                error: function (e) {
+
+                    console.log('error');
+                }
+            }
+            );
         }
         
     });
@@ -113,5 +133,24 @@
             element.parentNode.removeChild(element);
         }
     }
+
+    // $("#teamForm").on("submit", function(event) {
+    //     event.preventDefault();
+    //     $.ajax({
+    //         type:"POST",
+    //         url: "/team/validate",
+    //         data: $("#teamForm").serialize(),
+    //         cache: false,
+    //         timeout: 600000,
+    //         success: function (data) {
+    //             console.log(data);
+    //         },
+    //         error: function (e) {
+
+    //             console.log('error');
+    //         }
+    //     }
+    //     );
+    // });
 </script>
 </html>

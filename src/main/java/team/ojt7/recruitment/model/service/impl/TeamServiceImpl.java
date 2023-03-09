@@ -103,4 +103,17 @@ public TeamDto save(Team team) {
 		Page<TeamDto>p=new PageImpl<TeamDto>(TeamDto.ofList(teams.getContent()),pageable,teams.getTotalElements());		
 		return p;
 	}
+	@Override
+	public void checkValidation(TeamDto team) {
+		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
+		
+		Team duplicatedEntry = teamRepo.findByNameAndDepartmentIdAndIsDeleted(team.getName(), team.getDepartment().getId(), false);
+		if (duplicatedEntry != null && !Objects.equals(team.getId(), duplicatedEntry.getId())) {
+			invalidFieldsException.addField(new InvalidField("name", "duplicated", "A team with this name already exists in the department"));
+		}
+		
+		if (invalidFieldsException.hasFields()) {
+			throw invalidFieldsException;
+		}
+	}
 }

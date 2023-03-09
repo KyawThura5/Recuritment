@@ -1,13 +1,17 @@
 package team.ojt7.recruitment.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team.ojt7.recruitment.model.dto.Alert;
@@ -58,6 +63,7 @@ public class TeamController {
 		model.put("teamList", teamDtos);
 		model.put("teamPage", teamPage);
 		model.put("teamSearch",dto);
+		model.put("departmentList", departmentService.findAll());
 		return "teams";
 	}
 
@@ -104,6 +110,49 @@ public class TeamController {
 		}
 		
 		return "redirect:/team/search";
+	}
+	
+	@GetMapping("/team/data")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> getDataFormTeamEdit(
+			@RequestParam(required = false)
+			Long id
+			) {
+		Map<String, Object> data = new HashMap<>();
+		TeamDto teamDto = teamService.findById(id).orElse(new TeamDto());
+		List<DepartmentDto> departmentDtos = departmentService.findAllForTeam(teamDto);
+		data.put("team", teamDto);
+		data.put("departmentList", departmentDtos);
+		String title = teamDto.getId() == null ? "Add New Team" : "Edit Team";
+		data.put("title", title);
+		return ResponseEntity.ok(data);
+	}
+	
+	@PostMapping("/team/validate")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> validateTeam(
+			@Validated
+			@ModelAttribute("team")
+			TeamDto team,
+			BindingResult bs
+			) {
+		Map<String, String> validation = new HashMap<>();
+		
+		try {
+			teamService.checkValidation(team);
+		} catch (InvalidFieldsException e) {
+			for (InvalidField invalidField : e.getFields()) {
+				bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+			}
+		}
+		
+		if (bs.hasErrors()) {
+			for (FieldError error : bs.getFieldErrors()) {
+				validation.put(error.getField(), error.getDefaultMessage());
+			}
+		}
+		
+		return ResponseEntity.ok(validation);
 	}
 
 	@PostMapping("/team/delete")
