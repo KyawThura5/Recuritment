@@ -84,14 +84,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public List<DepartmentDto> findAllForVacancy(VacancyDto vacancy) {
-		List<DepartmentDto> departments = findAllByIsDeleted(false);
 		if (vacancy.getId() != null && vacancy.getDepartment() != null) {
-			if (!departments.contains(vacancy.getDepartment())) {
-				List<DepartmentDto> newDepartments = new ArrayList<>(departments);
-				newDepartments.add(vacancy.getDepartment());
-				return newDepartments;
-			}
+			return List.of(vacancy.getDepartment());
 		}
+		
+		List<DepartmentDto> departments = findAllByIsDeleted(false);
 		return departments;
 	}
 
