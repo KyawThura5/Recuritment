@@ -12,32 +12,8 @@ $(document).ready(function () {
         window.setTimeout(closeAlert, 5000);
     }
 
-
 });
 
-function closeAlert() {
-    let modelElement=document.getElementById("alert");
-    modelElement.style.display = "none";
-}
-
-function showModal(id) {
-    let modelElement=document.getElementById(id);
-    modelElement.style.display = "block";
-    window.onclick = function(event) {
-        if (event.target == modelElement) {
-            modelElement.style.display = "none";
-        }
-    }
-}
-
-function closeModal(id) {
-    let modelElement=document.getElementById(id);
-    modelElement.style.display = "none";
-}
-
-function changePageSize() {
-      $("#searchForm").submit();
-}
 
 function showChangeStatusDialog(id) {
 

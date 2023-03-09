@@ -9,6 +9,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/custom-validation.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/departments.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
@@ -131,9 +134,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                                     <div class="row">
                                         <label class="col-12 font-md fw-bold">[[${dept.name}]]</label>
                                         <label class="col-12 font-sm fw-bold mt-1 text-success">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-                                                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>
                                             [[${dept.teams.size()}]]
                                         </label>
                                     </div>
@@ -240,184 +241,4 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     </main>
       
 </body>
-
-<script type="text/javascript">
-
-    let alert = document.getElementById("alert");
-    if(alert) {
-        let modelElement=document.getElementById("alert");
-        modelElement.style.display = "block";
-        window.onclick = function(event) {
-            if (event.target == modelElement) {
-                modelElement.style.display = "none";
-            }
-        }
-        window.setTimeout(closeAlert, 5000);
-    }
-
-    function closeAlert() {
-        let modelElement=document.getElementById("alert");
-        modelElement.style.display = "none";
-    }
-
-    function changePageSize() {
-        $("#pageParamInput").val("1");
-        $("#searchForm").submit();
-    }
-
-    const loadDataOfForm = (data) => {
-        $.ajax({
-            type: "GET",
-            url: "/department/search/content",
-            data: data,
-            dataType: 'html',
-            success: function (content) {
-
-                let dataContent = $("#dataContent")
-                dataContent.html(content);
-                
-            },
-            error: function (e) {
-
-                console.log('error');
-            }
-        });
-    }
-
-    const loadDataOfUrl = (url) => {
-        $.ajax({
-            type: "GET",
-            url: url,
-            dataType: 'html',
-            success: function (content) {
-
-                let dataContent = $("#dataContent")
-                dataContent.html(content);
-                
-            },
-            error: function (e) {
-
-                console.log('error');
-            }
-        });
-    }
-    
-    function closeModal(id) {
-        let modelElement=document.getElementById(id);
-        modelElement.style.display = "none";
-    }
-    
-    function showEditDepartmentModal(id) {
-
-        let url = "/department/data";
-        if (id) {
-            url = url + "?id=" + id;
-        }
-
-        $.ajax({
-                type:"GET",
-                url: url,
-                cache: false,
-                timeout: 600000,
-                success: function (data) {
-                    let department = data.department;
-                    let title = data.title;
-                    
-                    let form = $("#departmentForm");
-                    form.find("input[name='id']").val(department.id);
-                    form.find("input[name='name']").val(department.name);
-                    form.find("input[name='deleted']").val(department.deleted);
-
-                    let modelElement=document.getElementById("editDepartmentModal");
-                    modelElement.style.display = "block";
-                    window.onclick = function(event) {
-                        if (event.target == modelElement) {
-                            modelElement.style.display = "none";
-                        }
-                    }
-                },
-                error: function (e) {
-
-                    console.log('error');
-                }
-            }
-            );
-    }
-    
-    var constraints = {
-            name: {
-                presence: {message : "^Enter name"},
-                length: {
-                    maximum: 50,
-                    message: "^Name must be maximum 50 characters"
-                }
-            },
-            
-        };
-    
-    var form = document.getElementById("departmentForm");
-    form.addEventListener("submit", function(event) {
-        event.preventDefault();
-        let values = validate.collectFormValues(form);
-        let validation = validate(values, constraints);
-        
-        let nameError = document.createElement("label");
-        nameError.id = "nameError";
-        nameError.classList.add("text-danger");
-
-        if (validation) {
-            checkValidation(nameError, "nameError", "name", validation.name);
-        } else {
-            $.ajax({
-                type:"POST",
-                url: "/department/validate",
-                data: $("#departmentForm").serialize(),
-                cache: false,
-                timeout: 600000,
-                success: function (data) {
-                    console.log(data);
-                    console.log(Object.keys(data).length)
-                    if (Object.keys(data).length === 0) {
-                        form.submit();
-                    } else {
-                        checkServerValidation(nameError, "nameError", "name", data.name);
-                        
-                    }
-                },
-                error: function (e) {
-
-                    console.log('error');
-                }
-            }
-            );
-        }
-        
-    });
-    
-    
-    const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
-        if (validation) {
-            let input = document.getElementById(inputId);
-            if (!document.getElementById(errorLabelId)) {
-                input.parentNode.insertBefore(errorLabel, input.nextSibling);
-            }
-            document.getElementById(errorLabelId).innerText = validation[0];
-        } else {
-            removeIfExists(errorLabelId);
-        }
-    }
-
-    const checkServerValidation = (errorLabel, errorLabelId, inputId, validation) => {
-        if (validation) {
-            let input = document.getElementById(inputId);
-            if (!document.getElementById(errorLabelId)) {
-                input.parentNode.insertBefore(errorLabel, input.nextSibling);
-            }
-            document.getElementById(errorLabelId).innerText = validation;
-        } else {
-            removeIfExists(errorLabelId);
-        }
-    }
-    
-</script>
 </html>
