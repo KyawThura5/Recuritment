@@ -62,6 +62,28 @@
 
 		</div>
 
+        <div th:if="${alert != null}" id="alert" class="modal">
+            <div class="modal-dialog animated bounceInRight">
+                <div class="modal-body shadow notice rounded" th:classappend="${alert.cssClass}">
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">
+                                [[${alert.message}]]
+                            </label>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="btn text-secondary" th:onclick="closeAlert()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M175 175C184.4 165.7 199.6 165.7 208.1 175L255.1 222.1L303 175C312.4 165.7 327.6 165.7 336.1 175C346.3 184.4 346.3 199.6 336.1 208.1L289.9 255.1L336.1 303C346.3 312.4 346.3 327.6 336.1 336.1C327.6 346.3 312.4 346.3 303 336.1L255.1 289.9L208.1 336.1C199.6 346.3 184.4 346.3 175 336.1C165.7 327.6 165.7 312.4 175 303L222.1 255.1L175 208.1C165.7 199.6 165.7 184.4 175 175V175zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+
         <div class="row mt-3">
             <div class="col-12 my-3" th:each="vacancy  :${vacancyPage.content}">
                 <div class="card shadow-lg animated fadeInUp">
@@ -102,7 +124,7 @@
                                         [[${vacancy.createdUser.name}]]
                                     </label>
                                     <span class="mx-2 d-md-inline">|</span>
-                                    <label class="d-md-inline-block mt-2 mt-md-0 font-sm">
+                                    <label class="d-md-inline-block mt-2 mt-md-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
                                         [[${#temporals.format(vacancy.createdDateTime,'yyyy-MM-dd HH:mm')}]]
                                     </label>
@@ -135,12 +157,6 @@
 
                         <hr class="mt-4">
 
-                        <div th:if="${vacancy.comment != null && !vacancy.comment.blank}" class="row mb-3">
-                            <div class="col-12 fst-italic fw-bold">
-                                [[${vacancy.comment}]]
-                            </div>
-                        </div>
-
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -156,7 +172,7 @@
                                     <tr th:each="requirePosition : ${vacancy.requirePositions}" class="font-sm">
                                         <td>
                                             [[${requirePosition.position.name}]]
-                                            <label th:if="${requirePosition.foc}" class="badge rounded-pill bg-primary">
+                                            <label th:if="${requirePosition.foc}" class="badge rounded-pill bg-darkgoldenrod">
                                                 FOC
                                             </label>
                                         </td>
@@ -164,10 +180,10 @@
                                         <td>[[${requirePosition.team.name}]]</td>
                                         <td class="text-center">[[${requirePosition.activeApplicants.size()}]]</td>
                                         <td class="fit text-center">
-                                            <a href="#" class="btn btn-sm btn-outline-warning">
+                                            <a th:href="@{/requirePosition/detail(id=${requirePosition.id})}" class="btn btn-sm btn-outline-orange">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
                                             </a>
-                                            <a sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:if="${vacancy.status.name() != 'CLOSED'}" th:href="@{/applicant/vacancy/add(id=${requirePosition.id},vacancyId=${vacancy.id})}" class="btn btn-sm btn-outline-success">
+                                            <a sec:authorize="hasAnyAuthority('HIRING_MANAGER')" th:if="${vacancy.status.name() != 'CLOSED'}" th:href="@{/applicant/vacancy/add(id=${requirePosition.id})}" class="btn btn-sm btn-outline-success">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
 											</a>
                                         </td>
@@ -176,6 +192,12 @@
                             </table>
                         </div>
                        
+                        <div th:if="${vacancy.comment != null && !vacancy.comment.blank}" class="row mt-2 mx-1">
+                            <div class="col-12 fst-italic bg-khaki font-sm fw-bold rounded-3 p-3">
+                                [[${vacancy.comment}]]
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -241,6 +263,23 @@
 </body>
 <script type="text/javascript">
 	  
+    let alert = document.getElementById("alert");
+    if(alert) {
+        let modelElement=document.getElementById("alert");
+        modelElement.style.display = "block";
+        window.onclick = function(event) {
+            if (event.target == modelElement) {
+                modelElement.style.display = "none";
+            }
+        }
+        window.setTimeout(closeAlert, 5000);
+    }
+
+    function closeAlert() {
+        let modelElement=document.getElementById("alert");
+        modelElement.style.display = "none";
+    }
+
     function changePageSize() {
         $("#searchForm").submit();
     }

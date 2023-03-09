@@ -64,7 +64,7 @@ public class InterviewController {
 			)  {
 		InterviewDto interviewDto = interviewService.findById(id).orElse(interviewService.generateNewWithCode());
 		model.put("interview", interviewDto);
-		model.put("interviewNames",interviewNameService.findAll());
+		model.put("interviewNames",interviewNameService.findAllByIsDeleted(false));
 		model.put("applicants", applicantService.findAll());
 		String title = interviewDto.getId() == null ? "Create Interview" : "Edit Interview";
 		model.put("title", title);

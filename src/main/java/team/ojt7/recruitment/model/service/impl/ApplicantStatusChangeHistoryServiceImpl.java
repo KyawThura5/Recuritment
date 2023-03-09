@@ -7,11 +7,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import team.ojt7.recruitment.model.dto.ApplicantDto;
+import team.ojt7.recruitment.model.dto.ApplicantStatusChangeDto;
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.ApplicantStatusChangeHistory;
 import team.ojt7.recruitment.model.entity.User;
+import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.repo.ApplicantStatusChangeHistoryRepo;
 import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
@@ -47,12 +48,13 @@ public class ApplicantStatusChangeHistoryServiceImpl implements ApplicantStatusC
 	}
 	
 	@Override
-	public ApplicantStatusChangeHistoryDto getCurrentStatus(Long applicantId) {
+	public ApplicantStatusChangeDto getCurrentStatus(Long applicantId) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		Applicant applicant = applicantRepo.findById(applicantId).get();
-		ApplicantStatusChangeHistoryDto dto = new ApplicantStatusChangeHistoryDto();
-		dto.setStatus(applicant.getStatus());
-		dto.setApplicant(ApplicantDto.of(applicant));
+		ApplicantStatusChangeDto dto = new ApplicantStatusChangeDto();
 		dto.setApplicantId(applicantId);
+		dto.setStatus(applicant.getStatus());
+		dto.setUpdatable(loginUser.getRole() == Role.GENERAL_MANAGER || (applicant.getStatus().getStep() >= 3));
 		return dto;
 	}
 

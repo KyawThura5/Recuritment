@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
 	<title>[[${vacancy.id == null ? 'Create a new vacancy' : 'Update vacancy'}]]</title>
-	<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/resources/js/dselect.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/dselect.js}"></script>
 	<script type="text/javascript" th:src="@{/resources/js/edit-vacancy.js}"></script>
-	<script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
-	<link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
-	<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
-    <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
-	<link rel="stylesheet" th:href="@{/resources/css/dselect.css}" />
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/dselect.css}" />
 </head>
 <body>
 	<div th:replace="nav-bar :: navbar('vacancies')"></div>
@@ -41,13 +43,13 @@
 							</select>
 						</div>
 		
-						<div class="col-12 col-md-6 col-xl-3 my-2 form-group">
+						<div class="col-12 col-lg-6 col-xl-4 my-2 form-group">
 							<label for="code" class="form-label">Code</label>
 							<input id="code" type="text" class="form-control" th:field="*{code}">
 							<label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" th:errorclass="text-danger"></label>
 						</div>
 		
-						<div class="col-12 col-md-6 col-xl-3 my-2 form-group">
+						<div class="col-12 col-lg-6 col-xl-3 my-2 form-group">
 							<label for="department" class="form-label">Department</label>
 							<select class="form-select select-search" id="department" th:field="*{department}">
 								<option value="" th:attrappend="disabled=${vacancy.id != null ? 'disabled' : ''}">-- select a department --</option>
@@ -57,13 +59,13 @@
 							<label th:if="${#fields.hasErrors('department')}" th:errors="*{department}" th:errorclass="text-danger"></label>
 						</div>
 		
-						<div class="col-12 col-md-6 col-xl-3 my-2 form-group">
+						<div class="col-12 col-lg-6 col-xl-3 my-2 form-group">
 							<label for="dueDate" class="form-label">Due Date</label>
 							<input id="dueDate" type="date" class="form-control" th:field="*{dueDate}">
 							<label th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" th:errorclass="text-danger"></label>
 						</div>
 		
-						<div class="col-12 col-md-6 col-xl-3 my-2 form-group">
+						<div class="col-12 col-lg-6 col-xl-2 my-2 form-group">
 							<label for="status" class="form-label">Status</label>
 							<select id="status" class="form-select" th:field="*{status}">
 								<option value="">-- select a status --</option>

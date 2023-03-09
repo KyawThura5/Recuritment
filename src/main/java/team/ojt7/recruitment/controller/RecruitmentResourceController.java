@@ -1,7 +1,5 @@
 package team.ojt7.recruitment.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -13,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
@@ -95,12 +95,16 @@ public class RecruitmentResourceController {
 			@ModelAttribute("recruitmentResource")
 			ExternalRecruitmentResourceDto err,
 			BindingResult bindingResult,
+			RedirectAttributes redirect,
 			ModelMap model
 			) {
 		
 		if (!bindingResult.hasErrors()) {
 			try {
 				recruitmentResourceService.save(RecruitmentResourceDto.parse(err));
+				String message = err.getId() == null ? "Successfully created a new recruitment resource." : "Successfully updated the recruitment resource.";
+				String cssClass = err.getId() == null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
@@ -123,12 +127,16 @@ public class RecruitmentResourceController {
 			@ModelAttribute("recruitmentResource")
 			DirectRecruitmentResourceDto drr,
 			BindingResult bindingResult,
+			RedirectAttributes redirect,
 			ModelMap model
 			) {
 		
 		if (!bindingResult.hasErrors()) {
 			try {
 				recruitmentResourceService.save(RecruitmentResourceDto.parse(drr));
+				String message = drr.getId() == null ? "Successfully created a new recruitment resource." : "Successfully updated the recruitment resource.";
+				String cssClass = drr.getId() == null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
@@ -170,14 +178,22 @@ public class RecruitmentResourceController {
 	}
 	
 	@PostMapping("/recruitmentresource/external/delete")
-	public String deleteExternalRecruitmentResource(@RequestParam Long id) {
+	public String deleteExternalRecruitmentResource(
+			@RequestParam
+			Long id,
+			RedirectAttributes redirect) {
 		recruitmentResourceService.deleteById(id);
+		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the recruitment resource.", "notice-success"));
 		return "redirect:/recruitmentresource/external/search";
 	}
 	
 	@PostMapping("/recruitmentresource/direct/delete")
-	public String deleteDirectRecruitmentResource(@RequestParam Long id) {
+	public String deleteDirectRecruitmentResource(
+			@RequestParam
+			Long id,
+			RedirectAttributes redirect) {
 		recruitmentResourceService.deleteById(id);
+		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the recruitment resource.", "notice-success"));
 		return "redirect:/recruitmentresource/direct/search";
 	}
 }

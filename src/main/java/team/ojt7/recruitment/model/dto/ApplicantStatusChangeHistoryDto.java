@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,7 +9,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
 import team.ojt7.recruitment.model.entity.ApplicantStatusChangeHistory;
 
-public class ApplicantStatusChangeHistoryDto {
+public class ApplicantStatusChangeHistoryDto implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
@@ -119,4 +122,17 @@ public class ApplicantStatusChangeHistoryDto {
 		this.updatedBy = updatedBy;
 	}
 
+	public String getStatusColorClass() {
+		return switch(status) {
+		case NEW -> "bg-primary";
+		case UNQULIFIED -> "bg-secondary";
+		case QULIFIED -> "bg-info text-dark";
+		case SELECTED -> "bg-orangered";
+		case REJECTED -> "bg-danger";
+		case JOB_OFFERED -> "bg-warning text-dark";
+		case DID_NOT_JOIN -> "bg-dark";
+		case HIRED -> "bg-success";
+		default -> null;
+		};
+	}
 }

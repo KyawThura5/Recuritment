@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.Applicant.Status;
 import team.ojt7.recruitment.model.entity.RequirePosition;
 import team.ojt7.recruitment.model.entity.Vacancy;
 
@@ -68,6 +69,7 @@ public class RequirePositionDto {
 				applicantDto.setEmail(applicant.getEmail());
 				applicantDto.setPhone(applicant.getPhone());
 				applicantDto.setAddress(applicant.getAddress());
+				applicantDto.setStatus(applicant.getStatus());
 				applicantDto.setExperience(applicant.getExperience());
 				applicantDto.setEducation(applicant.getEducation());
 				applicantDto.setSkill(applicant.getSkill());
@@ -140,6 +142,7 @@ public class RequirePositionDto {
 				applicant.setEmail(appDto.getEmail());
 				applicant.setPhone(appDto.getPhone());
 				applicant.setAddress(appDto.getAddress());
+				applicant.setStatus(appDto.getStatus());
 				applicant.setExperience(appDto.getExperience());
 				applicant.setEducation(appDto.getEducation());
 				applicant.setSkill(appDto.getSkill());
@@ -238,6 +241,10 @@ public class RequirePositionDto {
 	
 	public List<ApplicantDto> getActiveApplicants() {
 		return applicants.stream().filter(a -> !a.isDeleted()).toList();
+	}
+	
+	public Long getHiredCount() {
+		return getActiveApplicants().stream().filter(a -> a.getStatus() == Status.HIRED).count();
 	}
 
 	@Override

@@ -11,8 +11,13 @@
 	th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+
+	<script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
+
+
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+	<link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
 </head>
 <body>
 	<div th:replace="nav-bar :: navbar('interviews')"></div>
@@ -22,80 +27,105 @@
 			method="get">
 
 
-
+			<div class="col col-md-auto">
+                <div class="input-group">
+                    <input th:field="*{name}" type="text" class="form-control" placeholder="Search">
+                    <a th:href="@{/interviewname/search}" class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
+                            <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
+                          </svg>
+                    </a>
+                </div>
+            </div>
 			<div class="col-auto">
-				<input type="text" class="form-control" th:field="*{name}">
-			</div>
-
+				<a th:href="@{/interviewname/edit}" class="btn btn-success form-control">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
+                </a>
+			</div>		
 			<div class="col-auto">
-				<a th:href="@{/interview/search}" type="reset"
-					class="btn btn-primary "> <span
-					class="material-symbols-outlined"> restart_alt </span>
-				</a>
-
-			</div>
-			<div class="col-auto">
-
-				<button type="submit" class="btn btn-info ">
-					<span class="material-symbols-outlined">search</span>
-				</button>
-			</div>
-			<div class="col-auto">
-				<a th:href="@{/interview/edit}" class="btn btn-secondary"> <span
-					class="material-symbols-outlined">add_circle</span>
+				<a th:href="@{/interview/search}" class="btn btn-secondary"> 
+				
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-reply-all-fill" viewBox="0 0 16 16">
+  				<path d="M8.021 11.9 3.453 8.62a.719.719 0 0 1 0-1.238L8.021 4.1a.716.716 0 0 1 1.079.619V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"/>
+  				<path d="M5.232 4.293a.5.5 0 0 1-.106.7L1.114 7.945a.5.5 0 0 1-.042.028.147.147 0 0 0 0 .252.503.503 0 0 1 .042.028l4.012 2.954a.5.5 0 1 1-.593.805L.539 9.073a1.147 1.147 0 0 1 0-1.946l3.994-2.94a.5.5 0 0 1 .699.106z"/>
+				</svg>
+				
 				</a>
 			</div>
 		</form>
+		
+			<div class="row mt-3">
+            <div class="col-12 col-xl-6 my-3" th:each="interview : ${list}">
+                <div class="card shadow-sm animated fadeInUp">
+                    <div class="card-body">
+                        <div class="d-flex text-black align-items-center">
+                            <div class="flex-shrink-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-binoculars-fill" viewBox="0 0 16 16">
+ 							 <path d="M4.5 1A1.5 1.5 0 0 0 3 2.5V3h4v-.5A1.5 1.5 0 0 0 5.5 1h-1zM7 4v1h2V4h4v.882a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V13H9v-1.5a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5V13H1V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V4h4zM1 14v.5A1.5 1.5 0 0 0 2.5 16h3A1.5 1.5 0 0 0 7 14.5V14H1zm8 0v.5a1.5 1.5 0 0 0 1.5 1.5h3a1.5 1.5 0 0 0 1.5-1.5V14H9zm4-11H9v-.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5V3z"/>
+							</svg>                            
+							</div>
 
-	
+                            <div class="flex-grow-1 ms-3">
+                                <div class="row">
+                                    <label class="col-12 font-md fw-bold">[[${interview.name}]]</label>
+                                </div>
+                            </div>
 
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Name</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                </svg>
+                                <ul class="dropdown-menu animated fadeIn" aria-labelledby="dropdownMenu2">
+                                  <li>
+                                    <a class="dropdown-item" th:href="@{/interviewname/edit(id=${interview.id})}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
+                                        Edit
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <button class="dropdown-item" th:onclick="showDialog([[${interview.id}]])">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                        Delete
+                                    </button>
+                                    </form>
+                                  </li>
+                                  
+                                </ul>
+                                
+                            </div>
 
-			<tr th:each="interview : ${list}">
-				<td th:text="${interview.id}"></td>
-				<td th:text="${interview.name}"></td>
-				<td><a
-					th:href="@{/interview/edit(id=${interview.id})}"
-					class="btn btn-warning "> <span
-						class="material-symbols-outlined"> edit </span>
-				</a>
-					<button class="btn btn-danger"
-						th:onclick="showDialog([[${interview.id}]])">Del</button></td>
-				<div th:id="modal+${interview.id}" class="modal">
-
-
-					<div class="modal-content">
-						<span class="close delete"
-							th:onclick="closeDialog([[${interview.id}]])">&times;</span>
-						<p>
-							Are You Sure Want to Delete "<span th:text="${interview.name}"></span>"
-							?
-						</p>
-						<center>
-							<span> <a class="btn btn-info "
-								th:onclick="closeDialog([[${interview.id}]])">No </a>
-								<form th:action="@{/interview/delete(id=${interview.id})}"
-									method="post" class="d-inline-block">
-									<button type="submit" class="btn btn-danger">Del</button>
-								</form>
-							</span>
-						</center>
-					</div>
-
-
-				</div>
-			</tr>
-		</tbody>
-	</table>
+                        </div>
+                    </div>
+                    
+                  <!-- Modal -->
+                <div th:id="modal+${interview.id}" class="modal modal-confirm">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content shadow-lg animated bounceIn">
+                            <div class="modal-header p-2">
+                                <div class="modal-title font-lg ">
+                                    Confirm
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <label>
+                                    Are you sure to delete "<span th:text="${interview.name}"></span>"?
+                                </label>
+                            </div>
+                            <div class="model-footer text-center p-2">
+                                <a class="btn btn-outline-secondary px-5" th:onclick="closeDialog([[${interview.id}]])">No
+                                </a>
+                                <form th:action="@{/interviewname/delete(id=${interview.id})}" class="d-inline-block" method="post">
+                                    <button type="submit" class="btn btn-danger px-5">
+                                        Yes
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                    
+                    
+                </div>	
+		</div>
 </div>
-	<script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
 </body>
 </html>

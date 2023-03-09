@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -29,16 +30,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
+import team.ojt7.recruitment.model.dto.ApplicantStatusChangeDto;
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Applicant;
-import team.ojt7.recruitment.model.entity.User;
-import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
@@ -84,7 +86,7 @@ public class ApplicantController {
 	}
 
 	@RequestMapping(value = "/applicant/edit", method = RequestMethod.GET)
-			public String addNewApplicant(@RequestParam(required = false)
+			public String editApplicant(@RequestParam(required = false)
 			Long id,
 			ModelMap model) {
 		ApplicantDto applicantDto = applicantService.findById(id).orElse(applicantService.generateNewWithCode());
@@ -92,8 +94,12 @@ public class ApplicantController {
 		if (applicantDto.getVacancy() != null) {
 			model.put("requirePositions", applicantDto.getVacancy().getRequirePositions());
 		}
+		
+		String contextPage = "/applicant/search";
+		
 		model.put("vacancy",vacancyList);
 		model.put("applicant", applicantDto);
+		model.put("contextPage", contextPage);
 		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 		return "edit-applicant";
 	}
@@ -102,22 +108,51 @@ public class ApplicantController {
 	public String addNewApplicantForRequirePosition(
 			@RequestParam
 			Long id,
-			@RequestParam
-			Long vacancyId,
 			ModelMap model
 			) {
 		ApplicantDto applicantDto = applicantService.generateNewWithCode();
 		List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
 		RequirePositionDto requirePositionDto = requriedPositionService.findById(id).orElse(null);
-		VacancyDto vacancy = vacancyService.findById(vacancyId).get();
 		applicantDto.setRequirePosition(requirePositionDto);
-		applicantDto.setVacancy(vacancy);
+		applicantDto.setVacancy(requirePositionDto.getVacancy());
+		
+		String contextPage = "/vacancy/search";
+		
 		model.put("vacancy",vacancyList);
-		model.put("requirePositions", vacancy.getRequirePositions());
+		model.put("requirePositions", requirePositionDto.getVacancy().getRequirePositions());
 		model.put("applicant", applicantDto);
+		model.put("contextPage", contextPage);
 		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
 		return "edit-applicant";
 	}
+	
+	@RequestMapping(value = "/applicant/requirePosition/detail/edit", method = RequestMethod.GET)
+	public String editApplicantFromRequirePositionDetail (@RequestParam(required = false)
+			Long id,
+			Long requirePositionId,
+			ModelMap model) {
+		RequirePositionDto requirePositionDto = requriedPositionService.findById(requirePositionId).orElse(null);
+		ApplicantDto newApplicantDto = applicantService.generateNewWithCode();
+		newApplicantDto.setVacancy(requirePositionDto.getVacancy());
+		newApplicantDto.setRequirePosition(requirePositionDto);
+		
+		ApplicantDto applicantDto = applicantService.findById(id).orElse(newApplicantDto);
+		List<VacancyDto> vacancyList =vacancyService.findAllForApplicant(applicantDto);
+		
+		
+		if (applicantDto.getVacancy() != null) {
+			model.put("requirePositions", applicantDto.getVacancy().getRequirePositions());
+		}
+		
+		String contextPage = "/requirePosition/detail?id=%d".formatted(requirePositionId);
+		
+		model.put("vacancy",vacancyList);
+		model.put("applicant", applicantDto);
+		model.put("contextPage", contextPage);
+		model.put("recruitmentResources", recruitmentResourceService.findAllForApplicant(applicantDto));
+		return "edit-applicant";
+	}
+	
 
 	@RequestMapping(value="/applicant/save",method=RequestMethod.POST)
 	public String saveApplicant(
@@ -127,12 +162,18 @@ public class ApplicantController {
 			BindingResult bindingResult,
 			@RequestParam(required = false)
 			CommonsMultipartFile attachedFile,
+			@RequestParam
+			String contextPage,
+			RedirectAttributes redirect,
 			ModelMap model) {
 		
 		if (!bindingResult.hasErrors()) {
 			try {
 				Applicant applicant = ApplicantDto.parse(applicantDto);
 				applicantService.save(applicant, attachedFile);
+				String message = applicantDto.getId() == null ? "Successfully created a new applicant." : "Successfully updated the applicant.";
+				String cssClass = applicantDto.getId() == null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
@@ -150,13 +191,17 @@ public class ApplicantController {
 			return "edit-applicant";
 		}
 		
-		return "redirect:/applicant/search";
+		return "redirect:%s".formatted(contextPage);
 		
 	}
 
 	@RequestMapping(value = "/applicant/delete", method = RequestMethod.POST)
-	public String deleteApplicant(@RequestParam("id")Long id) {
+	public String deleteApplicant(
+			@RequestParam("id")
+			Long id,
+			RedirectAttributes redirect) {
 		applicantService.deleteById(id);
+		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the applicant.", "notice-success"));
 		return "redirect:/applicant/search";
 	}
 	
@@ -196,28 +241,49 @@ public class ApplicantController {
 			ModelMap model
 			) {
 		ApplicantDto applicant = applicantService.findById(id).orElse(null);
+		String contextPage = "/applicant/search";
 		model.put("applicant", applicant);
+		model.put("contextPage", contextPage);
 		return "applicant-detail";
 	}
 	
-	@GetMapping("/applicant/status/change")
-	public String changeApplicantStatus(
+	@GetMapping("/applicant/requirePosition/detail")
+	public String showApplicantDetailFromRequirePositionDetail (
 			Long id,
-			String context,
+			Long requirePositionId,
+			ModelMap model
+			) {
+		ApplicantDto applicant = applicantService.findById(id).orElse(null);
+		String contextPage = "/requirePosition/detail?id=" + requirePositionId;
+		model.put("applicant", applicant);
+		model.put("contextPage", contextPage);
+		return "applicant-detail";
+	}
+	
+	@GetMapping("/applicant/detail/status/change")
+	public String changeApplicantStatusFromApplicantDetail (
+			Long id,
 			ModelMap model,
 			HttpSession session
 			) {
-		User loginUser = (User) session.getAttribute("loginUser");
-		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
+		ApplicantStatusChangeDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
 		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
-		boolean updateable = loginUser.getRole() == Role.GENERAL_MANAGER || (aschDto.getStatus().getStep() >= 3);
-		String contextPage = "applicants".equals(context) ? "/applicant/search" : "/applicant/detail?id=" + id;
+		String contextPage = "/applicant/detail?id=" + id;
 		
 		model.put("statusChangeHistory", aschDto);
 		model.put("statusChangeHistories", aschList);
 		model.put("contextPage", contextPage);
-		model.put("updateable", updateable);
 		return "change-applicant-status";
+	}
+	
+	@GetMapping(value = "/applicant/requirePositionDetail/status/change/api")
+	@ResponseBody
+	public ResponseEntity<ApplicantStatusChangeDto> changeApplicantStatusFromRequirePositionDetailApi (
+			@RequestParam
+			Long id
+			) {
+		ApplicantStatusChangeDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
+		return ResponseEntity.ok(aschDto);
 	}
 	
 	@PostMapping("/applicant/status/save")
@@ -225,9 +291,11 @@ public class ApplicantController {
 			@ModelAttribute("statusChangeHistory")
 			ApplicantStatusChangeHistoryDto statusChangeHistory,
 			@RequestParam
-			String contextPage
+			String contextPage,
+			RedirectAttributes redirect
 			) {
 		applicantStatusChangeHistoryService.save(statusChangeHistory);
+		redirect.addFlashAttribute("alert", new Alert("Successfully changed the applicant's status.", "notice-success"));
 		return "redirect:%s".formatted(contextPage);
 	}
 
