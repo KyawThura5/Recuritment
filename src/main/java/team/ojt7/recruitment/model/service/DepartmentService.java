@@ -30,4 +30,7 @@ public interface DepartmentService {
 	DepartmentDto save(Department department);
 	
 	boolean deleteById(Long id);
+	
+	void checkValidation(DepartmentDto departmentDto);
+
 }
