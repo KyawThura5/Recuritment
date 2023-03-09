@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -34,13 +35,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
+import team.ojt7.recruitment.model.dto.ApplicantStatusChangeDto;
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Applicant;
-import team.ojt7.recruitment.model.entity.User;
-import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
@@ -260,62 +260,30 @@ public class ApplicantController {
 		return "applicant-detail";
 	}
 	
-	@GetMapping("/applicant/status/change")
-	public String changeApplicantStatus(
-			Long id,
-			ModelMap model,
-			HttpSession session
-			) {
-		User loginUser = (User) session.getAttribute("loginUser");
-		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
-		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
-		boolean updateable = loginUser.getRole() == Role.GENERAL_MANAGER || (aschDto.getStatus().getStep() >= 3);
-		String contextPage = "/applicant/search";
-		
-		model.put("statusChangeHistory", aschDto);
-		model.put("statusChangeHistories", aschList);
-		model.put("contextPage", contextPage);
-		model.put("updateable", updateable);
-		return "change-applicant-status";
-	}
-	
 	@GetMapping("/applicant/detail/status/change")
 	public String changeApplicantStatusFromApplicantDetail (
 			Long id,
 			ModelMap model,
 			HttpSession session
 			) {
-		User loginUser = (User) session.getAttribute("loginUser");
-		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
+		ApplicantStatusChangeDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
 		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
-		boolean updateable = loginUser.getRole() == Role.GENERAL_MANAGER || (aschDto.getStatus().getStep() >= 3);
 		String contextPage = "/applicant/detail?id=" + id;
 		
 		model.put("statusChangeHistory", aschDto);
 		model.put("statusChangeHistories", aschList);
 		model.put("contextPage", contextPage);
-		model.put("updateable", updateable);
 		return "change-applicant-status";
 	}
 	
-	@GetMapping("/applicant/requirePositionDetail/status/change")
-	public String changeApplicantStatusFromRequirePositionDetail (
-			Long id,
-			Long requirePositionId,
-			ModelMap model,
-			HttpSession session
+	@GetMapping(value = "/applicant/requirePositionDetail/status/change/api")
+	@ResponseBody
+	public ResponseEntity<ApplicantStatusChangeDto> changeApplicantStatusFromRequirePositionDetailApi (
+			@RequestParam
+			Long id
 			) {
-		User loginUser = (User) session.getAttribute("loginUser");
-		ApplicantStatusChangeHistoryDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
-		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
-		boolean updateable = loginUser.getRole() == Role.GENERAL_MANAGER || (aschDto.getStatus().getStep() >= 3);
-		String contextPage = "/requirePosition/detail?id=" + requirePositionId + "#applicant" + id;
-		
-		model.put("statusChangeHistory", aschDto);
-		model.put("statusChangeHistories", aschList);
-		model.put("contextPage", contextPage);
-		model.put("updateable", updateable);
-		return "change-applicant-status";
+		ApplicantStatusChangeDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
+		return ResponseEntity.ok(aschDto);
 	}
 	
 	@PostMapping("/applicant/status/save")

@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,7 +9,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
 import team.ojt7.recruitment.model.entity.ApplicantStatusChangeHistory;
 
-public class ApplicantStatusChangeHistoryDto {
+public class ApplicantStatusChangeHistoryDto implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
