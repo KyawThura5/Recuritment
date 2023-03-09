@@ -5,6 +5,7 @@ import java.lang.ProcessBuilder.Redirect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
+import team.ojt7.recruitment.model.dto.ApplicantStatusChangeDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
@@ -112,10 +115,23 @@ public class InterviewController {
 	}
 	
 	@PostMapping("/interview/status/save")
-	public String statuschange(@RequestParam("id")Long id,@RequestParam("status")Status status,@RequestParam("comment")String comment ) {
+	public String statuschange(@RequestParam("id")Long id,@RequestParam("status")Status status,@RequestParam("comment")String comment,RedirectAttributes redirect) {
 		InterviewDto dto=interviewService.findByIdStatus(id,status,comment).get();		
-		interviewService.save(InterviewDto.parse(dto));		
+		interviewService.save(InterviewDto.parse(dto));	
+		redirect.addFlashAttribute("alert",new Alert("Successfully changed the interview's status!","notice-success"));
 		return "redirect:/interview/search";
 		
 	}
+	
+	@GetMapping(value = "/interview/status/change/api")
+	@ResponseBody
+	public ResponseEntity<InterviewDto> changeApplicantStatusFromRequirePositionDetailApi (
+			@RequestParam
+			Long id
+			) {
+		InterviewDto dto = interviewService.getCurrentStatus(id);
+		return ResponseEntity.ok(dto);
+	}
+	
+	
 }
