@@ -16,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
 import team.ojt7.recruitment.model.entity.ApplicantStatusChangeHistory;
+import team.ojt7.recruitment.model.entity.Interview;
 import team.ojt7.recruitment.model.entity.RequirePosition;
 
 public class ApplicantDto {
@@ -280,6 +281,21 @@ public class ApplicantDto {
 				dto.statusChangeHistories.add(aschDto);
 			}
 		}
+		
+		if (applicant.getInterviews() != null) {
+			for (Interview interview : applicant.getInterviews()) {
+				InterviewDto interviewDto = new InterviewDto();
+				interviewDto.setId(interview.getId());
+				interviewDto.setCode(interview.getCode());
+				interviewDto.setApplicant(dto);
+				interviewDto.setInterviewName(InterviewNameDto.of(interview.getInterviewName()));
+				interviewDto.setLocalDate(interview.getDateTime().toLocalDate());
+				interviewDto.setLocalTime(interview.getDateTime().toLocalTime());
+				interviewDto.setComment(interview.getComment());
+				interviewDto.setStatus(interview.getStatus());
+				dto.interviews.add(interviewDto);
+			}
+		}
 
 		return dto;
 
@@ -328,6 +344,21 @@ public class ApplicantDto {
 				asch.setUpdatedOn(aschDto.getUpdatedOn());
 				asch.setUpdatedBy(UserDto.parse(aschDto.getUpdatedBy()));
 				applicant.getStatusChangeHistories().add(asch);
+			}
+		}
+		
+		if (dto.getInterviews() != null) {
+			for (InterviewDto interviewDto : dto.getInterviews()) {
+				Interview interview = new Interview();
+				interview.setId(interviewDto.getId());
+				interview.setCode(interviewDto.getCode());
+				interview.setInterviewName(InterviewNameDto.parse(interviewDto.getInterviewName()));
+				interview.setStatus(interviewDto.getStatus());
+				interview.setApplicant(applicant);
+				interview.setDateTime(LocalDateTime.of(interviewDto.getLocalDate(), interviewDto.getLocalTime()));
+				interview.setComment(interviewDto.getComment());
+				
+				applicant.getInterviews().add(interview);
 			}
 		}
 		
