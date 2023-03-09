@@ -146,7 +146,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
         <div class="row mt-3">
             <div class="col-12 col-md-6 col-xl-4 my-3" th:each="applicant : ${applicantPage.content}">
-                <div class="card shadow-lg animated fadeInUp" style="border-radius: 0.5em;">
+                <div class="card shadow animated fadeInUp" style="border-radius: 0.5em;">
                     <div class="card-body">
                         <div class="d-flex text-black align-items-center">
                             <div class="flex-shrink-0">
@@ -165,7 +165,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                                         [[${applicant.code}]]
                                     </label>
                                     <label class="col-12 font-xs">
-                                        [[${applicant.createdDate}]]
+                                        [[${#temporals.format(applicant.createdDate, 'yyyy-MM-dd HH:mm (E)')}]]
                                     </label>
                                 </div>
                             </div>

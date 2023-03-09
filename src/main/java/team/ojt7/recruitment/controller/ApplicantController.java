@@ -256,9 +256,11 @@ public class ApplicantController {
 			ModelMap model
 			) {
 		ApplicantDto applicant = applicantService.findById(id).orElse(null);
+		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
 		String contextPage = "/requirePosition/detail?id=" + requirePositionId;
 		model.put("applicant", applicant);
 		model.put("contextPage", contextPage);
+		model.put("statusChangeHistories", aschList);
 		return "applicant-detail";
 	}
 	

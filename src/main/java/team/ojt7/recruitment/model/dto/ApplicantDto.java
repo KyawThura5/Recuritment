@@ -295,6 +295,16 @@ public class ApplicantDto {
 				interviewDto.setStatus(interview.getStatus());
 				dto.interviews.add(interviewDto);
 			}
+			dto.interviews.sort((i, j) -> {
+				LocalDateTime iTime = LocalDateTime.of(i.getLocalDate(), i.getLocalTime());
+				LocalDateTime jTime = LocalDateTime.of(j.getLocalDate(), j.getLocalTime());
+				if (iTime.isBefore(jTime)) {
+					return 1;
+				} else if (iTime.isAfter(jTime)) {
+					return -1;
+				}
+				return 0;
+			});
 		}
 
 		return dto;
