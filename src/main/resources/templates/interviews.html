@@ -8,6 +8,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interviews</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/interviews.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
@@ -78,9 +79,28 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 						th:value="${s}" th:text="${s}" th:selected="${s == interviewPage.size}"></option>
 				</select>
 			</div>
-
 		</div>
+		<div th:if="${alert != null}" id="alert" class="modal">
+            <div class="modal-dialog animated bounceInRight">
+                <div class="modal-body shadow notice rounded" th:classappend="${alert.cssClass}">
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">
+                                [[${alert.message}]]
+                            </label>
+                        </div>
 
+                        <div class="col-auto">
+                            <button class="btn text-secondary" th:onclick="closeAlert()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M175 175C184.4 165.7 199.6 165.7 208.1 175L255.1 222.1L303 175C312.4 165.7 327.6 165.7 336.1 175C346.3 184.4 346.3 199.6 336.1 208.1L289.9 255.1L336.1 303C346.3 312.4 346.3 327.6 336.1 336.1C327.6 346.3 312.4 346.3 303 336.1L255.1 289.9L208.1 336.1C199.6 346.3 184.4 346.3 175 336.1C165.7 327.6 165.7 312.4 175 303L222.1 255.1L175 208.1C165.7 199.6 165.7 184.4 175 175V175zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
    <div class="row mt-3">
             <div class="col-12 col-md-6 col-xl-4 my-3" th:each="interview : ${interviewPage.content}">
                 <div class="card shadow-lg animated fadeInUp" style="border-radius: 0.5em;">
@@ -216,10 +236,10 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             	<!-- Modal -->
                 <div th:id="modal1+${interview.id}" class="modal modal-confirm">
                     <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content shadow-lg animated bounceIn">
+                        <div class="modal-content shadow-lg animated slideInDown">
                             <div class="modal-header p-2">
-                                <div class="modal-title font-lg text-center">
-                                    Change Status
+                                <div class="modal-title font-lg fw-bold">
+                                    Change Interview's Status
                                 </div>
                             </div>
                              <form th:action="@{/interview/status/save}"  method="POST">                                                
@@ -230,7 +250,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                             <select id="status" class="form-select" name="status">
                                 <option
 								th:each="g:${T(team.ojt7.recruitment.model.entity.Interview.Status).values()}"
-								th:value="${g}" th:text="${g.displayName}" >
+								 th:value="${g}" th:text="${g.displayName}" >
                             </option>
                             </select>
                             
@@ -243,38 +263,23 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         </div>
                             </div>
                             <div class="model-footer text-center p-2">
-                                <a class="btn btn-outline-secondary px-5" th:onclick="closeStatusDialog([[${interview.id}]])">Cancel
+                                <a class="btn btn-secondary" th:onclick="closeStatusDialog([[${interview.id}]])">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg>                    
+                                Cancel
                                 </a>
-                                    <button type="submit" class="btn btn-success px-5">
-                                        Save
-                                    </button>
+                                    <button type="submit"  class="btn btn-success">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                                                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                                            </svg>
+                                            Save
+                                        </button>
                                     </div>
                                 </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            
-            	
-            	
-            
-            </div>
-        </div>
-        
-        
-        
-        
-        
-        
-    
-        
-      
-        
-        
-        
-        
-		
+                    </div>                 
+   				 </div>
         <nav aria-label="Pagination" th:if="${interviewPage.totalPages > 0}" class="mt-5">
 			<ul class="pagination justify-content-center bg-white">
 			  <li class="page-item" th:classappend="${interviewPage.number + 1 == 1} ? 'disabled'">
