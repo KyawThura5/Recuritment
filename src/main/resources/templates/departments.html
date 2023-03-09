@@ -10,11 +10,53 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
 </head>
 <body>
     <div th:replace="nav-bar :: navbar('departments')"></div>
+    
+     <div th:id="editDepartmentModal" class="modal modal-confirm">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg animated slideInDown">
+                <div class="modal-header p-2">
+                    <div class="modal-title font-lg fw-bold">
+                        Edit Department
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="departmentForm" th:action="@{/department/save}" class="card-body row"  method="post">
+                        <h2 class="card-title fs-5 fw-bold col-12"></h2>
+                        <input type="hidden" name="id">
+                        <input type="hidden" name="deleted" value="false">
+                        <div class="form-group col-12 my-2">
+                            <label for="name">Name</label>
+                            <input id="name" type="text" class="form-control" name="name">
+                        </div>
+                       
+                        <div class="col-12 d-flex flex-row-reverse mt-3">
+                            <button type="submit" class="btn btn-success ms-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                                    <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                                  </svg>
+                                Save
+                            </button>
+                            <a class="btn btn-secondary" onclick="closeModal('editDepartmentModal')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                  </svg>
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
     <main class="container p-3">
         <h2 class="font-lg fw-bold mb-3">Departments</h2>
         <form id="searchForm" class="row" th:action="@{/department/search}" th:object="${departmentSearch}">
@@ -30,7 +72,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             </div>
 
             <div sec:authorize="hasAuthority('ADMIN')" class="col-2 col-md-auto">
-                <a th:href="@{/department/edit}" class="btn btn-success form-control">
+                <a onclick="showEditDepartmentModal()" class="btn btn-success form-control">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
                 </a>
             </div>
@@ -103,7 +145,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                                     </svg>
                                     <ul class="dropdown-menu animated fadeIn" aria-labelledby="dropdownMenu2">
                                       <li>
-                                        <a class="dropdown-item" th:href="@{/department/edit(id=${dept.id})}">
+                                        <a class="dropdown-item" th:onclick="showEditDepartmentModal([[${dept.id}]])">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
                                             Edit
                                         </a>
@@ -258,6 +300,123 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 console.log('error');
             }
         });
+    }
+    
+    function closeModal(id) {
+        let modelElement=document.getElementById(id);
+        modelElement.style.display = "none";
+    }
+    
+    function showEditDepartmentModal(id) {
+
+        let url = "/department/data";
+        if (id) {
+            url = url + "?id=" + id;
+        }
+
+        $.ajax({
+                type:"GET",
+                url: url,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    let department = data.department;
+                    let title = data.title;
+                    
+                    let form = $("#departmentForm");
+                    form.find("input[name='id']").val(department.id);
+                    form.find("input[name='name']").val(department.name);
+                    form.find("input[name='deleted']").val(department.deleted);
+
+                    let modelElement=document.getElementById("editDepartmentModal");
+                    modelElement.style.display = "block";
+                    window.onclick = function(event) {
+                        if (event.target == modelElement) {
+                            modelElement.style.display = "none";
+                        }
+                    }
+                },
+                error: function (e) {
+
+                    console.log('error');
+                }
+            }
+            );
+    }
+    
+    var constraints = {
+            name: {
+                presence: {message : "^Enter name"},
+                length: {
+                    maximum: 50,
+                    message: "^Name must be maximum 50 characters"
+                }
+            },
+            
+        };
+    
+    var form = document.getElementById("departmentForm");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger");
+
+        if (validation) {
+            checkValidation(nameError, "nameError", "name", validation.name);
+        } else {
+            $.ajax({
+                type:"POST",
+                url: "/department/validate",
+                data: $("#departmentForm").serialize(),
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    console.log(data);
+                    console.log(Object.keys(data).length)
+                    if (Object.keys(data).length === 0) {
+                        form.submit();
+                    } else {
+                        checkServerValidation(nameError, "nameError", "name", data.name);
+                        
+                    }
+                },
+                error: function (e) {
+
+                    console.log('error');
+                }
+            }
+            );
+        }
+        
+    });
+    
+    
+    const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
+        if (validation) {
+            let input = document.getElementById(inputId);
+            if (!document.getElementById(errorLabelId)) {
+                input.parentNode.insertBefore(errorLabel, input.nextSibling);
+            }
+            document.getElementById(errorLabelId).innerText = validation[0];
+        } else {
+            removeIfExists(errorLabelId);
+        }
+    }
+
+    const checkServerValidation = (errorLabel, errorLabelId, inputId, validation) => {
+        if (validation) {
+            let input = document.getElementById(inputId);
+            if (!document.getElementById(errorLabelId)) {
+                input.parentNode.insertBefore(errorLabel, input.nextSibling);
+            }
+            document.getElementById(errorLabelId).innerText = validation;
+        } else {
+            removeIfExists(errorLabelId);
+        }
     }
     
 </script>

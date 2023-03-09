@@ -18,6 +18,7 @@ import team.ojt7.recruitment.model.dto.DepartmentSearch;
 import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Department;
+import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.repo.DepartmentRepo;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
@@ -117,6 +118,21 @@ public class DepartmentServiceImpl implements DepartmentService {
 			}
 		}
 		return departmentDtos;
+	}
+	
+	
+	@Override
+	public void checkValidation(DepartmentDto departmentDto) {
+InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
+		
+		Department duplicatedEntry = departmentRepo.findByNameAndIsDeleted(departmentDto.getName(), false);
+		if (duplicatedEntry != null && !Objects.equals(departmentDto.getId(), duplicatedEntry.getId())) {
+			invalidFieldsException.addField(new InvalidField("name", "duplicated", "A department with this name already exists"));
+		}
+		
+		if (invalidFieldsException.hasFields()) {
+			throw invalidFieldsException;
+		}
 	}
 
 }

@@ -13,9 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.PositionSearch;
 import team.ojt7.recruitment.model.dto.VacancyDto;
+import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.entity.Position;
 import team.ojt7.recruitment.model.repo.PositionRepo;
 import team.ojt7.recruitment.model.service.PositionService;
@@ -107,6 +109,20 @@ public class PositionServiceImpl implements PositionService{
 												positionPage.getTotalElements()
 											);
 		return positionDtoPage;
+	}
+	
+	@Override
+	public void checkValidation(PositionDto positionDto) {
+		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
+		
+		Position duplicatedEntry = repo.findByNameAndIsDeleted(positionDto.getName(), false);
+		if (duplicatedEntry != null && !Objects.equals(positionDto.getId(), duplicatedEntry.getId())) {
+			invalidFieldsException.addField(new InvalidField("name", "duplicated", "A position with this name already exists"));
+		}
+		
+		if (invalidFieldsException.hasFields()) {
+			throw invalidFieldsException;
+		}
 	}
 
 

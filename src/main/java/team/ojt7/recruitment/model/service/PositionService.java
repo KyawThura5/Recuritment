@@ -26,5 +26,8 @@ public interface PositionService {
 	List<PositionDto> findAllForVacancy(VacancyDto vacancy);
 
 	List<PositionDto> findAllByIsDeleted(boolean isDeleted);
+	
+	void checkValidation(PositionDto positionDto);
+
 
 }
