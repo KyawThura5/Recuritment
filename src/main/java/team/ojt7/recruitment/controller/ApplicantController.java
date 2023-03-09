@@ -262,22 +262,6 @@ public class ApplicantController {
 		return "applicant-detail";
 	}
 	
-	@GetMapping("/applicant/detail/status/change")
-	public String changeApplicantStatusFromApplicantDetail (
-			Long id,
-			ModelMap model,
-			HttpSession session
-			) {
-		ApplicantStatusChangeDto aschDto = applicantStatusChangeHistoryService.getCurrentStatus(id);
-		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
-		String contextPage = "/applicant/detail?id=" + id;
-		
-		model.put("statusChangeHistory", aschDto);
-		model.put("statusChangeHistories", aschList);
-		model.put("contextPage", contextPage);
-		return "change-applicant-status";
-	}
-	
 	@GetMapping(value = "/applicant/requirePositionDetail/status/change/api")
 	@ResponseBody
 	public ResponseEntity<ApplicantStatusChangeDto> changeApplicantStatusFromRequirePositionDetailApi (
