@@ -1,16 +1,11 @@
 package team.ojt7.recruitment.model.service.impl;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
-import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.entity.InterviewName;
 import team.ojt7.recruitment.model.repo.InterviewNameRepo;
 import team.ojt7.recruitment.model.service.InterviewNameService;
@@ -72,6 +67,19 @@ InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
 	public boolean deleteById(Long id) {
 		interviewNameRepo.deleteById(id);
 		return true;
+	}
+	@Override
+	public void checkValidation(InterviewNameDto interviewName) {
+		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
+		
+		InterviewName duplicatedEntry = interviewNameRepo.findByNameAndIsDeleted(interviewName.getName(), false);
+		if (duplicatedEntry != null && !Objects.equals(interviewName.getId(), duplicatedEntry.getId())) {
+			invalidFieldsException.addField(new InvalidField("name", "duplicated", "A Interview with this name already exists"));
+		}
+		
+		if (invalidFieldsException.hasFields()) {
+			throw invalidFieldsException;
+		}
 	}
 
 }

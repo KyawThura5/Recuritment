@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
+import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.entity.InterviewName;
 
 public interface InterviewNameService {
@@ -19,5 +20,6 @@ public interface InterviewNameService {
 	InterviewNameDto save(InterviewName interview);
 	
 	boolean deleteById(Long id);
+	void checkValidation(InterviewNameDto interviewName);
 	
 }

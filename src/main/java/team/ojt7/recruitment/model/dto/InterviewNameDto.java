@@ -10,7 +10,7 @@ import team.ojt7.recruitment.model.entity.InterviewName;
 public class InterviewNameDto {
 
 	private Long id;
-	@NotBlank(message="{NotBlank.interview.name")
+	
 	private String name;
 	public Long getId() {
 		return id;
