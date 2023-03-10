@@ -18,6 +18,27 @@ function closeDialog(id) {
    modelElement.style.display = "none";
 }
 
+function addInterviewName()
+{
+	document.getElementById("interviewTitle").innerHTML="Add Interview Title";
+	var interviewName=document.getElementById("interviewNameId");
+	interviewName.style.display="block";
+}
+function closeInterviewName()
+{
+	var interviewName=document.getElementById("interviewNameId");
+	interviewName.style.display="none";
+}
+function editInterviewName(id,name) {
+	document.getElementById("interviewTitle").innerHTML="Edit Interview Title";
+   var modelElement=document.getElementById("interviewId");
+   modelElement.value = id;
+    var name1=document.getElementById("interviewName");
+   name1.value = name;
+   var interviewName=document.getElementById("interviewNameId");
+	interviewName.style.display="block";
+}
+
 
 
 
