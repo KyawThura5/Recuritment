@@ -1,6 +1,8 @@
 package team.ojt7.recruitment.controller;
 
 import java.lang.ProcessBuilder.Redirect;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -125,12 +127,15 @@ public class InterviewController {
 	
 	@GetMapping(value = "/interview/status/change/api")
 	@ResponseBody
-	public ResponseEntity<InterviewDto> changeApplicantStatusFromRequirePositionDetailApi (
+	public ResponseEntity<Map<String, Object>> changeApplicantStatusFromRequirePositionDetailApi (
 			@RequestParam
 			Long id
 			) {
 		InterviewDto dto = interviewService.getCurrentStatus(id);
-		return ResponseEntity.ok(dto);
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", dto.getId());
+		map.put("status", dto.getStatus());
+		return ResponseEntity.ok(map);
 	}
 	
 	
