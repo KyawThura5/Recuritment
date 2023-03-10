@@ -23,7 +23,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             <div class="offset-0 offset-md-2 col-12 col-md-8 card shadow-lg">
                 <div class="card-body">
                     <div class="row">
-                        <h2 class="col fs-5 fw-bold" th:text="${applicant.id == null ? 'Add New Applicant' : 'Edit Applicant'}"></h2>
+                        <h2 class="col fs-5 fw-bold" th:text="${applicant.id == null ? 'Add new candidate' : 'Update candidate'}"></h2>
                     </div>
                     <input type="hidden" th:field="*{id}">
                     <input type="hidden" th:field="*{attachedUri}">

@@ -67,6 +67,8 @@ $(document).ready(function() {
 
 function showEditPositionModal(id) {
 
+    removeIfExists("nameError");
+
     let url = "/position/data";
     if (id) {
         url = url + "?id=" + id;

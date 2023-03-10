@@ -75,6 +75,9 @@ $(document).ready(function() {
 
 function showEditTeamModal(id) {
 
+    removeIfExists("nameError");
+    removeIfExists("departmentError");
+
     let url = "/team/data";
     if (id) {
         url = url + "?id=" + id;

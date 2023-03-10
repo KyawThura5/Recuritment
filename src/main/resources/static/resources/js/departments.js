@@ -105,6 +105,8 @@ const loadDataOfUrl = (url) => {
 
 function showEditDepartmentModal(id) {
 
+    removeIfExists("nameError");
+
     let url = "/department/data";
     if (id) {
         url = url + "?id=" + id;

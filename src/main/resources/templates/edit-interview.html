@@ -7,9 +7,14 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${interview.id == null ? 'Add New Interview' : 'Edit Interview'}"></title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/dselect.js}"></script>   
+    <script type="text/javascript" th:src="@{/resources/js/custom-validation.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/edit-interview.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>   
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+	<link rel="stylesheet" th:href="@{/resources/css/dselect.css}" />
 </head>
 <body>
     <div th:replace="nav-bar :: navbar('interviews')"></div>
@@ -18,7 +23,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             <div class="card shadow-lg offset-sm-1 offset-lg-3 col-sm-10 col-lg-6">
                 <div class="card-body">
                     <div class="card-title font-lg fw-bold">[[${title}]]</div>
-                    <form th:action="@{/interview/save}" class="row" method="post" th:object="${interview}">
+                    <form id="interviewForm" th:action="@{/interview/save}" class="row" method="post" th:object="${interview}">
                         
                         
                 	<input type="hidden" th:field="*{id}">
@@ -30,17 +35,19 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="interviewName" class="form-label">Interview Name</label>
-                            <select class="form-select" th:field="*{interviewName}">
+                            <select id="interviewName" class="form-select select-search" th:field="*{interviewName}">
                               <option value="">-- select interview --</option>
                             <option th:each="in : ${interviewNames}" th:text="${in.name}" th:value="${in.id}"></option>
                         </select>
+                         <div id="interviewNameHelp"></div>                 
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="applicant" class="form-label">Applicant</label>
-                            <select th:field="*{applicant}" class="form-select">
+                            <select id="applicant" th:field="*{applicant}" class="form-select select-search">
                              <option value="" th:attrappend="disabled=${interview.id != null ? 'disabled' : ''}">-- select applicant --</option>
                             <option th:each="ap : ${applicants}" th:text="${ap.name} +' ('+ ${ap.code}+')'"  th:value="${ap.id}"  th:attrappend="disabled=${interview.id != null && interview.applicant != null && interview.applicant.id != ap.id ? 'disabled' : ''}"></option>
                             </select>
+                           <div id="applicantHelp"></div>                               
                         </div>
                         <div class="col-12 col-md-6 form-group my-2">
                             <label for="date" class="form-label">Date</label>

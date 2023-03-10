@@ -3,9 +3,7 @@ function showChangeStatusDialog(id) {
     $.ajax({
         type: "GET",
         url: "/interview/status/change/api?id=" + id,
-        success: function (data) {
-            console.log(data);
-            
+        success: function (data) {            
             let form = $("#changeStatusForm");
             let applicantIdInput = form.find("input[name='id']");
             applicantIdInput.val(data.id);
