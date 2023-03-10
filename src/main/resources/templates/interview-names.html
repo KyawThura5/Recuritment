@@ -267,7 +267,7 @@ function showEditInterviewNameModal(id)
                 let interviewName = data.interviewName;
                
                 let title = data.title;
-                $("#title").innerText=data.title;
+               document.getElementById("title").innerHTML=title;
                 let form = $("#interviewNameForm");
                 form.find("input[name='id']").val(interviewName.id);
                 form.find("input[name='deleted']").val(interviewName.deleted);

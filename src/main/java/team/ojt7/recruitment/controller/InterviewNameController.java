@@ -61,7 +61,7 @@ public class InterviewNameController {
 		Map<String, Object> data = new HashMap<>();
 		InterviewNameDto interviewNameDto = interviewService.findById(id).orElse(new InterviewNameDto());
 		data.put("interviewName", interviewNameDto);
-		String title = interviewNameDto.getId() == null ? "Add New Team" : "Edit Team";
+		String title = interviewNameDto.getId() == null ? "Add Interview Title" : "Edit Interview Title";
 		data.put("title", title);
 		return ResponseEntity.ok(data);
 	}
