@@ -21,6 +21,8 @@ import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
 import team.ojt7.recruitment.model.repo.VacancyRepo;
 import team.ojt7.recruitment.model.service.VacancyService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 import team.ojt7.recruitment.util.generator.VacancyCodeGenerator;
 
 @Service
@@ -71,6 +73,17 @@ public class VacancyServiceImpl implements VacancyService {
 
 	@Override
 	public VacancyDto save(Vacancy vacancy) {
+		InvalidFieldsException invalidFiledsException = new InvalidFieldsException();
+		
+		Vacancy duplicatedEntry = vacancyRepo.findByCodeAndIsDeleted(vacancy.getCode(), false);
+		if (duplicatedEntry != null && duplicatedEntry.getId() != vacancy.getId()) {
+			invalidFiledsException.addField(new InvalidField("code", "duplicated", "A vacancy with this code already exists."));
+		}
+		
+		if (invalidFiledsException.hasFields()) {
+			throw invalidFiledsException;
+		}
+		
 		List<RequirePosition> requirePositions = vacancy.getRequirePositions();
 		List<Integer> removeList = new ArrayList<>();
 		for (int i = 0; i < requirePositions.size(); i++) {
