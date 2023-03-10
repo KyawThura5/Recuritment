@@ -9,6 +9,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/custom-validation.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/direct-recruitment-resources.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
@@ -53,7 +56,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
         <div th:if="${alert != null}" id="alert" class="modal">
             <div class="modal-dialog animated bounceInRight">
-                <div class="modal-body shadow notice rounded" th:classappend="${alert.cssClass}">
+                <div class="modal-body shadow-sm notice rounded" th:classappend="${alert.cssClass}">
                     <div class="row">
                         <div class="col">
                             <label class="fw-bold">
@@ -75,7 +78,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
         <div class="row mt-3">
             <div class="col-12 col-xl-6 my-3" th:each="recru : ${recruitmentResourcePage.content}">
-                <div class="card shadow-sm animated fadeInUp">
+                <div class="card shadow animated fadeInUp">
                     <div class="card-body">
                         <div class="d-flex text-black align-items-center">
                             <div class="flex-shrink-0">
@@ -184,27 +187,4 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         
     </main>
 </body>
-<script type="text/javascript">
-    let alert = document.getElementById("alert");
-    if(alert) {
-        let modelElement=document.getElementById("alert");
-        modelElement.style.display = "block";
-        window.onclick = function(event) {
-            if (event.target == modelElement) {
-                modelElement.style.display = "none";
-            }
-        }
-        window.setTimeout(closeAlert, 5000);
-    }
-
-    function closeAlert() {
-        let modelElement=document.getElementById("alert");
-        modelElement.style.display = "none";
-    }
-    
-    function changePageSize() {
-        $("#pageParamInput").val("1");
-        $("#searchForm").submit();
-    }
-</script>
 </html>

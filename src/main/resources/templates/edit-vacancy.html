@@ -8,6 +8,7 @@
 	<title>[[${vacancy.id == null ? 'Create a new vacancy' : 'Update vacancy'}]]</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/dselect.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/custom-validation.js}"></script>
 	<script type="text/javascript" th:src="@{/resources/js/edit-vacancy.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
@@ -21,7 +22,7 @@
 	<div class="container mt-2 py-3">
 
 		<div class="row">
-			<div class="card shadow-lg">
+			<div class="card shadow">
 				<div class="card-body">
 					<div class="ccard-title font-lg fw-bold">
 						[[${vacancy.id == null ? 'Create a new vacancy' : 'Update vacancy'}]]
@@ -154,93 +155,4 @@
 	</div>
 
 </body>
-<script>
-
-	var constraints = {
-        code: {
-            presence: {message : "^Enter code"},
-            format : {
-                pattern : /^\S*$/,
-                message : "^Code cannot contain space"
-            },
-            length: {
-                maximum: 30,
-                message: "^Name must be maximum 30 characters"
-            }
-        },
-		department : {
-			presence : {message : "^Select department"}
-		},
-		dueDate : {
-			presence : {message : "^Select due date"}
-		},
-        status : {
-            presence : {message : "^Select status"}
-        },
-		comment : {
-			length : {
-				maximum : 255,
-				message : "^Maximum length is 255"
-			}
-		}
-        
-    };
-
-	var form = document.getElementById("vacancyForm");
-    form.addEventListener("submit", function(event) {
-        event.preventDefault();
-        let values = validate.collectFormValues(form);
-        let validation = validate(values, constraints);
-        
-        let codeError = document.createElement("label");
-        codeError.id = "codeError";
-        codeError.classList.add("text-danger");
-
-        let departmentError = document.createElement("label");
-        departmentError.id = "departmentError";
-        departmentError.classList.add("text-danger");
-
-        let dueDateError = document.createElement("label");
-        dueDateError.id = "dueDateError";
-        dueDateError.classList.add("text-danger");
-
-        let statusError = document.createElement("label");
-        statusError.id = "statusError";
-        statusError.classList.add("text-danger");
-
-		let commentError = document.createElement("label");
-        commentError.id = "commentError";
-        commentError.classList.add("text-danger");
-
-        if (validation) {
-            checkValidation(codeError, "codeError", "code", validation.code);
-            checkValidation(departmentError, "departmentError", "departmentHelp", validation.department);
-            checkValidation(dueDateError, "dueDateError", "dueDate", validation.dueDate);
-            checkValidation(statusError, "statusError", "status", validation.status);
-			checkValidation(commentError, "commentError", "comment", validation.comment);
-        } else {
-            form.submit();
-        }
-        
-    });
-
-	const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
-        if (validation) {
-            let input = document.getElementById(inputId);
-            if (!document.getElementById(errorLabelId)) {
-                input.parentNode.insertBefore(errorLabel, input.nextSibling);
-            }
-            document.getElementById(errorLabelId).innerText = validation[0];
-        } else {
-            removeIfExists(errorLabelId);
-        }
-    }
-
-    const removeIfExists = (id) => {
-        let element = document.getElementById(id);
-        if (element) {
-            element.parentNode.removeChild(element);
-        }
-    }
-</script>
 </html>

@@ -8,6 +8,8 @@
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/vacancies.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
@@ -84,9 +86,9 @@
             </div>
         </div>
 
-        <div class="row mt-3">
-            <div class="col-12 my-3" th:each="vacancy  :${vacancyPage.content}">
-                <div class="card shadow-lg animated fadeInUp">
+        <div class="row mt-5">
+            <div class="col-12 mb-5" th:each="vacancy  :${vacancyPage.content}">
+                <div class="card shadow animated fadeInUp">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
@@ -112,7 +114,7 @@
                                     <span class="mx-2">|</span>
                                     <label class="my-1 font-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M32 0C14.3 0 0 14.3 0 32S14.3 64 32 64V75c0 42.4 16.9 83.1 46.9 113.1L146.7 256 78.9 323.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32H64 320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V437c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H320 64 32zM96 75V64H288V75c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9L192 301.3l67.9 67.9c4.6 4.6 8.6 9.6 12.2 14.9H112z"/></svg>
-                                        [[${vacancy.dueDate}]]
+                                        [[${#temporals.format(vacancy.dueDate,'yyyy-MM-dd')}]]
                                     </label>
                                 </div>
 
@@ -126,7 +128,7 @@
                                     <span class="mx-2 d-md-inline">|</span>
                                     <label class="d-md-inline-block mt-2 mt-md-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
-                                        [[${#temporals.format(vacancy.createdDateTime,'yyyy-MM-dd HH:mm')}]]
+                                        [[${#temporals.format(vacancy.createdDateTime,'yyyy-MM-dd HH:mm (E)')}]]
                                     </label>
                                 </div>
                             </div>
@@ -162,8 +164,8 @@
                                 <thead>
                                     <tr>
                                         <th>Position</th>
-                                        <th class="text-center">Post</th>
                                         <th>Team</th>
+                                        <th class="text-center">Post</th>
                                         <th class="text-center">Applied</th>
                                         <th class="fit">Actions</th>
                                     </tr>
@@ -176,8 +178,8 @@
                                                 FOC
                                             </label>
                                         </td>
-                                        <td class="text-center">[[${requirePosition.count}]]</td>
                                         <td>[[${requirePosition.team.name}]]</td>
+                                        <td class="text-center">[[${requirePosition.count}]]</td>
                                         <td class="text-center">[[${requirePosition.activeApplicants.size()}]]</td>
                                         <td class="fit text-center">
                                             <a th:href="@{/requirePosition/detail(id=${requirePosition.id})}" class="btn btn-sm btn-outline-orange">
@@ -261,27 +263,4 @@
 
     </main>
 </body>
-<script type="text/javascript">
-	  
-    let alert = document.getElementById("alert");
-    if(alert) {
-        let modelElement=document.getElementById("alert");
-        modelElement.style.display = "block";
-        window.onclick = function(event) {
-            if (event.target == modelElement) {
-                modelElement.style.display = "none";
-            }
-        }
-        window.setTimeout(closeAlert, 5000);
-    }
-
-    function closeAlert() {
-        let modelElement=document.getElementById("alert");
-        modelElement.style.display = "none";
-    }
-
-    function changePageSize() {
-        $("#searchForm").submit();
-    }
-</script>
 </html>

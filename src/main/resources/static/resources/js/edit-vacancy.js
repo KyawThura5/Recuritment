@@ -12,6 +12,74 @@ $(document).ready(function () {
     listenRemovePositionEntry();
 
     addSelectSearch();
+
+    var constraints = {
+        code: {
+            presence: {message : "^Enter code"},
+            format : {
+                pattern : /^\S*$/,
+                message : "^Code cannot contain space"
+            },
+            length: {
+                maximum: 30,
+                message: "^Name must be maximum 30 characters"
+            }
+        },
+		department : {
+			presence : {message : "^Select department"}
+		},
+		dueDate : {
+			presence : {message : "^Select due date"}
+		},
+        status : {
+            presence : {message : "^Select status"}
+        },
+		comment : {
+			length : {
+				maximum : 255,
+				message : "^Maximum length is 255"
+			}
+		}
+        
+    };
+
+	var form = document.getElementById("vacancyForm");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        
+        let codeError = document.createElement("label");
+        codeError.id = "codeError";
+        codeError.classList.add("text-danger");
+
+        let departmentError = document.createElement("label");
+        departmentError.id = "departmentError";
+        departmentError.classList.add("text-danger");
+
+        let dueDateError = document.createElement("label");
+        dueDateError.id = "dueDateError";
+        dueDateError.classList.add("text-danger");
+
+        let statusError = document.createElement("label");
+        statusError.id = "statusError";
+        statusError.classList.add("text-danger");
+
+		let commentError = document.createElement("label");
+        commentError.id = "commentError";
+        commentError.classList.add("text-danger");
+
+        if (validation) {
+            checkValidation(codeError, "codeError", "code", validation.code);
+            checkValidation(departmentError, "departmentError", "departmentHelp", validation.department);
+            checkValidation(dueDateError, "dueDateError", "dueDate", validation.dueDate);
+            checkValidation(statusError, "statusError", "status", validation.status);
+			checkValidation(commentError, "commentError", "comment", validation.comment);
+        } else {
+            form.submit();
+        }
+        
+    });
     
 });
 
