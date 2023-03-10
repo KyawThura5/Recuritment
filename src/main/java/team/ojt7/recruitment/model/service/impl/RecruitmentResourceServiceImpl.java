@@ -58,10 +58,11 @@ public class RecruitmentResourceServiceImpl implements RecruitmentResourceServic
 	@Override
 	public RecruitmentResourceDto save(RecruitmentResource rr) {
 		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
-		RecruitmentResource duplicatedEntry = recruitmentResourceRepo.findByCodeAndIsDeleted(rr.getCode(), false);
-		if (duplicatedEntry != null && !Objects.equals(rr.getId(), duplicatedEntry.getId())) {
-			invalidFieldsException.addField(new InvalidField("code", "duplicated" ,"A recruitment resource with this code already exists"));
-		}
+//		RecruitmentResource duplicatedEntry = recruitmentResourceRepo.findByNameAndIsDeleted(rr.getName(), false);
+//		if (duplicatedEntry != null && !Objects.equals(rr.getId(), duplicatedEntry.getId())) {
+//			
+//			invalidFieldsException.addField(new InvalidField("name", "duplicated" ,"A recruitment resource with this name already exists"));
+//		}
 		
 		if (invalidFieldsException.hasFields()) {
 			throw invalidFieldsException;

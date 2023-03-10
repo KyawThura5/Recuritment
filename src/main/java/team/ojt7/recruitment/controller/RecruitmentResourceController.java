@@ -1,18 +1,21 @@
 package team.ojt7.recruitment.controller;
-
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.ExternalRecruitmentResourceDto;
@@ -51,6 +54,7 @@ public class RecruitmentResourceController {
 		return "external-recruitment-resources";
 	}
 	
+	
 	@GetMapping("/recruitmentresource/direct/search")
 	public String searchDirectRecruitmentResources(
 			@ModelAttribute
@@ -88,7 +92,45 @@ public class RecruitmentResourceController {
 		model.put("title", title);
 		return "edit-direct-recruitment-resource";
 	}
-	
+	@GetMapping("/recruitmentresource/direct/data")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> getDataFormDirectRecruitmentResourceEdit(
+			@RequestParam(required = false)
+			Long id
+			) {
+		Map<String, Object> data = new HashMap<>();
+		DirectRecruitmentResourceDto directRecruitmentResourceDto =  (DirectRecruitmentResourceDto) recruitmentResourceService.findById(id).orElse(directRecruitmentResourceService.generateNewWithCode());
+		data.put("directRecruitmentResource", directRecruitmentResourceDto);
+		String title = directRecruitmentResourceDto.getId() == null ? "Add New Direct Recruitment Resource" : "Edit Direct Recruitment Resource";
+		data.put("title", title);
+		return ResponseEntity.ok(data);
+	}
+	@PostMapping("/recruitmentresource/direct/validate")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> validateDirectRecruitmentResource(
+			@Validated
+			@ModelAttribute("recruitmentResourceForm")
+			DirectRecruitmentResourceDto directRecruitmentResource,
+			BindingResult bs
+			) {
+		Map<String, String> validation = new HashMap<>();
+		
+		try {
+			directRecruitmentResourceService.checkValidation(directRecruitmentResource);
+		} catch (InvalidFieldsException e) {
+			for (InvalidField invalidField : e.getFields()) {
+				bs.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+			}
+		}
+		
+		if (bs.hasErrors()) {
+			for (FieldError error : bs.getFieldErrors()) {
+				validation.put(error.getField(), error.getDefaultMessage());
+			}
+		}
+		
+		return ResponseEntity.ok(validation);
+	}
 	@PostMapping("/recruitmentresource/external/save")
 	public String saveExternalRecruitmentResource(
 			@Validated
@@ -124,7 +166,7 @@ public class RecruitmentResourceController {
 	@PostMapping("/recruitmentresource/direct/save")
 	public String saveDirectRecruitmentResource(
 			@Validated
-			@ModelAttribute("recruitmentResource")
+			@ModelAttribute("recruitmentResourceForm")
 			DirectRecruitmentResourceDto drr,
 			BindingResult bindingResult,
 			RedirectAttributes redirect,
@@ -140,6 +182,7 @@ public class RecruitmentResourceController {
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
+					
 				}
 			}
 		}
@@ -147,7 +190,7 @@ public class RecruitmentResourceController {
 		if (bindingResult.hasErrors()) {
 			String title = drr.getId() == null ? "Add New Direct Recruitment Resource" : "Edit Direct Recruitment Resource";
 			model.put("title", title);
-			return "edit-direct-recruitment-resource";
+			return "direct-recruitment-resources";
 		}
 		
 		return "redirect:/recruitmentresource/direct/search";

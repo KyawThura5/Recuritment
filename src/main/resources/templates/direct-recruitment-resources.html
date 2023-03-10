@@ -11,13 +11,49 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/custom-validation.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/direct-recruitment-resources.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
 </head>
 <body>
+<!--Add DirectRecruit ModalBox-->
     <div th:replace="nav-bar :: navbar('resources')"></div>
+    <div th:id="editDirectRecruitmentModal" class="modal modal-confirm">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg animated slideInDown">
+                <div class="modal-body">
+                    <form id="recruitmentResourceForm" th:action="@{/recruitmentresource/direct/save}" class="card-body row" method="post">
+                    <h2 class="card-title fs-5 fw-bold col-12"></h2>
+                    <input type="hidden" name="id">
+                    
+                    <div class="form-group col-12 my-2">
+                        <label for="code" class="form-label">Code</label>
+                        <input id="code" type="text" class="form-control" name="code">
+                        </div>
+                    <div class="form-group col-12 my-2">
+                        <label for="name" class="form-label">Name</label>
+                        <input id="name" type="text" class="form-control" name="name">
+                          </div>
+                    <div class="col-12 d-flex flex-row-reverse mt-3">
+                        <button type="submit" class="btn btn-success ms-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                              </svg>
+                            Save
+                        </button>
+					    <a th:onclick="closeModal('editDirectRecruitmentModal')" class="btn btn-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Add DirectRecruit ModalBox-->
     <main class="container p-3">
         <h2 class="font-lg fw-bold mb-3">Direct Recruitment Resources</h2>
         <form id="searchForm" class="row" th:action="@{/recruitmentresource/direct/search}" th:object="${recruitmentResourceSearch}">
@@ -33,7 +69,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             </div>
 
             <div sec:authorize="hasAuthority('HIRING_MANAGER')" class="col-2 col-md-auto">
-                <a th:href="@{/recruitmentresource/direct/edit}" class="btn btn-success form-control">
+                <a onclick="showEditDirectRecruitmentResourceModal()" class="btn btn-success form-control">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
                 </a>
             </div>
