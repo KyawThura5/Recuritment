@@ -72,7 +72,10 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 								a.getEmail().toLowerCase().contains(keyword) ||
 								a.getPhone().toLowerCase().contains(keyword)
 							)
-				).toList();
+				).sorted((a1, a2) -> {
+					return a1.getStatus().getStep() - a2.getStatus().getStep();
+				})
+				.toList();
 		applicantList.forEach(a -> a.setUpdatableStatus(
 				loginUser.getRole() == Role.GENERAL_MANAGER ||
 				loginUser.getRole() == Role.HIRING_MANAGER ||

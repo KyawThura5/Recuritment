@@ -1,10 +1,14 @@
 package team.ojt7.recruitment.model.service.impl;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.entity.InterviewName;
 import team.ojt7.recruitment.model.repo.InterviewNameRepo;
@@ -80,6 +84,17 @@ InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
 		if (invalidFieldsException.hasFields()) {
 			throw invalidFieldsException;
 		}
+	}
+
+	@Override
+	public List<InterviewNameDto> findAllForInterview(InterviewDto interview) {
+		List<InterviewNameDto> interviewNames = findAllByIsDeleted(false);
+		if (interview != null && interview.getInterviewName() != null && !interviewNames.contains(interview.getInterviewName()) ) {
+			List<InterviewNameDto> newInterviewNames = new LinkedList<>(interviewNames);
+			newInterviewNames.add(interview.getInterviewName());
+			return newInterviewNames;
+		}
+		return interviewNames;
 	}
 
 }

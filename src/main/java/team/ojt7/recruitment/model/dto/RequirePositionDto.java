@@ -1,6 +1,5 @@
 package team.ojt7.recruitment.model.dto;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -91,14 +90,13 @@ public class RequirePositionDto {
 					interviewDto.setLocalTime(interview.getDateTime().toLocalTime());
 					interviewDto.setApplicant(applicantDto);
 					interviewDto.setStatus(interview.getStatus());
+					interviewDto.setCreatedDateTime(interview.getCreatedDateTime());
 					applicantDto.getInterviews().add(interviewDto);
 				}
 				applicantDto.getInterviews().sort((i, j) -> {
-					LocalDateTime iTime = LocalDateTime.of(i.getLocalDate(), i.getLocalTime());
-					LocalDateTime jTime = LocalDateTime.of(j.getLocalDate(), j.getLocalTime());
-					if (iTime.isBefore(jTime)) {
+					if (i.getCreatedDateTime().isBefore(j.getCreatedDateTime())) {
 						return 1;
-					} else if (iTime.isAfter(jTime)) {
+					} else if (i.getCreatedDateTime().isAfter(j.getCreatedDateTime())) {
 						return -1;
 					}
 					return 0;

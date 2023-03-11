@@ -73,17 +73,67 @@ public class InterviewController {
 			)  {
 		InterviewDto interviewDto = interviewService.findById(id).orElse(interviewService.generateNewWithCode());
 		model.put("interview", interviewDto);
-		model.put("interviewNames",interviewNameService.findAllByIsDeleted(false));
+		model.put("interviewNames",interviewNameService.findAllForInterview(interviewDto));
 		List<ApplicantDto> applicants = interviewDto.getId() == null ? applicantService.getAllAvailableForNewInterview() : List.of(interviewDto.getApplicant());
 		model.put("applicants", applicants);
 		String title = interviewDto.getId() == null ? "Create Interview" : "Edit Interview";
 		model.put("title", title);
+		model.put("contextPage", "/interview/search");
+		
+		return "edit-interview";
+	}
+	
+	@GetMapping("/interview/applicant/edit")
+	public String editInterviewFromApplicant (
+			@RequestParam(required = false)
+			Long applicantId,
+			ModelMap model
+			)  {
+		InterviewDto interviewDto = interviewService.generateNewWithCode();
+		ApplicantDto applicantDto = applicantService.findById(applicantId).orElse(null);
+		interviewDto.setApplicant(applicantDto);
+		
+		model.put("interview", interviewDto);
+		model.put("interviewNames",interviewNameService.findAllForInterview(interviewDto));
+		List<ApplicantDto> applicants = interviewDto.getId() == null ? applicantService.getAllAvailableForNewInterview() : List.of(interviewDto.getApplicant());
+		model.put("applicants", applicants);
+		String title = interviewDto.getId() == null ? "Create Interview" : "Edit Interview";
+		model.put("title", title);
+		model.put("contextPage", "/applicant/search");
+		
+		return "edit-interview";
+	}
+	
+	@GetMapping("/interview/requirePositioon/edit")
+	public String editInterviewFromRequirePosition (
+			@RequestParam(required = false)
+			Long applicantId,
+			ModelMap model
+			)  {
+		InterviewDto interviewDto = interviewService.generateNewWithCode();
+		ApplicantDto applicantDto = applicantService.findById(applicantId).orElse(null);
+		interviewDto.setApplicant(applicantDto);
+		
+		model.put("interview", interviewDto);
+		model.put("interviewNames",interviewNameService.findAllForInterview(interviewDto));
+		List<ApplicantDto> applicants = interviewDto.getId() == null ? applicantService.getAllAvailableForNewInterview() : List.of(interviewDto.getApplicant());
+		model.put("applicants", applicants);
+		String title = interviewDto.getId() == null ? "Create Interview" : "Edit Interview";
+		model.put("title", title);
+		model.put("contextPage", "/requirePosition/detail?id=" + applicantDto.getRequirePosition().getId());
 		
 		return "edit-interview";
 	}
 	
 	@PostMapping("/interview/save")
-	public String saveInterview(@ModelAttribute("interview") @Validated InterviewDto dto,BindingResult bs,ModelMap model,RedirectAttributes redirect) {
+	public String saveInterview(
+			@ModelAttribute("interview")
+			@Validated
+			InterviewDto dto,
+			BindingResult bs,
+			String contextPage,
+			ModelMap model,
+			RedirectAttributes redirect) {
 		
 		if (!bs.hasErrors()) {
 			try {
@@ -104,7 +154,7 @@ public class InterviewController {
 			return "edit-interview";
 		}
 		
-		return "redirect:/interview/search";
+		return "redirect:%s".formatted(contextPage);
 	}
 
 

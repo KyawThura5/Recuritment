@@ -44,6 +44,9 @@ public class Interview implements Serializable {
 	@ManyToOne
 	private User owner;
 	
+	@Column(name = "created_date_time", nullable = false, updatable = false, insertable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private LocalDateTime createdDateTime;
+	
 	private LocalDateTime updatedOn;
 
 	public enum Status {
@@ -137,6 +140,16 @@ public class Interview implements Serializable {
 
 	public void setUpdatedOn(LocalDateTime updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+	
+	
+
+	public LocalDateTime getCreatedDateTime() {
+		return createdDateTime;
+	}
+
+	public void setCreatedDateTime(LocalDateTime createdDateTime) {
+		this.createdDateTime = createdDateTime;
 	}
 
 	@Override

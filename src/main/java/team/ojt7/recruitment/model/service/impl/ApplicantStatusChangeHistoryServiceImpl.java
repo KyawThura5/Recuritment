@@ -54,7 +54,7 @@ public class ApplicantStatusChangeHistoryServiceImpl implements ApplicantStatusC
 		ApplicantStatusChangeDto dto = new ApplicantStatusChangeDto();
 		dto.setApplicantId(applicantId);
 		dto.setStatus(applicant.getStatus());
-		dto.setUpdatable(loginUser.getRole() == Role.GENERAL_MANAGER || (applicant.getStatus().getStep() >= 3));
+		dto.setUpdatable(loginUser.getRole() == Role.HIRING_MANAGER || loginUser.getRole() == Role.GENERAL_MANAGER || (applicant.getStatus().getStep() >= 3));
 		return dto;
 	}
 

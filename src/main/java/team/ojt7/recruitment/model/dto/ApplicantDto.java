@@ -335,14 +335,13 @@ public class ApplicantDto {
 				interviewDto.setStatus(interview.getStatus());
 				interviewDto.setOwner(UserDto.of(interview.getOwner()));
 				interviewDto.setUpdatedOn(interview.getUpdatedOn());
+				interviewDto.setCreatedDateTime(interview.getCreatedDateTime());
 				dto.interviews.add(interviewDto);
 			}
 			dto.interviews.sort((i, j) -> {
-				LocalDateTime iTime = LocalDateTime.of(i.getLocalDate(), i.getLocalTime());
-				LocalDateTime jTime = LocalDateTime.of(j.getLocalDate(), j.getLocalTime());
-				if (iTime.isBefore(jTime)) {
+				if (i.getCreatedDateTime().isBefore(j.getCreatedDateTime())) {
 					return 1;
-				} else if (iTime.isAfter(jTime)) {
+				} else if (i.getCreatedDateTime().isAfter(j.getCreatedDateTime())) {
 					return -1;
 				}
 				return 0;
@@ -411,6 +410,7 @@ public class ApplicantDto {
 				interview.setComment(interviewDto.getComment());
 				interview.setOwner(UserDto.parse(interviewDto.getOwner()));
 				interview.setUpdatedOn(interviewDto.getUpdatedOn());
+				interview.setCreatedDateTime(interviewDto.getCreatedDateTime());
 				applicant.getInterviews().add(interview);
 			}
 		}

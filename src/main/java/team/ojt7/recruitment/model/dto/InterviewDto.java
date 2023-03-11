@@ -23,6 +23,7 @@ public class InterviewDto {
 	private LocalTime localTime;
 	private ApplicantDto applicant;
 	private UserDto owner;
+	private LocalDateTime createdDateTime;
 	private LocalDateTime updatedOn;
 
 	public static InterviewDto of(Interview interview) {
@@ -40,6 +41,7 @@ public class InterviewDto {
 			interviewtDto.setLocalTime(interview.getDateTime().toLocalTime());
 			interviewtDto.setOwner(UserDto.of(interview.getOwner()));
 			interviewtDto.setUpdatedOn(interview.getUpdatedOn());
+			interviewtDto.setCreatedDateTime(interview.getCreatedDateTime());
 			return interviewtDto;
 		}
 	}
@@ -62,6 +64,7 @@ public class InterviewDto {
 			interview.setDateTime(LocalDateTime.of(interviewDto.getLocalDate(), interviewDto.getLocalTime()));
 			interview.setOwner(UserDto.parse(interviewDto.getOwner()));
 			interview.setUpdatedOn(interviewDto.getUpdatedOn());
+			interview.setCreatedDateTime(interviewDto.getCreatedDateTime());
 			return interview;
 		}
 	}
@@ -148,6 +151,14 @@ public class InterviewDto {
 
 	public void setUpdatedOn(LocalDateTime updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public LocalDateTime getCreatedDateTime() {
+		return createdDateTime;
+	}
+
+	public void setCreatedDateTime(LocalDateTime createdDateTime) {
+		this.createdDateTime = createdDateTime;
 	}
 
 	public String getStatusColorClass() {
