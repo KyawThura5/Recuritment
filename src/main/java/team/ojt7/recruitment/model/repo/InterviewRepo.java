@@ -23,7 +23,11 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 		value=
 		"""
 				SELECT 	i FROM Interview i WHERE 
-				(code LIKE :keyword OR applicant.name LIKE :keyword OR applicant.requirePosition.position.name LIKE :keyword)
+				(code LIKE :keyword OR applicant.name LIKE :keyword OR
+				applicant.email LIKE :keyword OR applicant.code LIKE :keyword OR
+				applicant.requirePosition.position.name LIKE :keyword OR
+				interviewName.name LIKE :keyword
+				)
 				AND(:dateFrom is null OR dateTime >= :dateFrom)
 				AND(:dateTo is null OR dateTime <= :dateTo)
 				AND(:status is null OR status = :status)
@@ -31,11 +35,15 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 		""",
 		countQuery=
 				"""
-						SELECT COUNT(i) FROM Interview i WHERE 
-						(code LIKE :keyword OR applicant.name LIKE :keyword OR applicant.requirePosition.position.name LIKE :keyword)
-						AND(:dateFrom is null OR dateTime >= :dateFrom)
-						AND(:dateTo is null OR dateTime <= :dateTo)
-						AND(:status is null OR status = :status)
+					SELECT 	COUNT(i) FROM Interview i WHERE 
+					(code LIKE :keyword OR applicant.name LIKE :keyword OR
+					applicant.email LIKE :keyword OR applicant.code LIKE :keyword OR
+					applicant.requirePosition.position.name LIKE :keyword OR
+					interviewName.name LIKE :keyword
+					)
+					AND(:dateFrom is null OR dateTime >= :dateFrom)
+					AND(:dateTo is null OR dateTime <= :dateTo)
+					AND(:status is null OR status = :status)
 				"""
 	)
 	Page<Interview> search(
