@@ -165,5 +165,7 @@ public class InterviewDto {
 				&& Objects.equals(localTime, other.localTime) && status == other.status;
 	}
 	
-	
+	public boolean isStatusUpdatable() {
+		return LocalDateTime.of(localDate, localTime).isBefore(LocalDateTime.now());
+		}
 }
