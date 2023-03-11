@@ -17,6 +17,8 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
 	Long findMaxId();
 	
 	Applicant findByCodeAndIsDeleted(String code, boolean isDeleted);
+	
+	Long countByStatusAndIsDeleted(Status status, boolean isDeleted);
 
     @Modifying
     @Query(value = "UPDATE Applicant SET is_deleted = true WHERE id = :id")

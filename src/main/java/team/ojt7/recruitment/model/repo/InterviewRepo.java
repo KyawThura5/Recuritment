@@ -16,6 +16,8 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 	
 	@Query(value="SELECT MAX(id) FROM interview",nativeQuery=true)
 	Long findMaxId();
+	
+	Long countByStatus(Status status);
 	 
 	@Query(
 		value=

@@ -6,6 +6,7 @@ import java.util.Map;
 public class HomeDto {
 
 	private long jobOpeningsCount;
+	private long jobExpiringsCount;
 	private long notStartedInterviewsCount;
 	private long newApplicantsCount;
 	private Map<RecruitmentResourceDto, Long> topRecruitmentResources = new HashMap<>();
@@ -16,6 +17,14 @@ public class HomeDto {
 
 	public void setJobOpeningsCount(long jobOpeningsCount) {
 		this.jobOpeningsCount = jobOpeningsCount;
+	}
+
+	public long getJobExpiringsCount() {
+		return jobExpiringsCount;
+	}
+
+	public void setJobExpiringsCount(long jobExpiringsCount) {
+		this.jobExpiringsCount = jobExpiringsCount;
 	}
 
 	public long getNotStartedInterviewsCount() {
