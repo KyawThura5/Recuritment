@@ -1,7 +1,7 @@
 package team.ojt7.recruitment.controller;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
-import team.ojt7.recruitment.model.dto.ApplicantStatusChangeDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
@@ -75,7 +74,8 @@ public class InterviewController {
 		InterviewDto interviewDto = interviewService.findById(id).orElse(interviewService.generateNewWithCode());
 		model.put("interview", interviewDto);
 		model.put("interviewNames",interviewNameService.findAllByIsDeleted(false));
-		model.put("applicants", applicantService.findAll());
+		List<ApplicantDto> applicants = interviewDto.getId() == null ? applicantService.getAllAvailableForNewInterview() : List.of(interviewDto.getApplicant());
+		model.put("applicants", applicants);
 		String title = interviewDto.getId() == null ? "Create Interview" : "Edit Interview";
 		model.put("title", title);
 		

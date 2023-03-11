@@ -57,6 +57,8 @@ public class ApplicantDto {
 	private RequirePositionDto requirePosition;
 
 	private boolean isDeleted;
+	
+	private boolean updatableStatus;
 
 	private List<ApplicantStatusChangeHistoryDto> statusChangeHistories = new ArrayList<>();
 
@@ -153,7 +155,45 @@ public class ApplicantDto {
 	}
 
 	public void setInterviews(List<InterviewDto> interviews) {
+		interviews.sort((i, j) -> {
+			LocalDateTime iTime = LocalDateTime.of(i.getLocalDate(), i.getLocalTime());
+			LocalDateTime jTime = LocalDateTime.of(j.getLocalDate(), j.getLocalTime());
+			if (iTime.isBefore(jTime)) {
+				return 1;
+			} else if (iTime.isAfter(jTime)) {
+				return -1;
+			}
+			return 0;
+		});
 		this.interviews = interviews;
+	}
+	
+	public InterviewDto getLastestInterview() {
+		try {
+			return interviews.get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+	
+	public InterviewDto getActiveInterview() {
+		InterviewDto lastesetInterview = getLastestInterview();
+		if (lastesetInterview == null) {
+			return null;
+		}
+		return lastesetInterview.getStatus() == team.ojt7.recruitment.model.entity.Interview.Status.NOT_START_YET ? lastesetInterview : null;
+	}
+	
+	public boolean isAvailableForNewInterview() {
+		return updatableStatus && (getLastestInterview() == null || getLastestInterview().getStatus().getStep() > 2);
+	}
+
+	public boolean isUpdatableStatus() {
+		return updatableStatus;
+	}
+
+	public void setUpdatableStatus(boolean updatableStatus) {
+		this.updatableStatus = updatableStatus;
 	}
 
 	public String getEducation() {
@@ -293,6 +333,8 @@ public class ApplicantDto {
 				interviewDto.setLocalTime(interview.getDateTime().toLocalTime());
 				interviewDto.setComment(interview.getComment());
 				interviewDto.setStatus(interview.getStatus());
+				interviewDto.setOwner(UserDto.of(interview.getOwner()));
+				interviewDto.setUpdatedOn(interview.getUpdatedOn());
 				dto.interviews.add(interviewDto);
 			}
 			dto.interviews.sort((i, j) -> {
@@ -367,7 +409,8 @@ public class ApplicantDto {
 				interview.setApplicant(applicant);
 				interview.setDateTime(LocalDateTime.of(interviewDto.getLocalDate(), interviewDto.getLocalTime()));
 				interview.setComment(interviewDto.getComment());
-				
+				interview.setOwner(UserDto.parse(interviewDto.getOwner()));
+				interview.setUpdatedOn(interviewDto.getUpdatedOn());
 				applicant.getInterviews().add(interview);
 			}
 		}

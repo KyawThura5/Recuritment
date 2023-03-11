@@ -26,25 +26,22 @@
 	<div id="editInterviewNameModal" class="modal modal-confirm">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content shadow-lg animated slideInDown">
-				<div class="modal-header p-2">
-					<div class="modal-title font-lg fw-bold" id="title"></div>
-				</div>
 				<div class="modal-body">
 					<form action="#" id="interviewNameForm"
 						th:action="@{/interviewname/save}" class="mt-2" method="post">
+
+						<h2 id="editInterviewNameTitle" class="font-lg fw-bold">Title</h2>
 
 						<input type="hidden" id="interviewId" name="id"> <input
 							type="hidden" name="deleted">
 
 						<div class="col-12 form-group">
-							<label for="name" class="form-label"> </label> 
+							<label for="name" class="form-label">Name</label> 
 							<input type="text" class="form-control " id="name" name="name" />
 
 						</div>
-						
-						
 
-						<div class="col-12 d-flex flex-row-reverse mt-5 mb-3">
+						<div class="col-12 d-flex flex-row-reverse mt-3">
 							<button type="submit" class="btn btn-success ms-1">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 									fill="currentColor" class="bi bi-cloud-arrow-down-fill"
@@ -55,14 +52,9 @@
 								Save
 							</button>
 							<a th:onclick="closeModal('editInterviewNameModal')"
-								class="btn btn-secondary"> <svg
-									xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-									fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                                    <path
-										d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                    <path
-										d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                  </svg> Cancel
+								class="btn btn-secondary">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg>
+								Cancel
 							</a>
 						</div>
 
@@ -101,16 +93,8 @@
 				</a>
 			</div>
 			<div class="col-auto">
-				<a th:href="@{/interview/search}" class="btn btn-secondary"> <svg
-						xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-						fill="currentColor" class="bi bi-reply-all-fill"
-						viewBox="0 0 16 16">
-  				<path
-							d="M8.021 11.9 3.453 8.62a.719.719 0 0 1 0-1.238L8.021 4.1a.716.716 0 0 1 1.079.619V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
-  				<path
-							d="M5.232 4.293a.5.5 0 0 1-.106.7L1.114 7.945a.5.5 0 0 1-.042.028.147.147 0 0 0 0 .252.503.503 0 0 1 .042.028l4.012 2.954a.5.5 0 1 1-.593.805L.539 9.073a1.147 1.147 0 0 1 0-1.946l3.994-2.94a.5.5 0 0 1 .699.106z" />
-				</svg>
-
+				<a th:href="@{/interview/search}" class="btn btn-secondary">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
 				</a>
 			</div>
 		</form>
@@ -144,12 +128,9 @@
 					<div class="card-body">
 						<div class="d-flex text-black align-items-center">
 							<div class="flex-shrink-0">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-									fill="currentColor" class="bi bi-binoculars-fill"
-									viewBox="0 0 16 16">
- 							 <path
-										d="M4.5 1A1.5 1.5 0 0 0 3 2.5V3h4v-.5A1.5 1.5 0 0 0 5.5 1h-1zM7 4v1h2V4h4v.882a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V13H9v-1.5a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5V13H1V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V4h4zM1 14v.5A1.5 1.5 0 0 0 2.5 16h3A1.5 1.5 0 0 0 7 14.5V14H1zm8 0v.5a1.5 1.5 0 0 0 1.5 1.5h3a1.5 1.5 0 0 0 1.5-1.5V14H9zm4-11H9v-.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5V3z" />
-							</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="text-secondary" viewBox="0 0 640 512">
+                                    <path d="M160 64c0-35.3 28.7-64 64-64H576c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H336.8c-11.8-25.5-29.9-47.5-52.4-64H384V320c0-17.7 14.3-32 32-32h64c17.7 0 32 14.3 32 32v32h64V64L224 64v49.1C205.2 102.2 183.3 96 160 96V64zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352h53.3C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7H26.7C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/>
+                                </svg>
 							</div>
 
 							<div class="flex-grow-1 ms-3">
@@ -267,7 +248,7 @@ function showEditInterviewNameModal(id)
                 let interviewName = data.interviewName;
                
                 let title = data.title;
-               document.getElementById("title").innerHTML=title;
+               	document.getElementById("editInterviewNameTitle").innerHTML=title;
                 let form = $("#interviewNameForm");
                 form.find("input[name='id']").val(interviewName.id);
                 form.find("input[name='deleted']").val(interviewName.deleted);

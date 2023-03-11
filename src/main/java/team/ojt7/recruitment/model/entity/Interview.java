@@ -28,7 +28,7 @@ public class Interview implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "interview_name_id")
-	private InterviewName interViewName;
+	private InterviewName interviewName;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -40,18 +40,29 @@ public class Interview implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "applicant_id")
 	private Applicant applicant;
+	
+	@ManyToOne
+	private User owner;
+	
+	private LocalDateTime updatedOn;
 
 	public enum Status {
-		NOT_START_YET("Not Started Yet"),ON_HOLD("On-hold"), CANCELLED("Cancelled"), PASSED("Passed"), FAILED("Failed");
+		NOT_START_YET("Not Started Yet", 1),ON_HOLD("On-hold", 2), CANCELLED("Cancelled", 3), FAILED("Failed", 4), PASSED("Passed", 5);
 
 		private String displayName;
+		private int step;
 
-		Status(String displayName) {
+		Status(String displayName, int step) {
 			this.displayName = displayName;
+			this.step = step;
 		}
 
 		public String getDisplayName() {
 			return displayName;
+		}
+		
+		public int getStep() {
+			return step;
 		}
 
 	}
@@ -73,11 +84,11 @@ public class Interview implements Serializable {
 	}
 
 	public InterviewName getInterviewName() {
-		return interViewName;
+		return interviewName;
 	}
 
 	public void setInterviewName(InterviewName interViewName) {
-		this.interViewName = interViewName;
+		this.interviewName = interViewName;
 	}
 
 	public Status getStatus() {
@@ -112,9 +123,25 @@ public class Interview implements Serializable {
 		this.applicant = applicant;
 	}
 
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public LocalDateTime getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(LocalDateTime updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(applicant, code, comment, dateTime, id, interViewName, status);
+		return Objects.hash(applicant, code, comment, dateTime, id, interviewName, status);
 	}
 
 	@Override
@@ -128,7 +155,7 @@ public class Interview implements Serializable {
 		Interview other = (Interview) obj;
 		return Objects.equals(applicant, other.applicant) && Objects.equals(code, other.code)
 				&& Objects.equals(comment, other.comment) && Objects.equals(dateTime, other.dateTime)
-				&& Objects.equals(id, other.id) && Objects.equals(interViewName, other.interViewName)
+				&& Objects.equals(id, other.id) && Objects.equals(interviewName, other.interviewName)
 				&& status == other.status;
 	}
 

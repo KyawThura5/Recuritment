@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
+import team.ojt7.recruitment.model.entity.Interview;
 import team.ojt7.recruitment.model.entity.RequirePosition;
 import team.ojt7.recruitment.model.entity.Vacancy;
 
@@ -79,6 +81,29 @@ public class RequirePositionDto {
 				applicantDto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
 				applicantDto.setDeleted(applicant.isDeleted());
 				
+				for (Interview interview : applicant.getInterviews()) {
+					InterviewDto interviewDto = new InterviewDto();
+					interviewDto.setId(interview.getId());
+					interviewDto.setCode(interview.getCode());
+					interviewDto.setInterviewName(InterviewNameDto.of(interview.getInterviewName()));
+					interviewDto.setComment(interview.getComment());
+					interviewDto.setLocalDate(interview.getDateTime().toLocalDate());
+					interviewDto.setLocalTime(interview.getDateTime().toLocalTime());
+					interviewDto.setApplicant(applicantDto);
+					interviewDto.setStatus(interview.getStatus());
+					applicantDto.getInterviews().add(interviewDto);
+				}
+				applicantDto.getInterviews().sort((i, j) -> {
+					LocalDateTime iTime = LocalDateTime.of(i.getLocalDate(), i.getLocalTime());
+					LocalDateTime jTime = LocalDateTime.of(j.getLocalDate(), j.getLocalTime());
+					if (iTime.isBefore(jTime)) {
+						return 1;
+					} else if (iTime.isAfter(jTime)) {
+						return -1;
+					}
+					return 0;
+				});
+				
 				if (applicant.getVacancy() != null) {
 					Vacancy vacancy = applicant.getVacancy();
 					VacancyDto vacancyDto = new VacancyDto();
@@ -96,6 +121,8 @@ public class RequirePositionDto {
 				
 				applicants.add(applicantDto);
 			}
+			
+			
 			dto.setApplicants(applicants);
 		}
 		return dto;

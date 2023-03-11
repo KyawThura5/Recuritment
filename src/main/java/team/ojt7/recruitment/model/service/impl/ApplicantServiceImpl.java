@@ -21,6 +21,7 @@ import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
+import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.service.ApplicantService;
@@ -85,8 +86,15 @@ public class ApplicantServiceImpl implements ApplicantService{
 	
 	@Override
 	public List<ApplicantDto> findAll() {
+		User loginUser = (User) session.getAttribute("loginUser");
 		List<Applicant> applicants = applicantRepo.findAll();
-		return ApplicantDto.ofList(applicants);
+		List<ApplicantDto> dtoList = ApplicantDto.ofList(applicants);
+		dtoList.forEach(a -> a.setUpdatableStatus(
+					loginUser.getRole() == Role.GENERAL_MANAGER ||
+					loginUser.getRole() == Role.HIRING_MANAGER ||
+					a.getStatus().getStep() > 2
+				));
+		return dtoList;
 	}
 
 	@Override
@@ -100,8 +108,16 @@ public class ApplicantServiceImpl implements ApplicantService{
 		if (id == null) {
 			return Optional.ofNullable(null);
 		}
+		
+		User loginUser = (User) session.getAttribute("loginUser");
 		Applicant applicant = applicantRepo.findById(id).orElse(null);
-		return Optional.ofNullable(ApplicantDto.of(applicant));
+		ApplicantDto dto = ApplicantDto.of(applicant);
+		dto.setUpdatableStatus(
+				loginUser.getRole() == Role.GENERAL_MANAGER ||
+				loginUser.getRole() == Role.HIRING_MANAGER ||
+				dto.getStatus().getStep() > 2
+				);
+		return Optional.ofNullable(dto);
 	}
 
 	@Override
@@ -116,6 +132,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 
 	@Override
 	public Page<ApplicantDto> search(ApplicantSearch applicantSearch) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		String keyword = applicantSearch.getKeyword() == null ? "%%" : "%" + applicantSearch.getKeyword() + "%";
 		Status status = applicantSearch.getStatus();
 		LocalDateTime dateFrom = applicantSearch.getDateFrom() == null ? null : LocalDateTime.of(applicantSearch.getDateFrom(), LocalTime.of(0, 0));
@@ -130,9 +147,23 @@ public class ApplicantServiceImpl implements ApplicantService{
 						applicantSearch.getSize())
 				); 
 		Pageable applicantsPageable = applicants.getPageable();
-		Page<ApplicantDto> page = new PageImpl<ApplicantDto>(ApplicantDto.ofList(applicants.getContent()), applicantsPageable, applicants.getTotalElements());
+		List<ApplicantDto> dtoList = ApplicantDto.ofList(applicants.getContent());
+		dtoList.forEach(a -> a.setUpdatableStatus(
+				loginUser.getRole() == Role.GENERAL_MANAGER ||
+				loginUser.getRole() == Role.HIRING_MANAGER ||
+				a.getStatus().getStep() > 2
+			));
+		Page<ApplicantDto> page = new PageImpl<ApplicantDto>(dtoList, applicantsPageable, applicants.getTotalElements());
 		
 		return page;
+	}
+
+	@Override
+	public List<ApplicantDto> getAllAvailableForNewInterview() {
+		return findAll().stream().filter(a -> 
+			a.isUpdatableStatus() &&
+			(a.getLastestInterview() == null || a.getLastestInterview().getStatus().getStep() > 2)
+		).toList();
 	}
 
 }

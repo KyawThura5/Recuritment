@@ -52,7 +52,7 @@ InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
 		
 		InterviewName duplicatedEntry = interviewNameRepo.findByNameAndIsDeleted(interview.getName(), false);
 		if (duplicatedEntry != null && !Objects.equals(interview.getId(), duplicatedEntry.getId())) {
-			invalidFieldsException.addField(new InvalidField("name", "duplicated", "A interview with this name already exists"));
+			invalidFieldsException.addField(new InvalidField("name", "duplicated", "An interview with this name already exists"));
 		}
 		
 		if (invalidFieldsException.hasFields()) {
@@ -74,7 +74,7 @@ InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
 		
 		InterviewName duplicatedEntry = interviewNameRepo.findByNameAndIsDeleted(interviewName.getName(), false);
 		if (duplicatedEntry != null && !Objects.equals(interviewName.getId(), duplicatedEntry.getId())) {
-			invalidFieldsException.addField(new InvalidField("name", "duplicated", "A Interview with this name already exists"));
+			invalidFieldsException.addField(new InvalidField("name", "duplicated", "An Interview with this name already exists"));
 		}
 		
 		if (invalidFieldsException.hasFields()) {

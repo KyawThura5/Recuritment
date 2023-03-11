@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.RequirePositionDetailSearch;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
+import team.ojt7.recruitment.model.entity.User;
+import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.repo.RequirePositionRepo;
 import team.ojt7.recruitment.model.repo.VacancyRepo;
@@ -25,6 +29,9 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 	
 	@Autowired
 	private VacancyRepo vacancyRepo;
+	
+	@Autowired
+	private HttpSession session;
 
 	public List<RequirePositionDto> findAll() {		
 		return RequirePositionDto.ofList(repo.findAll());
@@ -53,6 +60,7 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 	}
 
 	public Optional<RequirePositionDto> findDetail(RequirePositionDetailSearch search) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		String keyword = search.getKeyword() == null ? "" : search.getKeyword();
 		RequirePositionDto requirePosition = findById(search.getId()).orElse(null);
 		List<ApplicantDto> applicantList = requirePosition.getApplicants().stream()
@@ -65,6 +73,11 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 								a.getPhone().toLowerCase().contains(keyword)
 							)
 				).toList();
+		applicantList.forEach(a -> a.setUpdatableStatus(
+				loginUser.getRole() == Role.GENERAL_MANAGER ||
+				loginUser.getRole() == Role.HIRING_MANAGER ||
+				a.getStatus().getStep() > 2
+				));
 		requirePosition.setApplicants(applicantList);
 		return Optional.ofNullable(requirePosition);
 	}

@@ -23,7 +23,7 @@ public interface ApplicantService {
 	
 	Page<ApplicantDto> search(ApplicantSearch applicantSearch);
 	
-	
+	List<ApplicantDto> getAllAvailableForNewInterview();
 	
 
 }

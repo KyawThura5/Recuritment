@@ -82,6 +82,8 @@ function showEditPositionModal(id) {
             success: function (data) {
                 let position = data.position;
                 let title = data.title;
+
+                $("#editPositionTitle").text(title);
                 
                 let form = $("#positionForm");
                 form.find("input[name='id']").val(position.id);

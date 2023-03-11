@@ -96,7 +96,7 @@ function showEditDirectRecruitmentResourceModal(id) {
             
             let title = data.title;
 
-            $("#editRecruitmentResourceModalTitle").text(title);
+            $("#editDirectRecruitmentResourceTitle").text(title);
             
             let form = $("#recruitmentResourceForm");
             form.find("input[name='id']").val(directRecruitmentResource.id);

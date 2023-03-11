@@ -3,6 +3,7 @@ package team.ojt7.recruitment.model.service.impl;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
 import team.ojt7.recruitment.model.entity.Interview;
 import team.ojt7.recruitment.model.entity.Interview.Status;
 import team.ojt7.recruitment.model.entity.InterviewName;
+import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.InterviewRepo;
 import team.ojt7.recruitment.model.service.InterviewService;
 import team.ojt7.recruitment.util.generator.InterviewCodeGenerator;
@@ -32,6 +33,8 @@ public class InterviewServiceImpl implements InterviewService {
 	@Autowired
 	private InterviewCodeGenerator interviewCodeGenerator;
 	
+	@Autowired
+	private HttpSession session;
 	
 	@Override
 	public Page<InterviewDto> search(InterviewSearch search) {
@@ -50,6 +53,11 @@ public class InterviewServiceImpl implements InterviewService {
 	@Override
 	@Transactional
 	public InterviewDto save(Interview interview) {
+		if (interview.getOwner() == null) {
+			User loginUser = (User) session.getAttribute("loginUser");
+			interview.setOwner(loginUser);
+		}
+		interview.setUpdatedOn(LocalDateTime.now());
 		InterviewDto interviewDto = InterviewDto.of(interviewRepo.save(interview));
 		return interviewDto;
 	}

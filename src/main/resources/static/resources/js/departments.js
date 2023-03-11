@@ -120,6 +120,8 @@ function showEditDepartmentModal(id) {
             success: function (data) {
                 let department = data.department;
                 let title = data.title;
+
+                $("#editDepartmentTitle").text(title);
                 
                 let form = $("#departmentForm");
                 form.find("input[name='id']").val(department.id);
