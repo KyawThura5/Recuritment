@@ -167,9 +167,15 @@ public class InterviewController {
 	}
 	
 	@PostMapping("/interview/status/save")
-	public String statuschange(@RequestParam("id")Long id,@RequestParam("status")Status status,@RequestParam("comment")String comment,RedirectAttributes redirect) {
-		InterviewDto dto=interviewService.findByIdStatus(id,status,comment).get();		
-		interviewService.save(InterviewDto.parse(dto));	
+	public String statuschange(
+			@RequestParam("id")Long id,
+			@RequestParam("status")Status status,
+			@RequestParam("comment")String comment,
+			@RequestParam(name = "applicantStatusCheck", defaultValue = "false") boolean applicantStatusCheck,
+			@RequestParam("applicantStatus") team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus,
+			@RequestParam("applicantStatusComment") String applicantStatusComment,
+			RedirectAttributes redirect) {
+		interviewService.saveInterviewStatus(id,status,comment,applicantStatusCheck, applicantStatus, applicantStatusComment);
 		redirect.addFlashAttribute("alert",new Alert("Successfully changed the interview's status!","notice-success"));
 		return "redirect:/interview/search";
 		
@@ -185,6 +191,7 @@ public class InterviewController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("id", dto.getId());
 		map.put("status", dto.getStatus());
+		map.put("applicantStatus", dto.getApplicant().getStatus());
 		return ResponseEntity.ok(map);
 	}
 	

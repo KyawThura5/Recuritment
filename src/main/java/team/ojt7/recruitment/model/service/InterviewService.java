@@ -21,7 +21,7 @@ public interface InterviewService {
 	
 	Optional<InterviewDto> findById(Long id);
 
-	Optional<InterviewDto> findByIdStatus(Long id,Status status,String comment);
+	void saveInterviewStatus(Long id,Status status,String comment, boolean applicantStatusChecked, team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus, String applicantComment);
 
 	InterviewDto getCurrentStatus(Long id);
 }

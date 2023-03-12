@@ -13,14 +13,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
+import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Interview;
 import team.ojt7.recruitment.model.entity.Interview.Status;
 import team.ojt7.recruitment.model.entity.InterviewName;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.repo.InterviewRepo;
+import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
 import team.ojt7.recruitment.model.service.InterviewService;
 import team.ojt7.recruitment.util.generator.InterviewCodeGenerator;
 
@@ -32,6 +35,9 @@ public class InterviewServiceImpl implements InterviewService {
 	
 	@Autowired
 	private InterviewCodeGenerator interviewCodeGenerator;
+	
+	@Autowired
+	private ApplicantStatusChangeHistoryService applicantStatusChangeHistoryService;
 	
 	@Autowired
 	private HttpSession session;
@@ -88,26 +94,29 @@ public class InterviewServiceImpl implements InterviewService {
 	}
 
 	@Override
-	public Optional<InterviewDto> findByIdStatus(Long id, Status status, String comment) {
+	public void saveInterviewStatus(Long id, Status status, String comment, boolean applicantStatusChecked, team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus, String applicantComment) {
 		if (id == null) {
-			return Optional.ofNullable(null);
+			return;
 		}
 		Interview interview=interviewRepo.findById(id).orElse(null);
 		interview.setStatus(status);
 		interview.setComment(comment);
-		return Optional.ofNullable(InterviewDto.of(interview));
+		save(interview);
+		if (applicantStatusChecked) {
+			Applicant applicant = interview.getApplicant();
+			ApplicantStatusChangeHistoryDto statusHistory = new ApplicantStatusChangeHistoryDto();
+			statusHistory.setApplicantId(applicant.getId());
+			statusHistory.setStatus(applicantStatus);
+			statusHistory.setRemark(applicantComment);
+			applicantStatusChangeHistoryService.save(statusHistory);
+		}
 	}
 
 	@Override
 	public InterviewDto getCurrentStatus(Long id) {
 		
 		Interview interview=interviewRepo.findById(id).orElse(null);
-		
-		InterviewDto dto=new InterviewDto();
-		dto.setId(interview.getId());
-		dto.setStatus(interview.getStatus());
-		dto.setComment(interview.getComment());
-		return dto;
+		return InterviewDto.of(interview);
 	}
 
 	

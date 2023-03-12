@@ -12,6 +12,13 @@ $(document).ready(function () {
         window.setTimeout(closeAlert, 5000);
     }
 
+    $("#applicantStatusCheck").on("change", function(event) {
+        if (this.checked) {
+            $("#applicantStatusWrapper").removeClass("d-none");
+        } else {
+            $("#applicantStatusWrapper").addClass("d-none");
+        }
+    });
 
 });
 
