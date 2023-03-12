@@ -103,15 +103,15 @@
 			<div class="col-12">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="fs-4 fw-bold d-inline-block" id="monthAndYear"></h3>
+						<h3 class="fs-5 fw-bold d-inline-block" id="monthAndYear"></h3>
 						<span class="badge bg-success ms-3">
-							-
+							
 						</span>
-						Not Started
+						Not Started Yet
 						<span class="badge bg-secondary ms-3">
-							-
+							
 						</span>
-						Past
+						Finished
 					</div>
 					
 					<table class="table table-bordered table-responsive-sm" id="calendar">
@@ -132,6 +132,12 @@
 						</tbody>
 					</table>
 			
+					<div class="text-center">
+						<span class="badge bg-success">[[${home.newInterviewsCountByDate.size()}]]</span>
+						<label>Not Started Yet</label>
+						<span class="badge bg-secondary ms-2">[[${home.pastInterviewsCountByDate.size()}]]</span>
+						<label>Finished</label>
+					</div>
 					
 					<br/>
 					<form class="d-none">

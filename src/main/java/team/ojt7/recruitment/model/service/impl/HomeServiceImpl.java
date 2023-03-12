@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,26 @@ public class HomeServiceImpl implements HomeService {
 		home.setNewApplicantsCount(
 					applicantRepo.countByStatusAndIsDeleted(team.ojt7.recruitment.model.entity.Applicant.Status.NEW, false)
 				);
+		
+		home.setNewInterviewsCountByDate(
+					interviewRepo.findAll()
+					.stream()
+					.filter(
+						i -> i.getStatus() == team.ojt7.recruitment.model.entity.Interview.Status.NOT_START_YET && i.getDateTime().getYear() == LocalDate.now().getYear() && i.getDateTime().getMonth() == LocalDate.now().getMonth()
+					).collect(
+						Collectors.groupingBy(i -> i.getDateTime().getDayOfMonth(), Collectors.summingInt(i -> 1))
+					)
+				);
+		
+		home.setPastInterviewsCountByDate(
+				interviewRepo.findAll()
+				.stream()
+				.filter(
+					i -> i.getStatus() != team.ojt7.recruitment.model.entity.Interview.Status.NOT_START_YET && i.getDateTime().getYear() == LocalDate.now().getYear() && i.getDateTime().getMonth() == LocalDate.now().getMonth()
+				).collect(
+					Collectors.groupingBy(i -> i.getDateTime().getDayOfMonth(), Collectors.summingInt(i -> 1))
+				)
+			);
 		
 		return home;
 	}

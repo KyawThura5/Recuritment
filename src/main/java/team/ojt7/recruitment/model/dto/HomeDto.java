@@ -46,7 +46,7 @@ public class HomeDto {
 	}
 
 	public Map<Integer, Integer> getNewInterviewsCountByDate() {
-		return Map.of(12, 1, 15, 2, 22, 1, 30, 3);
+		return newInterviewsCountByDate;
 	}
 
 	public void setNewInterviewsCountByDate(Map<Integer, Integer> newInterviewsCountByDate) {
@@ -54,7 +54,8 @@ public class HomeDto {
 	}
 
 	public Map<Integer, Integer> getPastInterviewsCountByDate() {
-		return Map.of(2, 1, 12, 2, 20, 1, 30, 1, 31, 2);
+//		return Map.of(2, 1, 12, 2, 20, 1, 30, 1, 31, 2);
+		return pastInterviewsCountByDate;
 	}
 
 	public void setPastInterviewsCountByDate(Map<Integer, Integer> pastInterviewCountByDate) {

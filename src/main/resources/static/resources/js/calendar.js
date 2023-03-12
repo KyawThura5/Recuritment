@@ -70,7 +70,7 @@ function showCalendar(month, year) {
                 let dateDiv = document.createElement("div");
                 dateDiv.innerText = date;
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                    cell.classList.add("bg-info");
+                    cell.style.backgroundColor = "#ebffba";
                 } // color today's date
                 cell.appendChild(dateDiv);
 
