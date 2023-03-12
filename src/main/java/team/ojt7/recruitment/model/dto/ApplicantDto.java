@@ -185,7 +185,7 @@ public class ApplicantDto {
 	}
 	
 	public boolean isAvailableForNewInterview() {
-		return updatableStatus && (getLastestInterview() == null || getLastestInterview().getStatus().getStep() > 2) && getStatus() != Status.HIRED;
+		return getStatus().getStep() > 2 && (getLastestInterview() == null || getLastestInterview().getStatus().getStep() > 2) && getStatus() != Status.HIRED;
 	}
 
 	public boolean isUpdatableStatus() {
