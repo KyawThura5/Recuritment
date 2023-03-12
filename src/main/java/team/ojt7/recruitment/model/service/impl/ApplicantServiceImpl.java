@@ -161,8 +161,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 	@Override
 	public List<ApplicantDto> getAllAvailableForNewInterview() {
 		return findAll().stream().filter(a -> 
-			a.isUpdatableStatus() &&
-			(a.getLastestInterview() == null || a.getLastestInterview().getStatus().getStep() > 2)
+			a.isAvailableForNewInterview()
 		).toList();
 	}
 
