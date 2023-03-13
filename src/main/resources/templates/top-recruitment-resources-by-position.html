@@ -16,7 +16,7 @@
 
     <div th:replace="nav-bar :: navbar('reports')"></div>
     <div class="container py-3">
-        <h2 class="fs-5 fw-bold mb-3">Top Recruitment Resources</h2>
+        <h2 class="fs-5 fw-bold mb-3">Top Recruitment Resources By Position</h2>
         <form id="searchForm" class="row" th:action="@{/report}">
             <div class="col-12 col-md-6  col-lg-auto">
                 <div class="input-group">
@@ -28,6 +28,32 @@
             </div>
         </form>
 
+        <div class="row mt-3">
+            <div th:each="report : ${reports}" class="col-12 mt-3">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <label class="font-lg fw-bold">
+                                <span class="text-secondary">[[${reportStat.index + 1}]].</span>
+                                [[${report.position.name}]]
+                            </label>
+                            <label class="font-lg fw-bold text-success">[[${report.count}]]</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                <tr th:each="recru : ${report.recruitmentResources}">
+                                    <td>[[${recru.key.name}]]</td>
+                                    <td class="text-end">[[${recru.value}]]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
         
     </div>
 </body>

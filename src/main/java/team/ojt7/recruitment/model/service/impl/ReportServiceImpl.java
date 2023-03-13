@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
+import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceByPositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceReportDto;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
@@ -46,7 +48,14 @@ public class ReportServiceImpl implements ReportService {
 			topRecResourceReportDtos.setRecruitmentResource(app.getKey());
 			
 			Map<PositionDto, Integer> positionsMap = app.getValue().stream().collect(Collectors.groupingBy(a -> a.getRequirePosition().getPosition(),Collectors.summingInt(a ->1)));
-			topRecResourceReportDtos.setPositions(positionsMap);
+			List<Entry<PositionDto,Integer>>entry=new ArrayList<>(positionsMap.entrySet());
+			entry.sort(
+					(t1,t2) -> (int) (t2.getValue() - t1.getValue()));
+			Map<PositionDto,Integer>sorted=new LinkedHashMap<>();
+			for(Entry<PositionDto,Integer> e:entry) {
+				sorted.put(e.getKey(), e.getValue());
+			}
+			topRecResourceReportDtos.setPositions(sorted);
 			
 			topRecruitmentResourceReportDtos.add(topRecResourceReportDtos);
 		}
@@ -54,14 +63,36 @@ public class ReportServiceImpl implements ReportService {
 		topRecruitmentResourceReportDtos.sort(
 				(t1, t2) -> (int) (t2.getCount() - t1.getCount())
 				);
+		
 		return topRecruitmentResourceReportDtos;
 	}
 
 
 	@Override
 	public List<TopRecruitmentResourceByPositionDto> searchTopRecruitmentResourcesByPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<ApplicantDto> applicants=ApplicantDto.ofList(applicantRepo.searchStatusAndResources(Status.HIRED));
+		List<TopRecruitmentResourceByPositionDto> topRecruitmentResourceByPosition=new ArrayList<>();
+		Map<PositionDto,List<ApplicantDto>> map = applicants.stream().collect(Collectors.groupingBy(a->a.getRequirePosition().getPosition()));
+		for(Entry<PositionDto,List<ApplicantDto>> app:map.entrySet()) {
+			TopRecruitmentResourceByPositionDto dto=new TopRecruitmentResourceByPositionDto();
+		dto.setPosition(app.getKey());
+		dto.setCount(app.getValue().size());
+		Map<RecruitmentResourceDto,Integer>recruitment=app.getValue().stream().collect(Collectors.groupingBy(a ->a.getRecruitmentResource(),Collectors.summingInt(a ->1)));
+		List<Entry<RecruitmentResourceDto,Integer>>list=new ArrayList<>(recruitment.entrySet());
+		list.sort(
+				(t1,t2) -> t2.getValue()-t1.getValue());
+		Map<RecruitmentResourceDto,Integer>sorted=new LinkedHashMap<>();
+		for(Entry<RecruitmentResourceDto,Integer> e:list) {
+			sorted.put(e.getKey(), e.getValue());
+		}
+		dto.setRecruitmentResources(sorted);
+		topRecruitmentResourceByPosition.add(dto);
+		}
+		topRecruitmentResourceByPosition.sort(
+				(t1, t2) -> (int) (t2.getCount() - t1.getCount())
+				);
+		return topRecruitmentResourceByPosition;
 	}
 
 }
