@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ import team.ojt7.recruitment.model.repo.UserRepo;
 import team.ojt7.recruitment.model.service.UserService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
+import team.ojt7.recruitment.model.service.exception.ServiceException;
 import team.ojt7.recruitment.util.generator.UserCodeGenerator;
 
 @Service
@@ -36,6 +39,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserCodeGenerator userCodeGenerator;
+	
+	@Autowired
+	private HttpSession session;
 	
 	@Override
 	@Transactional
@@ -58,7 +64,7 @@ public class UserServiceImpl implements UserService {
 		
 		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
 		
-		User duplicateEntry = userRepo.findByCodeAndIsDeleted(user.getCode(), false);
+		User duplicateEntry = userRepo.findByCode(user.getCode());
 		if (duplicateEntry != null && !Objects.equals(user.getId(), duplicateEntry.getId())) {
 			invalidFieldsException.addField(new InvalidField("code", "duplicated", "A user with this code already exists"));
 		}
@@ -86,6 +92,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public boolean deleteById(Long id) {
+		User loginUser = (User) session.getAttribute("loginUser");
+		if (loginUser.getId() == id) {
+			throw new ServiceException("Could not perform this operation.");
+		}
 		userRepo.deleteById(id);
 		return true;
 	}
