@@ -3,13 +3,15 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Map;
 
+import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Position;
+import team.ojt7.recruitment.model.entity.RecruitmentResource;
 
 public class TopRecruitmentResourceReportDto {
 
 	private RecruitmentResourceDto recruitmentResource;
 	private long count;
-	private List<Map<Position, Integer>> positions;
+	private Map<PositionDto, Integer> positions;
 
 	public RecruitmentResourceDto getRecruitmentResource() {
 		return recruitmentResource;
@@ -27,12 +29,16 @@ public class TopRecruitmentResourceReportDto {
 		this.count = count;
 	}
 
-	public List<Map<Position, Integer>> getPositions() {
+	public Map<PositionDto, Integer> getPositions() {
 		return positions;
 	}
 
-	public void setPositions(List<Map<Position, Integer>> positions) {
+	public void setPositions(Map<PositionDto, Integer> positions) {
 		this.positions = positions;
 	}
 
+	
+
+	
+	
 }
