@@ -24,6 +24,7 @@ public class ReportController {
 			model.put("reports", reportService.searchTopRecruitmentResources());
 			return "top-recruitment-resources";
 		} else if ("topRecruitmentResourcesByPosition".equals(name)) {
+			model.put("reports", reportService.searchTopRecruitmentResourcesByPosition());
 			return "top-recruitment-resources-by-position";
 		}
 		return null;

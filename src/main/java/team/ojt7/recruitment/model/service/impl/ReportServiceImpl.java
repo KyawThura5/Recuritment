@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
+import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceByPositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceReportDto;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
@@ -60,8 +61,22 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public List<TopRecruitmentResourceByPositionDto> searchTopRecruitmentResourcesByPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<ApplicantDto> applicants=ApplicantDto.ofList(applicantRepo.searchStatusAndResources(Status.HIRED));
+		List<TopRecruitmentResourceByPositionDto> topRecruitmentResourceByPosition=new ArrayList<>();
+		Map<PositionDto,List<ApplicantDto>> map = applicants.stream().collect(Collectors.groupingBy(a->a.getRequirePosition().getPosition()));
+		for(Entry<PositionDto,List<ApplicantDto>> app:map.entrySet()) {
+			TopRecruitmentResourceByPositionDto dto=new TopRecruitmentResourceByPositionDto();
+		dto.setPosition(app.getKey());
+		dto.setCount(app.getValue().size());
+		Map<RecruitmentResourceDto,Integer>recruitment=app.getValue().stream().collect(Collectors.groupingBy(a ->a.getRecruitmentResource(),Collectors.summingInt(a ->1)));
+		dto.setRecruitmentResources(recruitment);
+		topRecruitmentResourceByPosition.add(dto);
+		}
+		topRecruitmentResourceByPosition.sort(
+				(t1, t2) -> (int) (t2.getCount() - t1.getCount())
+				);
+		return topRecruitmentResourceByPosition;
 	}
 
 }
