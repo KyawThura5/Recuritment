@@ -1,6 +1,5 @@
 package team.ojt7.recruitment.model.service.impl;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,19 +7,16 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
+import team.ojt7.recruitment.model.dto.TopRecruitmentResourceByPositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceReportDto;
-import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
-import team.ojt7.recruitment.model.entity.RecruitmentResource;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
-import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.ReportService;
 
 @Service
@@ -34,7 +30,7 @@ public class ReportServiceImpl implements ReportService {
 	
 
 	@Override
-	public List<TopRecruitmentResourceReportDto> searchTopRecruitmentResources(LocalDate dateFrom, LocalDate dateTo) {
+	public List<TopRecruitmentResourceReportDto> searchTopRecruitmentResources() {
 		
 		List<ApplicantDto> applicants = ApplicantDto.ofList( applicantRepo.searchStatusAndResources(Status.HIRED));
 
@@ -55,8 +51,17 @@ public class ReportServiceImpl implements ReportService {
 			topRecruitmentResourceReportDtos.add(topRecResourceReportDtos);
 		}
 			
-		
+		topRecruitmentResourceReportDtos.sort(
+				(t1, t2) -> (int) (t2.getCount() - t1.getCount())
+				);
 		return topRecruitmentResourceReportDtos;
+	}
+
+
+	@Override
+	public List<TopRecruitmentResourceByPositionDto> searchTopRecruitmentResourcesByPosition() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,11 +1,6 @@
 package team.ojt7.recruitment.model.dto;
 
-import java.util.List;
 import java.util.Map;
-
-import team.ojt7.recruitment.model.entity.Applicant;
-import team.ojt7.recruitment.model.entity.Position;
-import team.ojt7.recruitment.model.entity.RecruitmentResource;
 
 public class TopRecruitmentResourceReportDto {
 
