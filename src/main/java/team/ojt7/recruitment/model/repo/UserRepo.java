@@ -3,7 +3,6 @@ package team.ojt7.recruitment.model.repo;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,6 +20,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
     
 	@Query(value = "SELECT MAX(id) FROM user", nativeQuery = true)
     Long findMaxId();
+	
+	User findByCode(String code);
 	
 	User findByCodeAndIsDeleted(String code, boolean isDeleted);
 	

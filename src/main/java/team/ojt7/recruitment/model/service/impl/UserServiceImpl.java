@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 		
 		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
 		
-		User duplicateEntry = userRepo.findByCodeAndIsDeleted(user.getCode(), false);
+		User duplicateEntry = userRepo.findByCode(user.getCode());
 		if (duplicateEntry != null && !Objects.equals(user.getId(), duplicateEntry.getId())) {
 			invalidFieldsException.addField(new InvalidField("code", "duplicated", "A user with this code already exists"));
 		}
