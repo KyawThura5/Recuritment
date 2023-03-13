@@ -61,6 +61,19 @@
 						th:value="${s}" th:text="${s}" th:selected="${s == vacancyPage.size}"></option>
 				</select>
 			</div>
+            <div class="col-auto">
+                <select form="searchForm" class="form-select" name="sortBy" th:value="${vacancySearch.sortBy}" onchange="changePageSize()">
+                    <option value="createdDateTime" th:selected="${'createdDateTime' == vacancySearch.sortBy}">Post Date</option>
+                    <option value="dueDate" th:selected="${'dueDate' == vacancySearch.sortBy}">Due Date</option>
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <select form="searchForm" class="form-select" name="sortDirection" th:value="${vacancySearch.sortDirection}" onchange="changePageSize()">
+                    <option value="asc" th:selected="${'asc' == vacancySearch.sortDirection}">Ascending</option>
+                    <option value="desc" th:selected="${'desc' == vacancySearch.sortDirection}">Descending</option>
+                </select>
+            </div>
 
 		</div>
 

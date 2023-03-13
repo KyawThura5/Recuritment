@@ -11,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
@@ -36,11 +38,16 @@ public class VacancyServiceImpl implements VacancyService {
 
 	@Override
 	public Page<VacancyDto> search(VacancySearch vacancySearch) {
-		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
+		Sort sort = Sort.unsorted();
+		if (StringUtils.hasLength(vacancySearch.getSortBy())) {
+			sort = Sort.by(vacancySearch.getSortBy());
+			sort = vacancySearch.getSortDirection() == null || "asc".equals(vacancySearch.getSortDirection()) ? sort.ascending() : sort.descending();
+		}
 		
+		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
 		Page<Vacancy> vacancies = vacancySearch.getStatus() == null
-									? vacancyRepo.search(keyword, vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize()))
-									: vacancyRepo.search(keyword, vacancySearch.getStatus(), vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize())); 
+									? vacancyRepo.search(keyword, vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(),sort))
+									: vacancyRepo.search(keyword, vacancySearch.getStatus(), vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(), sort)); 
 		Pageable vacanciesPageable = vacancies.getPageable();
 		Page<VacancyDto> page = new PageImpl<VacancyDto>(VacancyDto.ofList(vacancies.getContent()), vacanciesPageable, vacancies.getTotalElements());
 		return page;
