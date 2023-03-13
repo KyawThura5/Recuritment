@@ -15,10 +15,14 @@ public class VacancySearch {
 
 	private String keyword;
 	private Status status;
-	
+
+	private String sortBy = "createdDateTime";
+
+	private String sortDirection = "desc";
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime dateFrom;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateTo;
 	private Integer page;
@@ -70,6 +74,22 @@ public class VacancySearch {
 
 	public void setSize(Integer size) {
 		this.size = size;
+	}
+
+	public String getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
+	}
+
+	public String getSortDirection() {
+		return sortDirection;
+	}
+
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
 	}
 
 	@Override
