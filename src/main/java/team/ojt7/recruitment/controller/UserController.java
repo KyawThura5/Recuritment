@@ -29,6 +29,7 @@ import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.service.UserService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
+import team.ojt7.recruitment.model.service.exception.ServiceException;
 import team.ojt7.recruitment.model.validator.AdminChangePasswordFormValidator;
 import team.ojt7.recruitment.model.validator.UserChangePasswordFormValidator;
 
@@ -128,9 +129,15 @@ public class UserController {
 			Long id,
 			RedirectAttributes redirect
 			) {
-		userService.deleteById(id);
-		Alert alert = new Alert("Successfully deleted the user.", "notice-success");
-		redirect.addFlashAttribute("alert", alert);
+		try {
+			userService.deleteById(id);
+			Alert alert = new Alert("Successfully deleted the user.", "notice-success");
+			redirect.addFlashAttribute("alert", alert);
+		} catch (ServiceException e) {
+			Alert alert = new Alert(e.getMessage(), "notice-danger");
+			redirect.addFlashAttribute("alert", alert);
+		}
+		
 		return "redirect:/user/search";
 	}
 
