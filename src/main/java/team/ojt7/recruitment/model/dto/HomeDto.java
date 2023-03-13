@@ -54,7 +54,6 @@ public class HomeDto {
 	}
 
 	public Map<Integer, Integer> getPastInterviewsCountByDate() {
-//		return Map.of(2, 1, 12, 2, 20, 1, 30, 1, 31, 2);
 		return pastInterviewsCountByDate;
 	}
 
