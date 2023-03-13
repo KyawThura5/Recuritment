@@ -10,6 +10,10 @@ public class DepartmentSearch {
 	private String keyword;
 	private Integer page;
 	private Integer size;
+	
+	private String sortBy = "name";
+
+	private String sortDirection = "asc";
 
 	public String getKeyword() {
 		return keyword;
@@ -33,6 +37,24 @@ public class DepartmentSearch {
 
 	public void setSize(Integer size) {
 		this.size = size;
+	}
+	
+	
+
+	public String getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
+	}
+
+	public String getSortDirection() {
+		return sortDirection;
+	}
+
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
 	}
 
 	@Override

@@ -10,8 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.DepartmentSearch;
@@ -30,9 +32,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Autowired
 	private DepartmentRepo departmentRepo;
 	
+	
 	@Override
 	@Transactional
-	public List<DepartmentDto> search(String keyword) {
+	public List<DepartmentDto> search(String keyword) {		
+		
+		
 		keyword = keyword == null ? "%%" : "%" + keyword + "%";
 		List<Department> departments=departmentRepo.search(keyword);
 		return DepartmentDto.ofList(departments);
@@ -95,8 +100,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public Page<DepartmentDto> search(DepartmentSearch departmentSearch) {
+		
+		Sort sort = Sort.unsorted();
+		if (StringUtils.hasLength(departmentSearch.getSortBy())) {
+			sort = Sort.by(departmentSearch.getSortBy());
+			sort = departmentSearch.getSortDirection() == null || "asc".equals(departmentSearch.getSortDirection()) ? sort.ascending() : sort.descending();
+		}
+		
 		String keyword = departmentSearch.getKeyword() == null ? "%%" : "%" + departmentSearch.getKeyword() + "%";
-		Pageable pageable = PageRequest.of(departmentSearch.getPage() - 1, departmentSearch.getSize());
+		Pageable pageable = PageRequest.of(departmentSearch.getPage() - 1, departmentSearch.getSize(),sort);
 		
 		Page<Department> departmentPage = departmentRepo.search(keyword, pageable);
 		
