@@ -105,7 +105,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					</a>
 				</li>
             	<li sec:authorize="hasAnyAuthority('GENERAL_MANAGER', 'DEPARTMENT_HEAD', 'PROJECT_MANAGER', 'HIRING_MANAGER')" class="nav-item" th:classappend="${menu == 'reports' ? 'active' : ''}">
-					<a class="nav-link" th:href="@{/report/topRecruitmentResources}">
+					<a class="nav-link" th:href="@{/report(name='topRecruitmentResources')}">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-reception-4 d-lg-none d-xl-inline-block" viewBox="0 0 16 16">
 							<path d="M0 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-5zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-8zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-11z"/>
 						  </svg>
