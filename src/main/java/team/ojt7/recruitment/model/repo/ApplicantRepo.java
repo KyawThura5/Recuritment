@@ -1,7 +1,9 @@
 package team.ojt7.recruitment.model.repo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,6 +25,19 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
     @Modifying
     @Query(value = "UPDATE Applicant SET is_deleted = true WHERE id = :id")
 	void deleteById(@Param("id") Long id);
+    
+    
+    @Query(
+    		value = """
+    		select app from Applicant app where status = :status
+    		AND isDeleted = false
+    		""",
+    		countQuery = """
+    				select COUNT(app) from Applicant app where status = :status
+    		AND isDeleted = false
+    				"""
+    		)
+    List<Applicant> searchStatusAndResources(@Param("status") Status status);
 	
     @Query(
     		value = """
