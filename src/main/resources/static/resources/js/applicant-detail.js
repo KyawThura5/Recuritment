@@ -63,3 +63,14 @@ function showChangeStatusDialog(id) {
         }
     });
 }
+
+function showChangeJoinDateDialog() {
+
+    let modelElement=document.getElementById("changeJoinDateModal");
+    modelElement.style.display = "block";
+    window.onclick = function(event) {
+        if (event.target == modelElement) {
+            modelElement.style.display = "none";
+        }
+    }
+}

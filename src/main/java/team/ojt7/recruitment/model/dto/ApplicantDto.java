@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.dto;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,8 @@ public class ApplicantDto {
 //	@NotBlank(message = "NotBlank.applicant.attachedUri")
 	private String attachedUri;
 
+	private LocalDate joinDate;
+
 	@NotNull(message = "Select a recruitment resource")
 	private RecruitmentResourceDto recruitmentResource;
 
@@ -57,7 +60,7 @@ public class ApplicantDto {
 	private RequirePositionDto requirePosition;
 
 	private boolean isDeleted;
-	
+
 	private boolean updatableStatus;
 
 	private List<ApplicantStatusChangeHistoryDto> statusChangeHistories = new ArrayList<>();
@@ -111,9 +114,9 @@ public class ApplicantDto {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
+
 	public String getStatusColorClass() {
-		return switch(status) {
+		return switch (status) {
 		case NEW -> "bg-primary";
 		case UNQULIFIED -> "bg-secondary";
 		case QULIFIED -> "bg-info text-dark";
@@ -167,7 +170,7 @@ public class ApplicantDto {
 		});
 		this.interviews = interviews;
 	}
-	
+
 	public InterviewDto getLastestInterview() {
 		try {
 			return interviews.get(0);
@@ -175,17 +178,21 @@ public class ApplicantDto {
 			return null;
 		}
 	}
-	
+
 	public InterviewDto getActiveInterview() {
 		InterviewDto lastesetInterview = getLastestInterview();
 		if (lastesetInterview == null) {
 			return null;
 		}
-		return lastesetInterview.getStatus() == team.ojt7.recruitment.model.entity.Interview.Status.NOT_START_YET ? lastesetInterview : null;
+		return lastesetInterview.getStatus() == team.ojt7.recruitment.model.entity.Interview.Status.NOT_START_YET
+				? lastesetInterview
+				: null;
 	}
-	
+
 	public boolean isAvailableForNewInterview() {
-		return getStatus().getStep() > 2 && (getLastestInterview() == null || getLastestInterview().getStatus().getStep() > 2) && getStatus() != Status.HIRED;
+		return getStatus().getStep() > 2
+				&& (getLastestInterview() == null || getLastestInterview().getStatus().getStep() > 2)
+				&& getStatus() != Status.HIRED;
 	}
 
 	public boolean isUpdatableStatus() {
@@ -202,6 +209,14 @@ public class ApplicantDto {
 
 	public void setEducation(String education) {
 		this.education = education;
+	}
+
+	public LocalDate getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(LocalDate joinDate) {
+		this.joinDate = joinDate;
 	}
 
 	public String getSkill() {
@@ -296,6 +311,7 @@ public class ApplicantDto {
 		dto.setCreatedDate(applicant.getCreatedDate());
 		dto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
 		dto.setVacancy(VacancyDto.of(applicant.getVacancy()));
+		dto.setJoinDate(applicant.getJoinDate());
 
 		if (applicant.getRequirePosition() != null) {
 			RequirePosition requirePosition = applicant.getRequirePosition();
@@ -308,7 +324,7 @@ public class ApplicantDto {
 			requirePositionDto.setVacancy(VacancyDto.of(requirePosition.getVacancy()));
 			dto.setRequirePosition(requirePositionDto);
 		}
-		
+
 		if (applicant.getStatusChangeHistories() != null) {
 			for (ApplicantStatusChangeHistory asch : applicant.getStatusChangeHistories()) {
 				ApplicantStatusChangeHistoryDto aschDto = new ApplicantStatusChangeHistoryDto();
@@ -321,7 +337,7 @@ public class ApplicantDto {
 				dto.statusChangeHistories.add(aschDto);
 			}
 		}
-		
+
 		if (applicant.getInterviews() != null) {
 			for (Interview interview : applicant.getInterviews()) {
 				InterviewDto interviewDto = new InterviewDto();
@@ -372,6 +388,7 @@ public class ApplicantDto {
 		applicant.setCreatedDate(dto.getCreatedDate());
 		applicant.setCreatedUser(UserDto.parse(dto.getCreatedUser()));
 		applicant.setVacancy(VacancyDto.parse(dto.getVacancy()));
+		applicant.setJoinDate(dto.getJoinDate());
 
 		if (dto.getRequirePosition() != null) {
 			RequirePositionDto requirePositionDto = dto.getRequirePosition();
@@ -384,7 +401,7 @@ public class ApplicantDto {
 			requirePosition.setVacancy(VacancyDto.parse(requirePositionDto.getVacancy()));
 			applicant.setRequirePosition(requirePosition);
 		}
-		
+
 		if (dto.getStatusChangeHistories() != null) {
 			for (ApplicantStatusChangeHistoryDto aschDto : dto.getStatusChangeHistories()) {
 				ApplicantStatusChangeHistory asch = new ApplicantStatusChangeHistory();
@@ -397,7 +414,7 @@ public class ApplicantDto {
 				applicant.getStatusChangeHistories().add(asch);
 			}
 		}
-		
+
 		if (dto.getInterviews() != null) {
 			for (InterviewDto interviewDto : dto.getInterviews()) {
 				Interview interview = new Interview();
@@ -414,7 +431,7 @@ public class ApplicantDto {
 				applicant.getInterviews().add(interview);
 			}
 		}
-		
+
 		return applicant;
 
 	}

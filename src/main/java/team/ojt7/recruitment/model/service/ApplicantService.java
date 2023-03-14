@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,5 +26,6 @@ public interface ApplicantService {
 	
 	List<ApplicantDto> getAllAvailableForNewInterview();
 	
+	void saveJoinDate(Long applicantId, LocalDate joinDate);
 
 }
