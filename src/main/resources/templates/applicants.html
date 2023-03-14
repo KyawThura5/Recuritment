@@ -104,11 +104,10 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 <a th:href="@{/applicant/edit}" class="form-control btn btn-success">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
                 </a>
-            </div>
-            
+            </div>  
         </form>
 
-        <div class="row mt-1 mt-md-2">
+        <div class="row mt-1 mt-md-3">
 			<div class="form-group-col col-auto">
 				<label for="" class="col-form-label">Showing</label>
 			</div>
@@ -116,14 +115,23 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				<select form="searchForm" name="size" th:value="${applicantPage.size}" onchange="changePageSize()" class="form-select">
 					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == applicantPage.size}"></option>
 				</select>
-			</div>
-            <label class="col-auto text-success">
-                [[${applicantPage.totalElements}]]
-                [[${applicantPage.totalElements > 1 ? 'entries' : 'entry'}]]
-                found
-            </label>
+			</div>           
+		<div class="col-auto">
+		<select form="searchForm" class="form-select" name="sortBy" th:value="${applicantSearch.sortBy}" onchange="changePageSize()">
+		<option value="name" th:selected="${'name' == applicantSearch.sortBy}">Candidate Name</option>
+		<option value="createdDate" th:selected="${'createdDate' == applicantSearch.sortBy}">Created Date Time</option>
+		<option value="code" th:selected="${'code' == applicantSearch.sortBy}">Code</option>
+		</select>
 		</div>
-
+		
+		<div class="col-auto">
+		<select form="searchForm" class="form-select" name="sortDirection" th:value="${applicantSearch.sortDirection}" onchange="changePageSize()">
+		<option value="asc" th:selected="${'asc' == applicantSearch.sortDirection}">Ascending</option>
+		<option value="desc" th:selected="${'desc' == applicantSearch.sortDirection}">Descending</option>
+		</select>
+		</div>
+		
+		</div>
         <div th:if="${alert != null}" id="alert" class="modal">
             <div class="modal-dialog animated bounceInRight">
                 <div class="modal-body shadow notice rounded" th:classappend="${alert.cssClass}">
@@ -252,9 +260,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                                             [[${applicant.lastestInterview.status.displayName}]]
                                         </span>
                                     </label>
-                                    <label th:title="${applicant.lastestInterview.interviewName.name}">
+                                    <a th:href="@{/interview/applicant/detail(id=${applicant.lastestInterview.id})}" class="link-dark" th:title="${applicant.lastestInterview.interviewName.name}">
                                         [[${applicant.lastestInterview.interviewName.name}]]
-                                    </label>
+                                    </a>
                                 </span>
                             </label>
 

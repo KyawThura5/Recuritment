@@ -195,12 +195,14 @@ public class UserController {
 			@Validated
 			@ModelAttribute("passwordForm")
 			UserChangePasswordFormDto passwordForm,
-			BindingResult bindingResult
+			BindingResult bindingResult,
+			RedirectAttributes redirect
 			) {
 		
 		if (!bindingResult.hasErrors()) {
 			try {
 				userService.changePassword(passwordForm.getUserId(), passwordForm.getOldPassword(), passwordForm.getNewPassword());
+				redirect.addFlashAttribute("alert", new Alert("Successfully changed your password.", "notice-info"));
 			} catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());
@@ -228,12 +230,14 @@ public class UserController {
 			@Validated
 			@ModelAttribute("user")
 			UserDto user,
-			BindingResult bindingResult
+			BindingResult bindingResult,
+			RedirectAttributes redirect
 			) {
 		
 		if (!bindingResult.hasErrors()) {
 			try {
 				userService.save(UserDto.parse(user));
+				redirect.addFlashAttribute("alert", new Alert("Successfully updated your profile.", "notice-info"));
 			}  catch (InvalidFieldsException e) {
 				for (InvalidField invalidField : e.getFields()) {
 					bindingResult.rejectValue(invalidField.getField(), invalidField.getCode(), invalidField.getMessage());

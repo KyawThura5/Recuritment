@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team.ojt7.recruitment.model.dto.DirectRecruitmentResourceDto;
-import team.ojt7.recruitment.model.dto.TeamDto;
-import team.ojt7.recruitment.model.entity.DirectRecruitmentResource;
 import team.ojt7.recruitment.model.entity.RecruitmentResource;
-import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
 import team.ojt7.recruitment.model.service.DirectRecruitmentResourceService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;

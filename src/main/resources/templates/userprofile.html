@@ -9,22 +9,66 @@
 <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
 <link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+<link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
 </head>
 <body>
 	<div th:replace="nav-bar :: navbar('profile')"></div>
 
+  <div th:if="${alert != null}" id="alert" class="modal">
+    <div class="modal-dialog animated bounceInRight">
+        <div class="modal-body shadow notice rounded" th:classappend="${alert.cssClass}">
+            <div class="row">
+                <div class="col">
+                    <label class="fw-bold">
+                        [[${alert.message}]]
+                    </label>
+                </div>
+
+                <div class="col-auto">
+                    <button class="btn text-secondary" th:onclick="closeAlert()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M175 175C184.4 165.7 199.6 165.7 208.1 175L255.1 222.1L303 175C312.4 165.7 327.6 165.7 336.1 175C346.3 184.4 346.3 199.6 336.1 208.1L289.9 255.1L336.1 303C346.3 312.4 346.3 327.6 336.1 336.1C327.6 346.3 312.4 346.3 303 336.1L255.1 289.9L208.1 336.1C199.6 346.3 184.4 346.3 175 336.1C165.7 327.6 165.7 312.4 175 303L222.1 255.1L175 208.1C165.7 199.6 165.7 184.4 175 175V175zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
 <section class="vh-100">
   <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-lg-6 mb-4 mb-lg-0">
+    <div class="row d-flex justify-content-center align-items-start h-100">
+      <div class="col col-xl-10 mb-4 mb-lg-0">
         <div class="card mb-3 shadow p-3 mb-5 bg-white rounded" style="border-radius: .5rem;">
           <div class="row g-0">
-            <div class="col-md-4 gradient-custom text-center text-white"
+            <div class="col-lg-4 gradient-custom text-center text-white"
               style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+              <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                alt="Avatar" class="img-fluid mt-3 mb-3" style="width: 70px;" />
               <h5 style="color:black" th:text="${user.name}"></h5>
-              <p style="color:black" th:text="${user.role.displayName}"></p>
+              <p class="text-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-award-fill" viewBox="0 0 16 16">
+                  <path d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"/>
+                  <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
+                </svg>
+                [[${user.role.displayName}]]
+              </p>
+              <div class="row">
+                <a th:href="@{/profile/edit}" class="btn btn-sm btn-primary col-7 col-lg-8 my-1 mx-auto"><span
+                  class="material-symbols-outlined">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+                  Edit Profile
+                </span>
+                </a>
+                <a
+                  th:href="@{/profile/password/change}" class="btn btn-sm btn-outline-secondary col-7 col-lg-8 my-1 mx-auto"><span
+                  class="material-symbols-outlined">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg>
+                  Change Password
+                </span>
+                </a> 
+              </div>
             </div>
             <div class="col-md-8">
               <div class="card-body p-4">
@@ -47,12 +91,7 @@
                     <h6>Gender</h6>
                     <p class="text-muted" th:text="${user.gender.displayName}"></p>
                   </div>
-                  <div>
-                   <a th:href="@{/profile/edit}" class="btn btn-warning "><span
-							class="material-symbols-outlined">Edit</span> </a> <a
-						th:href="@{/profile/password/change}" class="btn btn-primary"><span
-							class="material-symbols-outlined">Change Password</span></a> 
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -63,4 +102,17 @@
   </div>
 </section>
 </body>
+<script>
+  let alert = document.getElementById("alert");
+    if(alert) {
+        let modelElement=document.getElementById("alert");
+        modelElement.style.display = "block";
+        window.onclick = function(event) {
+            if (event.target == modelElement) {
+                modelElement.style.display = "none";
+            }
+        }
+        window.setTimeout(closeAlert, 5000);
+    }
+</script>
 </html>
