@@ -4,9 +4,9 @@ public class TeamSearch {
 	private String keyword;
 	private Integer page;
 	private Integer size;
-	private String sortBy = "name";
+	private String sortBy="name";
 
-	private String sortDirection = "asc";
+	private String sortDirection="asc";
 	public String getSortBy() {
 		return sortBy;
 	}
