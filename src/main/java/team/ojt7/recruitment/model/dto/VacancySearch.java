@@ -16,10 +16,6 @@ public class VacancySearch {
 	private String keyword;
 	private Status status;
 
-	private String sortBy = "createdDateTime";
-
-	private String sortDirection = "desc";
-
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime dateFrom;
 
@@ -27,6 +23,47 @@ public class VacancySearch {
 	private LocalDate dateTo;
 	private Integer page;
 	private Integer size;
+
+	private Sort sort = Sort.NEWEST;
+
+	public enum Sort {
+		NEWEST("Newest", "createdDateTime", "desc"),
+		OLDEST("Oldest", "createdDateTime", "asc"),
+		LONGEST("Longest", "dueDate", "desc"),
+		SHORTEST("Shortest", "dueDate", "asc")
+		;
+
+		private String displayName;
+		private String sortBy;
+		private String sortDirection;
+
+		Sort(String displayName, String sortBy, String sortDirection) {
+			this.displayName = displayName;
+			this.sortBy = sortBy;
+			this.sortDirection = sortDirection;
+		}
+
+		public String getSortBy() {
+			return sortBy;
+		}
+
+		public void setSortBy(String sortBy) {
+			this.sortBy = sortBy;
+		}
+
+		public String getSortDirection() {
+			return sortDirection;
+		}
+
+		public void setSortDirection(String sortDirection) {
+			this.sortDirection = sortDirection;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
+	}
 
 	public String getKeyword() {
 		return keyword;
@@ -76,20 +113,12 @@ public class VacancySearch {
 		this.size = size;
 	}
 
-	public String getSortBy() {
-		return sortBy;
+	public Sort getSort() {
+		return sort;
 	}
 
-	public void setSortBy(String sortBy) {
-		this.sortBy = sortBy;
-	}
-
-	public String getSortDirection() {
-		return sortDirection;
-	}
-
-	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
+	public void setSort(Sort sort) {
+		this.sort = sort;
 	}
 
 	@Override

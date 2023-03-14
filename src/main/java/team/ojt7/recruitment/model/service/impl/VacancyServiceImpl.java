@@ -39,9 +39,9 @@ public class VacancyServiceImpl implements VacancyService {
 	@Override
 	public Page<VacancyDto> search(VacancySearch vacancySearch) {
 		Sort sort = Sort.unsorted();
-		if (StringUtils.hasLength(vacancySearch.getSortBy())) {
-			sort = Sort.by(vacancySearch.getSortBy());
-			sort = vacancySearch.getSortDirection() == null || "asc".equals(vacancySearch.getSortDirection()) ? sort.ascending() : sort.descending();
+		if (StringUtils.hasLength(vacancySearch.getSort().getSortBy())) {
+			sort = Sort.by(vacancySearch.getSort().getSortBy());
+			sort = vacancySearch.getSort().getSortDirection() == null || "asc".equals(vacancySearch.getSort().getSortDirection()) ? sort.ascending() : sort.descending();
 		}
 		
 		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
