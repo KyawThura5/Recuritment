@@ -99,15 +99,10 @@ public TeamDto save(Team team) {
 	}
 	
 	@Override 
-	public Page<TeamDto> findpage(String keyword, int page,int size,TeamSearch teamSearch) {
-		Sort sort = Sort.unsorted();
-		if (StringUtils.hasLength(teamSearch.getSortBy())) {
-			sort = Sort.by(teamSearch.getSortBy());
-			sort = teamSearch.getSortDirection() == null || "asc".equals(teamSearch.getSortDirection()) ? sort.ascending() : sort.descending();
-		}
-		
-		keyword=keyword==null? "%%" :"%"+keyword+"%";
-		Page<Team>teams=teamRepo.searchPage(keyword,PageRequest.of(page-1,size,sort));
+	public Page<TeamDto> findpage(TeamSearch teamSearch) {
+				
+		String keyword=teamSearch.getKeyword()==null? "%%" :"%"+teamSearch.getKeyword()+"%";
+		Page<Team>teams=teamRepo.searchPage(keyword,PageRequest.of(teamSearch.getPage()-1,teamSearch.getSize(),teamSearch.getSort().getSort()));
 		Pageable pageable=teams.getPageable();
 		Page<TeamDto>p=new PageImpl<TeamDto>(TeamDto.ofList(teams.getContent()),pageable,teams.getTotalElements());		
 		return p;
