@@ -10,6 +10,28 @@ public class PositionSearch {
 	private String keyword;
 	private Integer page;
 	private Integer size;
+	
+	private String sortBy = "name";
+
+	private String sortDirection = "asc";
+	
+	
+
+	public String getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
+	}
+
+	public String getSortDirection() {
+		return sortDirection;
+	}
+
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
+	}
 
 	public String getKeyword() {
 		return keyword;

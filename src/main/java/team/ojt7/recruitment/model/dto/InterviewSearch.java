@@ -20,6 +20,28 @@ public class InterviewSearch {
 	
 	private Integer page;
 	private Integer size;
+	
+	private String sortBy = "interviewName";
+
+	private String sortDirection = "dec";
+	
+	
+
+	public String getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
+	}
+
+	public String getSortDirection() {
+		return sortDirection;
+	}
+
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
+	}
 
 	public String getKeyword() {
 		return keyword;
