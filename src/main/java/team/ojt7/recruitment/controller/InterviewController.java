@@ -157,7 +157,14 @@ public class InterviewController {
 		return "redirect:%s".formatted(contextPage);
 	}
 
-
+	@GetMapping("/interview/detail")
+	public String showInterviewDetail(
+			Long id,
+			ModelMap model
+			) {
+		model.put("interview", interviewService.findById(id).get());
+		return "interview-detail";
+	}
 	
 	@PostMapping("/interview/delete")
 	public String deleteInterview(@RequestParam("id") Long id,RedirectAttributes redirect) {
@@ -178,6 +185,21 @@ public class InterviewController {
 		interviewService.saveInterviewStatus(id,status,comment,applicantStatusCheck, applicantStatus, applicantStatusComment);
 		redirect.addFlashAttribute("alert",new Alert("Successfully changed the interview's status!","notice-success"));
 		return "redirect:/interview/search";
+		
+	}
+	
+	@PostMapping("/interview/detail/status/save")
+	public String statuschangeFromDetail(
+			@RequestParam("id")Long id,
+			@RequestParam("status")Status status,
+			@RequestParam("comment")String comment,
+			@RequestParam(name = "applicantStatusCheck", defaultValue = "false") boolean applicantStatusCheck,
+			@RequestParam("applicantStatus") team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus,
+			@RequestParam("applicantStatusComment") String applicantStatusComment,
+			RedirectAttributes redirect) {
+		interviewService.saveInterviewStatus(id,status,comment,applicantStatusCheck, applicantStatus, applicantStatusComment);
+		redirect.addFlashAttribute("alert",new Alert("Successfully changed the interview's status!","notice-success"));
+		return "redirect:/interview/detail?id=" + id;
 		
 	}
 	
