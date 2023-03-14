@@ -2,6 +2,7 @@ package team.ojt7.recruitment.model.dto;
 
 import java.util.Objects;
 
+
 public class DepartmentSearch {
 	
 	private static final int DEFAULT_PAGE = 1;
@@ -11,9 +12,32 @@ public class DepartmentSearch {
 	private Integer page;
 	private Integer size;
 	
-	private String sortBy = "name";
+	private Sort sort = Sort.NAME_SORTING_A_TO_Z;
 
-	private String sortDirection = "asc";
+	public enum Sort {
+		NAME_SORTING_Z_TO_A("Name ZtoA Sorting",org.springframework.data.domain.Sort.by("name").descending()),
+		NAME_SORTING_A_TO_Z("Name AtoZ Sorting",org.springframework.data.domain.Sort.by("name").ascending())
+		;
+
+		private String displayName;
+		private org.springframework.data.domain.Sort sort;
+		
+
+		Sort(String displayName, org.springframework.data.domain.Sort sort) {
+			this.displayName = displayName;
+			this.sort = sort;
+		}
+		
+		public org.springframework.data.domain.Sort getSort() {
+			return sort;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
+	}
+	
 
 	public String getKeyword() {
 		return keyword;
@@ -40,21 +64,13 @@ public class DepartmentSearch {
 	}
 	
 	
-
-	public String getSortBy() {
-		return sortBy;
+	
+	public Sort getSort() {
+		return sort;
 	}
 
-	public void setSortBy(String sortBy) {
-		this.sortBy = sortBy;
-	}
-
-	public String getSortDirection() {
-		return sortDirection;
-	}
-
-	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
+	public void setSort(Sort sort) {
+		this.sort = sort;
 	}
 
 	@Override

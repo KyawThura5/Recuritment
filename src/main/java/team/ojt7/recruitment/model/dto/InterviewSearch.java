@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import team.ojt7.recruitment.model.dto.VacancySearch.Sort;
 import team.ojt7.recruitment.model.entity.Interview.Status;
 
 public class InterviewSearch {
@@ -21,28 +22,35 @@ public class InterviewSearch {
 	private Integer page;
 	private Integer size;
 	
-	private String sortBy = "interviewName";
+	private Sort sort = Sort.NEWEST;
 
-	private String sortDirection = "asc";
-	
-	
+	public enum Sort {
+		NEWEST("Newest", org.springframework.data.domain.Sort.by("createdDateTime").descending()),
+		OLDEST("Oldest", org.springframework.data.domain.Sort.by("createdDateTime").ascending()),
+		CODE_SORTING_Z_TO_A("Code ZtoA Sorting",org.springframework.data.domain.Sort.by("code").descending()),
+		CODE_SORTING_A_TO_Z("Code AtoZ Sorting",org.springframework.data.domain.Sort.by("code").ascending()),
+		NAME_SORTING_Z_TO_A("Name ZtoA Sorting",org.springframework.data.domain.Sort.by("interviewName").descending()),
+		NAME_SORTING_A_TO_Z("Name AtoZ Sorting",org.springframework.data.domain.Sort.by("interviewName").ascending())
+		;
 
-	public String getSortBy() {
-		return sortBy;
+		private String displayName;
+		private org.springframework.data.domain.Sort sort;
+		
+
+		Sort(String displayName, org.springframework.data.domain.Sort sort) {
+			this.displayName = displayName;
+			this.sort = sort;
+		}
+		
+		public org.springframework.data.domain.Sort getSort() {
+			return sort;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
 	}
-
-	public void setSortBy(String sortBy) {
-		this.sortBy = sortBy;
-	}
-
-	public String getSortDirection() {
-		return sortDirection;
-	}
-
-	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
-	}
-
 	public String getKeyword() {
 		return keyword;
 	}
@@ -98,6 +106,16 @@ public class InterviewSearch {
 	public void setSize(Integer size) {
 		this.size = size;
 	}
+
+	public Sort getSort() {
+		return sort;
+	}
+
+	public void setSort(Sort sort) {
+		this.sort = sort;
+	}
+	
+	
 	
 	
 
