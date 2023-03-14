@@ -26,7 +26,7 @@ public class ApplicantSearch {
 	private ApplicantDto name;
 	private String sortBy = "name";
 
-	private String sortDirection = "dec";
+	private String sortDirection = "asc";
 	
 	public String getKeyword() {
 		return keyword;
