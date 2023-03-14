@@ -15,8 +15,8 @@ public class DepartmentSearch {
 	private Sort sort = Sort.NAME_SORTING_A_TO_Z;
 
 	public enum Sort {
-		NAME_SORTING_Z_TO_A("NAME Z TO A",org.springframework.data.domain.Sort.by("name").descending()),
-		NAME_SORTING_A_TO_Z("NAME A TO Z",org.springframework.data.domain.Sort.by("name").ascending())
+		NAME_SORTING_Z_TO_A("Name Z To A",org.springframework.data.domain.Sort.by("name").descending()),
+		NAME_SORTING_A_TO_Z("Name A To Z",org.springframework.data.domain.Sort.by("name").ascending())
 		;
 
 		private String displayName;
