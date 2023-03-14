@@ -4,6 +4,7 @@ package team.ojt7.recruitment.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -285,6 +287,18 @@ public class ApplicantController {
 		applicantStatusChangeHistoryService.save(statusChangeHistory);
 		redirect.addFlashAttribute("alert", new Alert("Successfully changed the applicant's status.", "notice-success"));
 		return "redirect:%s".formatted(contextPage);
+	}
+	
+	@PostMapping("/applicant/joinDate/save")
+	public String saveApplicantJoinDate(
+			Long id,
+			@DateTimeFormat(pattern = "yyyy-MM-dd")
+			LocalDate date,
+			RedirectAttributes redirect
+			) {
+		applicantService.saveJoinDate(id, date);
+		redirect.addFlashAttribute("alert", new Alert("Successfully updated candidate's join date.", "notice-info"));
+		return "redirect:/applicant/detail?id=" + id;
 	}
 
 }

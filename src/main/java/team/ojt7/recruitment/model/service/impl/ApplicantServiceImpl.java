@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -164,6 +165,13 @@ public class ApplicantServiceImpl implements ApplicantService{
 		return findAll().stream().filter(a -> 
 			a.isAvailableForNewInterview()
 		).toList();
+	}
+
+	@Override
+	public void saveJoinDate(Long applicantId, LocalDate joinDate) {
+		Applicant applicant = applicantRepo.findById(applicantId).get();
+		applicant.setJoinDate(joinDate);
+		applicantRepo.save(applicant);
 	}
 
 }

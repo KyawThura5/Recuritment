@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeDto;
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.Applicant.Status;
 import team.ojt7.recruitment.model.entity.ApplicantStatusChangeHistory;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.User.Role;
@@ -35,6 +36,9 @@ public class ApplicantStatusChangeHistoryServiceImpl implements ApplicantStatusC
 		User loginUser = (User) session.getAttribute("loginUser");
 		Applicant applicant = applicantRepo.findById(dto.getApplicantId()).get();
 		applicant.setStatus(dto.getStatus());
+		if (dto.getStatus() != Status.HIRED) {
+			applicant.setJoinDate(null);
+		}
 		ApplicantStatusChangeHistory asch = ApplicantStatusChangeHistoryDto.parse(dto);
 		asch.setApplicant(applicant);
 		asch.setUpdatedBy(loginUser);

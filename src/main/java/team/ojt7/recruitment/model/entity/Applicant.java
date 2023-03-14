@@ -1,6 +1,7 @@
 package team.ojt7.recruitment.model.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,9 @@ public class Applicant implements Serializable {
 	@Column(name = "created_date", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createdDate;
 
+	@Column(name = "join_date")
+	private LocalDate joinDate;
+
 	@ManyToOne()
 	@JoinColumn(name = "created_user_id")
 	private User createdUser;
@@ -85,8 +89,7 @@ public class Applicant implements Serializable {
 
 	public enum Status {
 		NEW("New", 1), UNQULIFIED("Unqulified", 2), QULIFIED("Qulified", 3), SELECTED("Selected", 4),
-		REJECTED("Rejected", 5), JOB_OFFERED("Job Offered", 6),
-		DID_NOT_JOIN("Did not join", 7), HIRED("Hired", 8);
+		REJECTED("Rejected", 5), JOB_OFFERED("Job Offered", 6), DID_NOT_JOIN("Did not join", 7), HIRED("Hired", 8);
 
 		private String displayName;
 		private int step;
@@ -208,6 +211,14 @@ public class Applicant implements Serializable {
 
 	public void setAttachedUri(String attachedUri) {
 		this.attachedUri = attachedUri;
+	}
+
+	public LocalDate getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(LocalDate joinDate) {
+		this.joinDate = joinDate;
 	}
 
 	public RecruitmentResource getRecruitmentResource() {
