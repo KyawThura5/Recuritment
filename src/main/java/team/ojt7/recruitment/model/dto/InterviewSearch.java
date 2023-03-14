@@ -23,7 +23,7 @@ public class InterviewSearch {
 	
 	private String sortBy = "interviewName";
 
-	private String sortDirection = "dec";
+	private String sortDirection = "asc";
 	
 	
 

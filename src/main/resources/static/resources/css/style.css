@@ -92,6 +92,10 @@ a {
   background-color: lightcyan;
 }
 
+.bg-gainsboro {
+  background-color: lemonchiffon;
+}
+
 .font-xs {
   font-size: 0.8em;
 }

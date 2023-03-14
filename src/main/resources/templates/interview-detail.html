@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interviews</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/interviews.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/statusDailog.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/statusDailog.js}"></script>
+	<link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
+</head>
+<body>
+    <div th:replace="nav-bar :: navbar('interviews')"></div>
+
+    <div th:if="${alert != null}" id="alert" class="modal">
+            <div class="modal-dialog animated bounceInRight">
+                <div class="modal-body shadow notice rounded" th:classappend="${alert.cssClass}">
+                    <div class="row">
+                        <div class="col">
+                            <label class="fw-bold">
+                                [[${alert.message}]]
+                            </label>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="btn text-secondary" th:onclick="closeAlert()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M175 175C184.4 165.7 199.6 165.7 208.1 175L255.1 222.1L303 175C312.4 165.7 327.6 165.7 336.1 175C346.3 184.4 346.3 199.6 336.1 208.1L289.9 255.1L336.1 303C346.3 312.4 346.3 327.6 336.1 336.1C327.6 346.3 312.4 346.3 303 336.1L255.1 289.9L208.1 336.1C199.6 346.3 184.4 346.3 175 336.1C165.7 327.6 165.7 312.4 175 303L222.1 255.1L175 208.1C165.7 199.6 165.7 184.4 175 175V175zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+    </div>
+
+    <!-- Modal -->
+    <div th:id="changeStatusModal" class="modal modal-confirm">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg animated slideInDown">
+                <div class="modal-header p-2">
+                    <div class="modal-title font-lg fw-bold">
+                        Change Interview's Status
+                    </div>
+                </div>
+                <form id="changeStatusForm" th:action="@{/interview/detail/status/save}"  method="POST">                                                
+                    <div class="modal-body">                             
+                        <div class="col form-group">
+                            <input type="hidden" name="id"/>
+                            <label for="status1" class="form-label">Status</label>                                    
+                            <select id="status1" class="form-select" name="status">
+                                <option
+                                th:each="g:${T(team.ojt7.recruitment.model.entity.Interview.Status).values()}"
+                                th:value="${g}" th:text="${g.displayName}" >
+                            </option>
+                            </select>
+                    
+                    
+                            <div class="col-form-group mt-3">
+                                <label for="remark" class="form-label">Comment</label>
+                                <textarea id="remark" class="form-control" name="comment"></textarea>
+                            </div>
+
+                            <input id="applicantStatusCheck" name="applicantStatusCheck" type="checkbox" class="mt-3">
+                            <label for="applicantStatusCheck" class="form-label">Also change candidate's status</label>
+                            
+                            <div id="applicantStatusWrapper" class="d-none">
+                                <div class="form-group mt-3">
+                                    <label for="applicantStatus" class="form-label">Candidate's Status</label>
+                                    <select name="applicantStatus" id="applicantStatus" class="form-select">
+                                        <option
+                                            th:each="g:${T(team.ojt7.recruitment.model.entity.Applicant.Status).values()}"
+                                            th:value="${g}" th:text="${g.displayName}" >
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="applicantStatusComment" class="form-label">Remark</label>
+                                    <textarea name="applicantStatusComment" id="applicantStatusComment" class="form-control">
+                                    </textarea>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        </div>
+                        <div class="model-footer text-end p-2">
+                            <a class="btn btn-secondary" th:onclick="closeModal('changeStatusModal')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg>                    
+                                Cancel
+                            </a>
+                            <button id="btnStatusSubmit" type="submit"  class="btn btn-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                                    <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                                </svg>
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>    
+    
+    <main class="container py-3">
+        <div class="row">
+            <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-auto d-flex align-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="text-secondary" viewBox="0 0 640 512">
+                                            <path d="M160 64c0-35.3 28.7-64 64-64H576c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H336.8c-11.8-25.5-29.9-47.5-52.4-64H384V320c0-17.7 14.3-32 32-32h64c17.7 0 32 14.3 32 32v32h64V64L224 64v49.1C205.2 102.2 183.3 96 160 96V64zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352h53.3C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7H26.7C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label class="font-lg fw-bold">
+                                                    [[${interview.interviewName.name}]]
+                                                </label>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="font-sm">
+                                                    [[${interview.code}]]
+                                                </label>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="font-sm text-success">
+                                                    [[${#temporals.format(interview.localDate, 'yyyy-MM-dd')}]]
+                                                    [[${#temporals.format(interview.localTime, 'HH:mm (E)')}]]
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                                <hr class="my-2">
+
+                                <div class="row mt-3">
+                                    <label class="col-12 col-lg-6 my-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="20" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                        </svg>
+                                        <span class="ms-2 font-sm">
+                                            [[${interview.applicant.name}]]
+                                        </span>
+                                    </label>
+                                
+                                    <label class="col-12 col-lg-6 my-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M184 48H328c4.4 0 8 3.6 8 8V96H176V56c0-4.4 3.6-8 8-8zm-56 8V96H64C28.7 96 0 124.7 0 160v96H192 320 512V160c0-35.3-28.7-64-64-64H384V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zM512 288H320v32c0 17.7-14.3 32-32 32H224c-17.7 0-32-14.3-32-32V288H0V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V288z"/></svg>
+                                        <span class="ms-2 font-sm">
+                                                [[${interview.applicant.vacancy.code}]]
+                                        </span>
+                                        
+                                    </label> 
+                                
+                                    <label class="col-12 col-lg-6 my-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M173.8 5.5c11-7.3 25.4-7.3 36.4 0L228 17.2c6 3.9 13 5.8 20.1 5.4l21.3-1.3c13.2-.8 25.6 6.4 31.5 18.2l9.6 19.1c3.2 6.4 8.4 11.5 14.7 14.7L344.5 83c11.8 5.9 19 18.3 18.2 31.5l-1.3 21.3c-.4 7.1 1.5 14.2 5.4 20.1l11.8 17.8c7.3 11 7.3 25.4 0 36.4L366.8 228c-3.9 6-5.8 13-5.4 20.1l1.3 21.3c.8 13.2-6.4 25.6-18.2 31.5l-19.1 9.6c-6.4 3.2-11.5 8.4-14.7 14.7L301 344.5c-5.9 11.8-18.3 19-31.5 18.2l-21.3-1.3c-7.1-.4-14.2 1.5-20.1 5.4l-17.8 11.8c-11 7.3-25.4 7.3-36.4 0L156 366.8c-6-3.9-13-5.8-20.1-5.4l-21.3 1.3c-13.2 .8-25.6-6.4-31.5-18.2l-9.6-19.1c-3.2-6.4-8.4-11.5-14.7-14.7L39.5 301c-11.8-5.9-19-18.3-18.2-31.5l1.3-21.3c.4-7.1-1.5-14.2-5.4-20.1L5.5 210.2c-7.3-11-7.3-25.4 0-36.4L17.2 156c3.9-6 5.8-13 5.4-20.1l-1.3-21.3c-.8-13.2 6.4-25.6 18.2-31.5l19.1-9.6C65 70.2 70.2 65 73.4 58.6L83 39.5c5.9-11.8 18.3-19 31.5-18.2l21.3 1.3c7.1 .4 14.2-1.5 20.1-5.4L173.8 5.5zM272 192a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM1.3 441.8L44.4 339.3c.2 .1 .3 .2 .4 .4l9.6 19.1c11.7 23.2 36 37.3 62 35.8l21.3-1.3c.2 0 .5 0 .7 .2l17.8 11.8c5.1 3.3 10.5 5.9 16.1 7.7l-37.6 89.3c-2.3 5.5-7.4 9.2-13.3 9.7s-11.6-2.2-14.8-7.2L74.4 455.5l-56.1 8.3c-5.7 .8-11.4-1.5-15-6s-4.3-10.7-2.1-16zm248 60.4L211.7 413c5.6-1.8 11-4.3 16.1-7.7l17.8-11.8c.2-.1 .4-.2 .7-.2l21.3 1.3c26 1.5 50.3-12.6 62-35.8l9.6-19.1c.1-.2 .2-.3 .4-.4l43.2 102.5c2.2 5.3 1.4 11.4-2.1 16s-9.3 6.9-15 6l-56.1-8.3-32.2 49.2c-3.2 5-8.9 7.7-14.8 7.2s-11-4.3-13.3-9.7z"/></svg>
+                                        <span class="ms-2 font-sm">
+                                            [[${interview.applicant.requirePosition.position.name}]]
+                                            <label th:if="${interview.applicant.requirePosition.foc}" class="badge rounded-pill bg-darkgoldenrod">
+                                                FOC
+                                            </label> 
+                                        </span> 
+                                    </label> 
+                                    <label class="col-12 col-lg-6 my-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" widht="16" height="16" fill="currentColor" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c1.8 0 3.5-.2 5.3-.5c-76.3-55.1-99.8-141-103.1-200.2c-16.1-4.8-33.1-7.3-50.7-7.3H178.3zm308.8-78.3l-120 48C358 277.4 352 286.2 352 296c0 63.3 25.9 168.8 134.8 214.2c5.9 2.5 12.6 2.5 18.5 0C614.1 464.8 640 359.3 640 296c0-9.8-6-18.6-15.1-22.3l-120-48c-5.7-2.3-12.1-2.3-17.8 0zM591.4 312c-3.9 50.7-27.2 116.7-95.4 149.7V273.8L591.4 312z"/></svg>
+                                        <span class="ms-2 font-sm">
+                                            [[${interview.owner.name}]]
+                                        </span> 
+                                    </label>
+                                </div>
+
+                                <div class="row m-1 mt-3">
+                                    <div class="col-12 p-3 bg-gainsboro rounded">
+                                        <div class="d-flex align-items-center">
+                                            <label class="badge rounded-pill font-xs" th:classappend="${interview.statusColorClass}">
+                                                [[${interview.status.displayName}]]
+                                            </label>
+                                            <button th:if="${#authentication.getPrincipal() == interview.owner.code && interview.statusUpdatable}" class="btn btn-sm" th:onclick="showChangeStatusDialog([[${interview.id}]])">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M481.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-30.9 28.1c-7.7 7.1-11.4 17.5-10.9 27.9c.1 2.9 .2 5.8 .2 8.8s-.1 5.9-.2 8.8c-.5 10.5 3.1 20.9 10.9 27.9l30.9 28.1c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-39.7-12.6c-10-3.2-20.8-1.1-29.7 4.6c-4.9 3.1-9.9 6.1-15.1 8.7c-9.3 4.8-16.5 13.2-18.8 23.4l-8.9 40.7c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-8.9-40.7c-2.2-10.2-9.5-18.6-18.8-23.4c-5.2-2.7-10.2-5.6-15.1-8.7c-8.8-5.7-19.7-7.8-29.7-4.6L69.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l30.9-28.1c7.7-7.1 11.4-17.5 10.9-27.9c-.1-2.9-.2-5.8-.2-8.8s.1-5.9 .2-8.8c.5-10.5-3.1-20.9-10.9-27.9L8.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l39.7 12.6c10 3.2 20.8 1.1 29.7-4.6c4.9-3.1 9.9-6.1 15.1-8.7c9.3-4.8 16.5-13.2 18.8-23.4l8.9-40.7c2-9.1 9-16.3 18.2-17.8C213.3 1.2 227.5 0 242 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l8.9 40.7c2.2 10.2 9.4 18.6 18.8 23.4c5.2 2.7 10.2 5.6 15.1 8.7c8.8 5.7 19.7 7.7 29.7 4.6l39.7-12.6c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM242 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/></svg>
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="mt-2 font-sm">
+                                            [[${#temporals.format(interview.updatedOn, 'yyyy-MM-dd HH:mm (E)')}]]    
+                                        </div>
+                                        <div class="mt-3">
+                                            <p th:if="${interview.comment != null && !interview.comment.blank}" class="font-sm fst-italic">
+                                                [[${interview.comment}]]
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <a th:href="@{/interview/search}" class="btn btn-secondary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+                                        Back
+                                    </a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>     
