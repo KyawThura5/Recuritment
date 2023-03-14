@@ -89,18 +89,13 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 						th:value="${s}" th:text="${s}" th:selected="${s == teamPage.size}"></option>
 				</select>
 			</div>
-			<div class="col-auto d-none">
-                <select form="searchForm" class="form-select" name="sortBy" th:value="${teamSearch.sortBy}" onchange="changePageSize()">
-                    <option value="name" th:selected="${'name' == teamSearch.sortBy}">Name</option>
-                   <option value="department" th:selected="${'department' == teamSearch.sortBy}">Department</option>
-                   
-                </select>
-            </div>
-
-            <div class="col-auto">
-                <select form="searchForm" class="form-select" name="sortDirection" th:value="${teamSearch.sortDirection}" onchange="changePageSize()">
-                    <option value="asc" th:selected="${'asc' == teamSearch.sortDirection}">Ascending</option>
-                    <option value="desc" th:selected="${'desc' == teamSearch.sortDirection}">Descending</option>
+			<div class="col-auto">
+                <select form="searchForm" class="form-select" name="sort" th:value="${teamSearch.sort}" onchange="changePageSize()">
+                    <option
+                        th:each="s:${T(team.ojt7.recruitment.model.dto.TeamSearch.Sort).values()}"
+                        th:value="${s}" th:selected="${s.name() == teamSearch.sort.name()}">
+                        [[${s.displayName}]]
+                    </option>
                 </select>
             </div>
 

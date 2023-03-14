@@ -47,16 +47,9 @@ public class InterviewServiceImpl implements InterviewService {
 	@Override
 	public Page<InterviewDto> search(InterviewSearch search) {
 		
-		Sort sort = Sort.unsorted();
-		if (StringUtils.hasLength(search.getSortBy())) {
-			sort = Sort.by(search.getSortBy());
-			sort = search.getSortDirection() == null || "asc".equals(search.getSortDirection()) ? sort.ascending() : sort.descending();
-		}
-
-		
 		String keyword = search.getKeyword() == null ? "%%" : "%" + search.getKeyword() + "%";
 		
-		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize(),sort);
+		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize(),search.getSort().getSort());
 		InterviewName interviewName = InterviewNameDto.parse(search.getInterviewName());
 		LocalDateTime dateFrom=search.getDateFrom()==null ? null : search.getDateFrom().atStartOfDay();
 		LocalDateTime dateTo=search.getDateTo()==null ? null : search.getDateTo().plusDays(1).atStartOfDay();

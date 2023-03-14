@@ -99,13 +99,9 @@ public class PositionServiceImpl implements PositionService{
 	@Override
 	public Page<PositionDto> search(PositionSearch positionSearch) {
 		
-		Sort sort = Sort.unsorted();
-		if (StringUtils.hasLength(positionSearch.getSortBy())) {
-			sort = Sort.by(positionSearch.getSortBy());
-			sort = positionSearch.getSortDirection() == null || "asc".equals(positionSearch.getSortDirection()) ? sort.ascending() : sort.descending();
-		}
+		
 		String keyword = positionSearch.getKeyword() == null ? "%%" : "%" + positionSearch.getKeyword() + "%";
-		Pageable pageable = PageRequest.of(positionSearch.getPage() - 1, positionSearch.getSize(),sort);
+		Pageable pageable = PageRequest.of(positionSearch.getPage() - 1, positionSearch.getSize(),positionSearch.getSort().getSort());
 		
 		Page<Position> positionPage = repo.search(keyword, pageable);
 		

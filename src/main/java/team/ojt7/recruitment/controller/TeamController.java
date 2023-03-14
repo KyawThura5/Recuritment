@@ -49,20 +49,14 @@ public class TeamController {
 	
 	@GetMapping("/team/search")
 	public String searchTeams(
-			@RequestParam(required = false) String keyword,
-			@RequestParam(required =false,defaultValue="1")Integer page,
-			@RequestParam(required =false,defaultValue="10")Integer size,
+			@ModelAttribute("teamSearch")
+			TeamSearch teamSearch,
 			ModelMap model
 			) {
-		List<TeamDto> teamDtos = teamService.search(keyword);
-		TeamSearch dto=new TeamSearch();
-		dto.setKeyword(keyword);
-		dto.setPage(page);
-		dto.setSize(size);
-		Page<TeamDto>teamPage=teamService.findpage(keyword,page,size,dto);
-		model.put("teamList", teamDtos);
+		
+		Page<TeamDto>teamPage=teamService.findpage(teamSearch);
+		
 		model.put("teamPage", teamPage);
-		model.put("teamSearch",dto);
 		model.put("departmentList", departmentService.findAll());
 		return "teams";
 	}

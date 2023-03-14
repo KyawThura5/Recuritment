@@ -77,21 +77,14 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			</div>
 			
 			<div class="col-auto">
-                <select form="searchForm" class="form-select" name="sortBy" th:value="${interviewSearch.sortBy}" onchange="changePageSize()">
-                    <option value="interviewName" th:selected="${'interviewName' == interviewSearch.sortBy}">Interview Name</option>
-                    <option value="createdDateTime" th:selected="${'createdDateTime' == interviewSearch.sortBy}">Interview Created Date</option>
-                    <option value="code" th:selected="${'code' == interviewSearch.sortBy}">Code</option>
-                
+                <select form="searchForm" class="form-select" name="sort" th:value="${interviewSearch.sort}" onchange="changePageSize()">
+                    <option
+                        th:each="s:${T(team.ojt7.recruitment.model.dto.InterviewSearch.Sort).values()}"
+                        th:value="${s}" th:selected="${s.name() == interviewSearch.sort.name()}">
+                        [[${s.displayName}]]
+                    </option>
                 </select>
             </div>
-
-            <div class="col-auto">
-                <select form="searchForm" class="form-select" name="sortDirection" th:value="${interviewSearch.sortDirection}" onchange="changePageSize()">
-                    <option value="asc" th:selected="${'asc' == interviewSearch.sortDirection}">Ascending</option>
-                    <option value="desc" th:selected="${'desc' == interviewSearch.sortDirection}">Descending</option>
-                </select>
-            </div>
-			
 			
 		</div>
 		<div th:if="${alert != null}" id="alert" class="modal">

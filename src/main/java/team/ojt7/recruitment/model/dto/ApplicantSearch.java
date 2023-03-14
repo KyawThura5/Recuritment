@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import team.ojt7.recruitment.model.dto.VacancySearch.Sort;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
 
 public class ApplicantSearch {
@@ -23,11 +24,44 @@ public class ApplicantSearch {
 	private LocalDate dateTo;
 	private Integer page;
 	private Integer size;
-	private ApplicantDto name;
-	private String sortBy = "name";
+	private Sort sort = Sort.NEWEST;
 
-	private String sortDirection = "asc";
-	
+	public enum Sort {
+		NEWEST("Newest", org.springframework.data.domain.Sort.by("createdDate").descending()),
+		OLDEST("Oldest", org.springframework.data.domain.Sort.by("createdDate").ascending()),
+		NAME_A_Z("Name A to Z", org.springframework.data.domain.Sort.by("name").ascending()),
+		NAME_Z_A("Name Z to A", org.springframework.data.domain.Sort.by("name").descending()),
+		CODE_A_Z("Code A to Z", org.springframework.data.domain.Sort.by("code").ascending()),
+		CODE_Z_A("Code Z to A", org.springframework.data.domain.Sort.by("code").descending()),
+		;
+
+		private String displayName;
+		private org.springframework.data.domain.Sort sort;
+		
+
+		Sort(String displayName, org.springframework.data.domain.Sort sort) {
+			this.displayName = displayName;
+			this.sort = sort;
+		}
+		
+		public org.springframework.data.domain.Sort getSort() {
+			return sort;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
+	}
+
+	public Sort getSort() {
+		return sort;
+	}
+
+	public void setSort(Sort sort) {
+		this.sort = sort;
+	}
+
 	public String getKeyword() {
 		return keyword;
 	}
@@ -75,31 +109,6 @@ public class ApplicantSearch {
 	public void setSize(Integer size) {
 		this.size = size;
 	}
-
-	
-	public String getSortBy() {
-		return sortBy;
-	}
-
-	public void setSortBy(String sortBy) {
-		this.sortBy = sortBy;
-	}
-
-	public String getSortDirection() {
-		return sortDirection;
-	}
-
-	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
-	}
-	public ApplicantDto getName() {
-		return name;
-	}
-
-	public void setName(ApplicantDto name) {
-		this.name = name;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(dateFrom, dateTo, keyword, page, size);

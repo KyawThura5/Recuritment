@@ -99,15 +99,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public Page<DepartmentDto> search(DepartmentSearch departmentSearch) {
-		
-		Sort sort = Sort.unsorted();
-		if (StringUtils.hasLength(departmentSearch.getSortBy())) {
-			sort = Sort.by(departmentSearch.getSortBy());
-			sort = departmentSearch.getSortDirection() == null || "asc".equals(departmentSearch.getSortDirection()) ? sort.ascending() : sort.descending();
-		}
-		
+				
 		String keyword = departmentSearch.getKeyword() == null ? "%%" : "%" + departmentSearch.getKeyword() + "%";
-		Pageable pageable = PageRequest.of(departmentSearch.getPage() - 1, departmentSearch.getSize(),sort);
+		Pageable pageable = PageRequest.of(departmentSearch.getPage() - 1, departmentSearch.getSize(),departmentSearch.getSort().getSort());
 		
 		Page<Department> departmentPage = departmentRepo.search(keyword, pageable);
 		

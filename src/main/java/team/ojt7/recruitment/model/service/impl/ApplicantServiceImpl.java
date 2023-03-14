@@ -135,14 +135,6 @@ public class ApplicantServiceImpl implements ApplicantService{
 	@Override
 	public Page<ApplicantDto> search(ApplicantSearch applicantSearch) {
 		User loginUser = (User) session.getAttribute("loginUser");
-		
-		Sort sort=Sort.unsorted();
-		if(StringUtils.hasLength(applicantSearch.getSortBy())) {
-			sort=Sort.by(applicantSearch.getSortBy());
-			sort=applicantSearch.getSortDirection() == null || "asc".equals(applicantSearch.getSortDirection()) ? sort.ascending() : sort.descending();
-		}
-		
-		
 		String keyword = applicantSearch.getKeyword() == null ? "%%" : "%" + applicantSearch.getKeyword() + "%";
 		Status status = applicantSearch.getStatus();
 		LocalDateTime dateFrom = applicantSearch.getDateFrom() == null ? null : LocalDateTime.of(applicantSearch.getDateFrom(), LocalTime.of(0, 0));
@@ -154,7 +146,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 				dateTo,
 				PageRequest.of(
 						applicantSearch.getPage() - 1,
-						applicantSearch.getSize(),sort)
+						applicantSearch.getSize(),applicantSearch.getSort().getSort())
 				); 
 		Pageable applicantsPageable = applicants.getPageable();
 		List<ApplicantDto> dtoList = ApplicantDto.ofList(applicants.getContent());

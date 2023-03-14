@@ -99,17 +99,9 @@ public class RecruitmentResourceServiceImpl implements RecruitmentResourceServic
 
 	@Override
 	public Page<RecruitmentResourceDto> search(RecruitmentResourceSearch search) {
-		
-		Sort sort = Sort.unsorted();
-		if (StringUtils.hasLength(search.getSortBy())) {
-			sort = Sort.by(search.getSortBy());
-			sort = search.getSortDirection() == null || "asc".equals(search.getSortDirection()) ? sort.ascending() : sort.descending();
-		}
-
-		
 		String keyword = search.getKeyword() == null ? "%%" : "%" + search.getKeyword() + "%";
 		String entityType = search.getEntityType();
-		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize(),sort);
+		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize(),search.getSort().getSort());
 
 		Page<RecruitmentResource> page = recruitmentResourceRepo.search(keyword, entityType, pageable);
 		Page<RecruitmentResourceDto> dtoPage = new PageImpl<>(RecruitmentResourceDto.ofList(page.getContent()), pageable, page.getTotalElements());

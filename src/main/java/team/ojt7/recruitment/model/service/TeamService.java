@@ -16,6 +16,6 @@ public interface TeamService {
 	List<TeamDto> findAllByIsDeleted(boolean isDeleted);
 	List<TeamDto> findAllByDepartmentIdAndIsDeleted(Long id, boolean isDeleted);
 	List<TeamDto> findAllForVacancy(VacancyDto vacancy);
-	Page<TeamDto> findpage(String keyword,int page,int size,TeamSearch teamSearch);
+	Page<TeamDto> findpage(TeamSearch teamSearch);
 	void checkValidation(TeamDto team);
 }

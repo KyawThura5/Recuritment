@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.model.dto;
 
+import team.ojt7.recruitment.model.dto.ApplicantSearch.Sort;
+
 public class RecruitmentResourceSearch {
     private static final int DEFAULT_PAGE = 1;
     private static final int DEFAULT_SIZE = 10;
@@ -9,28 +11,39 @@ public class RecruitmentResourceSearch {
     private Integer size;
     private String entityType;
     
-    private String sortBy = "name";
+    private Sort sort = Sort.NAME_A_Z;
 
-	private String sortDirection = "asc";
-	
-	
+	public enum Sort {
+		NAME_A_Z("Name A to Z", org.springframework.data.domain.Sort.by("name").ascending()),
+		NAME_Z_A("Name Z to A", org.springframework.data.domain.Sort.by("name").descending()),
+		;
 
-    public String getSortBy() {
-		return sortBy;
+		private String displayName;
+		private org.springframework.data.domain.Sort sort;
+		
+
+		Sort(String displayName, org.springframework.data.domain.Sort sort) {
+			this.displayName = displayName;
+			this.sort = sort;
+		}
+		
+		public org.springframework.data.domain.Sort getSort() {
+			return sort;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
 	}
 
-	public void setSortBy(String sortBy) {
-		this.sortBy = sortBy;
+	public Sort getSort() {
+		return sort;
 	}
 
-	public String getSortDirection() {
-		return sortDirection;
+	public void setSort(Sort sort) {
+		this.sort = sort;
 	}
-
-	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
-	}
-
 	public String getKeyword() {
         return keyword;
     }
