@@ -69,7 +69,14 @@ public class InterviewServiceImpl implements InterviewService {
 	@Override
 	@Transactional
 	public InterviewDto save(Interview interview) {
-		if (interview.getOwner() == null) {
+		if (interview.getId() != null) {
+			Interview original = interviewRepo.findById(interview.getId()).get();
+			interview.setCreatedDateTime(original.getCreatedDateTime());
+			interview.setComment(original.getComment());
+			interview.setOwner(original.getOwner());
+			interview.setUpdatedOn(original.getUpdatedOn());
+			interview.setStatus(original.getStatus());
+		} else if (interview.getOwner() == null) {
 			User loginUser = (User) session.getAttribute("loginUser");
 			interview.setOwner(loginUser);
 		}

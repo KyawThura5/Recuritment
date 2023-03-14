@@ -15,11 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.PositionSearch;
 import team.ojt7.recruitment.model.dto.VacancyDto;
-import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.entity.Position;
 import team.ojt7.recruitment.model.repo.PositionRepo;
 import team.ojt7.recruitment.model.service.PositionService;
@@ -106,7 +104,6 @@ public class PositionServiceImpl implements PositionService{
 			sort = Sort.by(positionSearch.getSortBy());
 			sort = positionSearch.getSortDirection() == null || "asc".equals(positionSearch.getSortDirection()) ? sort.ascending() : sort.descending();
 		}
-		
 		String keyword = positionSearch.getKeyword() == null ? "%%" : "%" + positionSearch.getKeyword() + "%";
 		Pageable pageable = PageRequest.of(positionSearch.getPage() - 1, positionSearch.getSize(),sort);
 		

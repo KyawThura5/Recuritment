@@ -16,7 +16,7 @@ function showChangeStatusDialog(id) {
             statusSelect.val(data.status);
 
             let remarkTextarea = form.find("textarea[name='comment']");
-            remarkTextarea.val("");
+            remarkTextarea.val(data.comment);
 
             let applicantStatusSelect = form.find("select[name='applicantStatus']");
             applicantStatusSelect.val(data.applicantStatus);
@@ -39,7 +39,7 @@ function showChangeStatusDialog(id) {
            $('#status1').on('change', function(event) {
                 let currentApplicantStatus = $("#applicantStatus").val();
                 let changeValue = $("#status1").val();
-                if (changeValue == selectedStatus || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
+                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
                     btnSubmit.addClass("disabled");
                 } else {
                     btnSubmit.removeClass("disabled");
@@ -49,7 +49,7 @@ function showChangeStatusDialog(id) {
             $("#applicantStatusCheck").on('change', function(event) {
                 let currentApplicantStatus = $("#applicantStatus").val();
                 let changeValue = $("#status1").val();
-                if (changeValue == selectedStatus || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
+                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
                     btnSubmit.addClass("disabled");
                 } else {
                     btnSubmit.removeClass("disabled");
@@ -59,7 +59,17 @@ function showChangeStatusDialog(id) {
             $("#applicantStatus").on('change', function(event) {
                 let currentApplicantStatus = $("#applicantStatus").val();
                 let changeValue = $("#status1").val();
-                if (changeValue == selectedStatus || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
+                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
+                    btnSubmit.addClass("disabled");
+                } else {
+                    btnSubmit.removeClass("disabled");
+                }
+            });
+
+            remarkTextarea.on('input', function(event) {
+                let currentApplicantStatus = $("#applicantStatus").val();
+                let changeValue = $("#status1").val();
+                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
                     btnSubmit.addClass("disabled");
                 } else {
                     btnSubmit.removeClass("disabled");

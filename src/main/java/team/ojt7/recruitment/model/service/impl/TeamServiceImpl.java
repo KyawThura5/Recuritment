@@ -11,11 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.util.StringUtils;
 
 import team.ojt7.recruitment.model.dto.TeamDto;
+import team.ojt7.recruitment.model.dto.TeamSearch;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.repo.TeamRepo;
@@ -95,10 +97,16 @@ public TeamDto save(Team team) {
 	public List<TeamDto> findAllByDepartmentIdAndIsDeleted(Long id, boolean isDeleted) {
 		return TeamDto.ofList(teamRepo.findAllByDepartmentIdAndIsDeleted(id, isDeleted));
 	}
-	@Override
-	public Page<TeamDto> findpage(String keyword, int page,int size) {
+	
+	@Override 
+	public Page<TeamDto> findpage(String keyword, int page,int size,TeamSearch teamSearch) {
+		Sort sort = Sort.unsorted();
+		if (StringUtils.hasLength(teamSearch.getSortBy())) {
+			sort = Sort.by(teamSearch.getSortBy());
+			sort = teamSearch.getSortDirection() == null || "asc".equals(teamSearch.getSortDirection()) ? sort.ascending() : sort.descending();
+		}
 		keyword=keyword==null? "%%" :"%"+keyword+"%";
-		Page<Team>teams=teamRepo.searchPage(keyword,PageRequest.of(page-1,size));
+		Page<Team>teams=teamRepo.searchPage(keyword,PageRequest.of(page-1,size,sort));
 		Pageable pageable=teams.getPageable();
 		Page<TeamDto>p=new PageImpl<TeamDto>(TeamDto.ofList(teams.getContent()),pageable,teams.getTotalElements());		
 		return p;

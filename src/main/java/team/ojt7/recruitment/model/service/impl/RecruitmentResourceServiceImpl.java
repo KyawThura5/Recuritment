@@ -20,7 +20,6 @@ import team.ojt7.recruitment.model.dto.RecruitmentResourceSearch;
 import team.ojt7.recruitment.model.entity.RecruitmentResource;
 import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
-import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 import team.ojt7.recruitment.util.generator.RecruitmentResourceCodeGenerator;
 
