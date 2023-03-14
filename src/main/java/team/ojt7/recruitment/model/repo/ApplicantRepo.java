@@ -47,7 +47,6 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
     				AND (:dateFrom is null OR createdDate >= :dateFrom) 
     				AND (:dateTo is null OR createdDate <= :dateTo) 
     				AND isDeleted = false
-    				ORDER BY createdDate desc
     				""",
     		countQuery = """
     				SELECT COUNT(a) FROM Applicant a where
@@ -56,7 +55,6 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
     				AND (:dateFrom is null OR createdDate >= :dateFrom)
     				AND (:dateTo is null OR createdDate <= :dateTo)
     				AND isDeleted = false
-    				ORDER BY createdDate desc
     				"""
     	)
     	Page<Applicant> search(

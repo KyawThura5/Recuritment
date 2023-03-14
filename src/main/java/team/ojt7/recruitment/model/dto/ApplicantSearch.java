@@ -23,7 +23,11 @@ public class ApplicantSearch {
 	private LocalDate dateTo;
 	private Integer page;
 	private Integer size;
+	private ApplicantDto name;
+	private String sortBy = "name";
 
+	private String sortDirection = "dec";
+	
 	public String getKeyword() {
 		return keyword;
 	}
@@ -70,6 +74,30 @@ public class ApplicantSearch {
 
 	public void setSize(Integer size) {
 		this.size = size;
+	}
+
+	
+	public String getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
+	}
+
+	public String getSortDirection() {
+		return sortDirection;
+	}
+
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
+	}
+	public ApplicantDto getName() {
+		return name;
+	}
+
+	public void setName(ApplicantDto name) {
+		this.name = name;
 	}
 
 	@Override

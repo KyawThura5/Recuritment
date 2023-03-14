@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -133,6 +134,14 @@ public class ApplicantServiceImpl implements ApplicantService{
 	@Override
 	public Page<ApplicantDto> search(ApplicantSearch applicantSearch) {
 		User loginUser = (User) session.getAttribute("loginUser");
+		
+		Sort sort=Sort.unsorted();
+		if(StringUtils.hasLength(applicantSearch.getSortBy())) {
+			sort=Sort.by(applicantSearch.getSortBy());
+			sort=applicantSearch.getSortDirection() == null || "asc".equals(applicantSearch.getSortDirection()) ? sort.ascending() : sort.descending();
+		}
+		
+		
 		String keyword = applicantSearch.getKeyword() == null ? "%%" : "%" + applicantSearch.getKeyword() + "%";
 		Status status = applicantSearch.getStatus();
 		LocalDateTime dateFrom = applicantSearch.getDateFrom() == null ? null : LocalDateTime.of(applicantSearch.getDateFrom(), LocalTime.of(0, 0));
@@ -144,7 +153,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 				dateTo,
 				PageRequest.of(
 						applicantSearch.getPage() - 1,
-						applicantSearch.getSize())
+						applicantSearch.getSize(),sort)
 				); 
 		Pageable applicantsPageable = applicants.getPageable();
 		List<ApplicantDto> dtoList = ApplicantDto.ofList(applicants.getContent());
