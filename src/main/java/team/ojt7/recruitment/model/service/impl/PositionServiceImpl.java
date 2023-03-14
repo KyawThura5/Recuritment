@@ -106,7 +106,6 @@ public class PositionServiceImpl implements PositionService{
 			sort = Sort.by(positionSearch.getSortBy());
 			sort = positionSearch.getSortDirection() == null || "asc".equals(positionSearch.getSortDirection()) ? sort.ascending() : sort.descending();
 		}
-		
 		String keyword = positionSearch.getKeyword() == null ? "%%" : "%" + positionSearch.getKeyword() + "%";
 		Pageable pageable = PageRequest.of(positionSearch.getPage() - 1, positionSearch.getSize(),sort);
 		
