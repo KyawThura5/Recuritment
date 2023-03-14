@@ -229,7 +229,7 @@ function closeModal(id) {
 }
 function showEditInterviewNameModal(id) 
 {
-
+	 removeIfExists("nameError");
     let url = "/interviewname/data";
     if (id) {
         url = url + "?id=" + id;

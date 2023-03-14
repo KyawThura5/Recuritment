@@ -80,7 +80,8 @@ $(document).ready(function() {
 
 
 function showEditDirectRecruitmentResourceModal(id) {
-
+   removeIfExists("nameError");
+   removeIfExists("codeError");
     let url = "/recruitmentresource/direct/data";
     if (id) {
         url = url + "?id=" + id;

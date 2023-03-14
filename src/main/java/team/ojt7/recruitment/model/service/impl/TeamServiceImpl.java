@@ -105,6 +105,7 @@ public TeamDto save(Team team) {
 			sort = Sort.by(teamSearch.getSortBy());
 			sort = teamSearch.getSortDirection() == null || "asc".equals(teamSearch.getSortDirection()) ? sort.ascending() : sort.descending();
 		}
+		
 		keyword=keyword==null? "%%" :"%"+keyword+"%";
 		Page<Team>teams=teamRepo.searchPage(keyword,PageRequest.of(page-1,size,sort));
 		Pageable pageable=teams.getPageable();
