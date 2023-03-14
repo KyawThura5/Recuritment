@@ -20,7 +20,6 @@ import team.ojt7.recruitment.model.dto.DepartmentSearch;
 import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Department;
-import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.repo.DepartmentRepo;
 import team.ojt7.recruitment.model.service.DepartmentService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;

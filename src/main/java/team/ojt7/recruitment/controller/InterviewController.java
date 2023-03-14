@@ -163,6 +163,17 @@ public class InterviewController {
 			ModelMap model
 			) {
 		model.put("interview", interviewService.findById(id).get());
+		model.put("contextPage", model.getAttribute("contextPage") == null ? "/interview/search" : model.getAttribute("contextPage"));
+		return "interview-detail";
+	}
+	
+	@GetMapping("/interview/applicant/detail")
+	public String showInterviewDetailFromApplicant(
+			Long id,
+			ModelMap model
+			) {
+		model.put("interview", interviewService.findById(id).get());
+		model.put("contextPage", "/applicant/search");
 		return "interview-detail";
 	}
 	
@@ -196,9 +207,11 @@ public class InterviewController {
 			@RequestParam(name = "applicantStatusCheck", defaultValue = "false") boolean applicantStatusCheck,
 			@RequestParam("applicantStatus") team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus,
 			@RequestParam("applicantStatusComment") String applicantStatusComment,
+			@RequestParam("contextPage") String contextPage,
 			RedirectAttributes redirect) {
 		interviewService.saveInterviewStatus(id,status,comment,applicantStatusCheck, applicantStatus, applicantStatusComment);
 		redirect.addFlashAttribute("alert",new Alert("Successfully changed the interview's status!","notice-success"));
+		redirect.addFlashAttribute("contextPage", contextPage);
 		return "redirect:/interview/detail?id=" + id;
 		
 	}

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
-import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceByPositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceReportDto;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
