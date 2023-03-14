@@ -116,20 +116,15 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					<option th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == applicantPage.size}"></option>
 				</select>
 			</div>           
-		<div class="col-auto">
-		<select form="searchForm" class="form-select" name="sortBy" th:value="${applicantSearch.sortBy}" onchange="changePageSize()">
-		<option value="name" th:selected="${'name' == applicantSearch.sortBy}">Candidate Name</option>
-		<option value="createdDate" th:selected="${'createdDate' == applicantSearch.sortBy}">Created Date Time</option>
-		<option value="code" th:selected="${'code' == applicantSearch.sortBy}">Code</option>
-		</select>
-		</div>
-		
-		<div class="col-auto">
-		<select form="searchForm" class="form-select" name="sortDirection" th:value="${applicantSearch.sortDirection}" onchange="changePageSize()">
-		<option value="asc" th:selected="${'asc' == applicantSearch.sortDirection}">Ascending</option>
-		<option value="desc" th:selected="${'desc' == applicantSearch.sortDirection}">Descending</option>
-		</select>
-		</div>
+		 <div class="col-auto">
+                <select form="searchForm" class="form-select" name="sort" th:value="${applicantSearch.sort}" onchange="changePageSize()">
+                    <option
+                        th:each="s:${T(team.ojt7.recruitment.model.dto.ApplicantSearch.Sort).values()}"
+                        th:value="${s}" th:selected="${s.name() == applicantSearch.sort.name()}">
+                        [[${s.displayName}]]
+                    </option>
+                </select>
+            </div>
 		
 		</div>
         <div th:if="${alert != null}" id="alert" class="modal">
