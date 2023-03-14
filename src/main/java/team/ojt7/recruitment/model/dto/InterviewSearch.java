@@ -27,10 +27,10 @@ public class InterviewSearch {
 	public enum Sort {
 		NEWEST("Newest", org.springframework.data.domain.Sort.by("createdDateTime").descending()),
 		OLDEST("Oldest", org.springframework.data.domain.Sort.by("createdDateTime").ascending()),
-		CODE_SORTING_Z_TO_A("Code ZtoA Sorting",org.springframework.data.domain.Sort.by("code").descending()),
-		CODE_SORTING_A_TO_Z("Code AtoZ Sorting",org.springframework.data.domain.Sort.by("code").ascending()),
-		NAME_SORTING_Z_TO_A("Name ZtoA Sorting",org.springframework.data.domain.Sort.by("interviewName").descending()),
-		NAME_SORTING_A_TO_Z("Name AtoZ Sorting",org.springframework.data.domain.Sort.by("interviewName").ascending())
+		CODE_SORTING_Z_TO_A("CODE Z TO A",org.springframework.data.domain.Sort.by("code").descending()),
+		CODE_SORTING_A_TO_Z("CODE A TO Z",org.springframework.data.domain.Sort.by("code").ascending()),
+		NAME_SORTING_Z_TO_A("NAME Z TO A",org.springframework.data.domain.Sort.by("interviewName").descending()),
+		NAME_SORTING_A_TO_Z("NAME A TO Z",org.springframework.data.domain.Sort.by("interviewName").ascending())
 		;
 
 		private String displayName;
