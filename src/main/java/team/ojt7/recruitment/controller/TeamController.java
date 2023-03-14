@@ -59,7 +59,7 @@ public class TeamController {
 		dto.setKeyword(keyword);
 		dto.setPage(page);
 		dto.setSize(size);
-		Page<TeamDto>teamPage=teamService.findpage(keyword,page,size);
+		Page<TeamDto>teamPage=teamService.findpage(keyword,page,size,dto);
 		model.put("teamList", teamDtos);
 		model.put("teamPage", teamPage);
 		model.put("teamSearch",dto);
