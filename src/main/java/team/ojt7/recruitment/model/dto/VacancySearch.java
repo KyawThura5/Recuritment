@@ -27,36 +27,23 @@ public class VacancySearch {
 	private Sort sort = Sort.NEWEST;
 
 	public enum Sort {
-		NEWEST("Newest", "createdDateTime", "desc"),
-		OLDEST("Oldest", "createdDateTime", "asc"),
-		LONGEST("Longest", "dueDate", "desc"),
-		SHORTEST("Shortest", "dueDate", "asc")
+		NEWEST("Newest", org.springframework.data.domain.Sort.by("createdDateTime").descending()),
+		OLDEST("Oldest", org.springframework.data.domain.Sort.by("createdDateTime").ascending()),
+		LONGEST("Longest", org.springframework.data.domain.Sort.by("dueDate").descending()),
+		SHORTEST("Shortest", org.springframework.data.domain.Sort.by("dueDate").ascending())
 		;
 
 		private String displayName;
-		private String sortBy;
-		private String sortDirection;
+		private org.springframework.data.domain.Sort sort;
+		
 
-		Sort(String displayName, String sortBy, String sortDirection) {
+		Sort(String displayName, org.springframework.data.domain.Sort sort) {
 			this.displayName = displayName;
-			this.sortBy = sortBy;
-			this.sortDirection = sortDirection;
+			this.sort = sort;
 		}
-
-		public String getSortBy() {
-			return sortBy;
-		}
-
-		public void setSortBy(String sortBy) {
-			this.sortBy = sortBy;
-		}
-
-		public String getSortDirection() {
-			return sortDirection;
-		}
-
-		public void setSortDirection(String sortDirection) {
-			this.sortDirection = sortDirection;
+		
+		public org.springframework.data.domain.Sort getSort() {
+			return sort;
 		}
 
 		public String getDisplayName() {
