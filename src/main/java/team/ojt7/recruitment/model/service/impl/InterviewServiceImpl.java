@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
@@ -45,9 +47,17 @@ public class InterviewServiceImpl implements InterviewService {
 	
 	@Override
 	public Page<InterviewDto> search(InterviewSearch search) {
+		
+		Sort sort = Sort.unsorted();
+		if (StringUtils.hasLength(search.getSortBy())) {
+			sort = Sort.by(search.getSortBy());
+			sort = search.getSortDirection() == null || "asc".equals(search.getSortDirection()) ? sort.ascending() : sort.descending();
+		}
+
+		
 		String keyword = search.getKeyword() == null ? "%%" : "%" + search.getKeyword() + "%";
 		
-		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize());
+		Pageable pageable = PageRequest.of(search.getPage() - 1, search.getSize(),sort);
 		InterviewName interviewName = InterviewNameDto.parse(search.getInterviewName());
 		LocalDateTime dateFrom=search.getDateFrom()==null ? null : search.getDateFrom().atStartOfDay();
 		LocalDateTime dateTo=search.getDateTo()==null ? null : search.getDateTo().plusDays(1).atStartOfDay();

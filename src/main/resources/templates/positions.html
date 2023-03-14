@@ -87,6 +87,19 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 						th:value="${s}" th:text="${s}" th:selected="${s == positionPage.size}"></option>
 				</select>
 			</div>
+			
+			 <div class="col-auto d-none">
+                <select form="searchForm" class="form-select" name="sortBy" th:value="${positionSearch.sortBy}" onchange="changePageSize()">
+                    <option value="name" th:selected="${'name' == positionSearch.sortBy}">Name</option>
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <select form="searchForm" class="form-select" name="sortDirection" th:value="${positionSearch.sortDirection}" onchange="changePageSize()">
+                    <option value="asc" th:selected="${'asc' == positionSearch.sortDirection}">Ascending</option>
+                    <option value="desc" th:selected="${'desc' == positionSearch.sortDirection}">Descending</option>
+                </select>
+            </div>
 
 		</div>
 

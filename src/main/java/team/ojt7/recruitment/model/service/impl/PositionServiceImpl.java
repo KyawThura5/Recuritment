@@ -10,8 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
@@ -98,8 +100,14 @@ public class PositionServiceImpl implements PositionService{
 
 	@Override
 	public Page<PositionDto> search(PositionSearch positionSearch) {
+		
+		Sort sort = Sort.unsorted();
+		if (StringUtils.hasLength(positionSearch.getSortBy())) {
+			sort = Sort.by(positionSearch.getSortBy());
+			sort = positionSearch.getSortDirection() == null || "asc".equals(positionSearch.getSortDirection()) ? sort.ascending() : sort.descending();
+		}
 		String keyword = positionSearch.getKeyword() == null ? "%%" : "%" + positionSearch.getKeyword() + "%";
-		Pageable pageable = PageRequest.of(positionSearch.getPage() - 1, positionSearch.getSize());
+		Pageable pageable = PageRequest.of(positionSearch.getPage() - 1, positionSearch.getSize(),sort);
 		
 		Page<Position> positionPage = repo.search(keyword, pageable);
 		
