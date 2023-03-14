@@ -213,6 +213,7 @@ public class InterviewController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("id", dto.getId());
 		map.put("status", dto.getStatus());
+		map.put("comment", dto.getComment());
 		map.put("applicantStatus", dto.getApplicant().getStatus());
 		return ResponseEntity.ok(map);
 	}
