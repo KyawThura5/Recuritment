@@ -41,15 +41,12 @@ public class Applicant implements Serializable {
 	@Column(nullable = false)
 	private String email;
 
-	@Column(nullable = false)
 	private String address;
 
 	private String experience;
 
-	@Column(nullable = false)
 	private String education;
 
-	@Column(nullable = false)
 	private String skill;
 
 	private String attachedUri;
