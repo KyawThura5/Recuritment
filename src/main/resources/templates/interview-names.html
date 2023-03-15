@@ -66,7 +66,7 @@
 			<div class="col-12 font-lg fw-bold">Interview Names</div>
 			<div class="col col-md-auto mt-3">
 				<div class="input-group">
-					<input type="text"  th:field="*{name}" class="form-control"
+					<input type="text"  th:field="*{keyword}" class="form-control"
 						placeholder="Search"> <a
 						th:href="@{/interviewname/search}" class="input-group-text"> <svg
 							xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -119,7 +119,7 @@
 			</div>
 		</div>
 		<div class="row mt-3">
-			<div class="col-12 col-xl-6 my-3" th:each="interview : ${list}">
+			<div class="col-12 col-xl-6 my-3" th:each="interview : ${list.content}">
 				<div class="card shadow-sm animated fadeInUp">
 					<div class="card-body">
 						<div class="d-flex text-black align-items-center">

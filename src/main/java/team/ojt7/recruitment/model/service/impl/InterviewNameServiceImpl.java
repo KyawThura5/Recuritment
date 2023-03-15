@@ -5,12 +5,19 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
+import team.ojt7.recruitment.model.dto.InterviewNameSearch;
+import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.entity.InterviewName;
+import team.ojt7.recruitment.model.entity.Position;
 import team.ojt7.recruitment.model.repo.InterviewNameRepo;
 import team.ojt7.recruitment.model.service.InterviewNameService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
@@ -28,10 +35,18 @@ public class InterviewNameServiceImpl implements InterviewNameService{
 
 	@Override
 	@Transactional
-	public List<InterviewNameDto> search(String keyword) {
-		keyword = keyword == null ? "%%" : "%" + keyword + "%";
-		List<InterviewName> interviews=interviewNameRepo.search(keyword);
-		return InterviewNameDto.ofList(interviews);
+	public Page<InterviewNameDto> search(InterviewNameSearch interviewNameSearch) {
+		String keyword = interviewNameSearch.getKeyword() == null ? "%%" : "%" + interviewNameSearch.getKeyword() + "%";
+		Pageable pageable = PageRequest.of(interviewNameSearch.getPage() - 1, interviewNameSearch.getSize(),interviewNameSearch.getSort().getSort());
+		
+		Page<InterviewName> interviewNamePage = interviewNameRepo.search(keyword, pageable);
+		
+		Page<InterviewNameDto> interviewNameDtoPage = new PageImpl<>(
+												InterviewNameDto.ofList(interviewNamePage.getContent()),
+												pageable,
+												interviewNamePage.getTotalElements()
+											);
+		return interviewNameDtoPage;
 	}
 
 	@Override
