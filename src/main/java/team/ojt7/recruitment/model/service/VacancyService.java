@@ -23,4 +23,6 @@ public interface VacancyService {
 	boolean deleteById(Long id);
 	
 	List<VacancyDto> findAllForApplicant(ApplicantDto applicantDto);
+	
+	List<VacancyDto> findAll();
 }
