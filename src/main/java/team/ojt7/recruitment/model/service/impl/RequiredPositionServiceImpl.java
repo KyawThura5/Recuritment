@@ -67,10 +67,10 @@ public class RequiredPositionServiceImpl implements RequiredPositionService{
 				.filter(
 						a -> (search.getStatus() == null || a.getStatus() == search.getStatus()) &&
 							(
-								a.getCode().toLowerCase().contains(keyword) ||
-								a.getName().toLowerCase().contains(keyword) ||
-								a.getEmail().toLowerCase().contains(keyword) ||
-								a.getPhone().toLowerCase().contains(keyword)
+								a.getCode().toLowerCase().contains(keyword.toLowerCase()) ||
+								a.getName().toLowerCase().contains(keyword.toLowerCase()) ||
+								a.getEmail().toLowerCase().contains(keyword.toLowerCase()) ||
+								a.getPhone().toLowerCase().contains(keyword.toLowerCase())
 							)
 				).sorted((a1, a2) -> {
 					return a1.getStatus().getStep() - a2.getStatus().getStep();

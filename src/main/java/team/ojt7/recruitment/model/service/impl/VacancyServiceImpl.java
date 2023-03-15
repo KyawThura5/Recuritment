@@ -119,4 +119,9 @@ public class VacancyServiceImpl implements VacancyService {
 		return VacancyDto.ofList(vacancyRepo.findAllByStatusAndIsDeleted(status, isDeleted));
 	}
 
+	@Override
+	public List<VacancyDto> findAll() {
+		return VacancyDto.ofList(vacancyRepo.findAll());
+	}
+
 }
