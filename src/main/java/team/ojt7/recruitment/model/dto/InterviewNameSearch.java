@@ -3,8 +3,8 @@ package team.ojt7.recruitment.model.dto;
 import java.util.Objects;
 
 
-public class DepartmentSearch {
-	
+public class InterviewNameSearch {
+
 	private static final int DEFAULT_PAGE = 1;
 	private static final int DEFAULT_SIZE = 10;
 
@@ -37,7 +37,16 @@ public class DepartmentSearch {
 		}
 
 	}
+
 	
+	
+	public Sort getSort() {
+		return sort;
+	}
+
+	public void setSort(Sort sort) {
+		this.sort = sort;
+	}
 
 	public String getKeyword() {
 		return keyword;
@@ -62,20 +71,10 @@ public class DepartmentSearch {
 	public void setSize(Integer size) {
 		this.size = size;
 	}
-	
-	
-	
-	public Sort getSort() {
-		return sort;
-	}
-
-	public void setSort(Sort sort) {
-		this.sort = sort;
-	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(keyword, page, size);
+		return Objects.hash(keyword, page, size, sort);
 	}
 
 	@Override
@@ -86,9 +85,11 @@ public class DepartmentSearch {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DepartmentSearch other = (DepartmentSearch) obj;
+		InterviewNameSearch other = (InterviewNameSearch) obj;
 		return Objects.equals(keyword, other.keyword) && Objects.equals(page, other.page)
 				&& Objects.equals(size, other.size);
 	}
 
+	
+	
 }

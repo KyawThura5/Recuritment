@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.ojt7.recruitment.model.dto.Alert;
 import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
+import team.ojt7.recruitment.model.dto.InterviewNameSearch;
 import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.service.InterviewNameService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
@@ -32,11 +34,12 @@ public class InterviewNameController {
 	
 	@GetMapping("/interviewname/search")
 	public String searchInterviews(
-			@ModelAttribute("interview")InterviewNameDto dto,
-			@RequestParam(required=false)String name,
+			@ModelAttribute("interview")
+			InterviewNameSearch interview,
 			ModelMap model) {
-		List<InterviewNameDto> list=interviewService.search(name);
-		model.addAttribute("list",list);
+		Page<InterviewNameDto> list=interviewService.search(interview);
+		model.put("list",list);
+		model.put("interview", interview);
 		return "interview-names";
 	}
 
