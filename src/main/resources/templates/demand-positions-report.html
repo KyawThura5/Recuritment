@@ -16,14 +16,14 @@
 
     <div th:replace="nav-bar :: navbar('reports')"></div>
     <div class="container py-3">
-        <h2 class="fs-5 fw-bold mb-3">Demand Positions</h2>
+        <h2 class="fs-5 fw-bold mb-3">Position Fullfillment</h2>
         <form id="searchForm" class="row" th:action="@{/report}">
             <div class="col-12 col-md-6  col-lg-auto">
                 <div class="input-group">
                     <select name="name" class="form-select" onchange="submitSearchForm()">
                         <option value="topRecruitmentResources">Top Recruitment Resources</option>
-                        <option value="topRecruitmentResourcesByPosition">Top Recruitment Resources By Position</option>
-                        <option value="demandPositions" selected>Demand Position</option>
+                        <option value="topRecruitmentResourcesByPosition">Top Demend Positions</option>
+                        <option value="demandPositions" selected>Position Fullfillment</option>
                     </select>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr  style="height: 80px;" th:each="report : ${reports}">
+                        <tr style="height: 80px;" th:each="report : ${reports}" class="animated slideInUp">
                             <td>[[${reportStat.index + 1}]]</td>
                             <td class="fw-bold">[[${report.key.name}]]</td>
                             <td class="text-end fw-bold">[[${report.value.post}]]</td>
