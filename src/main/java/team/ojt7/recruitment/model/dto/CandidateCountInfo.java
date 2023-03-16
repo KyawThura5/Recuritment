@@ -2,31 +2,31 @@ package team.ojt7.recruitment.model.dto;
 
 public class CandidateCountInfo {
 
-	private Integer post;
-	private Integer applied;
-	private Integer hired;
+	private Long post;
+	private Long applied;
+	private Long hired;
 
-	public Integer getPost() {
-		return post;
+	public Long getPost() {
+		return post == null ? 0 : post;
 	}
 
-	public void setPost(Integer post) {
+	public void setPost(Long post) {
 		this.post = post;
 	}
 
-	public Integer getApplied() {
-		return applied;
+	public Long getApplied() {
+		return applied == null ? 0 : applied;
 	}
 
-	public void setApplied(Integer applied) {
+	public void setApplied(Long applied) {
 		this.applied = applied;
 	}
 
-	public Integer getHired() {
-		return hired;
+	public Long getHired() {
+		return hired == null ? 0 : hired;
 	}
 
-	public void setHired(Integer hired) {
+	public void setHired(Long hired) {
 		this.hired = hired;
 	}
 
