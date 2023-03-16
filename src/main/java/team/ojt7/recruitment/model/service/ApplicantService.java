@@ -26,6 +26,10 @@ public interface ApplicantService {
 	
 	List<ApplicantDto> getAllAvailableForNewInterview();
 	
+	List<ApplicantDto> findByHiredDateRange(LocalDate dateFrom, LocalDate dateTo);
+	
+	List<ApplicantDto> findByCreatedDateRange(LocalDate dateFrom, LocalDate dateTo);
+	
 	void saveJoinDate(Long applicantId, LocalDate joinDate);
 
 }

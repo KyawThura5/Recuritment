@@ -28,6 +28,18 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	Vacancy findByCodeAndIsDeleted(String code, boolean isDeleted);
 	
 	List<Vacancy> findAllByStatusAndIsDeleted(Status status,boolean isDeleted);
+	
+	@Query("""
+			SELECT v FROM Vacancy v WHERE
+			(:dateFrom is null OR createdDateTime >= :dateFrom)
+			AND (:dateTo is null OR createdDateTime <= :dateTo)
+			AND isDeleted = false
+			""")
+	List<Vacancy> findByCreatedDateRange(
+			@Param("dateFrom")
+			LocalDateTime dateFrom,
+			@Param("dateTo")
+			LocalDateTime dateTo);
 
 	@Query(
 		value = """

@@ -29,5 +29,19 @@ public class CandidateCountInfo {
 	public void setHired(Long hired) {
 		this.hired = hired;
 	}
+	
+	public int getPercentage() {
+		return (int) ((getHired() * 100) / getPost());
+	}
+	
+	public String getPercentCssClass() {
+		if (getPercentage() >= 100) {
+			return "text-success";
+		} else if (getPercentage() < 100 && getPercentage() >= 50) {
+			return "text-warning";
+		} else {
+			return "text-danger";
+		}
+	}
 
 }

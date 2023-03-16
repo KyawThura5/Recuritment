@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -122,6 +124,13 @@ public class VacancyServiceImpl implements VacancyService {
 	@Override
 	public List<VacancyDto> findAll() {
 		return VacancyDto.ofList(vacancyRepo.findAll());
+	}
+
+	@Override
+	public List<VacancyDto> findByCreatedDateRange(LocalDate dateFrom, LocalDate dateTo) {
+		LocalDateTime dateTimeFrom = dateFrom == null ? null : dateFrom.atStartOfDay();
+		LocalDateTime dateTimeTo = dateTo == null ? null : dateTo.plusDays(1).atStartOfDay();
+		return VacancyDto.ofList(vacancyRepo.findByCreatedDateRange(dateTimeFrom, dateTimeTo));
 	}
 
 }

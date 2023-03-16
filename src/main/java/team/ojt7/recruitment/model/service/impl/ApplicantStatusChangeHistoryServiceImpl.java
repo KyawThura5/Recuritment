@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -38,6 +39,9 @@ public class ApplicantStatusChangeHistoryServiceImpl implements ApplicantStatusC
 		applicant.setStatus(dto.getStatus());
 		if (dto.getStatus() != Status.HIRED) {
 			applicant.setJoinDate(null);
+			applicant.setHiredDateTime(null);
+		} else {
+			applicant.setHiredDateTime(LocalDateTime.now());
 		}
 		ApplicantStatusChangeHistory asch = ApplicantStatusChangeHistoryDto.parse(dto);
 		asch.setApplicant(applicant);
