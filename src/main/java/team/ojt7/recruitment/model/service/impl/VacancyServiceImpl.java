@@ -39,9 +39,11 @@ public class VacancyServiceImpl implements VacancyService {
 	@Override
 	public Page<VacancyDto> search(VacancySearch vacancySearch) {
 		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
+		LocalDateTime dateTimeFrom = vacancySearch.getDateFrom() == null ? null : vacancySearch.getDateFrom().atStartOfDay();
+		LocalDateTime dateTimeTo = vacancySearch.getDateTo() == null ? null : vacancySearch.getDateTo().plusDays(1).atStartOfDay();
 		Page<Vacancy> vacancies = vacancySearch.getStatus() == null
-									? vacancyRepo.search(keyword, vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(),vacancySearch.getSort().getSort()))
-									: vacancyRepo.search(keyword, vacancySearch.getStatus(), vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(), vacancySearch.getSort().getSort())); 
+									? vacancyRepo.search(keyword, dateTimeFrom, dateTimeTo, PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(),vacancySearch.getSort().getSort()))
+									: vacancyRepo.search(keyword, vacancySearch.getStatus(), dateTimeFrom, dateTimeTo, PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(), vacancySearch.getSort().getSort())); 
 		Pageable vacanciesPageable = vacancies.getPageable();
 		Page<VacancyDto> page = new PageImpl<VacancyDto>(VacancyDto.ofList(vacancies.getContent()), vacanciesPageable, vacancies.getTotalElements());
 		return page;

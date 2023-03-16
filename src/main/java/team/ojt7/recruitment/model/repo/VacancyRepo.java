@@ -1,6 +1,5 @@
 package team.ojt7.recruitment.model.repo;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -61,7 +60,7 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 			@Param("keyword") String keyword,
 			@Param("status") Status status,
 			@Param("dateFrom") LocalDateTime dateFrom,
-			@Param("dateTo") LocalDate dateTo,
+			@Param("dateTo") LocalDateTime dateTo,
 			Pageable pageable);
 	
 	
@@ -82,6 +81,6 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 		Page<Vacancy> search(
 				@Param("keyword") String keyword,
 				@Param("dateFrom") LocalDateTime dateFrom,
-				@Param("dateTo") LocalDate dateTo,
+				@Param("dateTo") LocalDateTime dateTo,
 				Pageable pageable);
 }
