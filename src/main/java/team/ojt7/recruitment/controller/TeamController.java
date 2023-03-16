@@ -58,6 +58,7 @@ public class TeamController {
 		
 		model.put("teamPage", teamPage);
 		model.put("departmentList", departmentService.findAll());
+		model.put("teamSearch", teamSearch);
 		return "teams";
 	}
 
