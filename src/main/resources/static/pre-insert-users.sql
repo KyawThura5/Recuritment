@@ -11,7 +11,7 @@ INSERT INTO `user` (`code`, `name`, `email`, `phone`, `role`, `gender`, `passwor
 ('empdh002', 'Daw Cherry', 'cherry@gmail.com', "09889988998", 'DEPARTMENT_HEAD', 'FEMALE', '11111111', false,'ACTIVE');
 
 INSERT INTO `user` (`code`, `name`, `email`, `phone`, `role`, `gender`, `password`, `is_deleted`,`status`) VALUES
-('emphr001', 'Daw Soe Soe', 'dawsoesoe@gmail.com', "09999999999", 'HIRING_MANAGER', 'FEMALE', '11111111', false,'ACTIVE');
+('emphr001', 'U Aung Ko', 'uaungko@gmail.com', "09999999999", 'HIRING_MANAGER', 'MALE', '11111111', false,'ACTIVE');
 
 INSERT INTO `user` (`code`, `name`, `email`, `phone`, `role`, `gender`, `password`, `is_deleted`,`status`) VALUES
 ('ad', 'Admin', 'ad@gmail.com', "0911111111", 'ADMIN', 'MALE', '11111111', false,'ACTIVE');
