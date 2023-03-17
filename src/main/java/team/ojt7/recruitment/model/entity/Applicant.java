@@ -67,6 +67,9 @@ public class Applicant implements Serializable {
 	@Column(name = "join_date")
 	private LocalDate joinDate;
 
+	@Column(name = "hired_date_time")
+	private LocalDateTime hiredDateTime;
+
 	@ManyToOne()
 	@JoinColumn(name = "created_user_id")
 	private User createdUser;
@@ -216,6 +219,14 @@ public class Applicant implements Serializable {
 
 	public void setJoinDate(LocalDate joinDate) {
 		this.joinDate = joinDate;
+	}
+
+	public LocalDateTime getHiredDateTime() {
+		return hiredDateTime;
+	}
+
+	public void setHiredDateTime(LocalDateTime hiredDateTime) {
+		this.hiredDateTime = hiredDateTime;
 	}
 
 	public RecruitmentResource getRecruitmentResource() {

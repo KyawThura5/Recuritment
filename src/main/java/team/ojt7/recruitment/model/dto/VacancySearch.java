@@ -17,7 +17,7 @@ public class VacancySearch {
 	private Status status;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDateTime dateFrom;
+	private LocalDate dateFrom;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateTo;
@@ -68,11 +68,11 @@ public class VacancySearch {
 		this.status = status;
 	}
 
-	public LocalDateTime getDateFrom() {
+	public LocalDate getDateFrom() {
 		return dateFrom;
 	}
 
-	public void setDateFrom(LocalDateTime dateFrom) {
+	public void setDateFrom(LocalDate dateFrom) {
 		this.dateFrom = dateFrom;
 	}
 

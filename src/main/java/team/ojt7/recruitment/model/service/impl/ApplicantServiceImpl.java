@@ -14,17 +14,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.ApplicantSearch;
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
-import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.entity.User;
+import team.ojt7.recruitment.model.entity.User.Role;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
@@ -172,6 +172,20 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Applicant applicant = applicantRepo.findById(applicantId).get();
 		applicant.setJoinDate(joinDate);
 		applicantRepo.save(applicant);
+	}
+
+	@Override
+	public List<ApplicantDto> findByHiredDateRange(LocalDate dateFrom, LocalDate dateTo) {
+		LocalDateTime dateTimeFrom = dateFrom == null ? null : dateFrom.atStartOfDay();
+		LocalDateTime dateTimeTo = dateTo == null ? null : dateTo.plusDays(1).atStartOfDay();
+		return ApplicantDto.ofList(applicantRepo.findByHiredDateRange(dateTimeFrom, dateTimeTo));
+	}
+
+	@Override
+	public List<ApplicantDto> findByCreatedDateRange(LocalDate dateFrom, LocalDate dateTo) {
+		LocalDateTime dateTimeFrom = dateFrom == null ? null : dateFrom.atStartOfDay();
+		LocalDateTime dateTimeTo = dateTo == null ? null : dateTo.plusDays(1).atStartOfDay();
+		return ApplicantDto.ofList(applicantRepo.findByCreatedDateRange(dateTimeFrom, dateTimeTo));
 	}
 
 }

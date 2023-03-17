@@ -51,6 +51,8 @@ public class ApplicantDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime createdDate;
 
+	private LocalDateTime hiredDateTime;
+
 	private UserDto createdUser;
 
 	@NotNull(message = "Select a vacancy")
@@ -113,6 +115,14 @@ public class ApplicantDto {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public LocalDateTime getHiredDateTime() {
+		return hiredDateTime;
+	}
+
+	public void setHiredDateTime(LocalDateTime hiredDateTime) {
+		this.hiredDateTime = hiredDateTime;
 	}
 
 	public String getStatusColorClass() {
@@ -312,6 +322,7 @@ public class ApplicantDto {
 		dto.setCreatedUser(UserDto.of(applicant.getCreatedUser()));
 		dto.setVacancy(VacancyDto.of(applicant.getVacancy()));
 		dto.setJoinDate(applicant.getJoinDate());
+		dto.setHiredDateTime(applicant.getHiredDateTime());
 
 		if (applicant.getRequirePosition() != null) {
 			RequirePosition requirePosition = applicant.getRequirePosition();
@@ -389,6 +400,7 @@ public class ApplicantDto {
 		applicant.setCreatedUser(UserDto.parse(dto.getCreatedUser()));
 		applicant.setVacancy(VacancyDto.parse(dto.getVacancy()));
 		applicant.setJoinDate(dto.getJoinDate());
+		applicant.setHiredDateTime(dto.getHiredDateTime());
 
 		if (dto.getRequirePosition() != null) {
 			RequirePositionDto requirePositionDto = dto.getRequirePosition();

@@ -46,6 +46,10 @@ public class VacancyValidator implements Validator {
 					errors.rejectValue("requirePositions[%d].count".formatted(i), "notNull", "Enter the require count");
 				}
 				
+				if (rp.getCount() != null && rp.getCount() < 1) {
+					errors.rejectValue("requirePositions[%d].count".formatted(i), "invalid", "Enter valid count");
+				}
+				
 				if (rp.getTeam() == null) {
 					errors.rejectValue("requirePositions[%d].team".formatted(i), "notNull", "Select a team");
 				}

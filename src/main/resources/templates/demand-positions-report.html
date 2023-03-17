@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand Positions</title>
+    <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
+</head>
+<body>
+
+    <div th:replace="nav-bar :: navbar('reports')"></div>
+    <div class="container py-3">
+        <h2 class="fs-5 fw-bold mb-3">Position Fullfillment</h2>
+        <form id="searchForm" class="row" th:action="@{/report}">
+            <div class="col-12 col-md-6  col-lg-auto">
+                <div class="input-group">
+                    <select name="name" class="form-select" onchange="submitSearchForm()">
+                        <option value="topRecruitmentResources">Top Recruitment Resources</option>
+                        <option value="topRecruitmentResourcesByPosition">Top Demend Positions</option>
+                        <option value="demandPositions" selected>Position Fullfillment</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="date" name="dateFrom" th:value="${param.dateFrom}" onchange="submitSearchForm()">
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="date" name="dateTo" th:value="${param.dateTo}" onchange="submitSearchForm()">
+            </div>
+        </form>
+
+        <div class="row mt-3">
+            <div class="col-12 mt-3">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Position</th>
+                            <th class="text-end">Post</th>
+                            <th class="text-end">Applied</th>
+                            <th class="text-end">Hired</th>
+                            <th class="text-end">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height: 80px;" th:each="report : ${reports}" class="animated slideInUp">
+                            <td>[[${reportStat.index + 1}]]</td>
+                            <td class="fw-bold">[[${report.key.name}]]</td>
+                            <td class="text-end fw-bold">[[${report.value.post}]]</td>
+                            <td class="text-end fw-bold">[[${report.value.applied}]]</td>
+                            <td class="text-end fw-bold">[[${report.value.hired}]]</td>
+                            <td class="text-end fw-bold" th:classappend="${report.value.percentCssClass}">[[${report.value.percentage}]]%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+</body>
+<script>
+    function submitSearchForm() {
+        $("#searchForm").submit();
+    }
+</script>
+</html>

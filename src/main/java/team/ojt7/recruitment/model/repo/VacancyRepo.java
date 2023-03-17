@@ -1,6 +1,5 @@
 package team.ojt7.recruitment.model.repo;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,6 +27,18 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 	Vacancy findByCodeAndIsDeleted(String code, boolean isDeleted);
 	
 	List<Vacancy> findAllByStatusAndIsDeleted(Status status,boolean isDeleted);
+	
+	@Query("""
+			SELECT v FROM Vacancy v WHERE
+			(:dateFrom is null OR createdDateTime >= :dateFrom)
+			AND (:dateTo is null OR createdDateTime <= :dateTo)
+			AND isDeleted = false
+			""")
+	List<Vacancy> findByCreatedDateRange(
+			@Param("dateFrom")
+			LocalDateTime dateFrom,
+			@Param("dateTo")
+			LocalDateTime dateTo);
 
 	@Query(
 		value = """
@@ -49,7 +60,7 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 			@Param("keyword") String keyword,
 			@Param("status") Status status,
 			@Param("dateFrom") LocalDateTime dateFrom,
-			@Param("dateTo") LocalDate dateTo,
+			@Param("dateTo") LocalDateTime dateTo,
 			Pageable pageable);
 	
 	
@@ -70,6 +81,6 @@ public interface VacancyRepo extends JpaRepository<Vacancy, Long> {
 		Page<Vacancy> search(
 				@Param("keyword") String keyword,
 				@Param("dateFrom") LocalDateTime dateFrom,
-				@Param("dateTo") LocalDate dateTo,
+				@Param("dateTo") LocalDateTime dateTo,
 				Pageable pageable);
 }

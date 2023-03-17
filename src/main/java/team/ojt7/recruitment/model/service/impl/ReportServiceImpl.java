@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,23 +12,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
+import team.ojt7.recruitment.model.dto.CandidateCountInfo;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
+import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceByPositionDto;
 import team.ojt7.recruitment.model.dto.TopRecruitmentResourceReportDto;
+import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
 import team.ojt7.recruitment.model.repo.ApplicantRepo;
-import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
+import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.ReportService;
+import team.ojt7.recruitment.model.service.VacancyService;
 
 @Service
 public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
-	ApplicantRepo applicantRepo;
+	private ApplicantRepo applicantRepo;
 	
 	@Autowired
-	RecruitmentResourceRepo recruitmentResourceRepo;
+	private VacancyService vacancyService;
+	
+	@Autowired
+	private ApplicantService applicantService;
 	
 
 	@Override
@@ -92,6 +100,47 @@ public class ReportServiceImpl implements ReportService {
 				(t1, t2) -> (int) (t2.getCount() - t1.getCount())
 				);
 		return topRecruitmentResourceByPosition;
+	}
+
+
+	@Override
+	public Map<PositionDto, CandidateCountInfo> searchDemandPositionReport(LocalDate dateFrom, LocalDate dateTo) {
+		List<VacancyDto> vacancies = vacancyService.findByCreatedDateRange(dateFrom, dateTo);
+		
+		var appliedApplicants = applicantService.findByCreatedDateRange(dateFrom, dateTo).stream().collect(Collectors.groupingBy(
+					a -> a.getRequirePosition().getPosition(),
+					Collectors.counting()
+				));
+		
+		var hiredApplicants = applicantService.findByHiredDateRange(dateFrom, dateTo).stream().filter(a -> a.getStatus() == Status.HIRED).collect(Collectors.groupingBy(
+				a -> a.getRequirePosition().getPosition(),
+				Collectors.counting()
+			));
+		
+		Map<PositionDto, CandidateCountInfo> data = vacancies.stream().flatMap(v -> v.getRequirePositions().stream())
+			.collect(Collectors.groupingBy(
+					RequirePositionDto::getPosition,
+					Collectors.reducing(new CandidateCountInfo(), i -> {
+						CandidateCountInfo info = new CandidateCountInfo();
+						info.setPost((long)i.getCount());
+						info.setApplied(appliedApplicants.get(i.getPosition()));
+						info.setHired(hiredApplicants.get(i.getPosition()));
+						return info;
+					}, (i1, i2) -> {
+						if (i1 != null && i1.getPost() != null) {
+							i2.setPost(i2.getPost() + i1.getPost());
+						}
+						return i2;
+					})
+			)
+		);
+		List<Entry<PositionDto, CandidateCountInfo>> dataList = new ArrayList<>(data.entrySet());
+		dataList.sort((d1, d2) -> d2.getValue().getPercentage() - d1.getValue().getPercentage());
+		Map<PositionDto, CandidateCountInfo> finalData = new LinkedHashMap<>();
+		for (var d : dataList) {
+			finalData.put(d.getKey(), d.getValue());
+		}
+		return finalData;
 	}
 
 }

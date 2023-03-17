@@ -3,7 +3,6 @@ package team.ojt7.recruitment.model.repo;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,6 +25,29 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
     @Query(value = "UPDATE Applicant SET is_deleted = true WHERE id = :id")
 	void deleteById(@Param("id") Long id);
     
+    @Query("""
+    		SELECT a FROM Applicant a WHERE
+    		(:dateFrom is null OR hiredDateTime >= :dateFrom)
+    		AND (:dateTo is null OR hiredDateTime <= :dateTo)
+    		AND isDeleted = false
+    		""")
+    List<Applicant> findByHiredDateRange(
+    		@Param("dateFrom")
+    		LocalDateTime dateFrom,
+    		@Param("dateTo")
+    		LocalDateTime dateTo);
+    
+    @Query("""
+    		SELECT a FROM Applicant a WHERE
+    		(:dateFrom is null OR createdDate >= :dateFrom)
+    		AND (:dateTo is null OR createdDate <= :dateTo)
+    		AND isDeleted = false
+    		""")
+    List<Applicant> findByCreatedDateRange(
+    		@Param("dateFrom")
+    		LocalDateTime dateFrom,
+    		@Param("dateTo")
+    		LocalDateTime dateTo);
     
     @Query(
     		value = """

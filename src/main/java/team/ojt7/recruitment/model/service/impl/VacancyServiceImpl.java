@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -37,9 +39,11 @@ public class VacancyServiceImpl implements VacancyService {
 	@Override
 	public Page<VacancyDto> search(VacancySearch vacancySearch) {
 		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
+		LocalDateTime dateTimeFrom = vacancySearch.getDateFrom() == null ? null : vacancySearch.getDateFrom().atStartOfDay();
+		LocalDateTime dateTimeTo = vacancySearch.getDateTo() == null ? null : vacancySearch.getDateTo().plusDays(1).atStartOfDay();
 		Page<Vacancy> vacancies = vacancySearch.getStatus() == null
-									? vacancyRepo.search(keyword, vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(),vacancySearch.getSort().getSort()))
-									: vacancyRepo.search(keyword, vacancySearch.getStatus(), vacancySearch.getDateFrom(), vacancySearch.getDateTo(), PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(), vacancySearch.getSort().getSort())); 
+									? vacancyRepo.search(keyword, dateTimeFrom, dateTimeTo, PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(),vacancySearch.getSort().getSort()))
+									: vacancyRepo.search(keyword, vacancySearch.getStatus(), dateTimeFrom, dateTimeTo, PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(), vacancySearch.getSort().getSort())); 
 		Pageable vacanciesPageable = vacancies.getPageable();
 		Page<VacancyDto> page = new PageImpl<VacancyDto>(VacancyDto.ofList(vacancies.getContent()), vacanciesPageable, vacancies.getTotalElements());
 		return page;
@@ -122,6 +126,13 @@ public class VacancyServiceImpl implements VacancyService {
 	@Override
 	public List<VacancyDto> findAll() {
 		return VacancyDto.ofList(vacancyRepo.findAll());
+	}
+
+	@Override
+	public List<VacancyDto> findByCreatedDateRange(LocalDate dateFrom, LocalDate dateTo) {
+		LocalDateTime dateTimeFrom = dateFrom == null ? null : dateFrom.atStartOfDay();
+		LocalDateTime dateTimeTo = dateTo == null ? null : dateTo.plusDays(1).atStartOfDay();
+		return VacancyDto.ofList(vacancyRepo.findByCreatedDateRange(dateTimeFrom, dateTimeTo));
 	}
 
 }
