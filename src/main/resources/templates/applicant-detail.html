@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,9 +34,42 @@
                             <label for="status" class="form-label">Status</label>
                             <select id="status" class="form-select" name="status">
                                 <option
-                                th:each="g:${T(team.ojt7.recruitment.model.entity.Applicant.Status).values()}"
-                                th:value="${g}" th:text="${g.displayName}">
-                            </option>
+                                    th:disabled="${role != 'HIRING_MANAGER' && role != 'GENERAL_MANAGER'}"
+                                    th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).NEW}"
+                                    th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).NEW.displayName}">
+                                </option>
+                                <option
+                                    th:disabled="${role != 'HIRING_MANAGER' && role != 'GENERAL_MANAGER'}"
+                                    th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).UNQULIFIED}"
+                                    th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).UNQULIFIED.displayName}">
+                                </option>
+                                <option
+                                    th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).QULIFIED}"
+                                    th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).QULIFIED.displayName}">
+                                </option>
+                                <option
+                                    th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).SELECTED}"
+                                    th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).SELECTED.displayName}">
+                                </option>
+                                <option
+                                    th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).REJECTED}"
+                                    th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).REJECTED.displayName}">
+                                </option>
+                                <option
+                                    th:disabled="${role != 'HIRING_MANAGER'}"
+                                    th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).JOB_OFFERED}"
+                                    th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).JOB_OFFERED.displayName}">
+                                </option>
+                                <option
+                                    th:disabled="${role != 'HIRING_MANAGER'}"
+                                    th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).DID_NOT_JOIN}"
+                                    th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).DID_NOT_JOIN.displayName}">
+                                </option>
+                                <option
+                                    th:disabled="${role != 'HIRING_MANAGER'}"
+                                    th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).HIRED}"
+                                    th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).HIRED.displayName}">
+                                </option>
                             </select>
                         </div>
                         <div class="col-form-group mt-2">
@@ -231,7 +266,7 @@
                                     <span th:unless="${applicant.joinDate == null}" class="ms-2 font-sm">
                                         [[${#temporals.format(applicant.joinDate, 'yyyy-MM-dd (E)')}]]
                                     </span>
-                                    <a class="btn btn-sm link-success" th:onclick="showChangeJoinDateDialog()">
+                                    <a sec:authorize="hasAnyAuthority('HIRING_MANAGER')" class="btn btn-sm link-success" th:onclick="showChangeJoinDateDialog()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
                                     </a>            
                                 </label>

@@ -39,7 +39,7 @@ function showChangeStatusDialog(id) {
            $('#status1').on('change', function(event) {
                 let currentApplicantStatus = $("#applicantStatus").val();
                 let changeValue = $("#status1").val();
-                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
+                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && (selectedApplicantStatus == currentApplicantStatus || currentApplicantStatus == null))) {
                     btnSubmit.addClass("disabled");
                 } else {
                     btnSubmit.removeClass("disabled");
@@ -49,7 +49,7 @@ function showChangeStatusDialog(id) {
             $("#applicantStatusCheck").on('change', function(event) {
                 let currentApplicantStatus = $("#applicantStatus").val();
                 let changeValue = $("#status1").val();
-                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
+                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && (selectedApplicantStatus == currentApplicantStatus || currentApplicantStatus == null))) {
                     btnSubmit.addClass("disabled");
                 } else {
                     btnSubmit.removeClass("disabled");
@@ -59,7 +59,7 @@ function showChangeStatusDialog(id) {
             $("#applicantStatus").on('change', function(event) {
                 let currentApplicantStatus = $("#applicantStatus").val();
                 let changeValue = $("#status1").val();
-                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
+                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && (selectedApplicantStatus == currentApplicantStatus || currentApplicantStatus == null))) {
                     btnSubmit.addClass("disabled");
                 } else {
                     btnSubmit.removeClass("disabled");
@@ -69,7 +69,7 @@ function showChangeStatusDialog(id) {
             remarkTextarea.on('input', function(event) {
                 let currentApplicantStatus = $("#applicantStatus").val();
                 let changeValue = $("#status1").val();
-                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && selectedApplicantStatus == currentApplicantStatus)) {
+                if ((changeValue == selectedStatus && remarkTextarea.val() == data.comment) || ($("#applicantStatusCheck").is(":checked") && (selectedApplicantStatus == currentApplicantStatus || currentApplicantStatus == null))) {
                     btnSubmit.addClass("disabled");
                 } else {
                     btnSubmit.removeClass("disabled");

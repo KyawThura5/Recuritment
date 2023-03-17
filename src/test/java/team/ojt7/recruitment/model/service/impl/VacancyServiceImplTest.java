@@ -1,7 +1,7 @@
 package team.ojt7.recruitment.model.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,17 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
-import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.dto.VacancySearch;
 import team.ojt7.recruitment.model.entity.Department;
 import team.ojt7.recruitment.model.entity.Position;
@@ -94,14 +90,14 @@ class VacancyServiceImplTest {
 		
 		vacancySearch.setKeyword(vacancy.getCode());
 		vacancySearch.setStatus(vacancy.getStatus());
-		vacancySearch.setDateFrom(vacancy.getCreatedDateTime());
+		vacancySearch.setDateFrom(vacancy.getCreatedDateTime().toLocalDate());
 		vacancySearch.setDateTo(vacancy.getDueDate());
 		
 		
 		
-		Page<Vacancy> vacancies = vacancyTestRepo.search("%1%", Status.OPENING, LocalDateTime.now(), LocalDate.of(2023, 04, 22), PageRequest.of(1,10)); 
+		Page<Vacancy> vacancies = vacancyTestRepo.search("%1%", Status.OPENING, LocalDateTime.now(), LocalDateTime.of(2023, 04, 22, 0, 0, 0), PageRequest.of(1,10)); 
 		
-		when(vacancyTestRepo.search("%1%", Status.OPENING, LocalDateTime.now(), LocalDate.of(2023, 04, 22),PageRequest.of(1,10))).thenReturn(vacancies);
+		when(vacancyTestRepo.search("%1%", Status.OPENING, LocalDateTime.now(), LocalDateTime.of(2023, 04, 22, 0, 0, 0),PageRequest.of(1,10))).thenReturn(vacancies);
 		assertThat(vacancies);		
 	}
 

@@ -43,6 +43,7 @@ import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
 import team.ojt7.recruitment.model.dto.RequirePositionDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
 import team.ojt7.recruitment.model.entity.Applicant;
+import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
@@ -79,6 +80,9 @@ public class ApplicantController {
 	@Autowired
 	@Qualifier("RecruitmentResource")
 	private RecruitmentResourceService recruitmentResourceService;
+	
+	@Autowired
+	private HttpSession session;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -231,9 +235,11 @@ public class ApplicantController {
 	public String searchApplicant(@ModelAttribute("applicantSearch")
 	ApplicantSearch applicantSearch,
 	ModelMap model) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		Page<ApplicantDto> applicantPage = applicantService.search(applicantSearch);
 		model.put("applicantSearch", applicantSearch);
 		model.put("applicantPage", applicantPage);
+		model.put("role", loginUser.getRole().name());
 		return "applicants";
 	}
 	
@@ -242,12 +248,14 @@ public class ApplicantController {
 			Long id,
 			ModelMap model
 			) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		ApplicantDto applicant = applicantService.findById(id).orElse(null);
 		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
 		String contextPage = "/applicant/search";
 		model.put("applicant", applicant);
 		model.put("contextPage", contextPage);
 		model.put("statusChangeHistories", aschList);
+		model.put("role", loginUser.getRole().name());
 		return "applicant-detail";
 	}
 	
@@ -257,12 +265,14 @@ public class ApplicantController {
 			Long requirePositionId,
 			ModelMap model
 			) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		ApplicantDto applicant = applicantService.findById(id).orElse(null);
 		List<ApplicantStatusChangeHistoryDto> aschList = applicantStatusChangeHistoryService.findAllByApplicantId(id);
 		String contextPage = "/requirePosition/detail?id=" + requirePositionId;
 		model.put("applicant", applicant);
 		model.put("contextPage", contextPage);
 		model.put("statusChangeHistories", aschList);
+		model.put("role", loginUser.getRole().name());
 		return "applicant-detail";
 	}
 	

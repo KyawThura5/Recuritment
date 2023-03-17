@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.Formatter;
@@ -26,6 +28,7 @@ import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.InterviewDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewSearch;
+import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Interview.Status;
 import team.ojt7.recruitment.model.service.ApplicantService;
 import team.ojt7.recruitment.model.service.InterviewNameService;
@@ -48,6 +51,9 @@ public class InterviewController {
 	
 	@Autowired
 	private Formatter<ApplicantDto> applicantDtoFormatter;
+
+	@Autowired
+	private HttpSession session;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -59,9 +65,11 @@ public class InterviewController {
 	public String searchInterviews(@ModelAttribute("interviewSearch")
 	InterviewSearch interviewSearch,
 	ModelMap model) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		Page<InterviewDto> interviewPage = interviewService.search(interviewSearch);
 		model.put("interviewPage", interviewPage);
 		model.put("interviewSearch", interviewSearch);
+		model.put("role", loginUser.getRole().name());
 		return "interviews";
 	}
 	
@@ -162,8 +170,10 @@ public class InterviewController {
 			Long id,
 			ModelMap model
 			) {
+		User loginUser = (User) session.getAttribute("loginUser");
 		model.put("interview", interviewService.findById(id).get());
 		model.put("contextPage", model.getAttribute("contextPage") == null ? "/interview/search" : model.getAttribute("contextPage"));
+		model.put("role", loginUser.getRole().name());
 		return "interview-detail";
 	}
 	
@@ -226,7 +236,7 @@ public class InterviewController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("id", dto.getId());
 		map.put("status", dto.getStatus());
-		map.put("comment", dto.getComment());
+		map.put("comment", dto.getComment() == null ? "" : dto.getComment());
 		map.put("applicantStatus", dto.getApplicant().getStatus());
 		return ResponseEntity.ok(map);
 	}

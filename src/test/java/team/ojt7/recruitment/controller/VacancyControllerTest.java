@@ -1,6 +1,5 @@
 package team.ojt7.recruitment.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,7 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,7 +33,6 @@ import team.ojt7.recruitment.model.entity.Team;
 import team.ojt7.recruitment.model.entity.User;
 import team.ojt7.recruitment.model.entity.Vacancy;
 import team.ojt7.recruitment.model.entity.Vacancy.Status;
-import team.ojt7.recruitment.model.service.VacancyService;
 import team.ojt7.recruitment.model.service.impl.VacancyServiceImpl;
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -184,7 +181,7 @@ class VacancyControllerTest {
 		
 		vacancySearch.setKeyword("%1%");
 		vacancySearch.setStatus(Status.OPENING);
-		vacancySearch.setDateFrom(LocalDateTime.now());
+		vacancySearch.setDateFrom(LocalDate.now());
 		vacancySearch.setDateTo(LocalDate.of(2023, 04, 22));
 		
 		
