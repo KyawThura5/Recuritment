@@ -79,8 +79,41 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                                     <label for="applicantStatus" class="form-label">Candidate's Status</label>
                                     <select name="applicantStatus" id="applicantStatus" class="form-select">
                                         <option
-                                            th:each="g:${T(team.ojt7.recruitment.model.entity.Applicant.Status).values()}"
-                                            th:value="${g}" th:text="${g.displayName}" >
+                                            th:disabled="${role != 'HIRING_MANAGER' && role != 'GENERAL_MANAGER'}"
+                                            th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).NEW}"
+                                            th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).NEW.displayName}">
+                                        </option>
+                                        <option
+                                            th:disabled="${role != 'HIRING_MANAGER' && role != 'GENERAL_MANAGER'}"
+                                            th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).UNQULIFIED}"
+                                            th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).UNQULIFIED.displayName}">
+                                        </option>
+                                        <option
+                                            th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).QULIFIED}"
+                                            th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).QULIFIED.displayName}">
+                                        </option>
+                                        <option
+                                            th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).SELECTED}"
+                                            th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).SELECTED.displayName}">
+                                        </option>
+                                        <option
+                                            th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).REJECTED}"
+                                            th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).REJECTED.displayName}">
+                                        </option>
+                                        <option
+                                            th:disabled="${role != 'HIRING_MANAGER'}"
+                                            th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).JOB_OFFERED}"
+                                            th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).JOB_OFFERED.displayName}">
+                                        </option>
+                                        <option
+                                            th:disabled="${role != 'HIRING_MANAGER'}"
+                                            th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).DID_NOT_JOIN}"
+                                            th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).DID_NOT_JOIN.displayName}">
+                                        </option>
+                                        <option
+                                            th:disabled="${role != 'HIRING_MANAGER'}"
+                                            th:value="${T(team.ojt7.recruitment.model.entity.Applicant.Status).HIRED}"
+                                            th:text="${T(team.ojt7.recruitment.model.entity.Applicant.Status).HIRED.displayName}">
                                         </option>
                                     </select>
                                 </div>

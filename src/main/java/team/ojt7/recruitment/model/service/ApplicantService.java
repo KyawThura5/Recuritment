@@ -31,5 +31,4 @@ public interface ApplicantService {
 	List<ApplicantDto> findByCreatedDateRange(LocalDate dateFrom, LocalDate dateTo);
 	
 	void saveJoinDate(Long applicantId, LocalDate joinDate);
-
 }
