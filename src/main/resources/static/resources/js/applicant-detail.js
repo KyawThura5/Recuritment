@@ -20,6 +20,7 @@ function showChangeStatusDialog(id) {
     $.ajax({
         type: "GET",
         url: "/applicant/requirePositionDetail/status/change/api?id=" + id,
+        dataType: "json",
         success: function (data) {
             console.log(data);
             
