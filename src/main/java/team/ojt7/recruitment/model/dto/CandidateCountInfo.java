@@ -5,7 +5,9 @@ public class CandidateCountInfo {
 	private Long post;
 	private Long applied;
 	private Long hired;
-
+	public String getPercentageString() {
+		return "%d%%".formatted(getPercentage());
+	}
 	public Long getPost() {
 		return post == null ? 0 : post;
 	}
