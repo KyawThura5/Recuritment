@@ -71,7 +71,7 @@ public class ReportController {
 			List<TopRecruitmentResourceReportDto> report = reportService.searchTopRecruitmentResources();
 			report.add(0, null);
 			try {
-				var jasperPath = ResourceUtils.getFile("classpath:jasper/student.jrxml").getAbsolutePath();
+				var jasperPath = ResourceUtils.getFile("classpath:jasper/Report1.jrxml").getAbsolutePath();
 			
 				var fileName = "top-recruitment-resources-report-%s".formatted(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")));
 				
@@ -89,7 +89,6 @@ public class ReportController {
 			} catch (IOException | JRException e) {
 				e.printStackTrace();
 			}
-			return "top-recruitment-resources";
 		} else if ("topRecruitmentResourcesByPosition".equals(name)) {
 //			model.put("reports", reportService.searchTopRecruitmentResourcesByPosition());
 			return "top-recruitment-resources-by-position";

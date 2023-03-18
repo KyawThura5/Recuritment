@@ -55,6 +55,7 @@ $(document).ready(function() {
                 type:"POST",
                 url: "/recruitmentresource/direct/validate",
                 data: $("#recruitmentResourceForm").serialize(),
+                dataType: "json",
                 cache: false,
                 timeout: 600000,
                 success: function (data) {

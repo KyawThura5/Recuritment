@@ -41,6 +41,7 @@ $(document).ready(function() {
                 type:"POST",
                 url: "/position/validate",
                 data: $("#positionForm").serialize(),
+                dataType: "json",
                 cache: false,
                 timeout: 600000,
                 success: function (data) {

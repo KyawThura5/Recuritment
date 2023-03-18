@@ -49,6 +49,7 @@ $(document).ready(function() {
                 type:"POST",
                 url: "/team/validate",
                 data: $("#teamForm").serialize(),
+                dataType: "json",
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
