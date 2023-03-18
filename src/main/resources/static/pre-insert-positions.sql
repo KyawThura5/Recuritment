@@ -2,7 +2,7 @@ INSERT INTO `position` (`id`, `name`, `is_deleted`) VALUES
 (1, 'Junior Java Programmer', false),
 (2, 'Junior PHP Programmer', false),
 (3, 'Senior .NET Developer', false), 
-(4, 'Senior VBA Programmer', false),
+(4, 'Senior Java Programmer', false),
 (5, 'Project Manager', false),
 (6, 'Team Leader', false),
 (7, 'Senior Software Engineer', false),

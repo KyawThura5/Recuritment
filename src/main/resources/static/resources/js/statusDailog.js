@@ -6,7 +6,9 @@ function showChangeStatusDialog(id) {
     $.ajax({
         type: "GET",
         url: "/interview/status/change/api?id=" + id,
+        dataType: "json",
         success: function (data) {       
+            console.log(data);
             let form = $("#changeStatusForm");
             let applicantIdInput = form.find("input[name='id']");
             applicantIdInput.val(data.id);
@@ -54,6 +56,11 @@ function showChangeStatusDialog(id) {
                 } else {
                     btnSubmit.removeClass("disabled");
                 }
+
+                if (!$("#applicantStatusCheck").is(":checked")) {
+                    applicantStatusSelect.val(data.applicantStatus);
+                    applicantRemarkTextarea.val("");
+                }
             });
 
             $("#applicantStatus").on('change', function(event) {
@@ -78,7 +85,6 @@ function showChangeStatusDialog(id) {
         },
         error: function (e) {
             console.log('error');
-            console.log(e);
         }
     });
 }

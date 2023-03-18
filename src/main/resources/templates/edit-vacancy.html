@@ -55,7 +55,7 @@
 		
 						<div class="col-12 col-lg-6 col-xl-3 my-2 form-group">
 							<label for="department" class="form-label">Department</label>
-							<select class="form-select select-search" id="department" th:field="*{department}" th:disabled="${vacancy.id != null}">
+							<select class="form-select select-search" id="departmentSelect" th:field="*{department}" th:disabled="${vacancy.id != null}">
 								<option value="" th:attrappend="disabled=${vacancy.id != null ? 'disabled' : ''}">-- select a department --</option>
 								<option th:each="dept: ${departments}" th:text="${dept.name}" th:value="${dept.id}" th:attrappend="disabled=${vacancy.id != null && vacancy.department != null && vacancy.department.id != dept.id ? 'disabled' : ''}"></option>
 							</select>

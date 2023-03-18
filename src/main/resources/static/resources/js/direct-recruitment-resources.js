@@ -90,6 +90,7 @@ function showEditDirectRecruitmentResourceModal(id) {
     $.ajax({
         type:"GET",
         url: url,
+        dataType: "json",
         cache: false,
         timeout: 600000,
         success: function (data) {

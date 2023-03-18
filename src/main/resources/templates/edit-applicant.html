@@ -72,8 +72,10 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         <div class="col-12 form-group  my-2 ">
                             <label for="position" class="form-label">Position</label>
                             <select id="position" class="form-select" th:field="*{requirePosition}">
-                                <option value="">-- select a positoin --</option>
-                                <option th:each="requirePosition:${requirePositions}" th:text="${requirePosition.position.name}" th:value="${requirePosition.id}"></option>
+                                <option value="">-- select a position --</option>
+                                <option th:each="requirePosition:${requirePositions}" th:value="${requirePosition.id}">
+                                    [[${requirePosition.position.name + ' -> '  + requirePosition.team.name + ' -> ' + applicant.vacancy.department.name}]]
+                                </option>
                             </select>
                             
                             <label th:if="${#fields.hasErrors('requirePosition')}" th:errors="*{requirePosition}" th:errorclass="text-danger"></label>

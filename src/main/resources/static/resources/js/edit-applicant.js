@@ -187,12 +187,12 @@ const ajaxQuerypositionByVacancy = () => {
 			let options = "";
 			for(let i=0;i<data.length;i++){
 				let position=data[i];
-				options += `<option value=${position.id}>${position.position.name}/${position.team.name}/${position.team.department.name}</option>`;			
+				options += `<option value=${position.id}>${position.position.name} -> ${position.team.name} -> ${position.team.department.name}</option>`;			
 			}
 					
 			let positionSelectWrapper = $("#position");
 			positionSelectWrapper.html(`
-                <option value=''>-- select a team --</option>
+                <option value=''>-- select a position --</option>
                 ${options}`);
   		},
         error: function (e) {

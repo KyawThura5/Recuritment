@@ -1,7 +1,5 @@
 $(document).ready(function () {
-
-	$("#department").change(function (event) {
-
+	$("#departmentSelect").on('change', function (event) {
         ajaxQueryTeamByDepartment();
     });
 
@@ -191,7 +189,7 @@ const listenRemovePositionEntry = () => {
 }
 
 const ajaxQueryTeamByDepartment = () => {
-    let departmentId = $('#department').find(":selected").val();
+    let departmentId = $('#departmentSelect').find(":selected").val();
 
     let data = {};
     data['departmentId'] = departmentId;
@@ -239,7 +237,7 @@ const ajaxQueryTeamByDepartment = () => {
 };
 
 const initTeamSelector = () => {
-    let departmentId = $('#department').find(":selected").val();
+    let departmentId = $('#departmentSelect').find(":selected").val();
 
     let data = {};
     data['departmentId'] = departmentId;
