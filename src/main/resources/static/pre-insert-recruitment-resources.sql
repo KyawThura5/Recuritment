@@ -1,13 +1,13 @@
 INSERT INTO `recruitment_resource` (`code`, `name`, `entity_type`) VALUES
-('DAT_RESOURCE_001', 'ACE Inspiration', 'DirectRecruitmentResource'),
-('DAT_RESOURCE_002', 'Direct', 'DirectRecruitmentResource'),
-('DAT_RESOURCE_003', 'Internship', 'DirectRecruitmentResource'),
-('DAT_RESOURCE_004', 'Job.com', 'ExternalRecruitmentResource'),
-('DAT_RESOURCE_005', 'Connect Job Myanmar', 'ExternalRecruitmentResource'),
-('DAT_RESOURCE_006', 'JobNet Myanmar', 'ExternalRecruitmentResource'),
-('DAT_RESOURCE_007', 'VAC Jobsearch', 'ExternalRecruitmentResource'),
-('DAT_RESOURCE_008', 'UCSY', 'ExternalRecruitmentResource'),
-('DAT_RESOURCE_009', 'Neo Tech', 'ExternalRecruitmentResource');
+('DAT_RESOURCE_0001', 'ACE Inspiration', 'DirectRecruitmentResource'),
+('DAT_RESOURCE_0002', 'Direct', 'DirectRecruitmentResource'),
+('DAT_RESOURCE_0003', 'Internship', 'DirectRecruitmentResource'),
+('DAT_RESOURCE_0004', 'Job.com', 'ExternalRecruitmentResource'),
+('DAT_RESOURCE_0005', 'Connect Job Myanmar', 'ExternalRecruitmentResource'),
+('DAT_RESOURCE_0006', 'JobNet Myanmar', 'ExternalRecruitmentResource'),
+('DAT_RESOURCE_0007', 'VAC Jobsearch', 'ExternalRecruitmentResource'),
+('DAT_RESOURCE_0008', 'UCSY', 'ExternalRecruitmentResource'),
+('DAT_RESOURCE_0009', 'Neo Tech', 'ExternalRecruitmentResource');
 
 INSERT INTO `direct_recruitment_resource` (`id`) VALUES
 (1), (2), (3);

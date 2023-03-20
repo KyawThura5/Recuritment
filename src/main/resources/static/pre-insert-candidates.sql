@@ -52,7 +52,7 @@ INSERT INTO `applicant`
 '2023-01-02 10:05:33', null, '2023-01-13 11:07:11'),
 
 (13, 'DAT_CANDIDATE_20230103_00013', 'Mg Htet Shine', 'htetshine02@gmail.com', '09787765678', 2, 4,
-1, 'HIRED', 'storage/applicant/cv/DAT_CANDIDATE_20230103_0013.pdf', 5,
+3, 'HIRED', 'storage/applicant/cv/DAT_CANDIDATE_20230103_0013.pdf', 5,
 '2023-01-03 09:35:09', null, '2023-01-06 11:55:11'),
 
 (14, 'DAT_CANDIDATE_20230103_00014', 'Mg Soe Htet Aung', 'soehtetaung22@gmail.com', '09987656776', 2, 5,
