@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Recruitment Resources</title>
+    <title>Interview Stages</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
@@ -17,19 +17,32 @@
     <div th:replace="nav-bar :: navbar('reports')"></div>
     
     <div class="container py-3">
-        <h2 class="fs-5 fw-bold mb-3">Top Recruitment Resources</h2>
+        <h2 class="fs-5 fw-bold mb-3">Interview Stages</h2>
         <form id="searchForm" class="row" th:action="@{/report}">
             <span class="col-auto input-froup">
                 <select name="name" class="form-select" onchange="submitSearchForm()">
-                    <option value="topRecruitmentResources" selected>Top Recruitment Resources</option>
+                    <option value="topRecruitmentResources">Top Recruitment Resources</option>
                     <option value="topRecruitmentResourcesByPosition">Top Demend Positions</option>
                     <option value="demandPositions">Position Fullfillment</option>
-                    <option value="interviewStages">Interview Stages</option>
+                    <option value="interviewStages" selected>Interview Stages</option>
                 </select>
             </span>
-            
 
-            <a th:href="@{/report/export(name='topRecruitmentResources')}" class="col-auto btn btn-warning" th:classappend="${reports.empty ? 'disabled' : ''}">
+            <div class="col-auto" onchange="submitSearchForm()">
+                <select class="form-select" name="sort" th:value="${param.sort}">
+                    <option value="theMostPassed">The Most Passed</option>
+                    <option value="theLeastPassed" th:selected="${'theLeastPassed'.equalsIgnoreCase(param.sort)}">The Least Passed</option>
+                </select>
+            </div>
+            
+            <div class="col-auto">
+                <input class="form-control" type="date" name="dateFrom" th:value="${param.dateFrom}" onchange="submitSearchForm()">
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="date" name="dateTo" th:value="${param.dateTo}" onchange="submitSearchForm()">
+            </div>
+
+            <a th:href="@{/report/export(name='interviewStages',dateFrom=${param.dateFrom},dateTo=${param.dateTo},sort=${param.sort})}" class="col-auto btn btn-warning" th:classappend="${reports.empty ? 'disabled' : ''}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V288H216c-13.3 0-24 10.7-24 24s10.7 24 24 24H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM384 336V288H494.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H384zm0-208H256V0L384 128z"/></svg>
             </a>
         </form>
@@ -41,19 +54,39 @@
                         <div class="d-flex justify-content-between">
                             <label class="font-lg fw-bold">
                                 <span class="text-secondary">[[${reportStat.index + 1}]].</span>
-                                [[${report.recruitmentResource.name}]]
+                                [[${report.key.name}]]
                             </label>
-                            <label class="font-lg fw-bold text-success">[[${report.count}]]</label>
+                            <label class="fw-bold text-success">
+                                [[${report.value.percentage}]]% Passed
+                            </label>
                         </div>
                     </div>
                     <div class="card-body">
                         <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th class="text-end">Total</th>
+                                    <th class="text-end">Passed</th>
+                                    <th class="text-end">Failed</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr th:each="position : ${report.positions}">
+                                <tr th:each="position : ${report.value.stagesByPosition}">
                                     <td>[[${position.key.name}]]</td>
-                                    <td class="text-end">[[${position.value}]]</td>
+                                    <td class="text-end">[[${position.value.total}]]</td>
+                                    <td class="text-end text-success">[[${position.value.passed}]]</td>
+                                    <td class="text-end text-danger">[[${position.value.failed}]]</td>
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td class="text-end fw-bold">[[${report.value.total}]]</td>
+                                    <td class="text-end text-success fw-bold">[[${report.value.passed}]]</td>
+                                    <td class="text-end text-danger fw-bold">[[${report.value.failed}]]</td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 package team.ojt7.recruitment.model.repo;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,6 +57,19 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 			@Param("status")
 			Status status,
 			Pageable pageable
+			);
+	
+	@Query("""
+			SELECT i FROM Interview i WHERE
+			(status = 'PASSED' OR status = 'FAILED') AND
+			(:dateFrom is null OR dateTime >= :dateFrom) AND
+			(:dateTo is null OR dateTime <= :dateTo)
+			""")
+	List<Interview> findCompletedInterviews(
+			@Param("dateFrom")
+			LocalDateTime dateFrom,
+			@Param("dateTo")
+			LocalDateTime dateTo
 			);
 
 }
