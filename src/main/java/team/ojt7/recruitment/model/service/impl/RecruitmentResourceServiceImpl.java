@@ -10,9 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.RecruitmentResourceDto;
@@ -20,6 +18,7 @@ import team.ojt7.recruitment.model.dto.RecruitmentResourceSearch;
 import team.ojt7.recruitment.model.entity.RecruitmentResource;
 import team.ojt7.recruitment.model.repo.RecruitmentResourceRepo;
 import team.ojt7.recruitment.model.service.RecruitmentResourceService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 import team.ojt7.recruitment.util.generator.RecruitmentResourceCodeGenerator;
 
@@ -59,11 +58,11 @@ public class RecruitmentResourceServiceImpl implements RecruitmentResourceServic
 	@Override
 	public RecruitmentResourceDto save(RecruitmentResource rr) {
 		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
-//		RecruitmentResource duplicatedEntry = recruitmentResourceRepo.findByNameAndIsDeleted(rr.getName(), false);
-//		if (duplicatedEntry != null && !Objects.equals(rr.getId(), duplicatedEntry.getId())) {
-//			
-//			invalidFieldsException.addField(new InvalidField("name", "duplicated" ,"A recruitment resource with this name already exists"));
-//		}
+		RecruitmentResource duplicatedEntry = recruitmentResourceRepo.findByCodeAndIsDeleted(rr.getCode(), false);
+		if (duplicatedEntry != null && !Objects.equals(rr.getId(), duplicatedEntry.getId())) {
+			
+			invalidFieldsException.addField(new InvalidField("code", "duplicated" ,"A recruitment resource with this code already exists"));
+		}
 		
 		if (invalidFieldsException.hasFields()) {
 			throw invalidFieldsException;
