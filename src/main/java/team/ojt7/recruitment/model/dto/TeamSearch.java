@@ -58,7 +58,7 @@ public class TeamSearch {
 		this.page = page;
 	}
 	public Integer getSize() {
-		return page == null ? DEFAULT_SIZE : size;
+		return size == null ? DEFAULT_SIZE : size;
 	}
 	public void setSize(Integer size) {
 		this.size = size;
