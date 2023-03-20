@@ -4,12 +4,11 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import team.ojt7.recruitment.model.dto.VacancySearch.Sort;
 import team.ojt7.recruitment.model.entity.Interview.Status;
 
 public class InterviewSearch {
 	private static final int DEFAULT_PAGE = 1;
-	private static final int DEFAULT_SIZE = 10;
+	private static final int DEFAULT_SIZE = 30;
 
 	private String keyword;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -22,13 +21,15 @@ public class InterviewSearch {
 	private Integer page;
 	private Integer size;
 	
-	private Sort sort = Sort.NEWEST;
+	private Sort sort = Sort.LAST_MODIFIED;
 
 	public enum Sort {
 		NEWEST("Newest", org.springframework.data.domain.Sort.by("createdDateTime").descending()),
 		OLDEST("Oldest", org.springframework.data.domain.Sort.by("createdDateTime").ascending()),
-		CODE_SORTING_Z_TO_A("Code Z To A",org.springframework.data.domain.Sort.by("code").descending()),
+		FIRST_MODIFIED("First Modified", org.springframework.data.domain.Sort.by("updatedOn").ascending()),
+		LAST_MODIFIED("Last Modified", org.springframework.data.domain.Sort.by("updatedOn").descending()),
 		CODE_SORTING_A_TO_Z("Code A To Z",org.springframework.data.domain.Sort.by("code").ascending()),
+		CODE_SORTING_Z_TO_A("Code Z To A",org.springframework.data.domain.Sort.by("code").descending()),
 		NAME_SORTING_Z_TO_A("Name Z To A",org.springframework.data.domain.Sort.by("interviewName").descending()),
 		NAME_SORTING_A_TO_Z("Name A To Z",org.springframework.data.domain.Sort.by("interviewName").ascending())
 		;

@@ -1,7 +1,5 @@
 package team.ojt7.recruitment.model.dto;
 
-import team.ojt7.recruitment.model.dto.ApplicantSearch.Sort;
-
 public class RecruitmentResourceSearch {
     private static final int DEFAULT_PAGE = 1;
     private static final int DEFAULT_SIZE = 10;

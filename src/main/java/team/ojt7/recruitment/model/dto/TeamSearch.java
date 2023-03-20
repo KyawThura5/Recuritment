@@ -13,9 +13,8 @@ public class TeamSearch {
 	private Sort sort = Sort.TEAM_NAME_SORTING_A_TO_Z;
 
 	public enum Sort {
-		
-		TEAM_NAME_SORTING_Z_TO_A("Name Z To A",org.springframework.data.domain.Sort.by("name").descending()),
-		TEAM_NAME_SORTING_A_TO_Z("Name A To Z",org.springframework.data.domain.Sort.by("name").ascending())
+		TEAM_NAME_SORTING_A_TO_Z("Name A To Z",org.springframework.data.domain.Sort.by("name").ascending()),
+		TEAM_NAME_SORTING_Z_TO_A("Name Z To A",org.springframework.data.domain.Sort.by("name").descending())
 		;
 
 		private String displayName;
