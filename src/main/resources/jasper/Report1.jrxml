@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<<<<<<< HEAD
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="64658771-54e5-43d1-a825-338574d66d04">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
@@ -12,11 +13,16 @@
 		</box>
 	</style>
 	<subDataset name="Dataset1" uuid="aca44db9-f274-477c-b55e-6bda6649fa96">
+=======
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56aad157-f22d-4421-ab7c-6d564909d1a1">
+	<subDataset name="ReportDataset" uuid="6db59dff-d42e-4f7e-92d4-c2ccf2bd8149">
+>>>>>>> e06296b8400bb4cabc8335df306641cdf5283767
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
 		<field name="recruitmentResource.name" class="java.lang.String"/>
 		<field name="count" class="java.lang.Long"/>
+<<<<<<< HEAD
 		<field name="positions" class="java.util.Map"/>
 		<group name="Group1" isReprintHeaderOnEachPage="true">
 			<groupExpression><![CDATA[$F{recruitmentResource.name}]]></groupExpression>
@@ -24,6 +30,10 @@
 	</subDataset>
 	<parameter name="Report" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="title" class="java.lang.String"/>
+=======
+	</subDataset>
+	<parameter name="Report" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+>>>>>>> e06296b8400bb4cabc8335df306641cdf5283767
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -31,6 +41,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
+<<<<<<< HEAD
 		<band height="141" splitType="Stretch">
 			<textField>
 				<reportElement x="240" y="20" width="100" height="30" uuid="8bd1a5fa-b467-4289-bce7-172cd83033f7"/>
@@ -71,12 +82,36 @@
 							<reportElement x="118" y="52" width="100" height="30" uuid="c3b8f2d7-de08-4c10-9bab-44d9ccffb234"/>
 							<textFieldExpression><![CDATA[$F{positions}]]></textFieldExpression>
 						</textField>
+=======
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<componentElement>
+				<reportElement x="10" y="10" width="250" height="30" uuid="7180c1ae-f334-42d6-aa40-586bc738d327"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="ReportDataset" uuid="aeed2597-9e0e-4d99-b424-02ef287ee7f4">
+						<dataSourceExpression><![CDATA[$P{Report}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="30" width="250">
+						<textField>
+							<reportElement x="0" y="0" width="150" height="30" uuid="4505bea7-15ee-4e23-b946-0d8b34c053d0"/>
+							<textFieldExpression><![CDATA[$F{recruitmentResource.name}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="200" y="0" width="50" height="30" uuid="33cf3484-da72-4373-a085-1185025d145a"/>
+							<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+						</textField>
+>>>>>>> e06296b8400bb4cabc8335df306641cdf5283767
 					</jr:listContents>
 				</jr:list>
 			</componentElement>
 		</band>
 	</detail>
+<<<<<<< HEAD
 	<pageFooter>
 		<band height="54" splitType="Stretch"/>
 	</pageFooter>
+=======
+>>>>>>> e06296b8400bb4cabc8335df306641cdf5283767
 </jasperReport>

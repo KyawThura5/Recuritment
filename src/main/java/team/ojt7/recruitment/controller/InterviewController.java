@@ -200,8 +200,8 @@ public class InterviewController {
 			@RequestParam("status")Status status,
 			@RequestParam("comment")String comment,
 			@RequestParam(name = "applicantStatusCheck", defaultValue = "false") boolean applicantStatusCheck,
-			@RequestParam("applicantStatus") team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus,
-			@RequestParam("applicantStatusComment") String applicantStatusComment,
+			@RequestParam(name = "applicantStatus", required = false) team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus,
+			@RequestParam(name = "applicantStatusComment", required = false) String applicantStatusComment,
 			RedirectAttributes redirect) {
 		interviewService.saveInterviewStatus(id,status,comment,applicantStatusCheck, applicantStatus, applicantStatusComment);
 		redirect.addFlashAttribute("alert",new Alert("Successfully changed the interview's status!","notice-success"));
@@ -215,8 +215,8 @@ public class InterviewController {
 			@RequestParam("status")Status status,
 			@RequestParam("comment")String comment,
 			@RequestParam(name = "applicantStatusCheck", defaultValue = "false") boolean applicantStatusCheck,
-			@RequestParam("applicantStatus") team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus,
-			@RequestParam("applicantStatusComment") String applicantStatusComment,
+			@RequestParam(name = "applicantStatus", required = false) team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus,
+			@RequestParam(name = "applicantStatusComment", required = false) String applicantStatusComment,
 			@RequestParam("contextPage") String contextPage,
 			RedirectAttributes redirect) {
 		interviewService.saveInterviewStatus(id,status,comment,applicantStatusCheck, applicantStatus, applicantStatusComment);
