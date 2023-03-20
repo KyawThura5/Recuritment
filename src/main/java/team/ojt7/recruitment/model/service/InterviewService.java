@@ -1,5 +1,7 @@
 package team.ojt7.recruitment.model.service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -24,4 +26,8 @@ public interface InterviewService {
 	void saveInterviewStatus(Long id,Status status,String comment, boolean applicantStatusChecked, team.ojt7.recruitment.model.entity.Applicant.Status applicantStatus, String applicantComment);
 
 	InterviewDto getCurrentStatus(Long id);
+	
+	List<InterviewDto> findAll();
+	
+	List<InterviewDto> findCompletedInterivews(LocalDate dateFrom, LocalDate dateTo);
 }

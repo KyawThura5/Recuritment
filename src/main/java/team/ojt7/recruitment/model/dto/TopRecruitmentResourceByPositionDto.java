@@ -2,6 +2,8 @@ package team.ojt7.recruitment.model.dto;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 public class TopRecruitmentResourceByPositionDto {
 
 	private PositionDto position;
@@ -30,6 +32,10 @@ public class TopRecruitmentResourceByPositionDto {
 
 	public void setRecruitmentResources(Map<RecruitmentResourceDto, Integer> recruitmentResources) {
 		this.recruitmentResources = recruitmentResources;
+	}
+	
+	public JRBeanCollectionDataSource getRecruitmentResourceList() {
+		return new JRBeanCollectionDataSource(recruitmentResources.entrySet());
 	}
 
 }
