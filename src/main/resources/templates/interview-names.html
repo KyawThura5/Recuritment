@@ -301,6 +301,7 @@ var constraints = {
                 type:"POST",
                 url: "/interviewname/validate",
                 data: $("#interviewNameForm").serialize(),
+				dataType: "json",
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
