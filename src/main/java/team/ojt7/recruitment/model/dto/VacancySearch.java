@@ -1,7 +1,6 @@
 package team.ojt7.recruitment.model.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,8 +28,8 @@ public class VacancySearch {
 	public enum Sort {
 		NEWEST("Newest", org.springframework.data.domain.Sort.by("createdDateTime").descending()),
 		OLDEST("Oldest", org.springframework.data.domain.Sort.by("createdDateTime").ascending()),
-		LONGEST("Longest", org.springframework.data.domain.Sort.by("dueDate").descending()),
-		SHORTEST("Shortest", org.springframework.data.domain.Sort.by("dueDate").ascending())
+		FIRST_EXPIRING("First Expiring", org.springframework.data.domain.Sort.by("dueDate").ascending()),
+		LAST_EXPIRING("Last Expiring", org.springframework.data.domain.Sort.by("dueDate").descending())
 		;
 
 		private String displayName;

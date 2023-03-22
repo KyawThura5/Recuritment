@@ -297,9 +297,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                                                     [[${applicant.lastestInterview.status.displayName}]]
                                                 </span>
                                             </label>
-                                            <label th:title="${applicant.lastestInterview.interviewName.name}">
+                                            <a class="link-dark" th:href="@{/interview/requirePositionDetail/detail(id=${applicant.lastestInterview.id},requirePositionDetailId=${requirePosition.id})}" th:title="${applicant.lastestInterview.interviewName.name}">
                                                 [[${applicant.lastestInterview.interviewName.name}]]
-                                            </label>
+                                            </a>
                                             
                                         </span>
                                     </label>

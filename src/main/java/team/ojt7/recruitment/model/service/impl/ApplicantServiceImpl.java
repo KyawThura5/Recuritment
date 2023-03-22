@@ -73,6 +73,10 @@ public class ApplicantServiceImpl implements ApplicantService{
 			applicant.setCreatedUser((User) session.getAttribute("loginUser"));
 		}
 		
+		if (applicant.getId() == null) {
+			applicant.setUpdatedOn(LocalDateTime.now());
+		}
+		
 		Applicant savedApplicant = applicantRepo.save(applicant);
 		if (cvFile != null && !cvFile.isEmpty()) {
 			if (StringUtils.hasLength(savedApplicant.getAttachedUri())) {

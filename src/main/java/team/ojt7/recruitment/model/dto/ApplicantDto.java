@@ -53,6 +53,8 @@ public class ApplicantDto {
 
 	private LocalDateTime hiredDateTime;
 
+	private LocalDateTime updatedOn;
+
 	private UserDto createdUser;
 
 	@NotNull(message = "Select a vacancy")
@@ -123,6 +125,14 @@ public class ApplicantDto {
 
 	public void setHiredDateTime(LocalDateTime hiredDateTime) {
 		this.hiredDateTime = hiredDateTime;
+	}
+
+	public LocalDateTime getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(LocalDateTime updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 	public String getStatusColorClass() {
@@ -323,6 +333,7 @@ public class ApplicantDto {
 		dto.setVacancy(VacancyDto.of(applicant.getVacancy()));
 		dto.setJoinDate(applicant.getJoinDate());
 		dto.setHiredDateTime(applicant.getHiredDateTime());
+		dto.setUpdatedOn(applicant.getUpdatedOn());
 
 		if (applicant.getRequirePosition() != null) {
 			RequirePosition requirePosition = applicant.getRequirePosition();
@@ -401,6 +412,7 @@ public class ApplicantDto {
 		applicant.setVacancy(VacancyDto.parse(dto.getVacancy()));
 		applicant.setJoinDate(dto.getJoinDate());
 		applicant.setHiredDateTime(dto.getHiredDateTime());
+		applicant.setUpdatedOn(dto.getUpdatedOn());
 
 		if (dto.getRequirePosition() != null) {
 			RequirePositionDto requirePositionDto = dto.getRequirePosition();

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeDto;
 import team.ojt7.recruitment.model.dto.ApplicantStatusChangeHistoryDto;
@@ -32,6 +33,7 @@ public class ApplicantStatusChangeHistoryServiceImpl implements ApplicantStatusC
 	private HttpSession session;
 	
 	@Override
+	@Transactional
 	public ApplicantStatusChangeHistoryDto save(ApplicantStatusChangeHistoryDto dto) {
 		
 		User loginUser = (User) session.getAttribute("loginUser");
@@ -43,6 +45,9 @@ public class ApplicantStatusChangeHistoryServiceImpl implements ApplicantStatusC
 		} else {
 			applicant.setHiredDateTime(LocalDateTime.now());
 		}
+		
+		applicant.setUpdatedOn(LocalDateTime.now());
+		applicant = applicantRepo.save(applicant);
 		ApplicantStatusChangeHistory asch = ApplicantStatusChangeHistoryDto.parse(dto);
 		asch.setApplicant(applicant);
 		asch.setUpdatedBy(loginUser);

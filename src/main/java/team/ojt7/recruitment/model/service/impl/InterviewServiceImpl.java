@@ -22,6 +22,7 @@ import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Interview;
 import team.ojt7.recruitment.model.entity.Interview.Status;
 import team.ojt7.recruitment.model.entity.User;
+import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.repo.InterviewRepo;
 import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
 import team.ojt7.recruitment.model.service.InterviewService;
@@ -38,6 +39,9 @@ public class InterviewServiceImpl implements InterviewService {
 	
 	@Autowired
 	private ApplicantStatusChangeHistoryService applicantStatusChangeHistoryService;
+	
+	@Autowired
+	private ApplicantRepo applicantRepo;
 	
 	@Autowired
 	private HttpSession session;
@@ -71,13 +75,15 @@ public class InterviewServiceImpl implements InterviewService {
 			interview.setOwner(loginUser);
 		}
 		interview.setUpdatedOn(LocalDateTime.now());
+		Applicant applicant = interview.getApplicant();
+		applicant.setUpdatedOn(LocalDateTime.now());
+		interview.setApplicant(applicantRepo.save(applicant));;
 		InterviewDto interviewDto = InterviewDto.of(interviewRepo.save(interview));
 		return interviewDto;
 	}
 
 	@Override
 	public boolean deleteById(Long id) {
-		// TODO Auto-generated method stub
 		interviewRepo.deleteById(id);
 		return true;
 	}
