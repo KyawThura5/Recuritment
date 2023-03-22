@@ -8,6 +8,8 @@ import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import team.ojt7.recruitment.model.entity.Applicant;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
 import team.ojt7.recruitment.model.entity.Interview;
@@ -19,6 +21,7 @@ public class RequirePositionDto {
 	private Long id;
 	private boolean foc;
 
+	@JsonIgnore
 	@NotNull(message = "{notNull.requirePosition.count}")
 	@Min(value = 1, message = "{min.requirePosition.count}")
 	Integer count;
@@ -29,8 +32,10 @@ public class RequirePositionDto {
 	@NotNull(message = "{notNull.requirePosition.position}")
 	private PositionDto position;
 
+	@JsonIgnore
 	private VacancyDto vacancy;
 
+	@JsonIgnore
 	private List<ApplicantDto> applicants = new ArrayList<>();
 
 	public static RequirePositionDto of(RequirePosition entity) {

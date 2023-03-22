@@ -42,9 +42,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                          <div id="interviewNameHelp"></div>                 
                         </div>
                         <div class="col-12 form-group my-2">
-                            <label for="applicant" class="form-label">Applicant</label>
+                            <label for="applicant" class="form-label">Candidate</label>
                             <select id="applicant" th:field="*{applicant}" class="form-select select-search">
-                             <option value="" th:attrappend="disabled=${interview.id != null ? 'disabled' : ''}">-- select applicant --</option>
+                             <option value="" th:attrappend="disabled=${interview.id != null ? 'disabled' : ''}">-- select candidate --</option>
                             <option th:each="ap : ${applicants}" th:text="${ap.name} +' ('+ ${ap.code}+')'"  th:value="${ap.id}"  th:attrappend="disabled=${interview.id != null && interview.applicant != null && interview.applicant.id != ap.id ? 'disabled' : ''}"></option>
                             </select>
                            <div id="applicantHelp"></div>                               
