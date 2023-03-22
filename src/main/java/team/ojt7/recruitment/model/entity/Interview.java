@@ -47,6 +47,7 @@ public class Interview implements Serializable {
 	@Column(name = "created_date_time", nullable = false, updatable = false, insertable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createdDateTime;
 	
+	@Column(name = "updated_on")
 	private LocalDateTime updatedOn;
 
 	public enum Status {

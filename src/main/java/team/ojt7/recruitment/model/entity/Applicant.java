@@ -70,6 +70,9 @@ public class Applicant implements Serializable {
 	@Column(name = "hired_date_time")
 	private LocalDateTime hiredDateTime;
 
+	@Column(name = "updated_on")
+	private LocalDateTime updatedOn;
+
 	@ManyToOne()
 	@JoinColumn(name = "created_user_id")
 	private User createdUser;
@@ -227,6 +230,14 @@ public class Applicant implements Serializable {
 
 	public void setHiredDateTime(LocalDateTime hiredDateTime) {
 		this.hiredDateTime = hiredDateTime;
+	}
+
+	public LocalDateTime getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(LocalDateTime updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 	public RecruitmentResource getRecruitmentResource() {

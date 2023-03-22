@@ -33,9 +33,9 @@ public class DirectRecruitmentResourceServiceImpl extends RecruitmentResourceSer
 	public void checkValidation(DirectRecruitmentResourceDto directRecruitmentResource) {
 		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
 		
-		RecruitmentResource duplicatedEntry = recruitmentResourceRepo.findByNameAndIsDeleted(directRecruitmentResource.getName(),false);
+		RecruitmentResource duplicatedEntry = recruitmentResourceRepo.findByCodeAndIsDeleted(directRecruitmentResource.getCode(),false);
 		if (duplicatedEntry != null && !Objects.equals(directRecruitmentResource.getId(), duplicatedEntry.getId())) {
-			invalidFieldsException.addField(new InvalidField("name", "duplicated", "A directResource with this name already exists"));
+			invalidFieldsException.addField(new InvalidField("code", "duplicated", "A directResource with this code already exists"));
 		}
 		
 		if (invalidFieldsException.hasFields()) {

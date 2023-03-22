@@ -5,13 +5,12 @@ import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import team.ojt7.recruitment.model.dto.VacancySearch.Sort;
 import team.ojt7.recruitment.model.entity.Applicant.Status;
 
 public class ApplicantSearch {
 
 	public static int DEFAULT_PAGE = 1;
-	public static int DEFAULT_SIZE = 10;
+	public static int DEFAULT_SIZE = 30;
 
 	private String keyword;
 
@@ -24,15 +23,17 @@ public class ApplicantSearch {
 	private LocalDate dateTo;
 	private Integer page;
 	private Integer size;
-	private Sort sort = Sort.NEWEST;
+	private Sort sort = Sort.LAST_MODIFIED;
 
 	public enum Sort {
 		NEWEST("Newest", org.springframework.data.domain.Sort.by("createdDate").descending()),
 		OLDEST("Oldest", org.springframework.data.domain.Sort.by("createdDate").ascending()),
+		FIRST_MODIFIED("First Modified", org.springframework.data.domain.Sort.by("updatedOn").ascending()),
+		LAST_MODIFIED("Last Modified", org.springframework.data.domain.Sort.by("updatedOn").descending()),
 		NAME_A_Z("Name A to Z", org.springframework.data.domain.Sort.by("name").ascending()),
 		NAME_Z_A("Name Z to A", org.springframework.data.domain.Sort.by("name").descending()),
 		CODE_A_Z("Code A to Z", org.springframework.data.domain.Sort.by("code").ascending()),
-		CODE_Z_A("Code Z to A", org.springframework.data.domain.Sort.by("code").descending()),
+		CODE_Z_A("Code Z to A", org.springframework.data.domain.Sort.by("code").descending())
 		;
 
 		private String displayName;

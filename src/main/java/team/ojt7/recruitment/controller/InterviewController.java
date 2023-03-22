@@ -187,6 +187,17 @@ public class InterviewController {
 		return "interview-detail";
 	}
 	
+	@GetMapping("/interview/requirePositionDetail/detail")
+	public String showInterviewDetailFromRequirePositionDetail(
+			Long id,
+			Long requirePositionDetailId,
+			ModelMap model
+			) {
+		model.put("interview", interviewService.findById(id).get());
+		model.put("contextPage", "/requirePosition/detail?id=" + requirePositionDetailId);
+		return "interview-detail";
+	}
+	
 	@PostMapping("/interview/delete")
 	public String deleteInterview(@RequestParam("id") Long id,RedirectAttributes redirect) {
 		interviewService.deleteById(id);
