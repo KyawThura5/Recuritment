@@ -6,6 +6,8 @@ $(document).ready(function () {
 
 	initTeamSelector();
 
+    setMinDueDate();
+
     $("#btnAddNewPosition").click(addNewPositionEntry);
     listenRemovePositionEntry();
 
@@ -87,6 +89,16 @@ const addSelectSearch = () => {
             search: true
         });
     });
+}
+
+const setMinDueDate = () => {
+    let createdDateTime = document.getElementById("createdDateTime").value;
+    let minDate = new Date().toISOString().split("T")[0];
+    if (createdDateTime) {
+        minDate = createdDateTime.split(" ")[0];
+    }
+    let dueDateInput = document.getElementById("dueDate");
+    dueDateInput.min = minDate;
 }
 
 const addNewPositionEntry = () => {
