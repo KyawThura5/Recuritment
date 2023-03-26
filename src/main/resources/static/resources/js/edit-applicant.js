@@ -9,133 +9,160 @@ $(document).ready(function () {
 		});
 	});
 
-	var constraints = {
-        name: {
-            presence: {message : "^Enter name"},
-            length: {
-                maximum: 50,
-                message: "^Name must be maximum 50 characters"
-            }
-        },
-        code: {
-            presence: {message : "^Enter code"},
-            format : {
-                pattern : /^\S*$/,
-                message : "^Code cannot contain space"
-            },
-            length: {
-                maximum: 30,
-                message: "^Name must be maximum 30 characters"
-            }
-        },
-        phone : {
-            presence : {message : "^Enter phone number"},
-            format : {
-                pattern : /^\d+$/,
-                message : "^Enter valid phone number"
-            },
-            length : {
-                minimum : 6,
-                maximum : 16,
-                message : "^Phone number must be between 6 ant 16 digits"
-            }
-        },
-        email : {
-            presence : {message : "^Enter email"},
-            email : {message : "^Enter valid email"}
-        },
-        recruitmentResource : {
-            presence : {message : "^Select source"},
-        },
-        vacancy : {
-            presence : {message : "^Select vacancy"},
-        },
-        requirePosition : {
-            presence : {message : "^Select position"},
-        },
-        attachedFileName : {
-            presence  : {message : "^Choose cv file"}
-        },
-        education : {
-            length : {
-                maximum : 225,
-                message : "^Length cannot be exceed 225 characters"
-            }
-        },
-        experience : {
-            length : {
-                maximum : 225,
-                message : "^Length cannot be exceed 225 characters"
-            }
-        },
-        skill : {
-            length : {
-                maximum : 225,
-                message : "^Length cannot be exceed 225 characters"
-            }
-        },
-        address : {
-            length : {
-                maximum : 225,
-                message : "^Length cannot be exceed 225 characters"
-            }
-        }
-        
-    };
-
-    var form = document.getElementById("applicantForm");
+	var form = document.getElementById("applicantForm");
     form.addEventListener("submit", function(event) {
-        event.preventDefault();
+        validated(event);
+    });
+
+    $(".validated-input").on("input", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
+        }
+    });
+
+    $(".validated-input").on("change", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        console.log($(this).attr("id"));
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
+        }
+    });
+});
+
+var constraints = {
+    name: {
+        presence: {message : "^Enter name"},
+        length: {
+            maximum: 50,
+            message: "^Name must be maximum 50 characters"
+        }
+    },
+    code: {
+        presence: {message : "^Enter code"},
+        format : {
+            pattern : /^\S*$/,
+            message : "^Code cannot contain space"
+        },
+        length: {
+            maximum: 30,
+            message: "^Name must be maximum 30 characters"
+        }
+    },
+    phone : {
+        presence : {message : "^Enter phone number"},
+        format : {
+            pattern : /^\d+$/,
+            message : "^Enter valid phone number"
+        },
+        length : {
+            minimum : 6,
+            maximum : 16,
+            message : "^Phone number must be between 6 ant 16 digits"
+        }
+    },
+    email : {
+        presence : {message : "^Enter email"},
+        email : {message : "^Enter valid email"}
+    },
+    recruitmentResource : {
+        presence : {message : "^Select source"},
+    },
+    vacancy : {
+        presence : {message : "^Select vacancy"},
+    },
+    requirePosition : {
+        presence : {message : "^Select position"},
+    },
+    attachedFileName : {
+        presence  : {message : "^Choose cv file"}
+    },
+    education : {
+        length : {
+            maximum : 225,
+            message : "^Length cannot be exceed 225 characters"
+        }
+    },
+    experience : {
+        length : {
+            maximum : 225,
+            message : "^Length cannot be exceed 225 characters"
+        }
+    },
+    skill : {
+        length : {
+            maximum : 225,
+            message : "^Length cannot be exceed 225 characters"
+        }
+    },
+    address : {
+        length : {
+            maximum : 225,
+            message : "^Length cannot be exceed 225 characters"
+        }
+    }
+    
+};
+
+const validated = (event) => {
+    let form = document.getElementById("applicantForm");
+    event.preventDefault();
         let values = validate.collectFormValues(form);
         let validation = validate(values, constraints);
         
         let codeError = document.createElement("label");
         codeError.id = "codeError";
-        codeError.classList.add("text-danger");
+        codeError.classList.add("text-danger", "validated-label");
 
         let nameError = document.createElement("label");
         nameError.id = "nameError";
-        nameError.classList.add("text-danger");
+        nameError.classList.add("text-danger", "validated-label");
 
         let phoneError = document.createElement("label");
         phoneError.id = "phoneError";
-        phoneError.classList.add("text-danger");
+        phoneError.classList.add("text-danger", "validated-label");
 
         let emailError = document.createElement("label");
         emailError.id = "emailError";
-        emailError.classList.add("text-danger");
+        emailError.classList.add("text-danger", "validated-label");
 
         let recruitmentResourceError = document.createElement("label");
         recruitmentResourceError.id = "recruitmentResourceError";
-        recruitmentResourceError.classList.add("text-danger");
+        recruitmentResourceError.classList.add("text-danger", "validated-label");
 
         let vacancyError = document.createElement("label");
         vacancyError.id = "vacancyError";
-        vacancyError.classList.add("text-danger");
+        vacancyError.classList.add("text-danger", "validated-label");
 
         let requirePositionError = document.createElement("label");
         requirePositionError.id = "requirePositionError";
-        requirePositionError.classList.add("text-danger");
+        requirePositionError.classList.add("text-danger", "validated-label");
 
         let attachedFileNameError = document.createElement("label");
         attachedFileNameError.id = "attachedFileNameError";
-        attachedFileNameError.classList.add("text-danger");
+        attachedFileNameError.classList.add("text-danger", "validated-label");
 
         let educationError = document.createElement("label");
         educationError.id = "educationError";
-        educationError.classList.add("text-danger");
+        educationError.classList.add("text-danger", "validated-label");
 
         let experienceError = document.createElement("label");
         experienceError.id = "experienceError";
-        experienceError.classList.add("text-danger");
+        experienceError.classList.add("text-danger", "validated-label");
 
         let skillError = document.createElement("label");
         skillError.id = "skillError";
-        skillError.classList.add("text-danger");
+        skillError.classList.add("text-danger", "validated-label");
 
         let addressError = document.createElement("label");
         addressError.id = "addressError";
-        addressError.classList.add("text-danger");
+        addressError.classList.add("text-danger", "validated-label");
 
         if (validation) {
             checkValidation(codeError, "codeError", "code", validation.code);
@@ -153,9 +180,91 @@ $(document).ready(function () {
         } else {
             form.submit();
         }
+}
+
+const validatedEach = (event, inputId) => {
+    let form = document.getElementById("applicantForm");
+    event.preventDefault();
+    let values = validate.collectFormValues(form);
+    let validation = validate(values, constraints);
+    
+    let codeError = document.createElement("label");
+    codeError.id = "codeError";
+    codeError.classList.add("text-danger", "validated-label");
+
+    let nameError = document.createElement("label");
+    nameError.id = "nameError";
+    nameError.classList.add("text-danger", "validated-label");
+
+    let phoneError = document.createElement("label");
+    phoneError.id = "phoneError";
+    phoneError.classList.add("text-danger", "validated-label");
+
+    let emailError = document.createElement("label");
+    emailError.id = "emailError";
+    emailError.classList.add("text-danger", "validated-label");
+
+    let recruitmentResourceError = document.createElement("label");
+    recruitmentResourceError.id = "recruitmentResourceError";
+    recruitmentResourceError.classList.add("text-danger", "validated-label");
+
+    let vacancyError = document.createElement("label");
+    vacancyError.id = "vacancyError";
+    vacancyError.classList.add("text-danger", "validated-label");
+
+    let requirePositionError = document.createElement("label");
+    requirePositionError.id = "requirePositionError";
+    requirePositionError.classList.add("text-danger", "validated-label");
+
+    let attachedFileNameError = document.createElement("label");
+    attachedFileNameError.id = "attachedFileNameError";
+    attachedFileNameError.classList.add("text-danger", "validated-label");
+
+    let educationError = document.createElement("label");
+    educationError.id = "educationError";
+    educationError.classList.add("text-danger", "validated-label");
+
+    let experienceError = document.createElement("label");
+    experienceError.id = "experienceError";
+    experienceError.classList.add("text-danger", "validated-label");
+
+    let skillError = document.createElement("label");
+    skillError.id = "skillError";
+    skillError.classList.add("text-danger", "validated-label");
+
+    let addressError = document.createElement("label");
+    addressError.id = "addressError";
+    addressError.classList.add("text-danger", "validated-label");
+
+    if (validation) {
+        if (inputId == "code") {
+            checkValidation(codeError, "codeError", "code", validation.code);
+        } else if (inputId == "name") {
+            checkValidation(nameError, "nameError", "name", validation.name);
+        } else if (inputId == "phone") {
+            checkValidation(phoneError, "phoneError", "phone", validation.phone);
+        } else if (inputId == "email") {
+            checkValidation(emailError, "emailError", "email", validation.email);
+        } else if (inputId == "recruitmentResource") {
+            checkValidation(recruitmentResourceError, "recruitmentResourceError", "recruitmentResourceHelp", validation.recruitmentResource);
+        } else if (inputId == "vacancy") {
+            checkValidation(vacancyError, "vacancyError", "vacancyHelp", validation.vacancy);
+        } else if (inputId == "position") {
+            checkValidation(requirePositionError, "requirePositionError", "position", validation.requirePosition);
+        } else if (inputId == "cvFileInput") {
+            checkValidation(attachedFileNameError, "attachedFileNameError", "cv", validation.attachedFileName);
+        } else if (inputId == "education") {
+            checkValidation(educationError, "educationError", "education", validation.education);
+        } else if (inputId == "experience") {
+            checkValidation(experienceError, "experienceError", "experience", validation.experience);
+        } else if (inputId == "skill") {
+            checkValidation(skillError, "skillError", "skill", validation.skill);
+        } else if (inputId == "address") {
+            checkValidation(addressError, "addressError", "address", validation.address);
+        }
         
-    });
-});
+    }
+}
 
 const onCvFileChange = () => {
     let fileInput = $("#cvFileInput");

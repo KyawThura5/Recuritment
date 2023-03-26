@@ -20,6 +20,8 @@ $(document).ready(function () {
         }
     });
 
+    pareDateFromTo("dateFrom", "dateTo");
+
 });
 
     

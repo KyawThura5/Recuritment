@@ -33,52 +33,52 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                     <div class="row">
                         <div class="col-12 col-md-6 form-group my-2">
                             <label for="code" class="form-label">Code</label>
-                            <input id="code" type="text" class="form-control" th:field="*{code}">
-                            <label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" th:errorclass="text-danger"></label>
+                            <input id="code" type="text" class="form-control validated-input" th:field="*{code}">
+                            <label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 col-md-6 form-group my-2">
                             <label for="name" class="form-label">Name</label>
-                            <input id="name" type="text" class="form-control" th:field="*{name}">
-                            <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="text-danger"></label>
+                            <input id="name" type="text" class="form-control validated-input" th:field="*{name}">
+                            <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 col-md-6 form-group  my-2">
                             <label for="phone" class="form-label">Phone</label>
-                            <input id="phone" type="text" class="form-control"  th:field="*{phone}">
-                            <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" th:errorclass="text-danger"></label>
+                            <input id="phone" type="text" class="form-control validated-input"  th:field="*{phone}">
+                            <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 col-md-6 form-group my-2">
                             <label for="email" class="form-label">Email</label>
-                            <input id="email" type="text" class="form-control" th:field="*{email}">
-                            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="text-danger"></label>
+                            <input id="email" type="text" class="form-control validated-input" th:field="*{email}">
+                            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 col-md-6 form-group  my-2">
                             <label for="recruitmentResource" class="form-label">Recruitment Resource</label>
-                            <select id="recruitmentResource" class="form-select select-search" th:field="*{recruitmentResource}">
+                            <select id="recruitmentResource" class="form-select select-search validated-input" th:field="*{recruitmentResource}">
                                 <option value="">-- select a resource --</option>
                                 <option th:each="rr : ${recruitmentResources}" th:text="${rr.name}" th:value="${rr.id}"></option>
                             </select>
                             <div id="recruitmentResourceHelp"></div>
-                            <label th:if="${#fields.hasErrors('recruitmentResource')}" th:errors="*{recruitmentResource}" th:errorclass="text-danger"></label>
+                            <label th:if="${#fields.hasErrors('recruitmentResource')}" th:errors="*{recruitmentResource}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 col-md-6 form-group my-2">
                             <label for="vacancy" class="form-label">Vacancy</label>
-                            <select class="form-select select-search" id="vacancy" th:field="*{vacancy}">
+                            <select class="form-select select-search validated-input" id="vacancy" th:field="*{vacancy}">
                                 <option value="">-- select a Vacancy --</option>
                                 <option th:each="va : ${vacancy}" th:text="${va.code}" th:value="${va.id}"></option>
                             </select>
                             <div id="vacancyHelp"></div>
-                            <label th:if="${#fields.hasErrors('vacancy')}" th:errors="*{vacancy}" th:errorclass="text-danger"></label>
+                            <label th:if="${#fields.hasErrors('vacancy')}" th:errors="*{vacancy}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 form-group  my-2 ">
                             <label for="position" class="form-label">Position</label>
-                            <select id="position" class="form-select" th:field="*{requirePosition}">
+                            <select id="position" class="form-select validated-input" th:field="*{requirePosition}">
                                 <option value="">-- select a position --</option>
                                 <option th:each="requirePosition:${requirePositions}" th:value="${requirePosition.id}">
                                     [[${requirePosition.position.name + ' -> '  + requirePosition.team.name + ' -> ' + applicant.vacancy.department.name}]]
                                 </option>
                             </select>
                             
-                            <label th:if="${#fields.hasErrors('requirePosition')}" th:errors="*{requirePosition}" th:errorclass="text-danger"></label>
+                            <label th:if="${#fields.hasErrors('requirePosition')}" th:errors="*{requirePosition}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="cv" class="form-label">CV</label>
@@ -86,29 +86,30 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                                 <label class="input-group-text" for="cvFileInput">Choose File</label>
                                 <input id="attachedFileNameInput" type="hidden" th:value="*{attachedFileName}">
                                 <input id="cvFileNameInput" type="text" class="form-control bg-white" name="attachedFileName" th:value="*{attachedFileName}" disabled="disabled">
-                                <input id="cvFileInput" class="d-none" name="attachedFile" type="file" accept=".pdf,.docx" onchange="onCvFileChange()">
+                                <input id="cvFileInput" class="d-none validated-input" name="attachedFile" type="file" accept=".pdf,.docx" onchange="onCvFileChange()">
                             </div>
-                            <label th:if="${#fields.hasErrors('attachedUri')}" th:errors="*{attachedUri}" th:errorclass="text-danger"></label>
+                            <label th:if="${#fields.hasErrors('attachedUri')}" th:errors="*{attachedUri}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         
                         <div class="col-12 form-group my-2">
                             <label for="education" class="form-label">Education</label>
-                            <input id="education" type="text" class="form-control" th:field="*{education}">
-                            <label th:if="${#fields.hasErrors('education')}" th:errors="*{education}" th:errorclass="text-danger"></label>
+                            <input id="education" type="text" class="form-control validated-input" th:field="*{education}">
+                            <label th:if="${#fields.hasErrors('education')}" th:errors="*{education}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="experience" class="form-label">Experience</label>
-                            <textarea id="experience" class="form-control" th:field="*{experience}"></textarea>
-                            <label th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}" th:errorclass="text-danger"></label>
+                            <textarea id="experience" class="form-control validated-input" th:field="*{experience}"></textarea>
+                            <label th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="skill" class="form-label">Skills</label>
-                            <textarea id="skill" class="form-control" th:field="*{skill}"></textarea>
-                            <label th:if="${#fields.hasErrors('skill')}" th:errors="*{skill}" th:errorclass="text-danger"></label>
+                            <textarea id="skill" class="form-control validated-input" th:field="*{skill}"></textarea>
+                            <label th:if="${#fields.hasErrors('skill')}" th:errors="*{skill}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 form-group my-2">
                             <label for="address" class="form-label">Address</label>
-                            <textarea id="address" class="form-control" th:field="*{address}"></textarea>
+                            <textarea id="address" class="form-control validated-input" th:field="*{address}"></textarea>
+                            <label th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 mt-3 d-flex flex-row-reverse">
                             <button type="submit" class="btn btn-success ms-1">

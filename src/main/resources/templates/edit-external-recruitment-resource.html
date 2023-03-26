@@ -23,46 +23,46 @@
                     <input type="hidden" th:field="*{id}">
                     <div class="form-group col-12 col-xl-6 my-2">
                         <label for="code" class="form-label">Code</label>
-                        <input id="code" type="text" class="form-control" th:field="*{code}">
-                        <label th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}" class="text-danger"></label>
+                        <input id="code" type="text" class="form-control validated-input" th:field="*{code}">
+                        <label th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="form-group col-12 col-xl-6 my-2">
                         <label for="name" class="form-label">Name</label>
-                        <input id="name" type="text" class="form-control" th:field="*{name}">
-                        <label th:if="${#fields.hasErrors('name')}"  th:text="${#fields.errors('name')[__0__]}" class="text-danger"></label>
-                    </div>
-                    <div class="form-group col-12 col-xl-6 my-2">
-                        <label for="pic" class="form-label">PIC</label>
-                        <input id="pic" type="text" class="form-control" th:field="*{pic}">
-                        <label th:if="${#fields.hasErrors('pic')}"  th:text="${#fields.errors('pic')[__0__]}" class="text-danger"></label>
-                    </div>
-                    <div class="form-group col-12 col-xl-6 my-2">
-                        <label for="contactPerson" class="form-label">Contact Person</label>
-                        <input id="contactPerson" type="text" class="form-control" th:field="*{contactPerson}">
-                        <label th:if="${#fields.hasErrors('contactPerson')}"  th:text="${#fields.errors('contactPerson')[__0__]}" class="text-danger"></label>
-                    </div>
-                    <div class="form-group col-12 col-xl-6 my-2">
-                        <label for="phone" class="form-label">Phone</label>
-                        <input id="phone" type="text" class="form-control" th:field="*{phone}">
-                        <label th:if="${#fields.hasErrors('phone')}"  th:text="${#fields.errors('phone')[__0__]}" class="text-danger"></label>
-                    </div>
-                    <div class="form-group col-12 col-xl-6 my-2">
-                        <label for="email" class="form-label">Email</label>
-                        <input id="email" type="text" class="form-control" th:field="*{email}">
-                        <label th:if="${#fields.hasErrors('email')}"  th:text="${#fields.errors('email')[__0__]}" class="text-danger"></label>
+                        <input id="name" type="text" class="form-control validated-input" th:field="*{name}">
+                        <label th:if="${#fields.hasErrors('name')}"  th:text="${#fields.errors('name')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="form-group col-12 col-xl-6 my-2">
                         <label for="type" class="form-label">Type</label>
-                        <select id="type" class="form-select" th:field="*{type}">
+                        <select id="type" class="form-select validated-input" th:field="*{type}">
                             <option value="">-- select type --</option>
                             <option th:each="g:${T(team.ojt7.recruitment.model.entity.ExternalRecruitmentResource.Type).values()}" th:value="${g}" th:text="${g.displayName}"></option>
                         </select>
-                        <label th:if="${#fields.hasErrors('type')}"  th:text="${#fields.errors('type')[__0__]}" class="text-danger"></label>
+                        <label th:if="${#fields.hasErrors('type')}"  th:text="${#fields.errors('type')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="form-group col-12 col-xl-6 my-2">
                         <label for="websiteLink" class="form-label">Website</label>
-                        <input id="websiteLink" type="text" class="form-control" th:field="*{websiteLink}">
-                        <label th:if="${#fields.hasErrors('websiteLink')}"  th:text="${#fields.errors('websiteLink')[__0__]}" class="text-danger"></label>
+                        <input id="websiteLink" type="text" class="form-control validated-input" th:field="*{websiteLink}">
+                        <label th:if="${#fields.hasErrors('websiteLink')}"  th:text="${#fields.errors('websiteLink')[__0__]}" class="text-danger validated-label"></label>
+                    </div>
+                    <div class="form-group col-12 col-xl-6 my-2">
+                        <label for="pic" class="form-label">Person In Charge</label>
+                        <input id="pic" type="text" class="form-control validated-input" th:field="*{pic}">
+                        <label th:if="${#fields.hasErrors('pic')}"  th:text="${#fields.errors('pic')[__0__]}" class="text-danger validated-label"></label>
+                    </div>
+                    <div class="form-group col-12 col-xl-6 my-2">
+                        <label for="contactPerson" class="form-label">Contact Person</label>
+                        <input id="contactPerson" type="text" class="form-control validated-input" th:field="*{contactPerson}">
+                        <label th:if="${#fields.hasErrors('contactPerson')}"  th:text="${#fields.errors('contactPerson')[__0__]}" class="text-danger validated-label"></label>
+                    </div>
+                    <div class="form-group col-12 col-xl-6 my-2">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input id="phone" type="text" class="form-control validated-input" th:field="*{phone}">
+                        <label th:if="${#fields.hasErrors('phone')}"  th:text="${#fields.errors('phone')[__0__]}" class="text-danger validated-label"></label>
+                    </div>
+                    <div class="form-group col-12 col-xl-6 my-2">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="text" class="form-control validated-input" th:field="*{email}">
+                        <label th:if="${#fields.hasErrors('email')}"  th:text="${#fields.errors('email')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="col-12 d-flex flex-row-reverse mt-3">
                         <button type="submit" class="btn btn-success ms-1">

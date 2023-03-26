@@ -10,7 +10,28 @@ $(document).ready(function() {
         }
         window.setTimeout(closeAlert, 5000);
     }
-   var constraints = {
+   
+
+    var form = document.getElementById("recruitmentResourceForm");
+    form.addEventListener("submit", function(event) {
+        validated(event);
+    });
+
+    $(".validated-input").on("input", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
+        }
+    });
+
+});
+
+const validated = (event) => {
+
+    var constraints = {
         name: {
             presence: {message : "^Enter name"},
             length: {
@@ -32,9 +53,8 @@ $(document).ready(function() {
         
     };
 
-    var form = document.getElementById("recruitmentResourceForm");
-    form.addEventListener("submit", function(event) {
-        event.preventDefault();
+    let form = document.getElementById("recruitmentResourceForm");
+    event.preventDefault();
         let values = validate.collectFormValues(form);
         let validation = validate(values, constraints);
         let codeError = document.createElement("label");
@@ -43,9 +63,7 @@ $(document).ready(function() {
         
         let nameError = document.createElement("label");
         nameError.id = "nameError";
-        nameError.classList.add("text-danger");
-
-       
+        nameError.classList.add("text-danger", "validated-label");
 
         if (validation) {
 	        checkValidation(codeError, "codeError", "code", validation.code);
@@ -75,9 +93,52 @@ $(document).ready(function() {
             }
             );
         }
+}
+
+const validatedEach = (event, inputId) => {
+
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        code: {
+            presence: {message : "^Enter code"},
+            format : {
+                pattern : /^\S*$/,
+                message : "^Code cannot contain space"
+            },
+            length: {
+                maximum: 30,
+                message: "^Name must be maximum 30 characters"
+            }
+        }
         
-    });
-});
+    };
+
+    let form = document.getElementById("recruitmentResourceForm");
+    event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
+        let codeError = document.createElement("label");
+        codeError.id = "codeError";
+        codeError.classList.add("text-danger");
+        
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger", "validated-label");
+
+        if (validation) {
+            if (inputId == "code") {
+                checkValidation(codeError, "codeError", "code", validation.code);
+            } else if (inputId == "name") {
+                checkValidation(nameError, "nameError", "name", validation.name);
+            }
+        }
+}
 
 
 function showEditDirectRecruitmentResourceModal(id) {

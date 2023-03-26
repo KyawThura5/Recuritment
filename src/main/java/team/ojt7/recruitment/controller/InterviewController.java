@@ -159,6 +159,10 @@ public class InterviewController {
 		if(bs.hasErrors()) {
 			String title = dto.getId() == null ? "Create Interview" : "Edit Interview";
 			model.put("title", title);
+			model.put("interviewNames",interviewNameService.findAllForInterview(dto));
+			model.put("contextPage", "/interview/search");
+			List<ApplicantDto> applicants = dto.getId() == null ? applicantService.getAllAvailableForNewInterview() : List.of(dto.getApplicant());
+			model.put("applicants", applicants);
 			return "edit-interview";
 		}
 		

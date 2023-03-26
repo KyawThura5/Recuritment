@@ -32,7 +32,7 @@
 
 						<div class="col-12 form-group">
 							<label for="name" class="form-label">Name</label> 
-							<input type="text" class="form-control " id="name" name="name" />
+							<input type="text" class="form-control validated-input" id="name" name="name" />
 
 						</div>
 
@@ -283,14 +283,29 @@ var constraints = {
 
     var form = document.getElementById("interviewNameForm");
     form.addEventListener("submit", function(event) {
-        event.preventDefault();
+        validated(event);
+        
+    });
+
+	$(".validated-input").on("input", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
+        }
+    });
+
+	const validated = (event) => {
+		let form = document.getElementById("interviewNameForm");
+		event.preventDefault();
         let values = validate.collectFormValues(form);
         let validation = validate(values, constraints);
         
         let nameError = document.createElement("label");
         nameError.id = "nameError";
-        nameError.classList.add("text-danger");
-
+        nameError.classList.add("text-danger", "validated-label");
        
 
         if (validation) {
@@ -321,8 +336,26 @@ var constraints = {
             }
             );
         }
+	}
+
+	const validatedEach = (event, inputId) => {
+		let form = document.getElementById("interviewNameForm");
+		event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
         
-    });
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger", "validated-label");
+       
+
+        if (validation) {
+			if (inputId == "name") {
+				checkValidation(nameError, "nameError", "name", validation.name);
+			}
+           
+        }
+	}
 
     const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
         if (validation) {

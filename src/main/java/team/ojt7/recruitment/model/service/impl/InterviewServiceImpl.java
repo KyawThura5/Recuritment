@@ -3,6 +3,7 @@ package team.ojt7.recruitment.model.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,8 @@ import team.ojt7.recruitment.model.repo.ApplicantRepo;
 import team.ojt7.recruitment.model.repo.InterviewRepo;
 import team.ojt7.recruitment.model.service.ApplicantStatusChangeHistoryService;
 import team.ojt7.recruitment.model.service.InterviewService;
+import team.ojt7.recruitment.model.service.exception.InvalidField;
+import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
 import team.ojt7.recruitment.util.generator.InterviewCodeGenerator;
 
 @Service
@@ -63,6 +66,17 @@ public class InterviewServiceImpl implements InterviewService {
 	@Override
 	@Transactional
 	public InterviewDto save(Interview interview) {
+		InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
+		
+		Interview duplicatedEntry = interviewRepo.findByCode(interview.getCode());
+		if (duplicatedEntry != null && !Objects.equals(interview.getId(), duplicatedEntry.getId())) {
+			invalidFieldsException.addField(new InvalidField("code", "duplicated", "An interview with this code already exists"));
+		}
+		
+		if (invalidFieldsException.hasFields()) {
+			throw invalidFieldsException;
+		}
+		
 		if (interview.getId() != null) {
 			Interview original = interviewRepo.findById(interview.getId()).get();
 			interview.setCreatedDateTime(original.getCreatedDateTime());

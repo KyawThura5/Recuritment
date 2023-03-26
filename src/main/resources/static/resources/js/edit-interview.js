@@ -5,6 +5,8 @@ $(document).ready(function () {
 			search: true
 		});
 	});
+
+	setMinInterviewDate();
 	
 	
 var constraints={
@@ -72,3 +74,26 @@ form.addEventListener("submit",function(event){
 	}
 });
 });
+
+const setMinInterviewDate = () => {
+    let createdDateTime = document.getElementById("createdDateTime").value;
+    let minDate = new Date().toISOString().split("T")[0];
+	let minTime = new Date().toISOString().split("T")[1];
+    if (createdDateTime) {
+        minDate = createdDateTime.split("T")[0];
+		minTime = createdDateTime.split("T")[1];
+    }
+	console.log(minTime);
+    let interviewDateInput = document.getElementById("date");
+    interviewDateInput.min = minDate;
+	let interviewTimeInput = document.getElementById("time");
+    interviewTimeInput.min = minTime;
+
+	$("#time").on("change", function(e) {
+		if ($(this).val() < $(this).attr("min")) {
+		  $(this).val($(this).attr("min"));
+		} else if ($(this).val() > $(this).attr("max")) {
+		  $(this).val($(this).attr("min"));
+		}
+	  });
+}

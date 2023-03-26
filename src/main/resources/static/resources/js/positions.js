@@ -10,29 +10,45 @@ $(document).ready(function() {
         }
         window.setTimeout(closeAlert, 5000);
     }
-
-    
-    
-    var constraints = {
-            name: {
-                presence: {message : "^Enter name"},
-                length: {
-                    maximum: 50,
-                    message: "^Name must be maximum 50 characters"
-                }
-            },
-            
-        };
     
     var form = document.getElementById("positionForm");
     form.addEventListener("submit", function(event) {
-        event.preventDefault();
+        validated(event);
+    });
+
+    $(".validated-input").on("input", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
+        }
+    });
+
+});
+
+const validated = (event) => {
+
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        
+    };
+
+    event.preventDefault();
+        let form = document.getElementById("positionForm")
         let values = validate.collectFormValues(form);
         let validation = validate(values, constraints);
         
         let nameError = document.createElement("label");
         nameError.id = "nameError";
-        nameError.classList.add("text-danger");
+        nameError.classList.add("text-danger", "validated-label");
 
         if (validation) {
             checkValidation(nameError, "nameError", "name", validation.name);
@@ -61,10 +77,35 @@ $(document).ready(function() {
             }
             );
         }
-        
-    });
-});
+}
 
+const validatedEach = (event, inputId) => {
+
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        
+    };
+
+    event.preventDefault();
+        let values = validate.collectFormValues(document.getElementById("positionForm"));
+        let validation = validate(values, constraints);
+        
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger", "validated-label");
+
+        if (validation) {
+            if (inputId == "name") {
+                checkValidation(nameError, "nameError", "name", validation.name);
+            }
+        }
+}
 
 function showEditPositionModal(id) {
 

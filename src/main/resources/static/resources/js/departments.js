@@ -11,60 +11,102 @@ $(document).ready(function () {
             window.setTimeout(closeAlert, 5000);
         }
 
-        
-        
-        var constraints = {
-                name: {
-                    presence: {message : "^Enter name"},
-                    length: {
-                        maximum: 50,
-                        message: "^Name must be maximum 50 characters"
-                    }
-                },
-                
-            };
-        
         var form = document.getElementById("departmentForm");
         form.addEventListener("submit", function(event) {
-            event.preventDefault();
-            let values = validate.collectFormValues(form);
-            let validation = validate(values, constraints);
-            
-            let nameError = document.createElement("label");
-            nameError.id = "nameError";
-            nameError.classList.add("text-danger");
+            validated(event);
+        });
 
-            if (validation) {
-                checkValidation(nameError, "nameError", "name", validation.name);
-            } else {
-                $.ajax({
-                    type:"POST",
-                    url: "/department/validate",
-                    data: $("#departmentForm").serialize(),
-                    dataType: "json",
-                    cache: false,
-                    timeout: 600000,
-                    success: function (data) {
-                        console.log(data);
-                        console.log(Object.keys(data).length)
-                        if (Object.keys(data).length === 0) {
-                            form.submit();
-                        } else {
-                            checkServerValidation(nameError, "nameError", "name", data.name);
-                            
-                        }
-                    },
-                    error: function (e) {
-
-                        console.log('error');
-                    }
-                }
-                );
+        $(".validated-input").on("input", function(event) {
+            let labels = $(event.target.parentElement).find(".validated-label");
+            labels.each((i, l) => {
+                l.parentNode.removeChild(l);
+            });
+            if ($(this).val()) {
+                validatedEach(event, $(this).attr("id"));
             }
-            
         });
     }
 );
+
+
+const validated = (event) => {
+
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        
+    };
+
+    let form = document.getElementById("departmentForm");
+    event.preventDefault();
+    let values = validate.collectFormValues(form);
+    let validation = validate(values, constraints);
+    
+    let nameError = document.createElement("label");
+    nameError.id = "nameError";
+    nameError.classList.add("text-danger", "validated-label");
+
+    if (validation) {
+        checkValidation(nameError, "nameError", "name", validation.name);
+    } else {
+        $.ajax({
+            type:"POST",
+            url: "/department/validate",
+            data: $("#departmentForm").serialize(),
+            dataType: "json",
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                console.log(data);
+                console.log(Object.keys(data).length)
+                if (Object.keys(data).length === 0) {
+                    form.submit();
+                } else {
+                    checkServerValidation(nameError, "nameError", "name", data.name);
+                    
+                }
+            },
+            error: function (e) {
+
+                console.log('error');
+            }
+        }
+        );
+    }
+}
+
+const validatedEach = (event, inputId) => {
+
+    var constraints = {
+        name: {
+            presence: {message : "^Enter name"},
+            length: {
+                maximum: 50,
+                message: "^Name must be maximum 50 characters"
+            }
+        },
+        
+    };
+
+    event.preventDefault();
+    let values = validate.collectFormValues(document.getElementById("departmentForm"));
+    let validation = validate(values, constraints);
+    
+    let nameError = document.createElement("label");
+    nameError.id = "nameError";
+    nameError.classList.add("text-danger", "validated-label");
+
+    if (validation) {
+        if (inputId == "name") {
+            checkValidation(nameError, "nameError", "name", validation.name);
+        }
+    }
+}
 
 const loadDataOfForm = (data) => {
     $.ajax({

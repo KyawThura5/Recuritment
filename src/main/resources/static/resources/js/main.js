@@ -12,3 +12,19 @@ function closeModal(id) {
 function changePageSize() {
     $("#searchForm").submit();
 }
+
+function pareDateFromTo(dateFromId, dateToId) {
+    let dateFromInput = document.getElementById(dateFromId);
+    let dateToInput = document.getElementById(dateToId);
+    let dateFrom = dateFromInput.value;
+    let dateTo = dateToInput.value;
+    
+    if (dateFrom) {
+        dateToInput.min = dateFrom;
+    }
+
+    if (dateTo) {
+        dateFromInput.max = dateTo;
+    }
+
+}
