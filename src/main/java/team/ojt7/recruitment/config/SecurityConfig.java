@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import team.ojt7.recruitment.security.LoginFailureHandler;
 import team.ojt7.recruitment.security.LoginSuccessHandler;
 
 @Configuration
@@ -25,6 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
 	
+	@Autowired
+	private LoginFailureHandler loginFailureHandler;
+	
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
@@ -36,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
             .passwordEncoder(passwordEncoder())
             .dataSource(dataSource)
-            .usersByUsernameQuery("SELECT `code`, `password`,if(`is_deleted` = 0, true, false) FROM `user` WHERE `code` = ? and `status`='ACTIVE'")
+            .usersByUsernameQuery("SELECT `code`, `password`,if(`status` = 'ACTIVE', true, false) FROM `user` WHERE `code` = ? and `is_deleted`=false")
             .authoritiesByUsernameQuery("SELECT `code`, `role` FROM `user` WHERE `code` = ?");
     }
 
@@ -58,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/vacancy/**").hasAuthority("DEPARTMENT_HEAD")
             .antMatchers("/applicant/search").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
             .antMatchers("/applicant/**").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
+            .antMatchers("/report/**").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
             .antMatchers("/login", "/resources/**").permitAll()
             .antMatchers("/api/**").permitAll()
             .antMatchers("/", "/profile/**").authenticated();
@@ -67,7 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .loginProcessingUrl("/login")
             .usernameParameter("employeeCode")
             .passwordParameter("password")
-            .successHandler(loginSuccessHandler);
+            .successHandler(loginSuccessHandler)
+            .failureHandler(loginFailureHandler);
         
 
         http.logout()
