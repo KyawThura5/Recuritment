@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -39,6 +38,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 		
 		keyword = keyword == null ? "%%" : "%" + keyword + "%";
 		List<Department> departments=departmentRepo.search(keyword);
+		for (Department dept : departments) {
+			dept.setTeams(
+					dept.getTeams().stream().filter(t -> !t.isDeleted()).toList()
+					);
+		}
 		return DepartmentDto.ofList(departments);
 		
 	}
@@ -105,6 +109,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 		
 		Page<Department> departmentPage = departmentRepo.search(keyword, pageable);
 		
+		for (Department dept : departmentPage.getContent()) {
+			dept.setTeams(
+					dept.getTeams().stream().filter(t -> !t.isDeleted()).toList()
+					);
+		}
+		
 		Page<DepartmentDto> departmentDtoPage = new PageImpl<>(DepartmentDto.ofList(departmentPage.getContent()), pageable, departmentPage.getTotalElements());
 		return departmentDtoPage;
 	}
@@ -135,6 +145,21 @@ InvalidFieldsException invalidFieldsException = new InvalidFieldsException();
 		if (invalidFieldsException.hasFields()) {
 			throw invalidFieldsException;
 		}
+	}
+
+	@Override
+	public DepartmentDto getDepartmentDetail(Long id, String keyword) {
+		DepartmentDto department = findById(id).orElse(null);
+		List<TeamDto> teams = department.getTeams().stream().filter(
+					t -> {
+						if (StringUtils.hasLength(keyword)) {
+							return t.getName().toLowerCase().contains(keyword.toLowerCase());
+						}
+						return true;
+					}
+				).toList();
+		department.setTeams(teams);
+		return department;
 	}
 
 }
