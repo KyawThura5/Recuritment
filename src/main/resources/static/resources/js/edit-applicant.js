@@ -19,7 +19,7 @@ $(document).ready(function () {
         labels.each((i, l) => {
             l.parentNode.removeChild(l);
         });
-        if ($(this).val()) {
+        if ($(this).attr("id") != "cvFileInput" && $(this).val()) {
             validatedEach(event, $(this).attr("id"));
         }
     });

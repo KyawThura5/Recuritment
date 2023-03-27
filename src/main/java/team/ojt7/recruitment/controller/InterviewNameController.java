@@ -1,7 +1,7 @@
 package team.ojt7.recruitment.controller;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team.ojt7.recruitment.model.dto.Alert;
-import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.InterviewNameDto;
 import team.ojt7.recruitment.model.dto.InterviewNameSearch;
-import team.ojt7.recruitment.model.dto.TeamDto;
 import team.ojt7.recruitment.model.service.InterviewNameService;
 import team.ojt7.recruitment.model.service.exception.InvalidField;
 import team.ojt7.recruitment.model.service.exception.InvalidFieldsException;
@@ -64,7 +62,7 @@ public class InterviewNameController {
 		Map<String, Object> data = new HashMap<>();
 		InterviewNameDto interviewNameDto = interviewService.findById(id).orElse(new InterviewNameDto());
 		data.put("interviewName", interviewNameDto);
-		String title = interviewNameDto.getId() == null ? "Add Interview Title" : "Edit Interview Title";
+		String title = interviewNameDto.getId() == null ? "Add Interview Name" : "Edit Interview Name";
 		data.put("title", title);
 		return ResponseEntity.ok(data);
 	}

@@ -5,7 +5,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Positions</title>
+    <title>Job Positions</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
@@ -55,7 +55,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     
     
     <main class="container p-3">
-        <h2 class="fs-5 fw-bold mb-3">Positions</h2>
+        <h2 class="fs-5 fw-bold mb-3">Job Positions</h2>
         <form id="searchForm" class="row" th:action="@{/position/search}" th:object="${positionSearch}">
             <div class="col col-md-auto">
                 <div class="input-group">

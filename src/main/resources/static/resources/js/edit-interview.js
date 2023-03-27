@@ -9,6 +9,35 @@ $(document).ready(function () {
 	setMinInterviewDate();
 	
 	
+
+	var form=document.getElementById("interviewForm");
+	console.log(form);
+	form.addEventListener("submit",function(event){
+		validated(event)
+	});
+
+	$(".validated-input").on("input", function(event) {
+		let labels = $(event.target.parentElement).find(".validated-label");
+		labels.each((i, l) => {
+			l.parentNode.removeChild(l);
+		});
+		if ($(this).val()) {
+			validatedEach(event, $(this).attr("id"));
+		}
+	});
+
+	$(".validated-input").on("change", function(event) {
+		let labels = $(event.target.parentElement).find(".validated-label");
+		labels.each((i, l) => {
+			l.parentNode.removeChild(l);
+		});
+		console.log($(this).attr("id"));
+		if ($(this).val()) {
+			validatedEach(event, $(this).attr("id"));
+		}
+	});
+});
+
 var constraints={
 	code:{
 		presence: {message:"^Enter code"},
@@ -35,32 +64,32 @@ var constraints={
 		presence : {message : "^Select time"}
 	}
 }
-var form=document.getElementById("interviewForm");
-console.log(form);
-form.addEventListener("submit",function(event){
+
+const validated = (event) => {
+	let form=document.getElementById("interviewForm");
 	event.preventDefault();
 	let values=validate.collectFormValues(form);
 	let validation=validate(values,constraints);
 	
 	let codeError=document.createElement("label");
 	codeError.id="codeError";
-	codeError.classList.add("text-danger");
+	codeError.classList.add("text-danger", "validated-label");
 	
 	let interviewNameError=document.createElement("label");
 	interviewNameError.id="interviewNameError";
-	interviewNameError.classList.add("text-danger");
+	interviewNameError.classList.add("text-danger", "validated-label");
 	
 	let applicantError=document.createElement("label");
 	applicantError.id="applicantError";
-	applicantError.classList.add("text-danger");
+	applicantError.classList.add("text-danger", "validated-label");
 	
 	let dateError=document.createElement("label");
 	dateError.id="dateError";
-	dateError.classList.add("text-danger");
+	dateError.classList.add("text-danger", "validated-label");
 	
 	let timeError=document.createElement("label");
 	timeError.id="timeError";
-	timeError.classList.add("text-danger");
+	timeError.classList.add("text-danger", "validated-label");
 	if(validation){
 		console.log(validation);
 	 checkValidation(codeError, "codeError", "code", validation.code);
@@ -72,13 +101,47 @@ form.addEventListener("submit",function(event){
 	else{
 		form.submit();
 	}
-});
-});
+}
+
+const validatedEach = (event) => {
+	let form=document.getElementById("interviewForm");
+	event.preventDefault();
+	let values=validate.collectFormValues(form);
+	let validation=validate(values,constraints);
+	
+	let codeError=document.createElement("label");
+	codeError.id="codeError";
+	codeError.classList.add("text-danger", "validated-label");
+	
+	let interviewNameError=document.createElement("label");
+	interviewNameError.id="interviewNameError";
+	interviewNameError.classList.add("text-danger", "validated-label");
+	
+	let applicantError=document.createElement("label");
+	applicantError.id="applicantError";
+	applicantError.classList.add("text-danger", "validated-label");
+	
+	let dateError=document.createElement("label");
+	dateError.id="dateError";
+	dateError.classList.add("text-danger", "validated-label");
+	
+	let timeError=document.createElement("label");
+	timeError.id="timeError";
+	timeError.classList.add("text-danger", "validated-label");
+	if(validation){
+		console.log(validation);
+	 checkValidation(codeError, "codeError", "code", validation.code);
+	checkValidation(interviewNameError, "interviewNameError","interviewNameHelp", validation.interviewName);
+	checkValidation(applicantError, "applicantError","applicantHelp", validation.applicant);
+	checkValidation(dateError, "dateError", "date", validation.localDate);
+	checkValidation(timeError, "timeError", "time", validation.localTime);
+	}
+}
 
 const setMinInterviewDate = () => {
     let createdDateTime = document.getElementById("createdDateTime").value;
     let minDate = new Date().toISOString().split("T")[0];
-	let minTime = new Date().toISOString().split("T")[1];
+	let minTime =  "";
     if (createdDateTime) {
         minDate = createdDateTime.split("T")[0];
 		minTime = createdDateTime.split("T")[1];
