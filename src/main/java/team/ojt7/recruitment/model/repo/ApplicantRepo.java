@@ -64,7 +64,7 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
     @Query(
     		value = """
     				SELECT a FROM Applicant a where 
-    				(code LIKE :keyword  OR name LIKE :keyword)
+    				(code LIKE :keyword  OR name LIKE :keyword OR email LIKE :keyword OR a.requirePosition.position.name LIKE :keyword OR a.recruitmentResource.name LIKE :keyword OR a.vacancy.code LIKE :keyword OR phone LIKE :keyword)
     				AND (:status is null OR status = :status)
     				AND (:dateFrom is null OR createdDate >= :dateFrom) 
     				AND (:dateTo is null OR createdDate <= :dateTo) 
@@ -72,7 +72,7 @@ public interface ApplicantRepo extends JpaRepository<Applicant,Long>{
     				""",
     		countQuery = """
     				SELECT COUNT(a) FROM Applicant a where
-    				(code LIKE :keyword  OR name LIKE :keyword)
+    				(code LIKE :keyword  OR name LIKE :keyword OR email LIKE :keyword OR a.requirePosition.position.name LIKE :keyword OR a.recruitmentResource.name LIKE :keyword OR a.vacancy.code LIKE :keyword OR phone LIKE :keyword)
     				AND (:status is null OR status = :status)
     				AND (:dateFrom is null OR createdDate >= :dateFrom)
     				AND (:dateTo is null OR createdDate <= :dateTo)
