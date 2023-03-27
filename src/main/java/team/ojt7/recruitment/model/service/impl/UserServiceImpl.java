@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
 		String keyword  = userSearch.getKeyword() == null ? "%%" : "%" + userSearch.getKeyword() + "%";
 		Role role = userSearch.getRole();
 		Status status = userSearch.getStatus();
-		Pageable pageable = PageRequest.of(userSearch.getPage() - 1, userSearch.getSize());
+		Pageable pageable = PageRequest.of(userSearch.getPage() - 1, userSearch.getSize(), userSearch.getSort().getSort());
 		
 		Page<User> userPage = userRepo.search(keyword, role,status, pageable);
 		

@@ -1,9 +1,5 @@
 package team.ojt7.recruitment.model.dto;
 
-import java.util.List;
-import java.util.function.BinaryOperator;
-import java.util.stream.Collectors;
-
 public class DemandPositionDto {
 	
 	public void test() {

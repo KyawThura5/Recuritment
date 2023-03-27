@@ -134,6 +134,16 @@ public class UserDto {
 	public String getName() {
 		return name;
 	}
+	
+	public String getShortPrefixName() {
+		String[] nameTokens = name.split(" ");
+		if (nameTokens.length >= 2) {
+			return "" + nameTokens[0].charAt(0) + nameTokens[1].charAt(0);
+		} else if (name.length() >= 2) {
+			return name.substring(0, 2);
+		}
+		return name;
+	}
 
 	public void setName(String name) {
 		this.name = name;

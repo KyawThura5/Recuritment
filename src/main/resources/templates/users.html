@@ -74,6 +74,15 @@
 						th:value="${s}" th:text="${s}" th:selected="${s == userPage.size}"></option>
 				</select>
 			</div>
+            <div class="col-auto">
+                <select form="searchForm" class="form-select" name="sort" th:value="${userSearch.sort}" onchange="changePageSize()">
+                    <option
+                        th:each="s:${T(team.ojt7.recruitment.model.dto.UserSearch.Sort).values()}"
+                        th:value="${s}" th:selected="${s.name() == userSearch.sort.name()}">
+                        [[${s.displayName}]]
+                    </option>
+                </select>
+            </div>
 
 		</div>
 
@@ -105,9 +114,12 @@
                     <div class="card-body">
                         <div class="d-flex text-black align-items-center">
                             <div class="flex-shrink-0">
-                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                <span class="border rounded-circle fw-bold p-2 d-inline-block text-center text-light" th:classappend="${user.status.name() == 'ACTIVE' ? 'bg-success' : 'bg-danger'}" style="width: 47px; border-radius: 50%; height: 47px;">
+                                    [[${user.shortPrefixName}]]
+                                </span>
+                                <!-- <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                                 alt="Generic placeholder image" class="img-fluid border rounded-circle border-2" th:classappend="${user.status.name() == 'ACTIVE' ? 'border-success' : 'border-danger'}"
-                                style="width: 50px; border-radius: 50%;">
+                                style="width: 50px; border-radius: 50%;"> -->
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <div class="row">
