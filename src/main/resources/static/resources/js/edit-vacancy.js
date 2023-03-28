@@ -49,8 +49,9 @@ var constraints = {
             message : "^Code cannot contain space"
         },
         length: {
+            minimum: 6,
             maximum: 30,
-            message: "^Name must be maximum 30 characters"
+            message: "^Code must be between 6 and 30 characters"
         }
     },
     department : {
@@ -64,8 +65,8 @@ var constraints = {
     },
     comment : {
         length : {
-            maximum : 255,
-            message : "^Maximum length is 255"
+            maximum : 1000,
+            message : "^Maximum length is 1000"
         }
     }
     

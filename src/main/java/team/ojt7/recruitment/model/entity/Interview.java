@@ -32,6 +32,8 @@ public class Interview implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	
+	@Column(name = "comment", columnDefinition = "VARCHAR(500)")
 	private String comment;
 
 	@Column(name = "date_time")

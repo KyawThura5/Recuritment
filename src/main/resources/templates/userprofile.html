@@ -44,8 +44,9 @@
           <div class="row g-0">
             <div class="col-lg-4 gradient-custom text-center text-white"
               style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-              <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                alt="Avatar" class="img-fluid mt-3 mb-3" style="width: 70px;" />
+              <span class="border rounded-circle fs-6 fw-bold p-4 d-inline-block text-center text-light my-3" th:classappend="${user.status.name() == 'ACTIVE' ? 'bg-success' : 'bg-danger'}" style="width: 80px; border-radius: 50%; height: 80px;">
+                [[${user.shortPrefixName}]]
+            </span>
               <h5 style="color:black" th:text="${user.name}"></h5>
               <p class="text-success">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-award-fill" viewBox="0 0 16 16">

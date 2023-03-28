@@ -8,10 +8,12 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interviews</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/resources/js/interviews.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/custom-validation.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/statusDailog.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/interview-detail.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
     <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
@@ -68,7 +70,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                     
                             <div class="col-form-group mt-3">
                                 <label for="remark" class="form-label">Comment</label>
-                                <textarea id="remark" class="form-control" name="comment"></textarea>
+                                <textarea id="remark" class="form-control validated-input" name="comment"></textarea>
                             </div>
 
                             <input id="applicantStatusCheck" name="applicantStatusCheck" type="checkbox" class="mt-3">
@@ -120,7 +122,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
                                 <div class="form-group mt-3">
                                     <label for="applicantStatusComment" class="form-label">Remark</label>
-                                    <textarea name="applicantStatusComment" id="applicantStatusComment" class="form-control">
+                                    <textarea name="applicantStatusComment" id="applicantStatusComment" class="form-control validated-input">
                                     </textarea>
                                 </div>
                             </div>

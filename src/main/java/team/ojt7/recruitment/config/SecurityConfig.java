@@ -66,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/report/**").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
             .antMatchers("/login", "/resources/**").permitAll()
             .antMatchers("/api/**").permitAll()
+            .antMatchers("/storage/**").hasAnyAuthority("GENERAL_MANAGER", "DEPARTMENT_HEAD", "PROJECT_MANAGER", "HIRING_MANAGER")
             .antMatchers("/", "/profile/**").authenticated();
 
         http.formLogin()

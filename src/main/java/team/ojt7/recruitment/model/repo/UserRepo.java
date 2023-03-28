@@ -35,6 +35,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	
 	Optional<User> findOneByStatus(String status);
 	
+	Long countByStatus(Status status);
+	
 	@Modifying
 	@Query("UPDATE User SET password = :password WHERE id = :id")
 	void updatePasswordById(

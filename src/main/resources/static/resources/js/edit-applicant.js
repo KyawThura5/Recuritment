@@ -51,8 +51,9 @@ var constraints = {
             message : "^Code cannot contain space"
         },
         length: {
+            minimum: 6,
             maximum: 30,
-            message: "^Name must be maximum 30 characters"
+            message: "^Code must be between 6 and 30 characters"
         }
     },
     phone : {

@@ -47,6 +47,7 @@ public class Vacancy implements Serializable {
 	@Column(nullable = false, columnDefinition = "VARCHAR(100) DEFAULT 'OPENING'")
 	private Status status;
 
+	@Column(name = "comment", columnDefinition = "VARCHAR(1000)")
 	private String comment;
 
 	@Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
