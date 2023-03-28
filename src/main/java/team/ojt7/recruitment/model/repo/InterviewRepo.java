@@ -19,6 +19,8 @@ public interface InterviewRepo extends JpaRepository<Interview, Long> {
 	Long findMaxId();
 	
 	Long countByStatus(Status status);
+	
+	Interview findByCode(String code);
 	 
 	@Query(
 		value=

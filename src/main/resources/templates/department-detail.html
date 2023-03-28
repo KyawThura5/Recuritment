@@ -5,65 +5,65 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Direct Recruitment Resources</title>
+    <title>[[${department.name}]]</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/dialogBox.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/custom-validation.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
-    <script type="text/javascript" th:src="@{/resources/js/direct-recruitment-resources.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/teams.js}"></script>
     <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
     <link rel="stylesheet" th:href="@{/resources/css/animate.css}"/>
 </head>
 <body>
-<!--Add DirectRecruit ModalBox-->
-    <div th:replace="nav-bar :: navbar('resources')"></div>
-    <div th:id="editDirectRecruitmentModal" class="modal modal-confirm">
+    <div th:replace="nav-bar :: navbar('departments')"></div>
+
+    <div th:id="editTeamModal" class="modal modal-confirm">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg animated slideInDown">
                 <div class="modal-body">
-                    <form id="recruitmentResourceForm" th:action="@{/recruitmentresource/direct/save}" class="card-body row" method="post">
-                    <h2 id="editDirectRecruitmentResourceTitle" class="card-title fs-5 fw-bold col-12"></h2>
-                    <input type="hidden" name="id">
-                    
-                    <div class="form-group col-12 my-2">
-                        <label for="code" class="form-label">Code</label>
-                        <input id="code" type="text" class="form-control validated-input" name="code">
+                    <form id="teamForm" th:action="@{/team/departmentDetail/save}" class="card-body row"  method="post">
+                        <h2 id="editTeamModalTitle" class="card-title fs-5 fw-bold col-12"></h2>
+                        <input type="hidden" name="id">
+                        <input type="hidden" name="deleted" value="false">
+                        <input type="hidden" name="department" th:value="${department.id}">
+                        <div class="form-group col-12 my-2">
+                            <label for="name">Name</label>
+                            <input id="name" type="text" class="form-control validated-input" name="name">
                         </div>
-                    <div class="form-group col-12 my-2">
-                        <label for="name" class="form-label">Name</label>
-                        <input id="name" type="text" class="form-control validated-input" name="name">
-                          </div>
-                    <div class="col-12 d-flex flex-row-reverse mt-3">
-                        <button type="submit" class="btn btn-success ms-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
-                                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
-                              </svg>
-                            Save
-                        </button>
-					    <a th:onclick="closeModal('editDirectRecruitmentModal')" class="btn btn-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg>
-                            Cancel
-                        </a>
-                    </div>
-                </form>
+                        <div class="col-12 d-flex flex-row-reverse mt-3">
+                            <button type="submit" class="btn btn-success ms-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                                    <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                                  </svg>
+                                Save
+                            </button>
+                            <a class="btn btn-secondary" onclick="closeModal('editTeamModal')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg>
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <!--Add DirectRecruit ModalBox-->
+
     <main class="container p-3">
-        <h2 class="font-lg fw-bold mb-3">Direct Recruitment Resources</h2>
-        <form id="searchForm" class="row" th:action="@{/recruitmentresource/direct/search}" th:object="${recruitmentResourceSearch}">
+        <h2 class="fs-5 fw-bold mb-3">[[${department.name}]]</h2>
+        
+        <form th:action="@{/department/detail}" class="row">
+
+            <input type="hidden" name="id" th:value="${department.id}">
             <div class="col col-md-auto">
                 <div class="input-group">
-                    <input th:field="*{keyword}" type="text" class="form-control" placeholder="Search">
-                    <a th:href="@{'/recruitmentresource/direct/search?' + 'size=' + ${recruitmentResourceSearch.size}}" class="input-group-text">
+                    <input type="text" class="form-control" name="keyword" th:value="${param.keyword}" placeholder="Search">
+                    <a th:href="@{'/department/detail?id=' + ${department.id}}" class="input-group-text">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-fill" viewBox="0 0 16 16">
                             <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
-                          </svg>
+                        </svg>
                     </a>
                     <button class="btn btn-primary" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
@@ -71,41 +71,22 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 </div>
             </div>
 
-            <div sec:authorize="hasAuthority('HIRING_MANAGER')" class="col-2 col-md-auto">
-                <a onclick="showEditDirectRecruitmentResourceModal()" class="btn btn-success form-control">
+            <div sec:authorize="hasAnyAuthority('ADMIN', 'DEPARTMENT_HEAD')" class="col-auto">
+                <button type="button" class="btn btn-success" onclick="showEditTeamModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
+                </button>
+            </div>
+
+            <div class="col-auto">
+                <a class="btn btn-secondary" th:href="@{/department/search}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
                 </a>
             </div>
-            
         </form>
-
-        <div class="row mt-3">
-			<div class="form-group-col col-auto">
-				<label for="" class="col-form-label">Showing</label>
-			</div>
-			<div class="col-auto">
-				<select form="searchForm" name="size" th:value="${recruitmentResourcePage.size}" onchange="changePageSize()" class="form-select">
-					<option
-						th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
-						th:value="${s}" th:text="${s}" th:selected="${s == recruitmentResourcePage.size}"></option>
-				</select>
-			</div>
-
-           <div class="col-auto">
-                <select form="searchForm" class="form-select" name="sort" th:value="${recruitmentResourceSearch.sort}" onchange="changePageSize()">
-                    <option
-                        th:each="s:${T(team.ojt7.recruitment.model.dto.RecruitmentResourceSearch.Sort).values()}"
-                        th:value="${s}" th:selected="${s.name() == recruitmentResourceSearch.sort.name()}">
-                        [[${s.displayName}]]
-                    </option>
-                </select>
-            </div>
-
-		</div>
 
         <div th:if="${alert != null}" id="alert" class="modal">
             <div class="modal-dialog animated bounceInRight">
-                <div class="modal-body shadow-sm notice rounded" th:classappend="${alert.cssClass}">
+                <div class="modal-body shadow notice rounded" th:classappend="${alert.cssClass}">
                     <div class="row">
                         <div class="col">
                             <label class="fw-bold">
@@ -118,6 +99,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M175 175C184.4 165.7 199.6 165.7 208.1 175L255.1 222.1L303 175C312.4 165.7 327.6 165.7 336.1 175C346.3 184.4 346.3 199.6 336.1 208.1L289.9 255.1L336.1 303C346.3 312.4 346.3 327.6 336.1 336.1C327.6 346.3 312.4 346.3 303 336.1L255.1 289.9L208.1 336.1C199.6 346.3 184.4 346.3 175 336.1C165.7 327.6 165.7 312.4 175 303L222.1 255.1L175 208.1C165.7 199.6 165.7 184.4 175 175V175zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z"/></svg>
                             </button>
                         </div>
+                        
                     </div>
                     
                 </div>
@@ -126,34 +108,39 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         </div>
 
         <div class="row mt-3">
-            <div class="col-12 col-xl-6 my-3" th:each="recru : ${recruitmentResourcePage.content}">
-                <div class="card shadow animated fadeInUp">
+            <div class="col-12 col-xl-6 my-3" th:each="team : ${department.teams}" th:if="${!team.deleted}">
+                <div class="card shadow-sm animated slideInUp">
                     <div class="card-body">
                         <div class="d-flex text-black align-items-center">
                             <div class="flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="text-secondary" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 80C0 53.5 21.5 32 48 32h96c26.5 0 48 21.5 48 48V96H384V80c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H432c-26.5 0-48-21.5-48-48V160H192v16c0 1.7-.1 3.4-.3 5L272 288h96c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H272c-26.5 0-48-21.5-48-48V336c0-1.7 .1-3.4 .3-5L144 224H48c-26.5 0-48-21.5-48-48V80z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="text-secondary" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>
                             </div>
 
                             <div class="flex-grow-1 ms-3">
                                 <div class="row">
-                                    <label class="col-12 font-md fw-bold">[[${recru.name}]]</label>
-                                    <label class="col-12 font-sm">[[${recru.code}]]</label>
+                                    <label class="col-12 font-md fw-bold">[[${team.name}]]</label>
+                                    <label class="col-12 font-sm fw-bold mt-1 text-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
+                                            <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/>
+                                        </svg>
+                                        [[${team.department.name}]]
+                                    </label>
                                 </div>
                             </div>
 
-                            <div sec:authorize="hasAuthority('HIRING_MANAGER')" class="dropdown">
+                            <div sec:authorize="hasAnyAuthority('ADMIN', 'DEPARTMENT_HEAD')" class="dropdown">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                                     <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                                 </svg>
                                 <ul class="dropdown-menu animated fadeIn" aria-labelledby="dropdownMenu2">
                                   <li>
-                                    <a class="dropdown-item" th:onclick="showEditDirectRecruitmentResourceModal([[${recru.id}]])">
+                                    <a class="dropdown-item" th:onclick="showEditTeamModal([[${team.id}]])">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
                                         Edit
                                     </a>
                                   </li>
                                   <li>
-                                    <button class="dropdown-item" th:onclick="showDialog([[${recru.id}]])">
+                                    <button class="dropdown-item" th:onclick="showDialog([[${team.id}]])">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
                                         Delete
                                     </button>
@@ -168,7 +155,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 </div>
 
                 <!-- Modal -->
-                <div th:id="modal+${recru.id}" class="modal modal-confirm">
+                <div th:id="modal+${team.id}" class="modal modal-confirm">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content shadow-lg animated bounceIn">
                             <div class="modal-header p-2">
@@ -178,13 +165,13 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                             </div>
                             <div class="modal-body">
                                 <label>
-                                    Are you sure to delete "<span th:text="${recru.name}"></span>"?
+                                    Are you sure to delete "<span th:text="${team.name}"></span>"?
                                 </label>
                             </div>
                             <div class="model-footer text-center p-2">
-                                <a class="btn btn-outline-secondary px-5" th:onclick="closeDialog([[${recru.id}]])">No
+                                <a class="btn btn-outline-secondary px-5" th:onclick="closeDialog([[${team.id}]])">No
                                 </a>
-                                <form th:action="@{/recruitmentresource/direct/delete(id=${recru.id})}" class="d-inline-block" method="post">
+                                <form th:action="@{/team/departmentDetail/delete(id=${team.id},departmentId=${department.id})}" class="d-inline-block" method="post">
                                     <button type="submit" class="btn btn-danger px-5">
                                         Yes
                                     </button>
@@ -196,43 +183,6 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             </div>
         </div>
 
-        <nav aria-label="Pagination" th:if="${recruitmentResourcePage.totalPages > 0}" class="mt-5">
-			<ul class="pagination justify-content-center bg-white">
-				<li class="page-item"
-					th:classappend="${recruitmentResourcePage.number + 1 == 1} ? 'disabled'">
-					<a th:replace="page-nav :: directRecruitment(1, '<<', 'First Page')"></a>
-				</li>
-				<li class="page-item font-weight-bold"
-					th:classappend="${recruitmentResourcePage.number + 1 == 1} ? 'disabled'">
-					<a
-					th:replace="page-nav :: directRecruitment(${recruitmentResourcePage.number}, 'Prev', 'Previous Page')"></a>
-				</li>
-				<li class="page-item disabled"
-					th:if="${recruitmentResourcePage.number - 1 > 1}"><a class="page-link"
-					href="#">...</a>
-                </li>
-				<li class="page-item"
-					th:classappend="${page == recruitmentResourcePage.number + 1} ? 'active'"
-					th:each="page : ${#numbers.sequence(recruitmentResourcePage.number + 1 > 2 ? recruitmentResourcePage.number - 1 : 1, recruitmentResourcePage.number + 3 < recruitmentResourcePage.totalPages ? recruitmentResourcePage.number + 3 : recruitmentResourcePage.totalPages)}">
-					<a
-					th:replace="page-nav :: directRecruitment(${page}, ${page}, 'Page ' + ${page})"></a>
-				</li>
-				<li class="page-item disabled"
-					th:if="${recruitmentResourcePage.number + 3 < recruitmentResourcePage.totalPages}">
-					<a class="page-link" href="#">...</a>
-				</li>
-				<li class="page-item font-weight-bold"
-					th:classappend="${recruitmentResourcePage.number + 1 == recruitmentResourcePage.totalPages} ? 'disabled'">
-					<a
-					th:replace="page-nav :: directRecruitment(${recruitmentResourcePage.number + 2},'Next', 'Next Page')"></a>
-				</li>
-                <li class="page-item"
-					th:classappend="${recruitmentResourcePage.number + 1 == recruitmentResourcePage.totalPages} ? 'disabled'">
-					<a
-					th:replace="page-nav :: directRecruitment(${recruitmentResourcePage.totalPages}, '>>', 'Last Page')"></a>
-				</li>
-			</ul>
-		</nav>
         
     </main>
 </body>

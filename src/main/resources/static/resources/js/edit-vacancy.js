@@ -6,80 +6,148 @@ $(document).ready(function () {
 
 	initTeamSelector();
 
+    setMinDueDate();
+
     $("#btnAddNewPosition").click(addNewPositionEntry);
     listenRemovePositionEntry();
 
     addSelectSearch();
 
-    var constraints = {
-        code: {
-            presence: {message : "^Enter code"},
-            format : {
-                pattern : /^\S*$/,
-                message : "^Code cannot contain space"
-            },
-            length: {
-                maximum: 30,
-                message: "^Name must be maximum 30 characters"
-            }
-        },
-		department : {
-			presence : {message : "^Select department"}
-		},
-		dueDate : {
-			presence : {message : "^Select due date"}
-		},
-        status : {
-            presence : {message : "^Select status"}
-        },
-		comment : {
-			length : {
-				maximum : 255,
-				message : "^Maximum length is 255"
-			}
-		}
-        
-    };
-
 	var form = document.getElementById("vacancyForm");
     form.addEventListener("submit", function(event) {
-        event.preventDefault();
-        let values = validate.collectFormValues(form);
-        let validation = validate(values, constraints);
-        
-        let codeError = document.createElement("label");
-        codeError.id = "codeError";
-        codeError.classList.add("text-danger");
+        validated(event);
+        $(this).attr("id")
+    });
 
-        let departmentError = document.createElement("label");
-        departmentError.id = "departmentError";
-        departmentError.classList.add("text-danger");
-
-        let dueDateError = document.createElement("label");
-        dueDateError.id = "dueDateError";
-        dueDateError.classList.add("text-danger");
-
-        let statusError = document.createElement("label");
-        statusError.id = "statusError";
-        statusError.classList.add("text-danger");
-
-		let commentError = document.createElement("label");
-        commentError.id = "commentError";
-        commentError.classList.add("text-danger");
-
-        if (validation) {
-            checkValidation(codeError, "codeError", "code", validation.code);
-            checkValidation(departmentError, "departmentError", "departmentHelp", validation.department);
-            checkValidation(dueDateError, "dueDateError", "dueDate", validation.dueDate);
-            checkValidation(statusError, "statusError", "status", validation.status);
-			checkValidation(commentError, "commentError", "comment", validation.comment);
-        } else {
-            form.submit();
+    $(".validated-input").on("change", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
         }
-        
+    });
+
+    $(".validated-input").on("input", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
+        }
     });
     
 });
+
+var constraints = {
+    code: {
+        presence: {message : "^Enter code"},
+        format : {
+            pattern : /^\S*$/,
+            message : "^Code cannot contain space"
+        },
+        length: {
+            maximum: 30,
+            message: "^Name must be maximum 30 characters"
+        }
+    },
+    department : {
+        presence : {message : "^Select department"}
+    },
+    dueDate : {
+        presence : {message : "^Select due date"}
+    },
+    status : {
+        presence : {message : "^Select status"}
+    },
+    comment : {
+        length : {
+            maximum : 255,
+            message : "^Maximum length is 255"
+        }
+    }
+    
+};
+
+const validated = (event) => {
+    let form = document.getElementById("vacancyForm");
+    event.preventDefault();
+    let values = validate.collectFormValues(form);
+    let validation = validate(values, constraints);
+    
+    let codeError = document.createElement("label");
+    codeError.id = "codeError";
+    codeError.classList.add("text-danger", "validated-label");
+
+    let departmentError = document.createElement("label");
+    departmentError.id = "departmentError";
+    departmentError.classList.add("text-danger", "validated-label");
+
+    let dueDateError = document.createElement("label");
+    dueDateError.id = "dueDateError";
+    dueDateError.classList.add("text-danger", "validated-label");
+
+    let statusError = document.createElement("label");
+    statusError.id = "statusError";
+    statusError.classList.add("text-danger", "validated-label");
+
+    let commentError = document.createElement("label");
+    commentError.id = "commentError";
+    commentError.classList.add("text-danger", "validated-label");
+
+    if (validation) {
+        checkValidation(codeError, "codeError", "code", validation.code);
+        checkValidation(departmentError, "departmentError", "departmentHelp", validation.department);
+        checkValidation(dueDateError, "dueDateError", "dueDate", validation.dueDate);
+        checkValidation(statusError, "statusError", "status", validation.status);
+        checkValidation(commentError, "commentError", "comment", validation.comment);
+    } else {
+        form.submit();
+    }
+}
+
+const validatedEach = (event, inputId) => {
+    let form = document.getElementById("vacancyForm");
+    event.preventDefault();
+    let values = validate.collectFormValues(form);
+    let validation = validate(values, constraints);
+    
+    let codeError = document.createElement("label");
+    codeError.id = "codeError";
+    codeError.classList.add("text-danger", "validated-label");
+
+    let departmentError = document.createElement("label");
+    departmentError.id = "departmentError";
+    departmentError.classList.add("text-danger", "validated-label");
+
+    let dueDateError = document.createElement("label");
+    dueDateError.id = "dueDateError";
+    dueDateError.classList.add("text-danger", "validated-label");
+
+    let statusError = document.createElement("label");
+    statusError.id = "statusError";
+    statusError.classList.add("text-danger", "validated-label");
+
+    let commentError = document.createElement("label");
+    commentError.id = "commentError";
+    commentError.classList.add("text-danger", "validated-label");
+
+    if (validation) {
+        if (inputId == "code") {
+            checkValidation(codeError, "codeError", "code", validation.code);
+        } else if (inputId == "departmentSelect") {
+            checkValidation(departmentError, "departmentError", "departmentHelp", validation.department);
+        } else if (inputId == "dueDate") {
+            checkValidation(dueDateError, "dueDateError", "dueDate", validation.dueDate);
+        } else if (inputId == "status") {
+            checkValidation(statusError, "statusError", "status", validation.status);
+        } else if (inputId == "comment") {
+            checkValidation(commentError, "commentError", "comment", validation.comment);
+        }
+    }
+}
 
 const addSelectSearch = () => {
     $('.select-search').each(function(i, t) {
@@ -87,6 +155,16 @@ const addSelectSearch = () => {
             search: true
         });
     });
+}
+
+const setMinDueDate = () => {
+    let createdDateTime = document.getElementById("createdDateTime").value;
+    let minDate = new Date().toISOString().split("T")[0];
+    if (createdDateTime) {
+        minDate = createdDateTime.split(" ")[0];
+    }
+    let dueDateInput = document.getElementById("dueDate");
+    dueDateInput.min = minDate;
 }
 
 const addNewPositionEntry = () => {

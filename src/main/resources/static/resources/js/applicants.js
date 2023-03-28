@@ -12,6 +12,7 @@ $(document).ready(function () {
         window.setTimeout(closeAlert, 5000);
     }
 
+    pareDateFromTo("dateFrom", "dateTo");
 
 });
 

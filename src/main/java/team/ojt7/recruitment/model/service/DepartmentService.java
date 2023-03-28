@@ -25,6 +25,8 @@ public interface DepartmentService {
 	
 	Optional<DepartmentDto> findById(Long id);
 	
+	DepartmentDto getDepartmentDetail(Long id, String keyword);
+	
 	List<DepartmentDto> findAll();
 	
 	DepartmentDto save(Department department);

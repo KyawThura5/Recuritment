@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit User</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/validate.js}"></script>
@@ -25,56 +25,56 @@
                     <input type="hidden" th:field="*{confirmPassword}">
                     <div class="col-12 col-lg-6 form-group my-2">
                         <label for="code" class="form-label">Code</label>
-                        <input id="code" type="text" class="form-control" th:field="*{code}">
-                        <label th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}" class="text-danger"></label>
+                        <input id="code" type="text" class="form-control validated-input" th:field="*{code}">
+                        <label th:if="${#fields.hasErrors('code')}"  th:text="${#fields.errors('code')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="col-12 col-lg-6 form-group my-2">
                         <label for="name" class="form-label">Name</label>
-                        <input id="name" type="text" class="form-control" th:field="*{name}">
-                        <label th:if="${#fields.hasErrors('name')}"  th:text="${#fields.errors('name')[__0__]}" class="text-danger"></label>
+                        <input id="name" type="text" class="form-control validated-input" th:field="*{name}">
+                        <label th:if="${#fields.hasErrors('name')}"  th:text="${#fields.errors('name')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="col-12 col-lg-6 form-group my-2">
                         <label for="email" class="form-label">Email</label>
-                        <input id="email" type="text" class="form-control" th:field="*{email}">
-                        <label th:if="${#fields.hasErrors('email')}"  th:text="${#fields.errors('email')[__0__]}" class="text-danger"></label>
+                        <input id="email" type="text" class="form-control validated-input" th:field="*{email}">
+                        <label th:if="${#fields.hasErrors('email')}"  th:text="${#fields.errors('email')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="col-12 col-lg-6 form-group my-2">
                         <label for="phone" class="form-label">Phone</label>
-                        <input id="phone" type="text" class="form-control" th:field="*{phone}">
-                        <label th:if="${#fields.hasErrors('phone')}"  th:text="${#fields.errors('phone')[__0__]}" class="text-danger"></label>
+                        <input id="phone" type="text" class="form-control validated-input" th:field="*{phone}">
+                        <label th:if="${#fields.hasErrors('phone')}"  th:text="${#fields.errors('phone')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="col-12 col-lg-6 form-group my-2">
                         <label for="role" class="form-label">Role</label>
-                        <select id="role" class="form-select" th:field="*{role}">
+                        <select id="role" class="form-select validated-input" th:field="*{role}">
                             <option value="">-- select role --</option>
                             <option
 								th:each="userRole:${T(team.ojt7.recruitment.model.entity.User.Role).values()}"
 								th:value="${userRole}" th:text="${userRole.displayName}" >
                             </option>
                         </select>
-                        <label th:if="${#fields.hasErrors('role')}"  th:text="${#fields.errors('role')[__0__]}" class="text-danger"></label>
+                        <label th:if="${#fields.hasErrors('role')}"  th:text="${#fields.errors('role')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="col-12 col-lg-3 form-group my-2">
                         <label for="gender" class="form-label">Gender</label>
-                        <select id="gender" class="form-select" th:field="*{gender}">
+                        <select id="gender" class="form-select validated-input" th:field="*{gender}">
                             <option value="">-- gender --</option>
                             <option
 								th:each="g:${T(team.ojt7.recruitment.model.entity.Gender).values()}"
 								th:value="${g}" th:text="${g.displayName}" >
                             </option>
                         </select>
-                        <label th:if="${#fields.hasErrors('gender')}"  th:text="${#fields.errors('gender')[__0__]}" class="text-danger"></label>
+                        <label th:if="${#fields.hasErrors('gender')}"  th:text="${#fields.errors('gender')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                      <div class="col-12 col-lg-3 form-group my-2">
                         <label for="status" class="form-label">Status</label>
-                        <select id="status" class="form-select" th:field="*{status}">
+                        <select id="status" class="form-select validated-input" th:field="*{status}">
                             <option value="">-- status --</option>
                             <option
 								th:each="status:${T(team.ojt7.recruitment.model.entity.User.Status).values()}"
 								th:value="${status}" th:text="${status.displayName}" >
                             </option>
                         </select>
-                        <label th:if="${#fields.hasErrors('status')}"  th:text="${#fields.errors('status')[__0__]}" class="text-danger"></label>
+                        <label th:if="${#fields.hasErrors('status')}"  th:text="${#fields.errors('status')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="col-12 d-flex flex-row-reverse mt-3">
                         <button type="submit" class="btn btn-success ms-1">
@@ -143,38 +143,52 @@
     };
 
     var form = document.getElementById("userForm");
-    form.addEventListener("submit", function(event) {
+    form.addEventListener("submit", function (event) {
+        validated(event);
+    });
+
+    $(".validated-input").on("input", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
+        }
+    });
+
+    const validated = (event) => {
         event.preventDefault();
         let values = validate.collectFormValues(form);
         let validation = validate(values, constraints);
         
         let codeError = document.createElement("label");
         codeError.id = "codeError";
-        codeError.classList.add("text-danger");
+        codeError.classList.add("text-danger", "validated-label");
 
         let nameError = document.createElement("label");
         nameError.id = "nameError";
-        nameError.classList.add("text-danger");
+        nameError.classList.add("text-danger", "validated-label");
 
         let phoneError = document.createElement("label");
         phoneError.id = "phoneError";
-        phoneError.classList.add("text-danger");
+        phoneError.classList.add("text-danger", "validated-label");
 
         let emailError = document.createElement("label");
         emailError.id = "emailError";
-        emailError.classList.add("text-danger");
+        emailError.classList.add("text-danger", "validated-label");
 
         let roleError = document.createElement("label");
         roleError.id = "roleError";
-        roleError.classList.add("text-danger");
+        roleError.classList.add("text-danger", "validated-label");
 
         let genderError = document.createElement("label");
         genderError.id = "genderError";
-        genderError.classList.add("text-danger");
+        genderError.classList.add("text-danger", "validated-label");
 
         let statusError = document.createElement("label");
         statusError.id = "statusError";
-        statusError.classList.add("text-danger");
+        statusError.classList.add("text-danger", "validated-label");
 
         if (validation) {
             checkValidation(codeError, "codeError", "code", validation.code);
@@ -187,8 +201,60 @@
         } else {
             form.submit();
         }
+    }
+
+    const validatedEach = (event, inputId) => {
+        event.preventDefault();
+        let values = validate.collectFormValues(form);
+        let validation = validate(values, constraints);
         
-    });
+        let codeError = document.createElement("label");
+        codeError.id = "codeError";
+        codeError.classList.add("text-danger", "validated-label");
+
+        let nameError = document.createElement("label");
+        nameError.id = "nameError";
+        nameError.classList.add("text-danger", "validated-label");
+
+        let phoneError = document.createElement("label");
+        phoneError.id = "phoneError";
+        phoneError.classList.add("text-danger", "validated-label");
+
+        let emailError = document.createElement("label");
+        emailError.id = "emailError";
+        emailError.classList.add("text-danger", "validated-label");
+
+        let roleError = document.createElement("label");
+        roleError.id = "roleError";
+        roleError.classList.add("text-danger", "validated-label");
+
+        let genderError = document.createElement("label");
+        genderError.id = "genderError";
+        genderError.classList.add("text-danger", "validated-label");
+
+        let statusError = document.createElement("label");
+        statusError.id = "statusError";
+        statusError.classList.add("text-danger", "validated-label");
+
+        if (validation) {
+            if (inputId == "code") {
+                checkValidation(codeError, "codeError", "code", validation.code);
+            } else if (inputId == "name") {
+                checkValidation(nameError, "nameError", "name", validation.name);
+            } else if (inputId == "phone") {
+                checkValidation(phoneError, "phoneError", "phone", validation.phone);
+            } else if (inputId == "email") {
+                checkValidation(emailError, "emailError", "email", validation.email);
+            } else if (inputId == "role") {
+                checkValidation(roleError, "roleError", "role", validation.role);
+            } else if (inputId == "gender") {
+                checkValidation(genderError, "genderError", "gender", validation.gender);
+            } else if (inputId == "status") {
+                checkValidation(statusError, "statusError", "status", validation.status);
+            }
+            
+        }
+    }
 
     const checkValidation = (errorLabel, errorLabelId, inputId, validation) => {
         if (validation) {

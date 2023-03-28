@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team.ojt7.recruitment.model.dto.Alert;
-import team.ojt7.recruitment.model.dto.DepartmentDto;
 import team.ojt7.recruitment.model.dto.PositionDto;
 import team.ojt7.recruitment.model.dto.PositionSearch;
 import team.ojt7.recruitment.model.service.PositionService;
@@ -110,7 +109,7 @@ public class PositionController {
 		PositionDto positionDto = positionService.findById(id).orElse(new PositionDto());
 		data.put("position", positionDto);
 		
-		String title = positionDto.getId() == null ? "Add New Position" : "Edit Position";
+		String title = positionDto.getId() == null ? "Add New Job Position" : "Edit Job Position";
 		data.put("title", title);
 		return ResponseEntity.ok(data);
 	}

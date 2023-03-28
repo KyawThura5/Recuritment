@@ -107,6 +107,38 @@ public class TeamController {
 		return "redirect:/team/search";
 	}
 	
+	@PostMapping("/team/departmentDetail/save")
+	public String saveTeamFromDepartmentDetail(
+			@Validated
+			@ModelAttribute
+			TeamDto team,
+			BindingResult bs,
+			RedirectAttributes redirect,
+			ModelMap model
+			) {
+		
+		if (!bs.hasErrors()) {
+			try {
+				teamService.save(TeamDto.parse(team));
+				String message = team.getId() == null ? "Successfully created a new team." : "Successfully updated the team.";
+				String cssClass = team.getId() == null ? "notice-success" : "notice-info";
+				redirect.addFlashAttribute("alert", new Alert(message, cssClass));
+			} catch (InvalidFieldsException e) {
+				for (InvalidField invalidFiled : e.getFields()) {
+					bs.rejectValue(invalidFiled.getField(), invalidFiled.getCode(), invalidFiled.getMessage());
+				}
+			}
+		}
+		
+		if (bs.hasErrors()) {
+			String title = team.getId() == null ? "Add New Team" : "Edit Team";
+			model.put("title", title);
+			return "edit-team";
+		}
+		
+		return "redirect:/department/detail?id=" + team.getDepartment().getId();
+	}
+	
 	@GetMapping("/team/data")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getDataFormTeamEdit(
@@ -159,6 +191,19 @@ public class TeamController {
 		teamService.deleteById(id);
 		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the team.", "notice-success"));
 		return "redirect:/team/search";
+	}
+	
+	@PostMapping("/team/departmentDetail/delete")
+	public String deleteTeamFromDepartmentDetail(
+			@RequestParam("id")
+			Long id,
+			@RequestParam("departmentId")
+			Long departmentId,
+			RedirectAttributes redirect) {
+
+		teamService.deleteById(id);
+		redirect.addFlashAttribute("alert", new Alert("Successfully deleted the team.", "notice-success"));
+		return "redirect:/department/detail?id=" + departmentId;
 	}
 
 }

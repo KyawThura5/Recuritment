@@ -1,7 +1,6 @@
 package team.ojt7.recruitment.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +95,18 @@ public class DepartmentController {
 		}
 		
 		return "redirect:/department/search";
+	}
+	
+	@GetMapping("/department/detail")
+	public String showDepartmentDetail(
+			Long id,
+			@RequestParam(required = false)
+			String keyword,
+			ModelMap model
+			) {
+		DepartmentDto department = departmentService.getDepartmentDetail(id, keyword);
+		model.put("department", department);
+		return "department-detail";
 	}
 
 	@PostMapping("/department/delete")

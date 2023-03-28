@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import team.ojt7.recruitment.model.dto.ApplicantDto;
 import team.ojt7.recruitment.model.dto.VacancyDto;
@@ -38,14 +39,43 @@ public class VacancyServiceImpl implements VacancyService {
 
 	@Override
 	public Page<VacancyDto> search(VacancySearch vacancySearch) {
-		String keyword = vacancySearch.getKeyword() == null ? "%%" : "%" + vacancySearch.getKeyword() + "%";
+		String keyword = "%%";
 		LocalDateTime dateTimeFrom = vacancySearch.getDateFrom() == null ? null : vacancySearch.getDateFrom().atStartOfDay();
 		LocalDateTime dateTimeTo = vacancySearch.getDateTo() == null ? null : vacancySearch.getDateTo().plusDays(1).atStartOfDay();
 		Page<Vacancy> vacancies = vacancySearch.getStatus() == null
 									? vacancyRepo.search(keyword, dateTimeFrom, dateTimeTo, PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(),vacancySearch.getSort().getSort()))
 									: vacancyRepo.search(keyword, vacancySearch.getStatus(), dateTimeFrom, dateTimeTo, PageRequest.of(vacancySearch.getPage() - 1, vacancySearch.getSize(), vacancySearch.getSort().getSort())); 
 		Pageable vacanciesPageable = vacancies.getPageable();
-		Page<VacancyDto> page = new PageImpl<VacancyDto>(VacancyDto.ofList(vacancies.getContent()), vacanciesPageable, vacancies.getTotalElements());
+		List<Vacancy> vacancyList = vacancies.getContent().stream().filter(
+					v -> {
+						
+						if (StringUtils.hasLength(vacancySearch.getKeyword())) {
+							if (v.getCode().toLowerCase().contains(vacancySearch.getKeyword().toLowerCase())) {
+								return true;
+							}
+							
+							if (v.getDepartment().getName().toLowerCase().contains(vacancySearch.getKeyword().toLowerCase())) {
+								return true;
+							}
+							
+							if (v.getCreatedUser().getName().toLowerCase().contains(vacancySearch.getKeyword().toLowerCase())) {
+								return true;
+							}
+							
+							for (RequirePosition rp : v.getRequirePositions()) {
+								if (rp.getPosition().getName().toLowerCase().contains(vacancySearch.getKeyword().toLowerCase())) {
+									return true;
+								}
+								if (rp.getTeam().getName().toLowerCase().contains(vacancySearch.getKeyword().toLowerCase())) {
+									return true;
+								}
+							}
+							return false;
+						}
+						return true;
+					}
+				).toList();
+		Page<VacancyDto> page = new PageImpl<VacancyDto>(VacancyDto.ofList(vacancyList), vacanciesPageable, vacancies.getTotalElements());
 		return page;
 	}
 

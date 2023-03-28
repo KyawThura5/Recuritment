@@ -22,7 +22,7 @@
             <span class="col-auto input-froup">
                 <select name="name" class="form-select" onchange="submitSearchForm()">
                     <option value="topRecruitmentResources">Top Recruitment Resources</option>
-                    <option value="topRecruitmentResourcesByPosition">Top Demend Positions</option>
+                    <option value="topRecruitmentResourcesByPosition">Top Demand Positions</option>
                     <option value="demandPositions">Position Fullfillment</option>
                     <option value="interviewStages" selected>Interview Stages</option>
                 </select>
@@ -36,10 +36,10 @@
             </div>
             
             <div class="col-auto">
-                <input class="form-control" type="date" name="dateFrom" th:value="${param.dateFrom}" onchange="submitSearchForm()">
+                <input id="dateFrom" class="form-control" type="date" name="dateFrom" th:value="${param.dateFrom}" onchange="submitSearchForm()">
             </div>
             <div class="col-auto">
-                <input class="form-control" type="date" name="dateTo" th:value="${param.dateTo}" onchange="submitSearchForm()">
+                <input id="dateTo" class="form-control" type="date" name="dateTo" th:value="${param.dateTo}" onchange="submitSearchForm()">
             </div>
 
             <a th:href="@{/report/export(name='interviewStages',dateFrom=${param.dateFrom},dateTo=${param.dateTo},sort=${param.sort})}" class="col-auto btn btn-warning" th:classappend="${reports.empty ? 'disabled' : ''}">
@@ -97,6 +97,8 @@
     </div>
 </body>
 <script>
+    pareDateFromTo("dateFrom", "dateTo");
+
     function submitSearchForm() {
         $("#searchForm").submit();
     }

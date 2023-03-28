@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demand Positions</title>
+    <title>Position Fullfillment</title>
     <script type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/resources/js/main.js}"></script>
@@ -22,17 +22,17 @@
                 <div class="input-group">
                     <select name="name" class="form-select" onchange="submitSearchForm()">
                         <option value="topRecruitmentResources">Top Recruitment Resources</option>
-                        <option value="topRecruitmentResourcesByPosition">Top Demend Positions</option>
+                        <option value="topRecruitmentResourcesByPosition">Top Demand Positions</option>
                         <option value="demandPositions" selected>Position Fullfillment</option>
                         <option value="interviewStages">Interview Stages</option>
                     </select>
                 </div>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="date" name="dateFrom" th:value="${param.dateFrom}" onchange="submitSearchForm()">
+                <input id="dateFrom" class="form-control" type="date" name="dateFrom" th:value="${param.dateFrom}" onchange="submitSearchForm()">
             </div>
             <div class="col-auto">
-                <input class="form-control" type="date" name="dateTo" th:value="${param.dateTo}" onchange="submitSearchForm()">
+                <input id="dateTo" class="form-control" type="date" name="dateTo" th:value="${param.dateTo}" onchange="submitSearchForm()">
             </div>
             <a th:href="@{/report/export(name='demandPositions',dateFrom=${param.dateFrom},dateTo=${param.dateTo})}" class="col-auto btn btn-warning" th:classappend="${reports.empty ? 'disabled' : ''}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V288H216c-13.3 0-24 10.7-24 24s10.7 24 24 24H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM384 336V288H494.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H384zm0-208H256V0L384 128z"/></svg>
@@ -69,6 +69,7 @@
     </div>
 </body>
 <script>
+    pareDateFromTo("dateFrom", "dateTo");
     function submitSearchForm() {
         $("#searchForm").submit();
     }

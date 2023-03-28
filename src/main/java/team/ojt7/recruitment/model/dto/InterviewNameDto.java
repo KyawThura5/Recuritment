@@ -3,8 +3,6 @@ package team.ojt7.recruitment.model.dto;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.constraints.NotBlank;
-
 import team.ojt7.recruitment.model.entity.InterviewName;
 
 public class InterviewNameDto {
