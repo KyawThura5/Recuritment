@@ -193,6 +193,6 @@ public class InterviewDto {
 	}
 
 	public boolean isStatusUpdatable() {
-		return LocalDateTime.of(localDate, localTime).isBefore(LocalDateTime.now());
+		return LocalDateTime.of(localDate, localTime).isBefore(LocalDateTime.now()) && !applicant.getVacancy().isDeleted();
 	}
 }

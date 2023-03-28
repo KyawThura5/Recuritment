@@ -98,9 +98,10 @@ public class ApplicantServiceImpl implements ApplicantService{
 		List<Applicant> applicants = applicantRepo.findAll();
 		List<ApplicantDto> dtoList = ApplicantDto.ofList(applicants);
 		dtoList.forEach(a -> a.setUpdatableStatus(
-					loginUser.getRole() == Role.GENERAL_MANAGER ||
-					loginUser.getRole() == Role.HIRING_MANAGER ||
-					a.getStatus().getStep() > 2
+				(loginUser.getRole() == Role.GENERAL_MANAGER ||
+				loginUser.getRole() == Role.HIRING_MANAGER ||
+				a.getStatus().getStep() > 2)
+				&& !a.getVacancy().isDeleted()
 				));
 		return dtoList;
 	}
