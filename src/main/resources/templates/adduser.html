@@ -79,12 +79,12 @@
 
                     <div class="col-12 col-lg-6 form-group my-2">
                         <label for="password" class="form-label validated-input">Password</label>
-                        <input id="password" type="password" class="form-control" name="password" th:value="${user.password}">
+                        <input id="password" type="password" class="form-control validated-input" name="password" th:value="${user.password}">
                         <label th:if="${#fields.hasErrors('password')}"  th:text="${#fields.errors('password')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     <div class="col-12 col-lg-6 form-group my-2">
                         <label for="confirmPassword" class="form-label validated-input">Confirm Password</label>
-                        <input id="confirmPassword" type="password" class="form-control" name="confirmPassword" th:value="${user.confirmPassword}">
+                        <input id="confirmPassword" type="password" class="form-control validated-input" name="confirmPassword" th:value="${user.confirmPassword}">
                         <label th:if="${#fields.hasErrors('confirmPassword')}"  th:text="${#fields.errors('confirmPassword')[__0__]}" class="text-danger validated-label"></label>
                     </div>
                     

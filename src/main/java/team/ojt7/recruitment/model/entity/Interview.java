@@ -51,7 +51,7 @@ public class Interview implements Serializable {
 	private LocalDateTime updatedOn;
 
 	public enum Status {
-		NOT_START_YET("Not Started Yet", 1),ON_HOLD("On-hold", 2), CANCELLED("Cancelled", 3), FAILED("Failed", 4), PASSED("Passed", 5);
+		NOT_START_YET("Not Started Yet", 1),ON_HOLD("On-hold", 2), CANCELED("Canceled", 3), FAILED("Failed", 4), PASSED("Passed", 5);
 
 		private String displayName;
 		private int step;
