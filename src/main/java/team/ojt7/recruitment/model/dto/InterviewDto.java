@@ -164,7 +164,7 @@ public class InterviewDto {
 	public String getStatusColorClass() {
 		return switch (status) {
 		case NOT_START_YET -> "bg-primary text-white";
-		case CANCELLED -> "bg-info text-dark";
+		case CANCELED -> "bg-info text-dark";
 		case ON_HOLD -> "bg-orangered";
 		case FAILED -> "bg-danger";
 		case PASSED -> "bg-success";
