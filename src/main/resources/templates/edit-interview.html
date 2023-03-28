@@ -60,7 +60,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         </div>
                         <div class="col-12 col-md-6 form-group my-2">
                             <label for="time" class="form-label">Time</label>
-                            <input id="time" th:field="*{localTime}" type="time" class="form-control validated-input">
+                            <input id="time" name="localTime" th:value="${#temporals.format(interview.localTime, 'HH:mm')}" type="time" class="form-control validated-input">
                             <label th:if="${#fields.hasErrors('localTime')}" th:errors="*{localTime}" class="validated-label" th:errorclass="text-danger"></label>
                         </div>
                         <div class="col-12 d-flex flex-row-reverse mt-3">

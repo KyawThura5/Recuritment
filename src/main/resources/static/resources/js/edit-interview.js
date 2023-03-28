@@ -103,7 +103,7 @@ const validated = (event) => {
 	}
 }
 
-const validatedEach = (event) => {
+const validatedEach = (event, inputId) => {
 	let form=document.getElementById("interviewForm");
 	event.preventDefault();
 	let values=validate.collectFormValues(form);
@@ -129,12 +129,17 @@ const validatedEach = (event) => {
 	timeError.id="timeError";
 	timeError.classList.add("text-danger", "validated-label");
 	if(validation){
-		console.log(validation);
-	 checkValidation(codeError, "codeError", "code", validation.code);
-	checkValidation(interviewNameError, "interviewNameError","interviewNameHelp", validation.interviewName);
-	checkValidation(applicantError, "applicantError","applicantHelp", validation.applicant);
-	checkValidation(dateError, "dateError", "date", validation.localDate);
-	checkValidation(timeError, "timeError", "time", validation.localTime);
+		if (inputId == "code") {
+			checkValidation(codeError, "codeError", "code", validation.code);
+		} else if (inputId == "interviewName") {
+			checkValidation(interviewNameError, "interviewNameError","interviewNameHelp", validation.interviewName);
+		} else if (inputId == "applicant") {
+			checkValidation(applicantError, "applicantError","applicantHelp", validation.applicant);
+		} else if (inputId == "date") {
+			checkValidation(dateError, "dateError", "date", validation.localDate);
+		} else if (inputId == "time") {
+			checkValidation(timeError, "timeError", "time", validation.localTime);
+		}
 	}
 }
 
@@ -144,8 +149,10 @@ const setMinInterviewDate = () => {
 	let minTime =  "";
     if (createdDateTime) {
         minDate = createdDateTime.split("T")[0];
-		minTime = createdDateTime.split("T")[1];
+		let time = createdDateTime.split("T")[1];
+		minTime = time.split(":")[0] + ":" + time.split(":")[1];
     }
+	console.log("Hello");
 	console.log(minTime);
     let interviewDateInput = document.getElementById("date");
     interviewDateInput.min = minDate;

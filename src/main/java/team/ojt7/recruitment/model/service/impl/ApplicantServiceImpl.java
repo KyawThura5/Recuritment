@@ -75,6 +75,8 @@ public class ApplicantServiceImpl implements ApplicantService{
 		
 		if (applicant.getId() == null) {
 			applicant.setUpdatedOn(LocalDateTime.now());
+		} else {
+			applicant.setUpdatedOn(findById(applicant.getId()).get().getUpdatedOn());
 		}
 		
 		Applicant savedApplicant = applicantRepo.save(applicant);
@@ -119,9 +121,10 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Applicant applicant = applicantRepo.findById(id).orElse(null);
 		ApplicantDto dto = ApplicantDto.of(applicant);
 		dto.setUpdatableStatus(
-				loginUser.getRole() == Role.GENERAL_MANAGER ||
+				(loginUser.getRole() == Role.GENERAL_MANAGER ||
 				loginUser.getRole() == Role.HIRING_MANAGER ||
-				dto.getStatus().getStep() > 2
+				dto.getStatus().getStep() > 2)
+				&& !dto.getVacancy().isDeleted()
 				);
 		return Optional.ofNullable(dto);
 	}
@@ -155,9 +158,10 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Pageable applicantsPageable = applicants.getPageable();
 		List<ApplicantDto> dtoList = ApplicantDto.ofList(applicants.getContent());
 		dtoList.forEach(a -> a.setUpdatableStatus(
-				loginUser.getRole() == Role.GENERAL_MANAGER ||
+				(loginUser.getRole() == Role.GENERAL_MANAGER ||
 				loginUser.getRole() == Role.HIRING_MANAGER ||
-				a.getStatus().getStep() > 2
+				a.getStatus().getStep() > 2)
+				&& !a.getVacancy().isDeleted()
 			));
 		Page<ApplicantDto> page = new PageImpl<ApplicantDto>(dtoList, applicantsPageable, applicants.getTotalElements());
 		

@@ -34,25 +34,25 @@
                             <input type="hidden" th:field="*{status}">
 
                             <div class="col-12 col-lg-6 form-group">
-                                <label for="name" class="form-label">Name</label>
+                                <label for="name" class="form-label">Name</label><span class="required">*</span>
                                 <input id="name" type="text" class="form-control" th:field="*{name}">
                                 <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></label>
                             </div>
 
                             <div class="col-12 col-lg-6 form-group">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">Email</label><span class="required">*</span>
                                 <input id="email" type="text" class="form-control" th:field="*{email}">
                                 <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></label>
                             </div>
 
                             <div class="col-12 col-lg-6 form-group">
-                                <label for="phone" class="form-label">Phone</label>
+                                <label for="phone" class="form-label">Phone</label><span class="required">*</span>
                                 <input id="phone" type="text" class="form-control" th:field="*{phone}">
                                 <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red;"></label>
                             </div>
 
                             <div class="col-12 col-lg-6 form-group">
-                                <label for="gender" class="form-label">Gender</label>
+                                <label for="gender" class="form-label">Gender</label><span class="required">*</span>
                                 <select id="gender" class="form-select" th:field="*{gender}">
                                     <option value="">-- select gender --</option>
                                     <option
