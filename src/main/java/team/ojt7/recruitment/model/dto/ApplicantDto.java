@@ -212,7 +212,7 @@ public class ApplicantDto {
 	public boolean isAvailableForNewInterview() {
 		return getStatus().getStep() > 2
 				&& (getLastestInterview() == null || getLastestInterview().getStatus().getStep() > 2)
-				&& getStatus().getStep() < Status.JOB_OFFERED.getStep();
+				&& getStatus().getStep() < Status.REJECTED.getStep();
 	}
 
 	public boolean isUpdatableStatus() {
