@@ -146,7 +146,7 @@ public class VacancyServiceImpl implements VacancyService {
 	@Override
 	public List<VacancyDto> findAllForApplicant(ApplicantDto applicantDto) {
 		List<VacancyDto> vacancy = new ArrayList<>(findAllByStatusAndIsDeleted(Status.OPENING, false));
-		if (!vacancy.contains(applicantDto.getVacancy())) {
+		if (applicantDto.getVacancy() != null && !vacancy.contains(applicantDto.getVacancy())) {
 			List<VacancyDto> newVacancyList = new ArrayList<>(vacancy.size() + 1);
 			newVacancyList.addAll(vacancy);
 			newVacancyList.add(applicantDto.getVacancy());

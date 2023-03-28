@@ -146,7 +146,8 @@ const validatedEach = (event, inputId) => {
 const setMinInterviewDate = () => {
     let createdDateTime = document.getElementById("createdDateTime").value;
     let minDate = new Date().toISOString().split("T")[0];
-	let minTime =  "";
+	let minTime =  new Date().getHours() + ":" + new Date().getMinutes();
+	console.log(minTime);
     if (createdDateTime) {
         minDate = createdDateTime.split("T")[0];
 		let time = createdDateTime.split("T")[1];
@@ -158,6 +159,19 @@ const setMinInterviewDate = () => {
     interviewDateInput.min = minDate;
 	let interviewTimeInput = document.getElementById("time");
     interviewTimeInput.min = minTime;
+
+	$("#date").on('change', function(e) {
+		if ($(this).val() == new Date().toISOString().split("T")[0]) {
+			console.log("Heyy");
+			let minTime =  new Date().getHours() + ":" + new Date().getMinutes();
+			interviewTimeInput.min = minTime;
+			if ($("#time").val() < minTime) {
+				$("#time").val(minTime);
+			  }
+		} else {
+			interviewTimeInput.min = "";
+		}
+	});
 
 	$("#time").on("change", function(e) {
 		if ($(this).val() < $(this).attr("min")) {

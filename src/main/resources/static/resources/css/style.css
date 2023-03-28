@@ -190,3 +190,9 @@ a {
 .notice-danger label {
     color: #d73814;
 }
+.required {
+    position: absolute;
+    margin-left: 1px;
+    color: #FB0000;
+    font-size: 15px;
+}

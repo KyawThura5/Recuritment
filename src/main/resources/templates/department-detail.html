@@ -30,7 +30,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         <input type="hidden" name="deleted" value="false">
                         <input type="hidden" name="department" th:value="${department.id}">
                         <div class="form-group col-12 my-2">
-                            <label for="name">Name</label>
+                            <label for="name">Name</label><span class="required">*</span>
                             <input id="name" type="text" class="form-control validated-input" name="name">
                         </div>
                         <div class="col-12 d-flex flex-row-reverse mt-3">
