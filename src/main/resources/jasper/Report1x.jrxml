@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56aad157-f22d-4421-ab7c-6d564909d1a1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="ReportDataset" uuid="6db59dff-d42e-4f7e-92d4-c2ccf2bd8149">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="recruitmentResource.name" class="java.lang.String"/>
+		<field name="count" class="java.lang.Long"/>
+		<field name="positionList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	</subDataset>
+	<subDataset name="Dataset1" uuid="a00c43ba-ba74-43e1-ae0c-6ae80bcdb9fb">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="key.name" class="java.lang.String"/>
+		<field name="value" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Report" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="120" splitType="Stretch">
+			<componentElement>
+				<reportElement x="20" y="20" width="520" height="80" uuid="7180c1ae-f334-42d6-aa40-586bc738d327"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="ReportDataset" uuid="aeed2597-9e0e-4d99-b424-02ef287ee7f4">
+						<dataSourceExpression><![CDATA[$P{Report}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="100" width="520">
+						<textField>
+							<reportElement mode="Opaque" x="0" y="0" width="420" height="30" backcolor="#F0FEFF" uuid="4505bea7-15ee-4e23-b946-0d8b34c053d0"/>
+							<box leftPadding="10">
+								<pen lineWidth="1.0"/>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="12" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{recruitmentResource.name}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement mode="Opaque" x="420" y="0" width="100" height="30" forecolor="#000000" backcolor="#F0FEFF" uuid="33cf3484-da72-4373-a085-1185025d145a"/>
+							<box rightPadding="10">
+								<pen lineWidth="1.0"/>
+								<leftPen lineWidth="0.0"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="12" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+						</textField>
+						<componentElement>
+							<reportElement x="0" y="30" width="520" height="30" uuid="951b9c38-5a27-40e1-bffe-07570b7605b0"/>
+							<jr:list printOrder="Vertical">
+								<datasetRun subDataset="Dataset1" uuid="9ddb99ce-8449-4372-961f-30c911dff79c">
+									<datasetParameter name="REPORT_DATA_SOURCE">
+										<datasetParameterExpression><![CDATA[$F{positionList}]]></datasetParameterExpression>
+									</datasetParameter>
+									<dataSourceExpression><![CDATA[$P{REPORT_CONNECTION}]]></dataSourceExpression>
+								</datasetRun>
+								<jr:listContents height="30" width="520">
+									<textField>
+										<reportElement x="0" y="0" width="420" height="30" uuid="afd81e96-55b7-423d-9d71-a39b62284455"/>
+										<box leftPadding="10">
+											<pen lineStyle="Solid"/>
+											<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement verticalAlignment="Middle">
+											<font size="10"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{key.name}]]></textFieldExpression>
+									</textField>
+									<textField>
+										<reportElement x="420" y="0" width="100" height="30" uuid="9a5ba48c-8a9b-42e5-877b-7ad10c8afa84"/>
+										<box rightPadding="10">
+											<pen lineWidth="1.0" lineStyle="Solid"/>
+											<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font size="10"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+									</textField>
+								</jr:listContents>
+							</jr:list>
+						</componentElement>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

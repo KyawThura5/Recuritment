@@ -19,7 +19,7 @@ public class JasperExporter {
 	public static String getContentType(String extension) {
 		return switch (extension) {
 			case "pdf" -> "application/pdf";
-			case "xlsx" -> "application/vnd.ms-excel";
+			case "xls" -> "application/vnd.ms-excel";
 			default -> throw new IllegalArgumentException("Unexpected value: " + extension);
 		};
 	}
@@ -27,7 +27,7 @@ public class JasperExporter {
 	public void export(JasperPrint print, String extension, OutputStream writer) throws IOException, JRException {
 		switch (extension) {
 		case "pdf" -> exportAsPdf(print, writer);
-		case "xlsx" -> exportAsExcel(print, writer);
+		case "xls" -> exportAsExcel(print, writer);
 		default ->
 			throw new IllegalArgumentException("Unexpected value: " + extension);
 		}
