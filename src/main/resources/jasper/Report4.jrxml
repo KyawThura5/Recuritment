@@ -22,6 +22,8 @@
 		<field name="value.failed" class="java.lang.Long"/>
 	</subDataset>
 	<parameter name="Report" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="dateFrom" class="java.time.LocalDate"/>
+	<parameter name="dateTo" class="java.time.LocalDate"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -29,7 +31,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="80" splitType="Stretch">
+		<band height="88" splitType="Stretch">
 			<staticText>
 				<reportElement x="-20" y="10" width="595" height="30" uuid="95e2c9e4-89e9-43e0-92fe-a314b07864b8"/>
 				<textElement textAlignment="Center">
@@ -42,23 +44,28 @@
 				<imageExpression><![CDATA["classpath:jasper/dat-logo.png"]]></imageExpression>
 			</image>
 			<textField pattern="yyyy-MM-dd (E)">
-				<reportElement x="430" y="40" width="100" height="30" uuid="54300d8b-cf56-447d-91af-558dfd56dd4b"/>
+				<reportElement x="430" y="58" width="100" height="30" uuid="54300d8b-cf56-447d-91af-558dfd56dd4b"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="58" width="160" height="30" uuid="0c91826d-55f3-4280-9634-3da779706dce"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($P{dateFrom} == null ? "" : "From " + $P{dateFrom}) + ($P{dateTo} == null ? "" : " To " + $P{dateTo})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<detail>
 		<band height="155" splitType="Stretch">
 			<componentElement>
-				<reportElement x="20" y="10" width="510" height="110" uuid="6cc9dc21-67de-4955-bf7e-9d3e7f619a51"/>
+				<reportElement x="20" y="10" width="510" height="145" uuid="6cc9dc21-67de-4955-bf7e-9d3e7f619a51"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="ReportDataset" uuid="3957224e-e9bf-4d68-bf23-f45d548cbabb">
 						<dataSourceExpression><![CDATA[$P{Report}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:listContents height="120" width="510">
+					<jr:listContents height="145" width="510">
 						<textField>
 							<reportElement mode="Opaque" x="0" y="0" width="430" height="30" backcolor="#F0FEFF" uuid="2fe2ba41-6626-4fba-a2d3-eec4aa60894c"/>
 							<box leftPadding="10">
@@ -86,7 +93,7 @@
 							<textFieldExpression><![CDATA[$F{value.percentage} + "%"]]></textFieldExpression>
 						</textField>
 						<componentElement>
-							<reportElement x="0" y="30" width="510" height="30" uuid="0ba0830a-8afe-402b-b458-fa6cec1ff7e3"/>
+							<reportElement x="0" y="60" width="510" height="30" uuid="0ba0830a-8afe-402b-b458-fa6cec1ff7e3"/>
 							<jr:list printOrder="Vertical">
 								<datasetRun subDataset="Dataset1" uuid="1bb04089-402a-4b5d-be06-86f5d8653bd7">
 									<datasetParameter name="REPORT_DATA_SOURCE">
@@ -147,7 +154,7 @@
 							</jr:list>
 						</componentElement>
 						<textField>
-							<reportElement positionType="FixRelativeToBottom" x="430" y="60" width="80" height="30" uuid="c64a343a-8c9a-4f62-b15f-d67e054f668b"/>
+							<reportElement positionType="FixRelativeToBottom" x="430" y="90" width="80" height="30" uuid="c64a343a-8c9a-4f62-b15f-d67e054f668b"/>
 							<box rightPadding="10">
 								<pen lineWidth="0.5"/>
 								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -161,7 +168,7 @@
 							<textFieldExpression><![CDATA[$F{value.failed}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement positionType="FixRelativeToBottom" x="350" y="60" width="80" height="30" uuid="49932b4b-0a9b-48f6-9352-928d60195020"/>
+							<reportElement positionType="FixRelativeToBottom" x="350" y="90" width="80" height="30" uuid="49932b4b-0a9b-48f6-9352-928d60195020"/>
 							<box rightPadding="10">
 								<pen lineWidth="0.5"/>
 								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -175,7 +182,7 @@
 							<textFieldExpression><![CDATA[$F{value.passed}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement positionType="FixRelativeToBottom" x="270" y="60" width="80" height="30" uuid="dad49a9b-e08d-48d6-835a-306524d9dcff"/>
+							<reportElement positionType="FixRelativeToBottom" x="270" y="90" width="80" height="30" uuid="dad49a9b-e08d-48d6-835a-306524d9dcff"/>
 							<box rightPadding="10">
 								<pen lineWidth="0.5"/>
 								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -189,7 +196,7 @@
 							<textFieldExpression><![CDATA[$F{value.total}]]></textFieldExpression>
 						</textField>
 						<staticText>
-							<reportElement positionType="FixRelativeToBottom" x="0" y="60" width="270" height="30" uuid="cf08973e-600b-48f1-a959-e7f3d9ea26cf"/>
+							<reportElement positionType="FixRelativeToBottom" x="0" y="90" width="270" height="30" uuid="cf08973e-600b-48f1-a959-e7f3d9ea26cf"/>
 							<box>
 								<pen lineWidth="0.5"/>
 								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -198,6 +205,58 @@
 								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<text><![CDATA[]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="0" y="30" width="270" height="31" uuid="9e5494b3-c0c1-44b0-918f-2d2f6202a390"/>
+							<box leftPadding="10">
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[Position]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="270" y="30" width="80" height="30" uuid="4d598955-da32-4921-bf3c-a5650006e808"/>
+							<box rightPadding="10">
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[Total]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="350" y="30" width="80" height="30" uuid="a72cd36a-00be-4d85-88c0-e129b21ce97e"/>
+							<box rightPadding="10">
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[Passed]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="430" y="30" width="80" height="30" uuid="0ef80172-1db6-48c7-a64e-b1391fb65efa"/>
+							<box rightPadding="10">
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[Failed]]></text>
 						</staticText>
 					</jr:listContents>
 				</jr:list>
