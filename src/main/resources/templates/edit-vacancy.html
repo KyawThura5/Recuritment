@@ -47,13 +47,13 @@
 							</select>
 						</div>
 		
-						<div class="col-12 col-lg-6 col-xl-4 my-2 form-group">
+						<div class="col-12 col-lg-6 col-xl my-2 form-group">
 							<label for="code" class="form-label">Code</label><span class="required">*</span>
 							<input id="code" type="text" class="form-control validated-input" th:field="*{code}">
 							<label th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="validated-label" th:errorclass="text-danger"></label>
 						</div>
 		
-						<div class="col-12 col-lg-6 col-xl-3 my-2 form-group">
+						<div class="col-12 col-lg-6 col-xl my-2 form-group">
 							<label for="department" class="form-label">Department</label><span class="required">*</span>
 							<select class="form-select validated-input" id="departmentSelect" th:field="*{department}" th:disabled="${vacancy.id != null}" th:classappend="${vacancy.id == null ? 'select-search' : ''}">
 								<option value="" th:attrappend="disabled=${vacancy.id != null ? 'disabled' : ''}">-- select a department --</option>
@@ -63,13 +63,13 @@
 							<label th:if="${#fields.hasErrors('department')}" th:errors="*{department}" class="validated-label" th:errorclass="text-danger"></label>
 						</div>
 		
-						<div class="col-12 col-lg-6 col-xl-3 my-2 form-group">
+						<div class="col-12 col-lg-6 col-xl my-2 form-group">
 							<label for="dueDate" class="form-label">Due Date</label><span class="required">*</span>
 							<input id="dueDate" type="date" class="form-control validated-input" th:field="*{dueDate}">
 							<label th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" class="validated-label" th:errorclass="text-danger"></label>
 						</div>
 		
-						<div class="col-12 col-lg-6 col-xl-2 my-2 form-group">
+						<div th:unless="${vacancy.id == null}" class="col-12 col-lg-6 col-xl-2 my-2 form-group">
 							<label for="status" class="form-label">Status</label><span class="required">*</span>
 							<select id="status" class="form-select validated-input" th:field="*{status}">
 								<option value="">-- select a status --</option>
@@ -78,7 +78,13 @@
 							</select>
 							<label th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="validated-label" th:errorclass="text-danger"></label>
 						</div>
+
+						<div th:if="${vacancy.id == null}" class="d-none">
+							<input type="text" name="status" th:value="${T(team.ojt7.recruitment.model.entity.Vacancy.Status).OPENING}">
+						</div>
 		
+						<label th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="validated-label" th:errorclass="text-danger"></label>
+
 						<div class="col-12 form-group my-2">
 							<label for="comment" class="form-label">Comment</label>
 							<textarea id="comment" class="form-control validated-input" th:field="*{comment}"></textarea>
