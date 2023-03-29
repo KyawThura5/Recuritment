@@ -84,7 +84,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<div class="col-auto">
 				<select form="searchForm" name="size" th:value="${departmentPage.size}" onchange="changePageSize()" class="form-select">
 					<option
-						th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
+						th:each="s : ${ {10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
 						th:value="${s}" th:text="${s}" th:selected="${s == departmentPage.size}"></option>
 				</select>
 			</div>

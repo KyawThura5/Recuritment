@@ -70,7 +70,7 @@
 			<div class="col-auto">
 				<select form="searchForm" name="size" th:value="${userPage.size}" onchange="changePageSize()" class="form-select">
 					<option
-						th:each="s : ${ {1, 10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
+						th:each="s : ${ {10, 20, 30, 40, 50, 60, 70 , 80 ,90, 100} }"
 						th:value="${s}" th:text="${s}" th:selected="${s == userPage.size}"></option>
 				</select>
 			</div>
