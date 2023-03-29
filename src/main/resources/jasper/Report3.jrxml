@@ -39,6 +39,8 @@
 		<field name="value.percentage" class="java.lang.Integer"/>
 	</subDataset>
 	<parameter name="Report" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="dateFrom" class="java.time.LocalDate"/>
+	<parameter name="dateTo" class="java.time.LocalDate"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -46,7 +48,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="82" splitType="Stretch">
+		<band height="86" splitType="Stretch">
 			<staticText>
 				<reportElement x="-20" y="10" width="595" height="30" uuid="340fb41b-acef-4401-a3e0-cda17af30914"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -59,11 +61,16 @@
 				<imageExpression><![CDATA["classpath:/jasper/dat-logo.png"]]></imageExpression>
 			</image>
 			<textField pattern="yyyy-MM-dd (E)">
-				<reportElement x="440" y="40" width="100" height="30" uuid="bb1d69f3-9bcd-46d6-8776-7cc05fe657de"/>
+				<reportElement x="440" y="50" width="100" height="30" uuid="bb1d69f3-9bcd-46d6-8776-7cc05fe657de"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="50" width="160" height="30" uuid="c3645810-fcb4-47eb-add9-c298bd1b8be5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($P{dateFrom} == null ? "" : "From " + $P{dateFrom}) + ($P{dateTo} == null ? "" : " To " + $P{dateTo})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

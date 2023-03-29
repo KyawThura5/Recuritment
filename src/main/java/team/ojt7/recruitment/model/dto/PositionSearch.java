@@ -5,7 +5,7 @@ import java.util.Objects;
 public class PositionSearch {
 
 	private static final int DEFAULT_PAGE = 1;
-	private static final int DEFAULT_SIZE = 10;
+	private static final int DEFAULT_SIZE = 20;
 
 	private String keyword;
 	private Integer page;

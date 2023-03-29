@@ -150,6 +150,8 @@ public class ReportController {
 				
 				var param = new HashMap<String, Object>();
 				param.put("title", "Top Recruitment Resources");
+				param.put("dateFrom", dateFrom);
+				param.put("dateTo", dateTo);
 				List<Entry<PositionDto, CandidateCountInfo>> reportList = new ArrayList<>(report.entrySet());
 				reportList.add(0, null);
 				var jrDataSource = new JRBeanCollectionDataSource(reportList, false);
@@ -174,6 +176,8 @@ public class ReportController {
 				
 				var param = new HashMap<String, Object>();
 				param.put("title", "Top Recruitment Resources");
+				param.put("dateFrom", dateFrom);
+				param.put("dateTo", dateTo);
 				List<Entry<InterviewNameDto, InterviewStageInfoDto>> reportList = new ArrayList<>(report.entrySet());
 				reportList.add(0, null);
 				var jrDataSource = new JRBeanCollectionDataSource(reportList, false);
