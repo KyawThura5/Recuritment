@@ -53,7 +53,7 @@
                         </select>
                         <label th:if="${#fields.hasErrors('role')}"  th:text="${#fields.errors('role')[__0__]}" class="text-danger validated-label"></label>
                     </div>
-                    <div class="col-12 col-lg-3 form-group my-2">
+                    <div class="col-12 col-lg-6 form-group my-2">
                         <label for="gender" class="form-label">Gender</label><span class="required">*</span>
                         <select id="gender" class="form-select validated-input" th:field="*{gender}">
                             <option value="">-- gender --</option>
@@ -65,15 +65,9 @@
                         <label th:if="${#fields.hasErrors('gender')}"  th:text="${#fields.errors('gender')[__0__]}" class="text-danger validated-label"></label>
                     </div>
 
-                    <div class="col-12 col-lg-3 form-group my-2">
+                    <div class="d-none">
                         <label for="status" class="form-label">Status</label><span class="required">*</span>
-                        <select id="status" class="form-select validated-input" th:field="*{status}">
-                            <option value="">-- status --</option>
-                            <option
-								th:each="userStatus:${T(team.ojt7.recruitment.model.entity.User.Status).values()}"
-								th:value="${userStatus}" th:text="${userStatus.displayName}" >
-                            </option>
-                        </select>
+                        <input type="text" name="status" th:value="${T(team.ojt7.recruitment.model.entity.User.Status).ACTIVE}">
                         <label th:if="${#fields.hasErrors('status')}"  th:text="${#fields.errors('status')[__0__]}" class="text-danger validated-label"></label>
                     </div>
 
