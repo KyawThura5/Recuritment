@@ -46,8 +46,9 @@ const validated = (event) => {
                 message : "^Code cannot contain space"
             },
             length: {
-                maximum: 30,
-                message: "^Name must be maximum 30 characters"
+                minimum: 6,
+                maximum: 20,
+                message: "^Code must be between 6 and 20 characters"
             }
         }
         
@@ -112,8 +113,9 @@ const validatedEach = (event, inputId) => {
                 message : "^Code cannot contain space"
             },
             length: {
-                maximum: 30,
-                message: "^Name must be maximum 30 characters"
+                minimum: 6,
+                maximum: 20,
+                message: "^Code must be between 6 and 20 characters"
             }
         }
         

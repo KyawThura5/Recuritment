@@ -30,6 +30,7 @@ public class ApplicantStatusChangeHistory implements Serializable {
 	@Column(name = "updated_on", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime updatedOn;
 
+	@Column(name = "remark", columnDefinition = "VARCHAR(255)")
 	private String remark;
 
 	@ManyToOne

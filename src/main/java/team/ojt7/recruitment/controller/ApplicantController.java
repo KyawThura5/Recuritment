@@ -223,6 +223,10 @@ public class ApplicantController {
 			
 			String serverPath = session.getServletContext().getRealPath("/");
 			File file = new File(serverPath + java.io.File.separator + url);
+			if (!file.exists()) {
+				response.sendRedirect("/notFound");
+				return;
+			}
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
 			FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
 			response.flushBuffer();

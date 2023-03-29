@@ -20,8 +20,6 @@ $(document).ready(function () {
         }
     });
 
-    pareDateFromTo("dateFrom", "dateTo");
-
     var form = document.getElementById("changeStatusForm");
     form.addEventListener("submit", function(event) {
         validated(event);

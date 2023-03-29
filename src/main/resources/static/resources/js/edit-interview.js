@@ -46,9 +46,10 @@ var constraints={
              message : "^Code cannot contain space"
 		},
 		length: {
-                maximum: 30,
-                message: "^Name must be maximum 30 characters"
-            }
+			minimum: 6,
+			maximum: 30,
+			message: "^Code must be between 6 and 30 characters"
+		}
 	},
 	interviewName:{
 		presence: {message : "^Select interview name"},

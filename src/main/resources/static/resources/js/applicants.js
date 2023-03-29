@@ -14,7 +14,66 @@ $(document).ready(function () {
 
     pareDateFromTo("dateFrom", "dateTo");
 
+    var form = document.getElementById("changeStatusForm");
+    form.addEventListener("submit", function(event) {
+        validated(event);
+        $(this).attr("id")
+    });
+
+    $(".validated-input").on("input", function(event) {
+        let labels = $(event.target.parentElement).find(".validated-label");
+        labels.each((i, l) => {
+            l.parentNode.removeChild(l);
+        });
+        if ($(this).val()) {
+            validatedEach(event, $(this).attr("id"));
+        }
+    });
+
 });
+
+var constraints = {
+    remark: {
+        length: {
+            maximum: 255,
+            message: "^Remark must be maximum 255 characters"
+        }
+    }
+};
+
+const validated = (event) => {
+    let form = document.getElementById("changeStatusForm");
+    event.preventDefault();
+    let values = validate.collectFormValues(form);
+    let validation = validate(values, constraints);
+    
+    let remarkError = document.createElement("label");
+    remarkError.id = "remarkError";
+    remarkError.classList.add("text-danger", "validated-label");
+
+    if (validation) {
+        checkValidation(remarkError, "remarkError", "remark", validation.remark);
+    } else {
+        form.submit();
+    }
+}
+
+const validatedEach = (event, inputId) => {
+    let form = document.getElementById("changeStatusForm");
+    event.preventDefault();
+    let values = validate.collectFormValues(form);
+    let validation = validate(values, constraints);
+    
+    let remarkError = document.createElement("label");
+    remarkError.id = "remarkError";
+    remarkError.classList.add("text-danger", "validated-label");
+
+    if (validation) {
+        if (inputId == "remark") {
+            checkValidation(remarkError, "remarkError", "remark", validation.remark);
+        }
+    }
+}
 
 function showChangeStatusDialog(id) {
 
