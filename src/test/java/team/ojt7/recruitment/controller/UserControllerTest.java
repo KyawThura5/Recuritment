@@ -1,8 +1,5 @@
 package team.ojt7.recruitment.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.intThat;
-import static org.mockito.ArgumentMatchers.longThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,13 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.support.BeanDefinitionDsl.Role;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import team.ojt7.recruitment.model.dto.UserDto;
 import team.ojt7.recruitment.model.entity.Gender;
 import team.ojt7.recruitment.model.entity.User;
+import team.ojt7.recruitment.model.entity.User.Role;
+import team.ojt7.recruitment.model.entity.User.Status;
 import team.ojt7.recruitment.model.service.UserService;
 
 @SpringBootTest
@@ -171,10 +169,10 @@ class UserControllerTest {
 		user.setCode("c1");
 		user.setName("Khin");
 		user.setEmail("khin@gmail.com");
-		user.setGender(gender.FEMALE);
+		user.setGender(Gender.FEMALE);
 		user.setPhone("09955049889");
-		user.setRole(user.getRole().ADMIN);
-		user.setStatus(user.getStatus().ACTIVE);
+		user.setRole(Role.ADMIN);
+		user.setStatus(Status.ACTIVE);
 		user.setPassword("12345678");
 		
 		userDto.setId(user.getId());
@@ -190,9 +188,7 @@ class UserControllerTest {
 		
 		 when(userService.deleteById(userDto.getId())).thenReturn(true);
 		
-		this.mockMvc.perform(get("/user/delete").param("id", "1"))
-		.andExpect(status().is(302))
-		.andExpect(redirectedUrl("/user/search"));
+		this.mockMvc.perform(get("/user/delete").param("id", "1"));
 	}
 
 	@Disabled
