@@ -5,9 +5,6 @@ $(document).ready(function () {
 			search: true
 		});
 	});
-
-	setMinInterviewDate();
-	
 	
 
 	var form=document.getElementById("interviewForm");
